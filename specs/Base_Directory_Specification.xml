@@ -1,0 +1,215 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+				  ]>
+<article id="index">
+  <artheader>
+    <title>XDG Base Directory Specification</title>
+    <releaseinfo>Version 0.5</releaseinfo>
+    <date>9 June 2003</date>
+    <authorgroup>
+      <author>
+	<firstname>Waldo</firstname>
+	<surname>Bastian</surname>
+	<affiliation>
+	  <address>
+	    <email>bastian@kde.org</email>
+	  </address>
+	</affiliation>
+      </author>
+    </authorgroup>
+  </artheader>
+
+  <sect1 id="introduction">
+    <title>Introduction</title>
+    <para>
+      Various specifications specify files and file formats. This 
+      specification defines where these files should be looked for by 
+      defining one or more base directories relative to which files 
+      should be located. 
+    </para>
+  </sect1>
+
+  <sect1 id="basics">
+    <title>Basics</title>
+    <para>
+      The XDG Base Directory Specification is based on four concepts: 
+      <itemizedlist>
+        <listitem>
+          <para>
+            There is a single base directory relative to which user-specific
+            data files should be written. This directory is defined by the
+            environment variable <literal>$XDG_DATA_HOME</literal>.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            There is a single base directory relative to which user-specific
+            configuration files should be written. This directory is defined by the
+            environment variable <literal>$XDG_CONFIG_HOME</literal>.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            There is a set of preference ordered base directories relative to
+            which data files should be searched.  This set of directories is defined
+            by the environment variable <literal>$XDG_DATA_DIRS</literal>.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            There is a set of preference ordered base directories relative to
+            which configuration files should be searched.  
+            This set of directories is defined
+            by the environment variable <literal>$XDG_CONFIG_DIRS</literal>.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </sect1>
+
+
+  <sect1 id="variables">
+    <title>Environment variables</title>
+    <para>
+      <literal>$XDG_DATA_HOME</literal> defines the base directory relative to
+      which user specific data files should be stored. If
+      <literal>$XDG_DATA_HOME</literal> is either not set or empty, a default equal to
+      <literal>$HOME</literal>/.local/share should be used.
+    </para>
+    <para>
+      <literal>$XDG_CONFIG_HOME</literal> defines the base directory relative to
+      which user specific configuration files should be stored. If
+      <literal>$XDG_CONFIG_HOME</literal> is either not set or empty, a default equal to
+      <literal>$HOME</literal>/.config should be used.
+    </para>
+    <para>
+      <literal>$XDG_DATA_DIRS</literal> defines the preference-ordered set of
+      base directories to search for data files in addition to the 
+      <literal>$XDG_DATA_HOME</literal> base directory.
+      The directories in <literal>$XDG_DATA_DIRS</literal> should be seperated 
+      with a colon ':'.
+    </para>
+    <para>
+      If <literal>$XDG_DATA_DIRS</literal> is either not set or empty, a value equal to
+      /usr/local/share/:/usr/share/ should be used. 
+    </para>
+    <para>
+      <literal>$XDG_CONFIG_DIRS</literal> defines the preference-ordered set of
+      base directories to search for configuration files in addition to the 
+      <literal>$XDG_CONFIG_HOME</literal> base directory.
+      The directories in <literal>$XDG_CONFIG_DIRS</literal> should be seperated 
+      with a colon ':'.
+    </para>
+    <para>
+      If <literal>$XDG_CONFIG_DIRS</literal> is either not set or empty, a value equal to
+      /etc/xdg should be used. 
+    </para>
+    <para>
+      The order of base directories denotes their importance; the first
+      directory listed is the most important. When the same information is
+      defined in multiple places the information defined relative to the more
+      important base directory takes precedent. The base directory defined
+      by <literal>$XDG_DATA_HOME</literal> is considered more important than 
+      any of the base directories defined by <literal>$XDG_DATA_DIRS</literal>.
+      The base directory defined
+      by <literal>$XDG_CONFIG_HOME</literal> is considered more important than
+      any of the base directories defined by <literal>$XDG_CONFIG_DIRS</literal>.
+    </para>
+    <para>
+      
+    </para>
+  </sect1>
+
+  <sect1 id="referencing">
+    <title>Referencing this specification</title>
+    <para>
+      Other specifications may reference this specification by specifying the
+      location of a data file as
+      <literal>$XDG_DATA_DIRS</literal>/subdir/filename. This implies that:
+      <itemizedlist>
+        <listitem>
+          <para>
+            Such file should be installed to <literal>$datadir</literal>/subdir/filename
+            with <literal>$datadir</literal> defaulting to /usr/share.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            A user specific version of the data file may be created in
+            <literal>$XDG_DATA_HOME</literal>/subdir/filename, taking into
+            account the default value for <literal>$XDG_DATA_HOME</literal> if
+            <literal>$XDG_DATA_HOME</literal> is not set.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Lookups of the data file should search for ./subdir/filename relative to
+            all base directories specified by <literal>$XDG_DATA_HOME</literal> and 
+            <literal>$XDG_DATA_DIRS</literal> . If an environment 
+            variable is either not set or empty, its default value as defined by this specification 
+            should be used instead.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      Specifications may reference this specification by specifying the
+      location of a configuration file as
+      <literal>$XDG_CONFIG_DIRS</literal>/subdir/filename. This implies that:
+      <itemizedlist>
+        <listitem>
+          <para>
+            Default configuration files should be installed to <literal>$sysconfdir</literal>/xdg/subdir/filename
+            with <literal>$sysconfdir</literal> defaulting to /etc.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            A user specific version of the configuration file may be created in
+            <literal>$XDG_CONFIG_HOME</literal>/subdir/filename, taking into
+            account the default value for <literal>$XDG_CONFIG_HOME</literal> if
+            <literal>$XDG_CONFIG_HOME</literal> is not set.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Lookups of the configuration file should search for ./subdir/filename relative to
+            all base directories indicated by <literal>$XDG_CONFIG_HOME</literal> and 
+            <literal>$XDG_CONFIG_DIRS</literal> . If an environment 
+            variable is either not set or empty, its default value as defined by this specification 
+            should be used instead.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      If, when attempting to write a file, the destination 
+      directory is non-existant an attempt should be made to create it 
+      with permission <literal>0700</literal>. If the destination directory
+      exists already the permissions should not be changed.
+      The application should be prepared to handle the case where the file 
+      could not be written, either because the directory was non-existant 
+      and could not be created, or for any other reason. In such case it 
+      may chose to present an error message to the user.
+    </para>
+    <para>
+      When attempting to read a file, if for any reason a file in a certain
+      directory is unaccessible, e.g. because the directory is non-existant, 
+      the file is non-existant or the user is not authorized to open the file,
+      then the processing of the file in that directory should be skipped. 
+      If due to this a required file could not be found at all, the 
+      application may chose to present an error message to the user.
+    </para>
+    <para>
+      A specification that refers to <literal>$XDG_DATA_DIRS</literal> or 
+      <literal>$XDG_CONFIG_DIRS</literal> should define what the behaviour 
+      must be when a file is located under multiple base directories. 
+      It could, for example, define that only the file under the most 
+      important base directory should be used or, as another example,
+      it could define rules for merging the information from the different
+      files.
+    </para>
+  </sect1>
+
+</article>
+
