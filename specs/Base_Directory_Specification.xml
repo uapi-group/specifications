@@ -2,7 +2,7 @@
                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 				  ]>
 <article id="index">
-  <artheader>
+  <articleinfo>
     <title>XDG Base Directory Specification</title>
     <releaseinfo>Version 0.6</releaseinfo>
     <date>31 July 2003</date>
@@ -17,7 +17,7 @@
 	</affiliation>
       </author>
     </authorgroup>
-  </artheader>
+  </articleinfo>
 
   <sect1 id="introduction">
     <title>Introduction</title>
