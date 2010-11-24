@@ -92,10 +92,9 @@
         <listitem>
           <para>
             There is a single base directory relative to which
-            user-specific non-essential runtime files and other file
-            objects should be placed.  This directory is
-            defined by the environment variable
-            <literal>$XDG_RUNTIME_DIR</literal>.
+            user-specific runtime files and other file objects should
+            be placed.  This directory is defined by the environment
+            variable <literal>$XDG_RUNTIME_DIR</literal>.
           </para>
         </listitem>
       </itemizedlist>
