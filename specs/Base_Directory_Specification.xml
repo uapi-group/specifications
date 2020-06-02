@@ -268,18 +268,18 @@
     </para>
     <para>
       If, when attempting to write a file, the destination
-      directory is non-existant an attempt should be made to create it
+      directory is non-existent an attempt should be made to create it
       with permission <literal>0700</literal>. If the destination directory
       exists already the permissions should not be changed.
       The application should be prepared to handle the case where the file
-      could not be written, either because the directory was non-existant
+      could not be written, either because the directory was non-existent
       and could not be created, or for any other reason. In such case it
       may chose to present an error message to the user.
     </para>
     <para>
       When attempting to read a file, if for any reason a file in a certain
-      directory is unaccessible, e.g. because the directory is non-existant,
-      the file is non-existant or the user is not authorized to open the file,
+      directory is unaccessible, e.g. because the directory is non-existent,
+      the file is non-existent or the user is not authorized to open the file,
       then the processing of the file in that directory should be skipped.
       If due to this a required file could not be found at all, the
       application may chose to present an error message to the user.
