@@ -274,7 +274,7 @@
       The application should be prepared to handle the case where the file
       could not be written, either because the directory was non-existent
       and could not be created, or for any other reason. In such case it
-      may chose to present an error message to the user.
+      may choose to present an error message to the user.
     </para>
     <para>
       When attempting to read a file, if for any reason a file in a certain
@@ -282,7 +282,7 @@
       the file is non-existent or the user is not authorized to open the file,
       then the processing of the file in that directory should be skipped.
       If due to this a required file could not be found at all, the
-      application may chose to present an error message to the user.
+      application may choose to present an error message to the user.
     </para>
     <para>
       A specification that refers to <literal>$XDG_DATA_DIRS</literal> or
