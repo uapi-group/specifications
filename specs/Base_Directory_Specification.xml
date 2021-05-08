@@ -4,8 +4,8 @@
 <article id="index">
   <articleinfo>
     <title>XDG Base Directory Specification</title>
-    <releaseinfo>Version 0.7</releaseinfo>
-    <pubdate>24th November 2010</pubdate>
+    <releaseinfo>Version 0.8</releaseinfo>
+    <pubdate>08th May 2021</pubdate>
     <authorgroup>
       <author>
         <firstname>Waldo</firstname>
