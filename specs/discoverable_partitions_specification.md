@@ -3,7 +3,7 @@ title: Discoverable Partitions Specification
 category: Concepts
 layout: default
 version: 1
-SPDX-License-Identifier: LGPL-2.1-or-later
+SPDX-License-Identifier: CC-BY-4.0
 ---
 # The Discoverable Partitions Specification (DPS)
 
