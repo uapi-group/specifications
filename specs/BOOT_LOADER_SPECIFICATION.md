@@ -458,9 +458,9 @@ boots is exhausted, the entry is marked as "bad".
 
 Which boots are "successful" is determined by the operating system. systemd
 provides a generic mechanism that can be extended with arbitrary checks and
-actions, see [Automatic Boot Assessment](AUTOMATIC_BOOT_ASSESSMENT.md), but the
-boot counting mechanism described in this specification can also be used with
-other implementations.
+actions, see [Automatic Boot Assessment](https://systemd.io/AUTOMATIC_BOOT_ASSESSMENT),
+but the boot counting mechanism described in this specification can
+also be used with other implementations.
 
 The boot counting data is stored in the name of the boot loader entry. A boot
 loader entry file name may contain a plus (`+`) followed by a number. This may
@@ -737,7 +737,7 @@ There are a couple of items that are out of focus for this specification:
 ## Links
 
 [GUID Partition Table](https://en.wikipedia.org/wiki/GUID_Partition_Table)<br>
-[Boot Loader Interface](BOOT_LOADER_INTERFACE.md)<br>
+[Boot Loader Interface](https://systemd.io/BOOT_LOADER_INTERFACE)<br>
 [Discoverable Partitions Specification](DISCOVERABLE_PARTITIONS.md)<br>
 [`systemd-boot(7)`](https://www.freedesktop.org/software/systemd/man/systemd-boot.html)<br>
 [`bootctl(1)`](https://www.freedesktop.org/software/systemd/man/bootctl.html)<br>
