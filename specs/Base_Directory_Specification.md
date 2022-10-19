@@ -1,3 +1,7 @@
+---
+title: Base Directory Specification
+---
+
 # Introduction
 
 Various specifications specify files and file formats. This
@@ -48,17 +52,17 @@ should consider the path invalid and ignore it.
 
 `$XDG_DATA_HOME` defines the base directory relative to which
 user-specific data files should be stored. If `$XDG_DATA_HOME` is either
-not set or empty, a default equal to `$HOME`/.local/share should be
+not set or empty, a default equal to `$HOME/.local/share` should be
 used.
 
 `$XDG_CONFIG_HOME` defines the base directory relative to which
 user-specific configuration files should be stored. If
 `$XDG_CONFIG_HOME` is either not set or empty, a default equal to
-`$HOME`/.config should be used.
+`$HOME/.config` should be used.
 
 `$XDG_STATE_HOME` defines the base directory relative to which
 user-specific state files should be stored. If `$XDG_STATE_HOME` is
-either not set or empty, a default equal to `$HOME`/.local/state should
+either not set or empty, a default equal to `$HOME/.local/state` should
 be used.
 
 The `$XDG_STATE_HOME` contains state data that should persist between
@@ -70,12 +74,12 @@ the user that it should be stored in `$XDG_DATA_HOME`. It may contain:
 -   current state of the application that can be reused on a restart
     (view, layout, open files, undo history, ...)
 
-User-specific executable files may be stored in `$HOME`/.local/bin.
+User-specific executable files may be stored in `$HOME/.local/bin`.
 Distributions should ensure this directory shows up in the UNIX `$PATH`
 environment variable, at an appropriate place.
 
 Since `$HOME` might be shared between systems of different achitectures,
-installing compiled binaries to `$HOME`/.local/bin could cause problems
+installing compiled binaries to `$HOME/.local/bin` could cause problems
 when used on systems of differing architectures. This is often not a
 problem, but the fact that `$HOME` becomes partially
 achitecture-specific if compiled binaries are placed in it should be
@@ -84,18 +88,18 @@ kept in mind.
 `$XDG_DATA_DIRS` defines the preference-ordered set of base directories
 to search for data files in addition to the `$XDG_DATA_HOME` base
 directory. The directories in `$XDG_DATA_DIRS` should be seperated with
-a colon \':\'.
+a colon '`:`'.
 
 If `$XDG_DATA_DIRS` is either not set or empty, a value equal to
-/usr/local/share/:/usr/share/ should be used.
+`/usr/local/share/:/usr/share/` should be used.
 
 `$XDG_CONFIG_DIRS` defines the preference-ordered set of base
 directories to search for configuration files in addition to the
 `$XDG_CONFIG_HOME` base directory. The directories in `$XDG_CONFIG_DIRS`
-should be seperated with a colon \':\'.
+should be seperated with a colon '`:`'.
 
 If `$XDG_CONFIG_DIRS` is either not set or empty, a value equal to
-/etc/xdg should be used.
+`/etc/xdg` should be used.
 
 The order of base directories denotes their importance; the first
 directory listed is the most important. When the same information is
@@ -109,11 +113,11 @@ directories defined by `$XDG_CONFIG_DIRS`.
 `$XDG_CACHE_HOME` defines the base directory relative to which
 user-specific non-essential data files should be stored. If
 `$XDG_CACHE_HOME` is either not set or empty, a default equal to
-`$HOME`/.cache should be used.
+`$HOME/.cache` should be used.
 
 `$XDG_RUNTIME_DIR` defines the base directory relative to which
 user-specific non-essential runtime files and other file objects (such
-as sockets, named pipes, \...) should be stored. The directory MUST be
+as sockets, named pipes, …) be stored. The directory MUST be
 owned by the user, and he MUST be the only one having read and write
 access to it. Its Unix access mode MUST be 0700.
 
@@ -134,7 +138,7 @@ reliable hard link count must be supported, and no restrictions on the
 file name character set should be imposed. Files in this directory MAY
 be subjected to periodic clean-up. To ensure that your files are not
 removed, they should have their access time timestamp modified at least
-once every 6 hours of monotonic time or the \'sticky\' bit should be set
+once every 6 hours of monotonic time or the 'sticky' bit should be set
 on the file.
 
 If `$XDG_RUNTIME_DIR` is not set applications should fall back to a
@@ -147,36 +151,36 @@ to disk.
 # Referencing this specification {#referencing}
 
 Other specifications may reference this specification by specifying the
-location of a data file as `$XDG_DATA_DIRS`/subdir/filename. This
+location of a data file as `$XDG_DATA_DIRS/subdir/filename`. This
 implies that:
 
--   Such file should be installed to `$datadir`/subdir/filename with
-    `$datadir` defaulting to /usr/share.
+-   Such file should be installed to `$datadir/subdir/filename` with
+    `$datadir` defaulting to `/usr/share`.
 
 -   A user-specific version of the data file may be created in
-    `$XDG_DATA_HOME`/subdir/filename, taking into account the default
+    `$XDG_DATA_HOME/subdir/filename`, taking into account the default
     value for `$XDG_DATA_HOME` if `$XDG_DATA_HOME` is not set.
 
--   Lookups of the data file should search for ./subdir/filename
+-   Lookups of the data file should search for `./subdir/filename`
     relative to all base directories specified by `$XDG_DATA_HOME` and
     `$XDG_DATA_DIRS` . If an environment variable is either not set or
     empty, its default value as defined by this specification should be
     used instead.
 
 Specifications may reference this specification by specifying the
-location of a configuration file as `$XDG_CONFIG_DIRS`/subdir/filename.
+location of a configuration file as `$XDG_CONFIG_DIRS/subdir/filename`.
 This implies that:
 
 -   Default configuration files should be installed to
-    `$sysconfdir`/xdg/subdir/filename with `$sysconfdir` defaulting to
-    /etc.
+    `$sysconfdir/xdg/subdir/filename` with `$sysconfdir` defaulting to
+    `/etc`.
 
 -   A user-specific version of the configuration file may be created in
-    `$XDG_CONFIG_HOME`/subdir/filename, taking into account the default
+    `$XDG_CONFIG_HOME/subdir/filename`, taking into account the default
     value for `$XDG_CONFIG_HOME` if `$XDG_CONFIG_HOME` is not set.
 
 -   Lookups of the configuration file should search for
-    ./subdir/filename relative to all base directories indicated by
+    `./subdir/filename` relative to all base directories indicated by
     `$XDG_CONFIG_HOME` and `$XDG_CONFIG_DIRS` . If an environment
     variable is either not set or empty, its default value as defined by
     this specification should be used instead.
