@@ -1,0 +1,15 @@
+{
+  "name": "UAPI group specifications",
+  "short_name": "UAPI group specifications",
+  "start_url": "/specifications/",
+  "scope": "/specifications/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/specifications/favicon.svg",
+      "sizes": "512x512"
+    }
+  ]
+}

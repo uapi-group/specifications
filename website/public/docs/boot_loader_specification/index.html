@@ -1,0 +1,432 @@
+<!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.75.1"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="The Boot Loader Specification #  This document defines a set of file formats and naming conventions that allow the boot loader menu entries to be shared between multiple operating systems and boot loaders installed on one device.
+Operating systems cooperatively manage boot loader menu entry directories that contain drop-in files, making multi-boot scenarios easy to support. Boot menu entries are defined via two simple formats that can be understood by different boot loader implementations, operating systems, and userspace programs."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Boot Loader Specification"><meta property="og:description" content="The Boot Loader Specification #  This document defines a set of file formats and naming conventions that allow the boot loader menu entries to be shared between multiple operating systems and boot loaders installed on one device.
+Operating systems cooperatively manage boot loader menu entry directories that contain drop-in files, making multi-boot scenarios easy to support. Boot menu entries are defined via two simple formats that can be understood by different boot loader implementations, operating systems, and userspace programs."><meta property="og:type" content="article"><meta property="og:url" content="https://uapi-group.github.io/specifications/docs/boot_loader_specification/"><title>Boot Loader Specification | UAPI group specifications</title><link rel=manifest href=/specifications/manifest.json><link rel=icon href=/specifications/favicon.png type=image/x-icon><link rel=stylesheet href=/specifications/book.min.81007768dfa1141e1fa60a2832f2c035182f8b9a5e48824ebdadd71412b4b994.css integrity="sha256-gQB3aN+hFB4fpgooMvLANRgvi5peSIJOva3XFBK0uZQ="><script defer src=/specifications/en.search.min.e3d0b3af079fede63915f3d512abd172db92944c80a2173b7c68858403d0e4c1.js integrity="sha256-49Czrwef7eY5FfPVEqvRctuSlEyAohc7fGiFhAPQ5ME="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/specifications><span>UAPI group specifications</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://uapi-group.github.io/specifications/docs/base_directory_specification/>Base Directory Specification</a></li><li><a href=https://uapi-group.github.io/specifications/docs/boot_loader_specification/ class=active>Boot Loader Specification</a></li><li><a href=https://uapi-group.github.io/specifications/docs/discoverable_partitions/>Discoverable Partitions Specification</a></li></ul></nav><script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Boot Loader Specification</strong>
+<label for=toc-control><img src=/specifications/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#target-audience>Target Audience</a></li><li><a href=#the-partitions>The Partitions</a><ul><li><a href=#the-boot-partition-placeholder>The <code>$BOOT</code> Partition Placeholder</a></li><li><a href=#creating-these-partitions>Creating These Partitions</a></li><li><a href=#mount-points>Mount Points</a></li></ul></li><li><a href=#boot-loader-entries>Boot Loader Entries</a><ul><li><a href=#type-1-boot-loader-specification-entries>Type #1 Boot Loader Specification Entries</a></li><li><a href=#recommended-directory-layout-for-additional-files>Recommended Directory Layout for Additional Files</a></li><li><a href=#standard-conformance-marker-file>Standard-conformance Marker File</a></li><li><a href=#type-2-efi-unified-kernel-images>Type #2 EFI Unified Kernel Images</a></li><li><a href=#additional-notes>Additional Notes</a></li></ul></li><li><a href=#locating-boot-entries>Locating Boot Entries</a></li><li><a href=#boot-counting>Boot counting</a></li><li><a href=#sorting>Sorting</a><ul><li><a href=#alphanumerical-order>Alphanumerical Order</a></li><li><a href=#version-order>Version Order</a></li></ul></li><li><a href=#additional-discussion>Additional discussion</a><ul><li><a href=#why-is-there-a-need-for-this-specification>Why is there a need for this specification?</a></li><li><a href=#why-not-simply-rely-on-the-efi-boot-menu-logic>Why not simply rely on the EFI boot menu logic?</a></li><li><a href=#why-is-the-version-comparison-logic-so-complicated>Why is the version comparison logic so complicated?</a></li><li><a href=#why-do-you-use-file-renames-to-store-the-counter-why-not-a-regular-file>Why do you use file renames to store the counter? Why not a regular file?</a></li><li><a href=#why-not-use-efi-variables-for-storing-the-boot-counter>Why not use EFI variables for storing the boot counter?</a></li><li><a href=#out-of-focus>Out of Focus</a></li></ul></li><li><a href=#links>Links</a></li></ul></nav></aside></header><article class=markdown><h1 id=the-boot-loader-specification>The Boot Loader Specification
+<a class=anchor href=#the-boot-loader-specification>#</a></h1><p>This document defines a set of file formats and naming conventions that allow
+the boot loader menu entries to be shared between multiple operating systems
+and boot loaders installed on one device.</p><p>Operating systems cooperatively manage boot loader menu entry directories that
+contain drop-in files, making multi-boot scenarios easy to support. Boot menu
+entries are defined via two simple formats that can be understood by different
+boot loader implementations, operating systems, and userspace programs. The
+same scheme can be used to prepare OS media for cases where the firmware
+includes a boot loader.</p><h2 id=target-audience>Target Audience
+<a class=anchor href=#target-audience>#</a></h2><p>The target audience for this specification is:</p><ul><li>Boot loader developers, to write a boot loader that directly reads its
+menu entries from these files</li><li>Firmware developers, to add generic boot loading support directly to the
+firmware itself</li><li>OS installer developers, to create appropriate partitions and set up the
+initial boot loader menu entries</li><li>Distribution developers, to create appropriate menu entry snippets when
+installing or updating kernel packages</li><li>UI developers, to implement user interfaces that list and select among the
+available boot options</li></ul><h2 id=the-partitions>The Partitions
+<a class=anchor href=#the-partitions>#</a></h2><p>Everything described below is located on one or two partitions. The boot loader
+or user-space programs reading the boot loader menu entries should locate them
+in the following manner:</p><ul><li><p>On disks with an MBR partition table:</p><ul><li>The boot partition — a partition with the type ID of <code>0xEA</code> — shall be used
+as the single location for boot loader menu entries.</li></ul></li><li><p>On disks with GPT (GUID Partition Table)</p><ul><li><p>The EFI System Partition (ESP for short) — a partition with a GPT type GUID
+of <code>c12a7328-f81f-11d2-ba4b-00a0c93ec93b</code> — may be used as one of two locations for
+boot loader menu entries.</p></li><li><p>Optionally, an Extended Boot Loader Partition (XBOOTLDR partition for
+short) — a partition with GPT type GUID of
+<code>bc13c2ff-59e6-4262-a352-b275fd6f7172</code> — may be used as the second of two
+locations for boot loader menu entries. This partition must be located on
+the same disk as the ESP.</p></li></ul></li></ul><p>There may be at most one partition of each of the types listed above on the
+same disk.</p><p><strong>Note:</strong> <em>These partitions are <strong>shared</strong> among all OS installations on the
+same disk. Instead of maintaining one boot partition per installed OS (as
+<code>/boot/</code> was traditionally handled), all installed OSes use the same place for
+boot loader menu entries.</em></p><p>For systems where the firmware is able to read file systems directly, the ESP
+must — and the MBR boot and GPT XBOOTLDR partition should — be a file system
+readable by the firmware. For most systems this means VFAT (16 or 32
+bit). Applications accessing both partitions should hence not assume that
+fancier file system features such as symlinks, hardlinks, access control or
+case sensitivity are supported.</p><h3 id=the-boot-partition-placeholder>The <code>$BOOT</code> Partition Placeholder
+<a class=anchor href=#the-boot-partition-placeholder>#</a></h3><p>In the text below, the placeholder <code>$BOOT</code> will be used to refer to the
+partition determined as follows:</p><ol><li><p>On disks with an MBR partition table: → the boot partition, as described above</p></li><li><p>On disks with a GPT partition table: → the XBOOTLDR partition if it exists</p></li><li><p>Otherwise, on disks with a GPT partition table: → the ESP</p></li></ol><p><code>$BOOT</code> is the <em>primary</em> place to put boot menu entry resources into, but
+typically not the only one. Most importantly, boot loaders should also pick up
+menu entries from the ESP, even if XBOOTLDR exists (for details see below).</p><h3 id=creating-these-partitions>Creating These Partitions
+<a class=anchor href=#creating-these-partitions>#</a></h3><p>An installer for an operating system should use this logic when selecting or
+creating partitions:</p><ul><li><p>If a boot partition (in case of MBR) or an XBOOTLDR partition (in case of
+GPT) already exists it should be used as <code>$BOOT</code> and used as primary
+location to place boot loader menu resources in.</p></li><li><p>Otherwise, if on GPT and an ESP is found and it is large enough (let&rsquo;s say
+at least 1G) it should be used as <code>$BOOT</code> and used as primary location to
+place boot loader menu resources in.</p></li><li><p>Otherwise, if on GPT and neither XBOOTLDR nor ESP exist, an ESP should be
+created of the appropriate size and be used as <code>$BOOT</code>, and used as primary
+location to place boot loader menu resources in.</p></li><li><p>Otherwise, a boot partition (in case of MBR) or XBOOTLDR partition (in case
+of GPT) should be created of an appropriate size, and be used as <code>$BOOT</code>,
+and used as primary location to place boot loader menu resources in.</p></li></ul><p>These partitions shall be determined during <em>installation time</em>, and
+<code>/etc/fstab</code> entries may be created.</p><h3 id=mount-points>Mount Points
+<a class=anchor href=#mount-points>#</a></h3><p>It is recommended to mount <code>$BOOT</code> to <code>/boot/</code>, and the ESP to <code>/efi/</code>. If
+<code>$BOOT</code> and the ESP are the same, then either a bind mount or a symlink should
+be established making the partition available under both paths.</p><p>(Mounting the ESP to <code>/boot/efi/</code>, as was traditionally done, is not
+recommended. Such a nested setup complicates an implementation via direct
+<code>autofs</code> mounts — as implemented by <code>systemd</code> for example —, as establishing
+the inner <code>autofs</code> will trigger the outer one. Mounting the two partitions via
+<code>autofs</code> is recommended because the simple VFAT file system has weak data
+integrity properties and should remain unmounted whenever possible.)</p><h2 id=boot-loader-entries>Boot Loader Entries
+<a class=anchor href=#boot-loader-entries>#</a></h2><p>This specification defines two types of boot loader entries. The first type is
+text based, very simple, and suitable for a variety of firmware, architecture
+and image types (&ldquo;Type #1&rdquo;). The second type is specific to EFI, but allows
+single-file images that embed all metadata in the kernel binary itself, which
+is useful to cryptographically sign them as one file for the purpose of
+SecureBoot (&ldquo;Type #2&rdquo;).</p><p>Not all boot loader entries will apply to all systems. For example, Type #1
+entries that use the <code>efi</code> key and all Type #2 entries only apply to EFI
+systems. Entries using the <code>architecture</code> key might specify an architecture that
+doesn&rsquo;t match the local one. Boot loaders should ignore all entries that don&rsquo;t
+match the local platform and what the boot loader can support, and hide them
+from the user. Only entries matching the feature set of boot loader and system
+shall be considered and displayed. This allows image builders to put together
+images that transparently support multiple different architectures.</p><p>Note that the three partitions described above are not supposed to be the
+exclusive territory of this specification. This specification only defines
+semantics of the <code>/loader/entries/</code> directory (along with the companion file
+<code>/loader/entries.srel</code>) and the <code>/EFI/Linux/</code> directory inside the file system,
+but it doesn&rsquo;t intend to define contents of the rest of the file system. Boot
+loaders, firmware, and other software implementing this specification may
+choose to place other files and directories in the same file system. For
+example, boot loaders that implement this specification might install their own
+boot code on the same partition; this is particularly common in the case of the
+ESP. Implementations of this specification must be able to operate correctly if
+files or directories other than <code>/loader/entries/</code> and <code>/EFI/Linux/</code> are found
+in the top level directory. Implementations that add their own files or
+directories to the file systems should use well-named directories, to make name
+collisions between multiple users of the file system unlikely.</p><h3 id=type-1-boot-loader-specification-entries>Type #1 Boot Loader Specification Entries
+<a class=anchor href=#type-1-boot-loader-specification-entries>#</a></h3><p><code>/loader/entries/</code> in <code>$BOOT</code> is the primary directory containing Type #1
+drop-in snippets defining boot entries, one <code>.conf</code> file for each boot menu
+item. Each OS may provide one or more such entries.</p><p>If the ESP is separate from <code>$BOOT</code> it may also contain a <code>/loader/entries/</code>
+directory, where the boot loader should look for boot entry snippets, as an
+additional source. The boot loader should enumerate both directories and
+present a merged list to the user. Note that this is done for compatibility
+only: while boot loaders should look in both places, OSes should only add their
+files to <code>$BOOT</code>.</p><p><strong>Note:</strong> <em>In all cases the <code>/loader/entries/</code> directory should be located
+directly in the root of the file system. Specifically, the <code>/loader/entries/</code>
+directory should <strong>not</strong> be located under the <code>/EFI/</code> subdirectory on the ESP.</em></p><p>The file name of the boot entry snippets is used for identification of the boot
+item but shall never be presented to the user in the UI. The file name may be
+chosen freely but should be unique enough to avoid clashes between OS
+installations. More specifically, it is suggested to include the <code>entry-token</code>
+(see
+<a href=https://www.freedesktop.org/software/systemd/man/kernel-install.html>kernel-install</a>)
+or machine ID (see
+<a href=https://www.freedesktop.org/software/systemd/man/machine-id.html>/etc/machine-id</a>),
+and the kernel version (as returned by <code>uname -r</code>, including the OS
+identifier), so that the whole filename is
+<code>$BOOT/loader/entries/&lt;entry-token-or-machine-id>-&lt;version>.conf</code>.</p><p>Example: <code>$BOOT/loader/entries/6a9857a393724b7a981ebb5b8495b9ea-3.8.0-2.fc19.x86_64.conf</code>.</p><p>In order to maximize compatibility with file system implementations and
+restricted boot loader environments, and to minimize conflicting character use
+with other programs, file names shall be chosen from a restricted character
+set: ASCII upper and lower case characters, digits, &ldquo;+&rdquo;, &ldquo;-&rdquo;, &ldquo;_&rdquo; and &ldquo;.&rdquo;.
+Also, the file names should have a length of at least one and at most 255
+characters (including the file name suffix).</p><p>These boot loader menu snippets shall be UNIX-style text files (i.e. lines
+separated by a single newline character), in the UTF-8 encoding. The
+boot loader menu snippets are loosely inspired by Grub1&rsquo;s configuration syntax.
+Lines beginning with &ldquo;#&rdquo; are used for comments and shall be ignored. The first
+word of a line is used as key and is separated by one or more spaces from the
+value.</p><h4 id=type-1-boot-loader-entry-keys>Type #1 Boot Loader Entry Keys
+<a class=anchor href=#type-1-boot-loader-entry-keys>#</a></h4><p>The following keys are recognized:</p><ul><li><p><code>title</code> is a human-readable title for this menu item to be displayed in the
+boot menu. It is a good idea to initialize this from the <code>PRETTY_NAME=</code> of
+<a href=https://www.freedesktop.org/software/systemd/man/os-release.html>os-release</a>.
+This name should be descriptive and does not have to be unique. If a boot
+loader discovers two entries with the same title it should show more than
+just the raw title in the UI, for example by appending the <code>version</code>
+field. This field is optional.</p><p>Example: <code>title Fedora 18 (Spherical Cow)</code></p></li><li><p><code>version</code> is a human-readable version for this menu item. This is usually the
+kernel version and is intended for use by OSes to install multiple kernel
+versions with the same <code>title</code> field. This field is used for sorting entries,
+so that the boot loader can order entries by age or select the newest one
+automatically. This field is optional.</p><p>See <a href=#sorting>Sorting</a> below.</p><p>Example: <code>version 3.7.2-201.fc18.x86_64</code></p></li><li><p><code>machine-id</code> is the machine ID of the OS. This can be used by boot loaders
+and applications to filter out boot entries, for example to show only a
+single newest kernel per OS, to group items by OS, or to filter out the
+currently booted OS when showing only other installed operating systems.
+This ID shall be formatted as 32 lower case hexadecimal characters
+(i.e. without any UUID formatting). This key is optional.</p><p>Example: <code>machine-id 4098b3f648d74c13b1f04ccfba7798e8</code></p></li><li><p><code>sort-key</code> is a short string used for sorting entries on display. This should
+typically be initialized from the <code>IMAGE_ID=</code> or <code>ID=</code> fields of
+<a href=https://www.freedesktop.org/software/systemd/man/os-release.html>os-release</a>,
+possibly with an additional suffix. This field is optional.</p><p>Example: <code>sort-key fedora</code></p></li><li><p><code>linux</code> is the Linux kernel image to execute and takes a path relative to the
+root of the file system containing the boot entry snippet itself. It is
+recommended that every distribution creates an entry-token/machine-id and
+version specific subdirectory and places its kernels and initrd images there
+(see below).</p><p>Example: <code>linux /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/linux</code></p></li><li><p><code>initrd</code> is the initrd <code>cpio</code> image to use when executing the kernel. This key
+may appear more than once in which case all specified images are used, in the
+order they are listed.</p><p>Example: <code>initrd 6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/initrd</code></p></li><li><p><code>efi</code> refers to an arbitrary EFI program. If this key is set, and the system
+is not an EFI system, this entry should be hidden.</p></li><li><p><code>options</code> shall contain kernel parameters to pass to the Linux kernel to
+spawn. This key is optional and may appear more than once in which case all
+specified parameters are combined in the order they are listed.</p><p>Example: <code>options root=UUID=6d3376e4-fc93-4509-95ec-a21d68011da2 quiet</code></p></li><li><p><code>devicetree</code> refers to the binary device tree to use when executing the
+kernel. This key is optional.</p><p>Example: <code>devicetree 6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.armv7hl/tegra20-paz00.dtb</code></p></li><li><p><code>devicetree-overlay</code> refers to a list of device tree overlays that should be
+applied by the boot loader. Multiple overlays are separated by spaces and
+applied in the same order as they are listed. This key is optional but
+depends on the <code>devicetree</code> key.</p><p>Example: <code>devicetree-overlay /6a9857a393724b7a981ebb5b8495b9ea/overlays/overlay_A.dtbo /6a9857a393724b7a981ebb5b8495b9ea/overlays/overlay_B.dtbo</code></p></li><li><p><code>architecture</code> refers to the architecture this entry is for. The argument
+should be an architecture identifier, using the architecture vocabulary
+defined by the EFI specification (i.e. <code>IA32</code>, <code>x64</code>, <code>IA64</code>, <code>ARM</code>, <code>AA64</code>,
+…). If specified and it does not match the local system architecture this
+entry should be hidden. The comparison should be done case-insensitively.</p><p>Example: <code>architecture aa64</code></p></li></ul><p>Each boot loader menu entry drop-in snippet must include at least a <code>linux</code> or an <code>efi</code>
+key. Here is an example for a complete drop-in file:</p><pre><code># /boot/loader/entries/6a9857a393724b7a981ebb5b8495b9ea-3.8.0-2.fc19.x86_64.conf
+title        Fedora 19 (Rawhide)
+sort-key     fedora
+machine-id   6a9857a393724b7a981ebb5b8495b9ea
+version      3.8.0-2.fc19.x86_64
+options      root=UUID=6d3376e4-fc93-4509-95ec-a21d68011da2 quiet
+architecture x64
+linux        /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/linux
+initrd       /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/initrd
+</code></pre><p>On EFI systems all Linux kernel images should be EFI images. In order to
+increase compatibility with EFI systems it is highly recommended only to
+install EFI kernel images, even on non-EFI systems, if that&rsquo;s applicable and
+supported on the specific architecture.</p><p>Conversely, in order to increase compatibility it is recommended to install
+generic kernel images that make few assumptions about the firmware they run on,
+i.e. it is a good idea that both images shipped as UEFI PE images and those
+which are not don&rsquo;t make unnecessary assumption on the underlying firmware,
+i.e. don&rsquo;t hard depend on legacy BIOS calls or UEFI boot services.</p><p>When Type #1 boot loader menu entry snippets refer to other files (for <code>linux</code>,
+<code>initrd</code>, <code>efi</code>, <code>devicetree</code>, and <code>devicetree-overlay</code>), those files must be
+located on the same partition, and the paths must be absolute paths relative to
+the root of that file system. The naming of those files can be chosen by the
+installer. A recommended scheme is described in the next section. Paths should
+be normalized, i.e. not include <code>..</code>, <code>.</code> or a sequence of more than one
+<code>/</code>. Paths may be prefixed with a <code>/</code>, but this is optional and has the same
+effect as paths without it: all paths are always relative to the root directory
+of the partition they are referenced from.</p><p>Even though the backing file system is typically case-insensitive (i.e. VFAT)
+it is strongly recommended to reference files in the casing actually used for
+the directories/files, so that placing these files on other file systems is
+still safe and robust.</p><h3 id=recommended-directory-layout-for-additional-files>Recommended Directory Layout for Additional Files
+<a class=anchor href=#recommended-directory-layout-for-additional-files>#</a></h3><p>It is recommended to place the kernel and other other files comprising a single
+boot loader entry in a separate directory:
+<code>/&lt;entry-token-or-machine-id>/&lt;version>/</code>. This naming scheme uses the same
+elements as the boot loader menu entry snippet, providing the same level of
+uniqueness.</p><p>Example: <code>$BOOT/6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/linux</code>
+<code>$BOOT/6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/initrd</code></p><p>Other naming schemes are possible. In particular, traditionally a flat naming
+scheme with files in the root directory was used. This is not recommended
+because it is hard to avoid conflicts in a multi-boot installation.</p><h3 id=standard-conformance-marker-file>Standard-conformance Marker File
+<a class=anchor href=#standard-conformance-marker-file>#</a></h3><p>Unfortunately, there are implementations of boot loading infrastructure that
+are also using the <code>/loader/entries/</code> directory, but install files that do not
+follow this specification. In order to minimize confusion, a boot loader
+implementation may place the file <code>/loader/entries.srel</code> next to the
+<code>/loader/entries/</code> directory containing the ASCII string <code>type1</code> (followed by a
+UNIX newline). Tools that need to determine whether an existing directory
+implements the semantics described here may check for this file and contents:
+if it exists and contains the mentioned string, it shall assume a
+standards-compliant implementation is in place. If it exists but contains a
+different string it shall assume other semantics are implemented. If the file
+does not exist, no assumptions should be made.</p><h3 id=type-2-efi-unified-kernel-images>Type #2 EFI Unified Kernel Images
+<a class=anchor href=#type-2-efi-unified-kernel-images>#</a></h3><p>A unified kernel image is a single EFI PE executable combining an EFI stub
+loader, a kernel image, an initrd image, and the kernel command line. See
+<a href=https://www.freedesktop.org/software/systemd/man/systemd-stub.html>systemd-stub(7)</a>
+for details. The primary place for such unified images is the <code>/EFI/Linux/</code>
+directory in <code>$BOOT</code>. Operating systems should place unified EFI kernels only
+in the <code>$BOOT</code> partition. Boot loaders should also look in the <code>/EFI/Linux/</code> of
+the ESP — if it is different from <code>$BOOT</code> — and present a merged list of menu
+entries from both partitions. Regardless if placed in the primary or secondary
+location: the files must have the extension <code>.efi</code>. Support for images of this
+type is of course specific to systems with EFI firmware. Ignore this section if
+you work on systems not supporting EFI.</p><p>Type #2 file names should be chosen from the same restricted character set as
+Type #1 described above (but with the file name suffix of <code>.efi</code> instead of
+<code>.conf</code>).</p><p>Images of this type have the advantage that all metadata and payload that makes
+up the boot entry is contained in a single PE file that can be signed
+cryptographically as one for the purpose of EFI SecureBoot.</p><p>A valid unified kernel image in the <code>/EFI/Linux/</code> directory must contain two PE sections:</p><ul><li><code>.cmdline</code> section with the kernel command line,</li><li><code>.osrel</code> section with an embedded copy of the
+<a href=https://www.freedesktop.org/software/systemd/man/os-release.html>os-release</a>
+file describing the image.</li></ul><p>The <code>PRETTY_NAME=</code> and <code>VERSION_ID=</code> fields in the embedded <code>os-release</code> file
+are used the same as <code>title</code> and <code>version</code> in the Type #1 entries. The
+<code>.cmdline</code> section is used instead of the <code>options</code> field. <code>linux</code> and <code>initrd</code>
+fields are not necessary, and there is no counterpart for the <code>machine-id</code>
+field.</p><p>On EFI, any such images shall be added to the list of valid boot entries.</p><h3 id=additional-notes>Additional Notes
+<a class=anchor href=#additional-notes>#</a></h3><p>Note that these boot entry snippets and unified kernels do not need to be the
+only menu entry sources for a boot loader. It may extend this list of
+entries with additional items from other configuration files (for example its
+own native configuration files) or automatically detected other entries without
+explicit configuration.</p><p>To make this explicitly clear: this specification is designed with &ldquo;free&rdquo;
+operating systems in mind, starting Windows or MacOS is out of focus with these
+boot loader menu entry snippets, use boot-loader specific solutions for
+that. In the text above, if we say &ldquo;OS&rdquo; we hence imply &ldquo;free&rdquo;, i.e. primarily
+Linux (though this could be easily be extended to the BSDs and whatnot).</p><p>Note that all paths used in the boot loader menu entry snippets use a
+Unix-style &ldquo;/&rdquo; as path separator. This needs to be converted to an EFI-style
+&ldquo;\&rdquo; separator in EFI boot loaders.</p><h2 id=locating-boot-entries>Locating Boot Entries
+<a class=anchor href=#locating-boot-entries>#</a></h2><p>A <em>boot loader</em> locates the XBOOTLDR partition and the ESP, then simply reads
+all the files <code>/loader/entries/*.conf</code> in them, and populates its boot menu
+(and handle gracefully if one of the two partitions is missing). On EFI, it
+then extends this with any unified kernel images found in <code>/EFI/Linux/*.efi</code> in
+the two partitions. It may also add additional entries, for example a &ldquo;Reboot
+into firmware&rdquo; option. Optionally it may sort the menu based on the
+<code>sort-key</code>, <code>machine-id</code> and <code>version</code> fields, and possibly others. It uses the
+file name to identify specific items, for example in case it supports storing
+away default entry information somewhere. A boot loader should generally not
+modify these files.</p><p>For &ldquo;Boot Loader Specification Entries&rdquo; (Type #1), the <em>kernel package
+installer</em> installs the kernel and initrd images to <code>$BOOT</code>. It is recommended
+to place these files in a vendor and OS and installation specific directory. It
+then generates a boot loader menu entry snippet, placing it in
+<code>$BOOT/loader/entries/xyz.conf</code>, with &ldquo;xyz&rdquo; as concatenation of
+entry-token/machine-id and version information (see above). The files created
+by a kernel package are tied to the kernel package and should be removed along
+with it.</p><p>For &ldquo;EFI Unified Kernel Images&rdquo; (Type #2), the vendor or kernel package
+installer should create the combined image and drop it into
+<code>$BOOT/EFI/Linux/</code>. This file is also tied to the kernel package and should be
+removed along with it.</p><p>A <em>UI application</em> intended to show available boot options shall operate
+similarly to a boot loader (and thus search both <code>$BOOT</code> and the ESP if
+distinct), but might apply additional filters, for example by filtering the
+booted OS via the machine ID, or by suppressing all but the newest kernel
+versions.</p><p>An <em>OS installer</em> picks the right place for <code>$BOOT</code> as defined above (possibly
+creating a partition and file system for it) and creates the <code>/loader/entries/</code>
+directory and the <code>/loader/entries.srel</code> file in it (the latter only if the
+directory didn&rsquo;t exist yet). It then installs an appropriate boot loader that
+can read these snippets. Finally, it installs one or more kernel packages.</p><h2 id=boot-counting>Boot counting
+<a class=anchor href=#boot-counting>#</a></h2><p>The main idea is that when boot entries are initially installed, they are
+marked as &ldquo;indeterminate&rdquo; and assigned a number of boot attempts. Each time the
+boot loader tries to boot an entry, it decreases this count by one. If the
+operating system considers the boot as successful, it removes the counter
+altogether and the entry becomes &ldquo;good&rdquo;. Otherwise, once the assigned number of
+boots is exhausted, the entry is marked as &ldquo;bad&rdquo;.</p><p>Which boots are &ldquo;successful&rdquo; is determined by the operating system. systemd
+provides a generic mechanism that can be extended with arbitrary checks and
+actions, see <a href=https://systemd.io/AUTOMATIC_BOOT_ASSESSMENT>Automatic Boot Assessment</a>,
+but the boot counting mechanism described in this specification can
+also be used with other implementations.</p><p>The boot counting data is stored in the name of the boot loader entry. A boot
+loader entry file name may contain a plus (<code>+</code>) followed by a number. This may
+optionally be followed by a minus (<code>-</code>) followed by a second number. The dot
+(<code>.</code>) and file name suffix (<code>conf</code> of <code>efi</code>) must immediately follow. Boot
+counting is enabled for entries which match this pattern.</p><p>The first number is the &ldquo;tries left&rdquo; counter signifying how many attempts to boot
+this entry shall still be made. The second number is the &ldquo;tries done&rdquo; counter,
+showing how many failed attempts to boot it have already been made. Each time
+a boot loader entry marked this way is booted, the first counter is decremented,
+and the second one incremented. (If the second counter is missing,
+then it is assumed to be equivalent to zero.) If the &ldquo;tries left&rdquo; counter is
+above zero the entry is still considered &ldquo;indeterminate&rdquo;. A boot entry with the
+&ldquo;tries left&rdquo; counter at zero is considered &ldquo;bad&rdquo;.</p><p>If the boot attempt completed successfully the entry&rsquo;s counters are removed
+from the name (entry state becomes &ldquo;good&rdquo;), thus turning off boot counting for
+this entry.</p><h2 id=sorting>Sorting
+<a class=anchor href=#sorting>#</a></h2><p>The boot loader menu should generally show entries in some order meaningful to
+the user. The <code>title</code> key is free-form and not suitable to be used as the
+primary sorting key. Instead, the boot loader should use the following rules:</p><ol><li><p>Entries which are subject to boot counting and are marked as &ldquo;bad&rdquo;, should
+be sorted later than all other entries. Entries which are marked as
+&ldquo;indeterminate&rdquo; or &ldquo;good&rdquo; (or were not subject to boot counting at all),
+are thus sorted earlier.</p></li><li><p>If <code>sort-key</code> is set on both entries, use in order of priority,
+the <code>sort-key</code> (A-Z, increasing <a href=#alphanumerical-order>alphanumerical order</a>),
+<code>machine-id</code> (A-Z, increasing alphanumerical order),
+and <code>version</code> keys (decreasing <a href=#version-order>version order</a>).</p></li><li><p>If <code>sort-key</code> is set on one entry, it sorts earlier.</p></li><li><p>At the end, if necessary, when <code>sort-key</code> is not set or those fields are not
+set or are all equal, the boot loader should sort using the file name of the
+entry (decreasing version sort), with the suffix removed.</p></li></ol><p><strong>Note:</strong> <em>This description assumes that the boot loader shows entries in a
+traditional menu, with newest and &ldquo;best&rdquo; entries at the top, thus entries with
+a higher version number are sorter <em>earlier</em>. The boot loader is free to
+use a different direction (or none at all) during display.</em></p><p><strong>Note:</strong> <em>The boot loader should allow booting &ldquo;bad&rdquo; entries, e.g. in case no
+other entries are left or they are unusable for other reasons. It may
+deemphasize or hide such entries by default.</em></p><p><strong>Note:</strong> <em>&ldquo;Bad&rdquo; boot entries have a suffix of &ldquo;+0-<code>n</code>&rdquo;, where <code>n</code> is the
+number of failed boot attempts. Removal of the suffix is not necessary for
+comparisons described by the last point above. In the unlikely scenario that we
+have multiple such boot entries that differ only by the boot counting data, we
+would sort them by <code>n</code>.</em></p><h3 id=alphanumerical-order>Alphanumerical Order
+<a class=anchor href=#alphanumerical-order>#</a></h3><p>Free-form strings and machine IDs should be compared using a method equivalent
+to <a href=https://man7.org/linux/man-pages/man3/strcmp.3.html>strcmp(3)</a> on their
+UTF-8 representations. If just one of the strings is unspecified or empty, it
+compares lower. If both strings are unspecified or empty, they compare equal.</p><h3 id=version-order>Version Order
+<a class=anchor href=#version-order>#</a></h3><p>The following method should be used to compare version strings. The algorithm
+is based on rpm&rsquo;s <code>rpmvercmp()</code>, but not identical.</p><p>ASCII letters (<code>a-z</code>, <code>A-Z</code>) and digits (<code>0-9</code>) form alphanumerical components of the version.
+Minus (<code>-</code>) separates the version and release parts.
+Dot (<code>.</code>) separates parts of version or release.
+Tilde (<code>~</code>) is a prefix that always compares lower.
+Caret (<code>^</code>) is a prefix that always compares higher.</p><p>Both strings are compared from the beginning until the end, or until the
+strings are found to compare as different. In a loop:</p><ol><li>Any characters which are outside of the set of listed above (<code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>-</code>, <code>.</code>, <code>~</code>, <code>^</code>)
+are skipped in both strings. In particular, this means that non-ASCII characters
+that are Unicode digits or letters are skipped too.</li><li>If one of the strings has ended: if the other string hasn&rsquo;t, the string that
+has remaining characters compares higher. Otherwise, the strings compare
+equal.</li><li>If the remaining part of one of strings starts with <code>~</code>:
+if other remaining part does not start with <code>~</code>,
+the string with <code>~</code> compares lower. Otherwise, both tilde characters are skipped.</li><li>The check from point 2. is repeated here.</li><li>If the remaining part of one of strings starts with <code>-</code>:
+if the other remaining part does not start with <code>-</code>,
+the string with <code>-</code> compares lower. Otherwise, both minus characters are skipped.</li><li>If the remaining part of one of strings starts with <code>^</code>:
+if the other remaining part does not start with <code>^</code>,
+the string with <code>^</code> compares higher. Otherwise, both caret characters are skipped.</li><li>If the remaining part of one of strings starts with <code>.</code>:
+if the other remaining part does not start with <code>.</code>,
+the string with <code>.</code> compares lower. Otherwise, both dot characters are skipped.</li><li>If either of the remaining parts starts with a digit, numerical prefixes are
+compared numerically. Any leading zeroes are skipped.
+The numerical prefixes (until the first non-digit character) are evaluated as numbers.
+If one of the prefixes is empty, it evaluates as 0.
+If the numbers are different, the string with the bigger number compares higher.
+Otherwise, the comparison continues at the following characters at point 1.</li><li>Leading alphabetical prefixes are compared alphabetically.
+The substrings are compared letter-by-letter.
+If both letters are the same, the comparison continues with the next letter.
+Capital letters compare lower than lower-case letters (<code>A &lt; a</code>).
+When the end of one substring has been reached (a non-letter character or the end
+of the whole string), if the other substring has remaining letters, it compares higher.
+Otherwise, the comparison continues at the following characters at point 1.</li></ol><p>Examples (with '' meaning the empty string):</p><ul><li><code>11 == 11</code></li><li><code>systemd-123 == systemd-123</code></li><li><code>bar-123 &lt; foo-123</code></li><li><code>123a > 123</code></li><li><code>123.a > 123</code></li><li><code>123.a &lt; 123.b</code></li><li><code>123a > 123.a</code></li><li><code>11α == 11β</code></li><li><code>A &lt; a</code></li><li>'' &lt; <code>0</code></li><li><code>0.</code> > <code>0</code></li><li><code>0.0</code> > <code>0</code></li><li><code>0</code> &lt; <code>~</code></li><li>'' &lt; <code>~</code></li></ul><p>Note: <a href=https://www.freedesktop.org/software/systemd/man/systemd-analyze.html>systemd-analyze</a>
+implements this version comparison algorithm as</p><pre><code>systemd-analyze compare-versions &lt;version-a&gt; &lt;version-b&gt;
+</code></pre><h2 id=additional-discussion>Additional discussion
+<a class=anchor href=#additional-discussion>#</a></h2><h3 id=why-is-there-a-need-for-this-specification>Why is there a need for this specification?
+<a class=anchor href=#why-is-there-a-need-for-this-specification>#</a></h3><p>This specification brings the following advantages:</p><ul><li><p>Installation of new boot entries is more robust, as no explicit rewriting of
+configuration files is required.</p></li><li><p>It allows an out-of-the-box boot experience on any platform without the need
+of traditional firmware mechanisms (e.g. BIOS calls, UEFI Boot Services).</p></li><li><p>It improves dual-boot scenarios. Without cooperation, multiple Linux
+installations tend to fight over which boot loader becomes the primary one in
+possession of the MBR or the boot partition, and only that one installation
+can then update the boot loader configuration. Other Linux installs have to
+be manually configured to never touch the MBR and instead install a
+chain-loaded boot loader in their own partition headers. In this new scheme
+all installations share a loader directory and no manual configuration has to
+take place. All participants implicitly cooperate due to removal of name
+collisions and can install/remove their own boot menu entries without
+interfering with the entries of other installed operating systems.</p></li><li><p>Drop-in directories are now pretty ubiquitous on Linux as an easy way to
+extend boot loader menus without having to edit, regenerate or manipulate
+configuration files. For the sake of uniformity, we should do the same for
+the boot menu.</p></li><li><p>Userspace code can sanely parse boot loader menu entries which is essential
+with modern firmware which does not necessarily initialize USB keyboards
+during boot, which makes boot menus hard to reach for the user. If userspace
+code can parse the boot loader menu entries too, UI can be written that
+select a boot menu item to boot into before rebooting the machine, thus not
+requiring interactivity during early boot.</p></li><li><p>To unify and thus simplify menu entries of the various boot loaders, which
+makes configuration of the boot loading process easier for users,
+administrators, and developers alike.</p></li><li><p>For boot loaders with configuration <em>scripts</em> such as grub2, adopting this
+spec allows for mostly static scripts that are generated only once at first
+installation, but then do not need to be updated anymore as that is done via
+drop-in files exclusively.</p></li></ul><h3 id=why-not-simply-rely-on-the-efi-boot-menu-logic>Why not simply rely on the EFI boot menu logic?
+<a class=anchor href=#why-not-simply-rely-on-the-efi-boot-menu-logic>#</a></h3><p>EFI is not ubiquitous, especially not in embedded systems. But even on systems
+with EFI, which provides a boot options logic that can offer similar
+functionality, this specification is still needed for the following reasons:</p><ul><li><p>The various EFI implementations implement the boot order/boot item logic to
+different levels. Some firmware implementations do not offer a boot menu at
+all and instead unconditionally follow the EFI boot order, booting the first
+item that is working.</p></li><li><p>If the firmware setup is used to reset data, usually all EFI boot entries
+are lost, making the system entirely unbootable, as the firmware setups
+generally do not offer a UI to define additional boot items. By placing the
+menu item information on disk, it is always available, even if the firmware
+configuration is lost.</p></li><li><p>Harddisk images should be movable between machines and be bootable without
+requiring firmware configuration. This also requires that the list
+of boot options is defined on disk, and not in EFI variables alone.</p></li><li><p>EFI is not universal yet (especially on non-x86 platforms), this
+specification is useful both for EFI and non-EFI boot loaders.</p></li><li><p>Many EFI systems disable USB support during early boot to optimize boot
+times, thus making keyboard input unavailable in the EFI menu. It is thus
+useful if the OS UI has a standardized way to discover available boot options
+which can be booted to.</p></li></ul><h3 id=why-is-the-version-comparison-logic-so-complicated>Why is the version comparison logic so complicated?
+<a class=anchor href=#why-is-the-version-comparison-logic-so-complicated>#</a></h3><p>The <code>sort-key</code> allows us to group entries by &ldquo;operating system&rdquo;, e.g. all
+versions of Fedora together, no matter if they identify themselves as &ldquo;Fedora
+Workstation&rdquo; or &ldquo;Fedora Rawhide (prerelease)&rdquo;. The <code>sort-key</code> was introduced
+only recently, so we need to provide a meaningful order for entries both with
+and without it. Since it is a new concept, it is assumed that entries with
+<code>sort-key</code> are newer.</p><p>In a traditional menu with entries displayed vertically, we want names to be
+sorter alpabetically (CentOS, Debian, Fedora, OpenSUSE, …), it would be strange
+to have them in reverse order. But when multiple kernels are available for the
+same installation, we want to display the latest kernel with highest priority,
+i.e. earlier in the list.</p><h3 id=why-do-you-use-file-renames-to-store-the-counter-why-not-a-regular-file>Why do you use file renames to store the counter? Why not a regular file?
+<a class=anchor href=#why-do-you-use-file-renames-to-store-the-counter-why-not-a-regular-file>#</a></h3><p>Mainly two reasons: it&rsquo;s relatively likely that renames can be implemented
+atomically even in simpler file systems, as renaming generally avoids
+allocating or releasing data blocks. Writing to file contents has a much bigger
+chance to be result in incomplete or corrupt data. Moreover renaming has the
+benefit that the boot count metadata is directly attached to the boot loader
+entry file, and thus the lifecycle of the metadata and the entry itself are
+bound together. This means no additional clean-up needs to take place to drop
+the boot loader counting information for an entry when it is removed.</p><h3 id=why-not-use-efi-variables-for-storing-the-boot-counter>Why not use EFI variables for storing the boot counter?
+<a class=anchor href=#why-not-use-efi-variables-for-storing-the-boot-counter>#</a></h3><p>The memory chips used to back the persistent EFI variables are generally not of
+the highest quality, hence shouldn&rsquo;t be written to more than necessary. This
+means we can&rsquo;t really use it for changes made regularly during boot, but should
+use it only for seldom-made configuration changes.</p><h3 id=out-of-focus>Out of Focus
+<a class=anchor href=#out-of-focus>#</a></h3><p>There are a couple of items that are out of focus for this specification:</p><ul><li><p>If userspace can figure out the available boot options, then this is only
+useful so much: we&rsquo;d still need to come up with a way how userspace could
+communicate to the boot loader the default boot loader entry temporarily or
+persistently. Defining a common scheme for this is certainly a good idea, but
+out of focus for this specification.</p></li><li><p>This specification is just about &ldquo;Free&rdquo; Operating systems. Hooking in other
+operating systems (like Windows and macOS) into the boot menu is a different
+story and should probably happen outside of this specification. For example,
+boot loaders might choose to detect other available OSes dynamically at
+runtime without explicit configuration (like <code>systemd-boot</code> does it), or via
+native configuration (for example via explicit Grub2 configuration generated
+once at installation).</p></li><li><p>This specification leaves undefined what to do about systems which are
+upgraded from an OS that does not implement this specification. As the
+previous boot loader logic was largely handled by in distribution-specific
+ways we probably should leave the upgrade path (and whether there actually is
+one) to the distributions. The simplest solution might be to simply continue
+with the old scheme for old installations and use this new scheme only for
+new installations.</p></li><li><p>Referencing kernels or initrds on other partitions other than the partition
+containing the Type #1 boot loader entry. This is by design, as specifying
+other partitions or devices would require a non-trivial language for denoting
+device paths. In particular this means that on non-EFI systems boot loader
+menu entry snippets following this specification cannot be used to spawn
+other operating systems (such as Windows).</p></li></ul><h2 id=links>Links
+<a class=anchor href=#links>#</a></h2><p><a href=https://en.wikipedia.org/wiki/GUID_Partition_Table>GUID Partition Table</a>
+<a href=https://systemd.io/BOOT_LOADER_INTERFACE>Boot Loader Interface</a>
+<a href=DISCOVERABLE_PARTITIONS.md>Discoverable Partitions Specification</a>
+<a href=https://www.freedesktop.org/software/systemd/man/systemd-boot.html><code>systemd-boot(7)</code></a>
+<a href=https://www.freedesktop.org/software/systemd/man/bootctl.html><code>bootctl(1)</code></a>
+<a href=https://www.freedesktop.org/software/systemd/man/systemd-gpt-auto-generator.html><code>systemd-gpt-auto-generator(8)</code></a></p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#target-audience>Target Audience</a></li><li><a href=#the-partitions>The Partitions</a><ul><li><a href=#the-boot-partition-placeholder>The <code>$BOOT</code> Partition Placeholder</a></li><li><a href=#creating-these-partitions>Creating These Partitions</a></li><li><a href=#mount-points>Mount Points</a></li></ul></li><li><a href=#boot-loader-entries>Boot Loader Entries</a><ul><li><a href=#type-1-boot-loader-specification-entries>Type #1 Boot Loader Specification Entries</a></li><li><a href=#recommended-directory-layout-for-additional-files>Recommended Directory Layout for Additional Files</a></li><li><a href=#standard-conformance-marker-file>Standard-conformance Marker File</a></li><li><a href=#type-2-efi-unified-kernel-images>Type #2 EFI Unified Kernel Images</a></li><li><a href=#additional-notes>Additional Notes</a></li></ul></li><li><a href=#locating-boot-entries>Locating Boot Entries</a></li><li><a href=#boot-counting>Boot counting</a></li><li><a href=#sorting>Sorting</a><ul><li><a href=#alphanumerical-order>Alphanumerical Order</a></li><li><a href=#version-order>Version Order</a></li></ul></li><li><a href=#additional-discussion>Additional discussion</a><ul><li><a href=#why-is-there-a-need-for-this-specification>Why is there a need for this specification?</a></li><li><a href=#why-not-simply-rely-on-the-efi-boot-menu-logic>Why not simply rely on the EFI boot menu logic?</a></li><li><a href=#why-is-the-version-comparison-logic-so-complicated>Why is the version comparison logic so complicated?</a></li><li><a href=#why-do-you-use-file-renames-to-store-the-counter-why-not-a-regular-file>Why do you use file renames to store the counter? Why not a regular file?</a></li><li><a href=#why-not-use-efi-variables-for-storing-the-boot-counter>Why not use EFI variables for storing the boot counter?</a></li><li><a href=#out-of-focus>Out of Focus</a></li></ul></li><li><a href=#links>Links</a></li></ul></nav></div></aside></main></body></html>
