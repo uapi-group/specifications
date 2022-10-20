@@ -1,0 +1,136 @@
+---
+title: Linux TPM PCR Registry
+SPDX-License-Identifier: CC0-1.0
+---
+
+# 🔏 Linux TPM PCR Registry 🗒️
+
+_TPM PCRs are a scarce resource, there are only 24 of them in typical standards compliant TPMs. According to the [TCG PC Client Specific Platform Firmware Profile Specification | Trusted Computing Group](https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/) PCRs 8…15 are for the OS to make use of. In this document we intend to document for Linux platforms which component is using which PCR in order to minimize conflicts._
+
+Out of scope for this is how other OSes, in particular Windows’ use the PCRs. Also out of scope are PCRs owned by the firmware, i.e. 0...7.
+
+This document is informational in nature: it just describes what is, it is not intended to formally declare “ownership” of a specific PCR, but simply is supposed to reflect which PCR assignments are common in the Linux ecosystems. That said, co-opting PCR usage will likely create problems down the line, in particular if measurement logs are maintained separately. (To be more explicit: on `systemd` systems the warranty is voided if you write to the PCRs it also uses, as per the list below.)
+
+PCR measurements most commonly serve two distinct purposes:
+
+* To implement access policy on TPM sealed objects: policy can dictate that unsealing of such objects shall only be allowed if some PCRs are in a specific literal state, or in any state for which a signature by a specific key pair can be provided. For this it is essential that PCRs only contain measurements for a clearly defined set of objects, that typically is known in advance so that the PCR value can be pre-calculated (hence this is in a way a _forward_-looking use)
+* To permit reasoning about the boot process and runtime _so far_, for example for the purpose of remote attestation. In this case it is not that important what objects are measured as long as a record is kept in a measurement log about what it was. The PCRs are in this case used to validate that log (hence this is in a way a _backward_-looking use)
+
+In both cases it is important that data measured into the PCRs is carefully chosen. PCRs that shall be useful for policy binding should only cover data objects known in advance, and thus not contain runtime data that cannot be pre-calculated in advance. PCRs that shall be useful for backward-looking validation should only cover objects that are also written to the appropriate log for the PCR.
+
+<table>
+  <tr>
+   <th><p style="text-align: right"><strong>PCR#</strong></p></th>
+   <th><strong>Used by</strong></th>
+   <th><strong>From Location</strong></th>
+   <th><strong>Measured Objects</strong></th>
+   <th><strong>Log</strong></th>
+   <th><strong>Use Reported By</strong></th>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>8</strong></p></td>
+   <td><code>grub 🍲</code></td>
+   <td>UEFI Boot Component</td>
+   <td>Commands and kernel command line</td>
+   <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>9</strong></p></td>
+   <td><code>grub 🍲</code></td>
+   <td>UEFI Boot Component</td>
+   <td>All files read (including kernel image)</td>
+   <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>(cont.)</strong></p></td>
+   <td>Linux kernel 🌰</td>
+   <td>Kernel</td>
+   <td>All passed initrds (when the new <code>LOAD_FILE2 </code>initrd protocol is used)</td>
+   <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>10</strong></p></td>
+   <td>IMA 📐</td>
+   <td>Kernel</td>
+   <td>Protection of the IMA measurement log</td>
+   <td>IMA event log</td>
+   <td>n/a</td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>11</strong></p></td>
+   <td><code>systemd-stub 🚀</code></td>
+   <td>UEFI Stub</td>
+   <td>All components of unified kernel images (UKIs)</td>
+   <td>UEFI TPM event log</td>
+   <td>in EFI variable <code>StubPcrKernelImage</code></td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>(cont.)</strong></p></td>
+   <td><code>systemd-pcrphase 🚀</code></td>
+   <td>Userspace</td>
+   <td>Boot phase strings, indicating various milestones of the boot process</td>
+   <td>Journal (for now)</td>
+   <td>n/a</td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>12</strong></p></td>
+   <td><code>systemd-stub 🚀</code></td>
+   <td>UEFI Stub</td>
+   <td>Kernel command line, system credentials and system configuration images</td>
+   <td>UEFI TPM event log</td>
+   <td>in EFI variable <code>StubPcrKernelParameters</code></td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>13</strong></p></td>
+   <td><code>systemd-stub 🚀</code></td>
+   <td>UEFI Stub</td>
+   <td>All system extension images for the initrd</td><td>UEFI TPM event log</td>
+   <td>in EFI variable <code>StubPcrInitRDSysExts</code></td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>14</strong></p></td>
+   <td><code>shim 🔑</code></td>
+   <td>UEFI Boot Component</td>
+   <td>“MOK” certificates and hashes</td>
+   <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>15</strong></p></td>
+   <td><code>systemd-cryptsetup@.service 🚀</code></td>
+   <td>Userspace</td>
+   <td>Root file system volume encryption key</td>
+   <td>Journal (for now)</td>
+   <td>n/a</td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong> (cont.)</strong></p> </td>
+   <td><code>systemd-pcrmachine.service 🚀</code></td>
+   <td>Userspace</td>
+   <td>Machine ID (<code>/etc/machine-id</code>)</td>
+   <td>Journal (for now)</td>
+   <td>n/a</td>
+  </tr>
+  <tr>
+   <td><p style="text-align: right"><strong>(cont.)</strong></p></td>
+   <td><code>systemd-pcrfs@.service 🚀</code></td>
+   <td>Userspace</td>
+   <td>File system mount point, UUID, label, partition UUID label of root file system and <code>/var/</code></td>
+   <td>Journal (for now)</td>
+   <td>n/a</td>
+  </tr>
+</table>
+
+Note that PCR 11 and 15 as shown in the list above are used by multiple components of systemd. These are not conflicting uses, but the involved components are properly ordered to guarantee cooperative, strictly predictable behaviour.
+
+## Sources
+* [systemd-cryptenroll(1)](https://www.freedesktop.org/software/systemd/man/systemd-cryptenroll.html#--tpm2-pcrs=PCR)
+* [TCG PC Client Specific Platform Firmware Profile Specification](https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/)
+* [shim's README.tpm](https://github.com/rhboot/shim/blob/main/README.tpm)
+* [Measured Boot - GNU GRUB Manual 2.06](https://www.gnu.org/software/grub/manual/grub/html_node/Measured-Boot.html)
+* [Integrity Measurement Architecture (IMA)](https://sourceforge.net/p/linux-ima/wiki/Home/)
+* [edk2-TrustedBootChain/4_Other_Trusted_Boot_Chains.md](https://github.com/tianocore-docs/edk2-TrustedBootChain/blob/main/4_Other_Trusted_Boot_Chains.md)
+* [Trusted Platform Module - ArchWiki](https://wiki.archlinux.org/title/Trusted_Platform_Module#Accessing_PCR_registers)
