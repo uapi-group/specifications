@@ -1,0 +1,4 @@
+baseURL = "https://uapi-group.github.io/specifications"
+languageCode = "en-us"
+title = "UAPI group specifications"
+theme = "hugo-book"
