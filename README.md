@@ -17,7 +17,7 @@ This section clarifies on terms and abbreviations used in specs and other docume
 - *SBAT* – UEFI Secure Boot Advanced Targeting
 
 ## Terms and abbreviations specific to UAPI group specifications
-- [*DDI*](specs/discoverable_partitions_specification.md) - Discoverable Disk Image
+- [*DDI*](specs/discoverable_disk_image.md) - Discoverable Disk Image
 - [*DPS*](specs/discoverable_partitions_specification.md) - Discovery Partition Specification
 - [*UKI*](specs/unified_kernel_image.md) - Unified Kernel Images (sd-stub + kernel + initrd + more)
 - [*BLS*](specs/boot_loader_specification.md) - Boot Loader Specification
