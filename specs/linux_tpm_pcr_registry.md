@@ -18,7 +18,7 @@ PCR measurements most commonly serve two distinct purposes:
 
 In both cases it is important that data measured into the PCRs is carefully chosen. PCRs that shall be useful for policy binding should only cover data objects known in advance, and thus not contain runtime data that cannot be pre-calculated in advance. PCRs that shall be useful for backward-looking validation should only cover objects that are also written to the appropriate log for the PCR.
 
-<table>
+<table style="width:100%; display:block; table-layout:fixed;">
   <tr>
    <th><p style="text-align: right"><strong>PCR#</strong></p></th>
    <th><strong>Used by</strong></th>
@@ -28,95 +28,95 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <th><strong>Use Reported By</strong></th>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>8</strong></p></td>
-   <td><code>grub 🍲</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>8</strong></p></td>
+   <td style="background-color:#AEA;"><code style="background-color:#AEA;">grub 🍲</code></td>
    <td>UEFI Boot Component</td>
    <td>Commands and kernel command line</td>
    <td>UEFI TPM event log</td>
    <td>n/a</td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>9</strong></p></td>
-   <td><code>grub 🍲</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>9</strong></p></td>
+   <td style="background-color:#AEA;"><code style="background-color:#AEA;">grub 🍲</code></td>
    <td>UEFI Boot Component</td>
    <td>All files read (including kernel image)</td>
    <td>UEFI TPM event log</td>
    <td>n/a</td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>(cont.)</strong></p></td>
-   <td>Linux kernel 🌰</td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>(cont.)</strong></p></td>
+   <td style="background-color:#b399c2;">Linux kernel 🌰</td>
    <td>Kernel</td>
    <td>All passed initrds (when the new <code>LOAD_FILE2 </code>initrd protocol is used)</td>
    <td>UEFI TPM event log</td>
    <td>n/a</td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>10</strong></p></td>
-   <td>IMA 📐</td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>10</strong></p></td>
+   <td style="background-color:#a3c2d4;">IMA 📐</td>
    <td>Kernel</td>
    <td>Protection of the IMA measurement log</td>
    <td>IMA event log</td>
    <td>n/a</td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>11</strong></p></td>
-   <td><code>systemd-stub 🚀</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>11</strong></p></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-stub 🚀</code></td>
    <td>UEFI Stub</td>
    <td>All components of unified kernel images (UKIs)</td>
    <td>UEFI TPM event log</td>
    <td>in EFI variable <code>StubPcrKernelImage</code></td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>(cont.)</strong></p></td>
-   <td><code>systemd-pcrphase 🚀</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>(cont.)</strong></p></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrphase 🚀</code></td>
    <td>Userspace</td>
    <td>Boot phase strings, indicating various milestones of the boot process</td>
    <td>Journal (for now)</td>
    <td>n/a</td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>12</strong></p></td>
-   <td><code>systemd-stub 🚀</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>12</strong></p></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-stub 🚀</code></td>
    <td>UEFI Stub</td>
    <td>Kernel command line, system credentials and system configuration images</td>
    <td>UEFI TPM event log</td>
    <td>in EFI variable <code>StubPcrKernelParameters</code></td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>13</strong></p></td>
-   <td><code>systemd-stub 🚀</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>13</strong></p></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-stub 🚀</code></td>
    <td>UEFI Stub</td>
    <td>All system extension images for the initrd</td><td>UEFI TPM event log</td>
    <td>in EFI variable <code>StubPcrInitRDSysExts</code></td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>14</strong></p></td>
-   <td><code>shim 🔑</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>14</strong></p></td>
+   <td style="background-color:#f5d97d;"><code style="background-color:#f5d97d;">shim 🔑</code></td>
    <td>UEFI Boot Component</td>
    <td>“MOK” certificates and hashes</td>
    <td>UEFI TPM event log</td>
    <td>n/a</td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>15</strong></p></td>
-   <td><code>systemd-cryptsetup@.service 🚀</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>15</strong></p></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-cryptsetup@.service 🚀</code></td>
    <td>Userspace</td>
    <td>Root file system volume encryption key</td>
    <td>Journal (for now)</td>
    <td>n/a</td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong> (cont.)</strong></p> </td>
-   <td><code>systemd-pcrmachine.service 🚀</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong> (cont.)</strong></p> </td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrmachine.service 🚀</code></td>
    <td>Userspace</td>
    <td>Machine ID (<code>/etc/machine-id</code>)</td>
    <td>Journal (for now)</td>
    <td>n/a</td>
   </tr>
   <tr>
-   <td><p style="text-align: right"><strong>(cont.)</strong></p></td>
-   <td><code>systemd-pcrfs@.service 🚀</code></td>
+   <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>(cont.)</strong></p></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrfs@.service 🚀</code></td>
    <td>Userspace</td>
    <td>File system mount point, UUID, label, partition UUID label of root file system and <code>/var/</code></td>
    <td>Journal (for now)</td>

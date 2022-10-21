@@ -1,35 +1,98 @@
-<!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.75.1"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Base Directory Specification #  Introduction #  Various specifications specify files and file formats. This specification defines where these files should be looked for by defining one or more base directories relative to which files should be located.
+<!doctype html><html lang=en dir=ltr>
+<head>
+<meta name=generator content="Hugo 0.93.3">
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="Base Directory Specification #  Introduction #  Various specifications specify files and file formats. This specification defines where these files should be looked for by defining one or more base directories relative to which files should be located.
 Basics #  The XDG Base Directory Specification is based on the following concepts:
-  There is a single base directory relative to which user-specific data files should be written. This directory is defined by the environment variable $XDG_DATA_HOME."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Base Directory Specification"><meta property="og:description" content="Base Directory Specification #  Introduction #  Various specifications specify files and file formats. This specification defines where these files should be looked for by defining one or more base directories relative to which files should be located.
+  There is a single base directory relative to which user-specific data files should be written. This directory is defined by the environment variable $XDG_DATA_HOME.">
+<meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Base Directory Specification">
+<meta property="og:description" content="Base Directory Specification #  Introduction #  Various specifications specify files and file formats. This specification defines where these files should be looked for by defining one or more base directories relative to which files should be located.
 Basics #  The XDG Base Directory Specification is based on the following concepts:
-  There is a single base directory relative to which user-specific data files should be written. This directory is defined by the environment variable $XDG_DATA_HOME."><meta property="og:type" content="article"><meta property="og:url" content="https://uapi-group.github.io/specifications/docs/base_directory_specification/"><title>Base Directory Specification | UAPI group specifications</title><link rel=manifest href=/specifications/manifest.json><link rel=icon href=/specifications/favicon.png type=image/x-icon><link rel=stylesheet href=/specifications/book.min.81007768dfa1141e1fa60a2832f2c035182f8b9a5e48824ebdadd71412b4b994.css integrity="sha256-gQB3aN+hFB4fpgooMvLANRgvi5peSIJOva3XFBK0uZQ="><script defer src=/specifications/en.search.min.b555418f19f1d70ace9cf3571cc2813b5787d1b998dc3d17fe3e3aee72ab8d64.js integrity="sha256-tVVBjxnx1wrOnPNXHMKBO1eH0bmY3D0X/j467nKrjWQ="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
-<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/specifications><span>UAPI group specifications</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://uapi-group.github.io/specifications/docs/base_directory_specification/ class=active>Base Directory Specification</a></li><li><a href=https://uapi-group.github.io/specifications/docs/boot_loader_specification/>Boot Loader Specification</a></li><li><a href=https://uapi-group.github.io/specifications/docs/discoverable_partitions/>Discoverable Partitions Specification</a></li><li><a href=https://uapi-group.github.io/specifications/docs/linux-tpm-pcr-registry/>Linux TPM PCR Registry</a></li></ul></nav><script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/svg/menu.svg class=book-icon alt=Menu></label>
+  There is a single base directory relative to which user-specific data files should be written. This directory is defined by the environment variable $XDG_DATA_HOME.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://uapi-group.github.io/specifications/docs/base_directory_specification/"><meta property="article:section" content="docs">
+<title>Base Directory Specification | UAPI group specifications</title><link rel=manifest href=/specifications/manifest.json>
+<link rel=icon href=/specifications/favicon.png type=image/x-icon>
+<link rel=stylesheet href=/specifications/book.min.68be0b7a9674f2a612ce0e9b2e9447ff4b7ac96546e06b642bfd3ded0ca490ef.css integrity="sha256-aL4LepZ08qYSzg6bLpRH/0t6yWVG4GtkK/097QykkO8=">
+<script defer src=/specifications/en.search.min.f0aa39a2830487b72297763eebface0c097dfda5fa9f8a9086366e90b67fcee2.js integrity="sha256-8Ko5ooMEh7cil3Y+6/rODAl9/aX6n4qQhjZukLZ/zuI="></script>
+</head><body dir=ltr>
+<input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control>
+<main class="container flex">
+<aside class=book-menu>
+<div class=book-menu-content>
+<nav>
+<h2 class=book-brand>
+<a href=/specifications><span>UAPI group specifications</span>
+</a>
+</h2><div class=book-search>
+<input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/>
+<div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul>
+<li>
+<a href=https://uapi-group.github.io/specifications/docs/base_directory_specification/ class=active>Base Directory Specification</a>
+</li><li>
+<a href=https://uapi-group.github.io/specifications/docs/boot_loader_specification/>Boot Loader Specification</a>
+</li><li>
+<a href=https://uapi-group.github.io/specifications/docs/discoverable_partitions_specification/>Discoverable Partitions Specification</a>
+</li><li>
+<a href=https://uapi-group.github.io/specifications/docs/linux_tpm_pcr_registry/>Linux TPM PCR Registry</a>
+</li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+</div></aside><div class=book-page>
+<header class=book-header>
+<div class="flex align-center justify-between">
+<label for=menu-control>
+<img src=/specifications/svg/menu.svg class=book-icon alt=Menu>
+</label>
 <strong>Base Directory Specification</strong>
-<label for=toc-control><img src=/specifications/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#basics>Basics</a></li><li><a href=#variables>Environment variables</a></li><li><a href=#referencing>Referencing this specification</a></li></ul></nav></aside></header><article class=markdown><h1 id=base-directory-specification>Base Directory Specification
-<a class=anchor href=#base-directory-specification>#</a></h1><h2 id=introduction>Introduction
-<a class=anchor href=#introduction>#</a></h2><p>Various specifications specify files and file formats. This
+<label for=toc-control>
+<img src=/specifications/svg/toc.svg class=book-icon alt="Table of Contents">
+</label>
+</div><aside class="hidden clearfix">
+<nav id=TableOfContents>
+<ul>
+<li><a href=#introduction>Introduction</a></li><li><a href=#basics>Basics</a></li><li><a href=#variables>Environment variables</a></li><li><a href=#referencing>Referencing this specification</a></li></ul></nav></aside></header><article class=markdown><h1 id=base-directory-specification>
+Base Directory Specification
+<a class=anchor href=#base-directory-specification>#</a>
+</h1><h2 id=introduction>
+Introduction
+<a class=anchor href=#introduction>#</a>
+</h2><p>Various specifications specify files and file formats. This
 specification defines where these files should be looked for by defining
-one or more base directories relative to which files should be located.</p><h2 id=basics>Basics
-<a class=anchor href=#basics>#</a></h2><p>The XDG Base Directory Specification is based on the following concepts:</p><ul><li><p>There is a single base directory relative to which user-specific
+one or more base directories relative to which files should be located.</p><h2 id=basics>
+Basics
+<a class=anchor href=#basics>#</a>
+</h2><p>The XDG Base Directory Specification is based on the following concepts:</p><ul>
+<li>
+<p>There is a single base directory relative to which user-specific
 data files should be written. This directory is defined by the
-environment variable <code>$XDG_DATA_HOME</code>.</p></li><li><p>There is a single base directory relative to which user-specific
+environment variable <code>$XDG_DATA_HOME</code>.</p></li><li>
+<p>There is a single base directory relative to which user-specific
 configuration files should be written. This directory is defined by
-the environment variable <code>$XDG_CONFIG_HOME</code>.</p></li><li><p>There is a single base directory relative to which user-specific
+the environment variable <code>$XDG_CONFIG_HOME</code>.</p></li><li>
+<p>There is a single base directory relative to which user-specific
 state data should be written. This directory is defined by the
-environment variable <code>$XDG_STATE_HOME</code>.</p></li><li><p>There is a single base directory relative to which user-specific
-executable files may be written.</p></li><li><p>There is a set of preference ordered base directories relative to
+environment variable <code>$XDG_STATE_HOME</code>.</p></li><li>
+<p>There is a single base directory relative to which user-specific
+executable files may be written.</p></li><li>
+<p>There is a set of preference ordered base directories relative to
 which data files should be searched. This set of directories is
-defined by the environment variable <code>$XDG_DATA_DIRS</code>.</p></li><li><p>There is a set of preference ordered base directories relative to
+defined by the environment variable <code>$XDG_DATA_DIRS</code>.</p></li><li>
+<p>There is a set of preference ordered base directories relative to
 which configuration files should be searched. This set of
 directories is defined by the environment variable
-<code>$XDG_CONFIG_DIRS</code>.</p></li><li><p>There is a single base directory relative to which user-specific
+<code>$XDG_CONFIG_DIRS</code>.</p></li><li>
+<p>There is a single base directory relative to which user-specific
 non-essential (cached) data should be written. This directory is
-defined by the environment variable <code>$XDG_CACHE_HOME</code>.</p></li><li><p>There is a single base directory relative to which user-specific
+defined by the environment variable <code>$XDG_CACHE_HOME</code>.</p></li><li>
+<p>There is a single base directory relative to which user-specific
 runtime files and other file objects should be placed. This
 directory is defined by the environment variable <code>$XDG_RUNTIME_DIR</code>.</p></li></ul><p>All paths set in these environment variables must be absolute. If an
 implementation encounters a relative path in any of these variables it
-should consider the path invalid and ignore it.</p><h2 id=variables>Environment variables
-<a class=anchor href=#variables>#</a></h2><p><code>$XDG_DATA_HOME</code> defines the base directory relative to which
+should consider the path invalid and ignore it.</p><h2 id=variables>
+Environment variables
+<a class=anchor href=#variables>#</a>
+</h2><p><code>$XDG_DATA_HOME</code> defines the base directory relative to which
 user-specific data files should be stored. If <code>$XDG_DATA_HOME</code> is either
 not set or empty, a default equal to <code>$HOME/.local/share</code> should be
 used.</p><p><code>$XDG_CONFIG_HOME</code> defines the base directory relative to which
@@ -40,7 +103,10 @@ user-specific state files should be stored. If <code>$XDG_STATE_HOME</code> is
 either not set or empty, a default equal to <code>$HOME/.local/state</code> should
 be used.</p><p>The <code>$XDG_STATE_HOME</code> contains state data that should persist between
 (application) restarts, but that is not important or portable enough to
-the user that it should be stored in <code>$XDG_DATA_HOME</code>. It may contain:</p><ul><li><p>actions history (logs, history, recently used files, &mldr;)</p></li><li><p>current state of the application that can be reused on a restart
+the user that it should be stored in <code>$XDG_DATA_HOME</code>. It may contain:</p><ul>
+<li>
+<p>actions history (logs, history, recently used files, &mldr;)</p></li><li>
+<p>current state of the application that can be reused on a restart
 (view, layout, open files, undo history, &mldr;)</p></li></ul><p>User-specific executable files may be stored in <code>$HOME/.local/bin</code>.
 Distributions should ensure this directory shows up in the UNIX <code>$PATH</code>
 environment variable, at an appropriate place.</p><p>Since <code>$HOME</code> might be shared between systems of different achitectures,
@@ -91,23 +157,33 @@ replacement directory with similar capabilities and print a warning
 message. Applications should use this directory for communication and
 synchronization purposes and should not place larger files in it, since
 it might reside in runtime memory and cannot necessarily be swapped out
-to disk.</p><h2 id=referencing>Referencing this specification
-<a class=anchor href=#referencing>#</a></h2><p>Other specifications may reference this specification by specifying the
+to disk.</p><h2 id=referencing>
+Referencing this specification
+<a class=anchor href=#referencing>#</a>
+</h2><p>Other specifications may reference this specification by specifying the
 location of a data file as <code>$XDG_DATA_DIRS/subdir/filename</code>. This
-implies that:</p><ul><li><p>Such file should be installed to <code>$datadir/subdir/filename</code> with
-<code>$datadir</code> defaulting to <code>/usr/share</code>.</p></li><li><p>A user-specific version of the data file may be created in
+implies that:</p><ul>
+<li>
+<p>Such file should be installed to <code>$datadir/subdir/filename</code> with
+<code>$datadir</code> defaulting to <code>/usr/share</code>.</p></li><li>
+<p>A user-specific version of the data file may be created in
 <code>$XDG_DATA_HOME/subdir/filename</code>, taking into account the default
-value for <code>$XDG_DATA_HOME</code> if <code>$XDG_DATA_HOME</code> is not set.</p></li><li><p>Lookups of the data file should search for <code>./subdir/filename</code>
+value for <code>$XDG_DATA_HOME</code> if <code>$XDG_DATA_HOME</code> is not set.</p></li><li>
+<p>Lookups of the data file should search for <code>./subdir/filename</code>
 relative to all base directories specified by <code>$XDG_DATA_HOME</code> and
 <code>$XDG_DATA_DIRS</code> . If an environment variable is either not set or
 empty, its default value as defined by this specification should be
 used instead.</p></li></ul><p>Specifications may reference this specification by specifying the
 location of a configuration file as <code>$XDG_CONFIG_DIRS/subdir/filename</code>.
-This implies that:</p><ul><li><p>Default configuration files should be installed to
+This implies that:</p><ul>
+<li>
+<p>Default configuration files should be installed to
 <code>$sysconfdir/xdg/subdir/filename</code> with <code>$sysconfdir</code> defaulting to
-<code>/etc</code>.</p></li><li><p>A user-specific version of the configuration file may be created in
+<code>/etc</code>.</p></li><li>
+<p>A user-specific version of the configuration file may be created in
 <code>$XDG_CONFIG_HOME/subdir/filename</code>, taking into account the default
-value for <code>$XDG_CONFIG_HOME</code> if <code>$XDG_CONFIG_HOME</code> is not set.</p></li><li><p>Lookups of the configuration file should search for
+value for <code>$XDG_CONFIG_HOME</code> if <code>$XDG_CONFIG_HOME</code> is not set.</p></li><li>
+<p>Lookups of the configuration file should search for
 <code>./subdir/filename</code> relative to all base directories indicated by
 <code>$XDG_CONFIG_HOME</code> and <code>$XDG_CONFIG_DIRS</code> . If an environment
 variable is either not set or empty, its default value as defined by
@@ -127,4 +203,12 @@ should define what the behaviour must be when a file is located under
 multiple base directories. It could, for example, define that only the
 file under the most important base directory should be used or, as
 another example, it could define rules for merging the information from
-the different files.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#basics>Basics</a></li><li><a href=#variables>Environment variables</a></li><li><a href=#referencing>Referencing this specification</a></li></ul></nav></div></aside></main></body></html>
+the different files.</p></article><footer class=book-footer>
+<div class="flex flex-wrap justify-between">
+</div></footer><div class=book-comments>
+</div><label for=menu-control class="hidden book-menu-overlay"></label>
+</div><aside class=book-toc>
+<div class=book-toc-content>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#introduction>Introduction</a></li><li><a href=#basics>Basics</a></li><li><a href=#variables>Environment variables</a></li><li><a href=#referencing>Referencing this specification</a></li></ul></nav></div></aside></main></body></html>
