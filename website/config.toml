@@ -1,0 +1,7 @@
+baseURL = "https://uapi-group.github.io/specifications"
+languageCode = "en-us"
+title = "UAPI Group Specifications"
+theme = "hugo-book"
+
+[markup.goldmark.renderer]
+  unsafe = true # Allow HTML in md files

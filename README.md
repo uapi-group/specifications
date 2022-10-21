@@ -1,6 +1,10 @@
+# UAPI group specifications
+
+
 # Userspace API Specifications
 
 This repo contains specifications for uapi standards as well as informational documentation.
+See [specs](specs/) for a list of all specs.
 
 # Glossary
 
@@ -19,3 +23,7 @@ This section clarifies on terms and abbreviations used in specs and other docume
 - [*BLS*](specs/boot_loader_specification.md) - Boot Loader Specification
 - *sysext* – System Extension Image (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
 - *syscfg* – System Configuration Image (type of DDI that is overlayed on top of `/etc/` via overlayfs and can extend the underlying OS' configuration in a composable, immutable fashion)
+
+# Website generation
+
+Refer to the [website](website/) folder's [README](website/README.md) for regenerating static web pages.

@@ -1,14 +1,17 @@
 ---
 title: Base Directory Specification
+layout: posts
 ---
 
-# Introduction
+# Base Directory Specification
+
+## Introduction
 
 Various specifications specify files and file formats. This
 specification defines where these files should be looked for by defining
 one or more base directories relative to which files should be located.
 
-# Basics
+## Basics
 
 The XDG Base Directory Specification is based on the following concepts:
 
@@ -48,7 +51,7 @@ All paths set in these environment variables must be absolute. If an
 implementation encounters a relative path in any of these variables it
 should consider the path invalid and ignore it.
 
-# Environment variables {#variables}
+## Environment variables {#variables}
 
 `$XDG_DATA_HOME` defines the base directory relative to which
 user-specific data files should be stored. If `$XDG_DATA_HOME` is either
@@ -148,7 +151,7 @@ synchronization purposes and should not place larger files in it, since
 it might reside in runtime memory and cannot necessarily be swapped out
 to disk.
 
-# Referencing this specification {#referencing}
+## Referencing this specification {#referencing}
 
 Other specifications may reference this specification by specifying the
 location of a data file as `$XDG_DATA_DIRS/subdir/filename`. This
