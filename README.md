@@ -19,7 +19,7 @@ This section clarifies on terms and abbreviations used in specs and other docume
 ## Terms and abbreviations specific to UAPI group specifications
 - [*DDI*](specs/discoverable_partitions_specification.md) - Discoverable Disk Image
 - [*DPS*](specs/discoverable_partitions_specification.md) - Discovery Partition Specification
-- [*UKI*](specs/boot_loader_specification.md) - Unified Kernel Images (sd-stub + kernel + initrd + more)
+- [*UKI*](specs/unified_kernel_image.md) - Unified Kernel Images (sd-stub + kernel + initrd + more)
 - [*BLS*](specs/boot_loader_specification.md) - Boot Loader Specification
 - *sysext* – System Extension Image (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
 - *syscfg* – System Configuration Image (type of DDI that is overlayed on top of `/etc/` via overlayfs and can extend the underlying OS' configuration in a composable, immutable fashion)
