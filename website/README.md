@@ -27,12 +27,3 @@ $ hugo server --minify --disableFastRender
 ```
 
 Review your changes at http://localhost:1313/specifications/ .
-
-You can make further changes to content (markdown) files and hugo will pick them up on the fly.
-
-When you're satisfied, regenerate HTML pages by running
-```shell
-$ hugo --minify
-```
-
-Static pages reside in the [public](public/) subfolder and are used for github pages.
