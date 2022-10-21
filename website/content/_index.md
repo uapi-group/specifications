@@ -1,8 +1,8 @@
 ---
-title: UAPI group specifications
+title: UAPI Group Specifications
 ---
 
-# UAPI group specifications
+# UAPI Group Specifications
 
 See the menu on the left for a list of all specifications.
 
@@ -15,7 +15,7 @@ Featured Specs:
 * [Discoverable partitions specification](docs/discoverable_partitions):
   Discusses GUID UUIDs for auto-discovery of partition semantics and mount points.
 
-## Work in progress
+## Work in Progress
 
 See [open PRs on github](https://github.com/uapi-group/specifications/pulls).
 
