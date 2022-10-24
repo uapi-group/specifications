@@ -2,6 +2,7 @@
 title: Unified Kernel Image
 category: Concepts
 layout: default
+version: 1
 SPDX-License-Identifier: CC-BY-4.0
 ---
 # Unified Kernel Image (UKI)
