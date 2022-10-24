@@ -59,6 +59,10 @@ result in lexicographic order.
 [libeconf](https://github.com/openSUSE/libeconf) supports drop-ins and
 can be used by any program to load its configuration following this
 specification.
+In addition, it must be possible to mask files across different locations
+in `$XDG_CONFIG_DIRS` by creating a symlink to `/dev/null` or an empty
+file. For example, an empty `/etc/foo` means that `/usr/etc/foo` is
+masked and thus not parsed.
 
 ## Environment variables {#variables}
 
