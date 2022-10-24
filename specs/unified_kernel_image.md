@@ -15,6 +15,15 @@ automatic fallback management to increase robustness).
 
 This specification defines the format and components (mandatory and optional) of UKIs.
 
+## File Format
+The file format is PE/COFF (Portable Executable / Common Object File Format). This is a well-known
+industry-standard file format, used for example in UEFI environments, and UKIs use it verbatim, so exact
+details will not be redefined here.
+
+UKIs can be generated via a [single, relatively simple `objcopy`
+invocation](https://www.freedesktop.org/software/systemd/man/systemd-stub.html#Assembling%20Kernel%20Images),
+that glues the listed components together, generating one PE binary that then can be signed for SecureBoot.
+
 ## UKI Components
 Specifically, UKIs typically consist of the following resources:
 
@@ -80,15 +89,6 @@ used to generate and sign `.pcrsig`.
 UKIs wrap all of the above data in a single file, hence all of the above components can be updated in one go
 through single file atomic updates, which is useful given that the primary expected storage place for these
 UKIs is the UEFI System Partition (ESP), which is a vFAT file system, with its limited data safety guarantees.
-
-## File Format
-The file format is PE/COFF (Portable Executable / Common Object File Format). This is a well-known
-industry-standard file format, used for example in UEFI environments, and UKIs use it verbatim, so exact
-details will not be redefined here.
-
-UKIs can be generated via a [single, relatively simple `objcopy`
-invocation](https://www.freedesktop.org/software/systemd/man/systemd-stub.html#Assembling%20Kernel%20Images),
-that glues the listed components together, generating one PE binary that then can be signed for SecureBoot.
 
 ## Security
 Given UKIs are regular UEFI PE files, they can thus be signed as one for SecureBoot, protecting all of the
