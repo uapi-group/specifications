@@ -103,7 +103,7 @@ directories to search for configuration files in addition to the
 should be seperated with a colon '`:`'.
 
 If `$XDG_CONFIG_DIRS` is either not set or empty, a value equal to
-`/etc/xdg` should be used.
+`/etc:/usr/etc:/etc/xdg` should be used.
 
 The order of base directories denotes their importance; the first
 directory listed is the most important. When the same information is
