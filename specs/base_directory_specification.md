@@ -52,6 +52,14 @@ All paths set in these environment variables must be absolute. If an
 implementation encounters a relative path in any of these variables it
 should consider the path invalid and ignore it.
 
+All configuration paths must support drop-ins. Supporting drop-ins means
+that in addition to parsing `$XDG_CONFIG_DIRS/foo/bar`, an implementation
+also must parse all files in `$XDG_CONFIG_DIRS/foo/bar.d/`, and merge the
+result in lexicographic order.
+[libeconf](https://github.com/openSUSE/libeconf) supports drop-ins and
+can be used by any program to load its configuration following this
+specification.
+
 ## Environment variables {#variables}
 
 `$XDG_DATA_HOME` defines the base directory relative to which
