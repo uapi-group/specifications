@@ -1,6 +1,7 @@
 ---
 title: Base Directory Specification
 layout: posts
+version: 1
 ---
 
 # Base Directory Specification
