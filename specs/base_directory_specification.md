@@ -52,6 +52,18 @@ All paths set in these environment variables must be absolute. If an
 implementation encounters a relative path in any of these variables it
 should consider the path invalid and ignore it.
 
+All configuration paths must support drop-ins. Supporting drop-ins means
+that in addition to parsing `$XDG_CONFIG_DIRS/foo/bar`, an implementation
+also must parse all files in `$XDG_CONFIG_DIRS/foo/bar.d/`, and merge the
+result in lexicographic order.
+[libeconf](https://github.com/openSUSE/libeconf) supports drop-ins and
+can be used by any program to load its configuration following this
+specification.
+In addition, it must be possible to mask files across different locations
+in `$XDG_CONFIG_DIRS` by creating a symlink to `/dev/null` or an empty
+file. For example, an empty `/etc/foo` means that `/usr/etc/foo` is
+masked and thus not parsed.
+
 ## Environment variables {#variables}
 
 `$XDG_DATA_HOME` defines the base directory relative to which
@@ -103,7 +115,7 @@ directories to search for configuration files in addition to the
 should be seperated with a colon '`:`'.
 
 If `$XDG_CONFIG_DIRS` is either not set or empty, a value equal to
-`/etc/xdg` should be used.
+`/etc:/usr/etc:/etc/xdg` should be used.
 
 The order of base directories denotes their importance; the first
 directory listed is the most important. When the same information is
