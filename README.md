@@ -13,6 +13,8 @@ Featured Specs:
   Defines a set  of file formats and naming conventions to allow distribution independent boot loader menus supportable by multiple bootloaders.
 * [Base Directory Specification](specs/base_directory_specification.md):
   Standardises default locations and environment variables for locating common files or base directories.
+  This is derived from, and extends, the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html),
+  to allow for separation between vendor and admin configuration files, drop-in files, and masking.
 * [Discoverable Partitions Specification](specs/discoverable_partitions_specification.md):
   Discusses GUID UUIDs for auto-discovery of partition semantics and mount points.
 
