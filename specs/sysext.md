@@ -1,5 +1,5 @@
 ---
-title: sysext - System Extension
+title: Sysext - System Extension
 category: Concepts
 layout: default
 version: 1
