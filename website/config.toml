@@ -1,4 +1,4 @@
-baseURL = "https://uapi-group.github.io/specifications"
+baseURL = "https://uapi-group.org/specifications"
 languageCode = "en-us"
 title = "UAPI Group Specifications"
 theme = "hugo-book"

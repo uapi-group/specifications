@@ -12,7 +12,7 @@ Featured Specs:
   Defines a set  of file formats and naming conventions to allow distribution independent boot loader menus supportable by multiple bootloaders.
 * [Base directory specification](docs/base_directory_specification):
   Standardises default locations and environment variables for locating common files or base directories.
-* [Discoverable partitions specification](docs/discoverable_partitions):
+* [Discoverable partitions specification](docs/discoverable_partitions_specification):
   Discusses GUID UUIDs for auto-discovery of partition semantics and mount points.
 
 ## Work in Progress
