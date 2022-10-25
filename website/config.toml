@@ -3,5 +3,20 @@ languageCode = "en-us"
 title = "UAPI Group Specifications"
 theme = "hugo-book"
 
+[[menu.after]]
+  name = "-"
+  weight = 10
+[[menu.after]]
+  name = "Collaborate on Github"
+  url = "https://github.com/uapi-group/specifications"
+  weight = 10
+
 [markup.goldmark.renderer]
   unsafe = true # Allow HTML in md files
+
+[params]
+  BookRepo = 'https://github.com/uapi-group/specifications'
+  BookCommitPath = 'commit'
+  BookEditPath = 'edit/main/specs'
+  BookDateFormat = 'Jan 2, 2006'
+  BookIndexPage = '../website/content/_index.md'
