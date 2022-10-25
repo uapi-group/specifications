@@ -15,6 +15,7 @@ theme = "hugo-book"
   unsafe = true # Allow HTML in md files
 
 [params]
+  BookPortableLinks = true
   BookRepo = 'https://github.com/uapi-group/specifications'
   BookCommitPath = 'commit'
   BookEditPath = 'edit/main/specs'
