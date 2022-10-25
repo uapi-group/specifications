@@ -10,7 +10,7 @@
 <ul>
   {{ range . }}
   <li>
-    {{ if not (eq .Name "-") }}
+    {{ if not (eq .Name "⸻") }}
     <a href="{{ .URL }}" {{ if not (hasPrefix .URL "https://uapi-group.org/") }} {{ if not .Page }}target="_blank" rel="noopener"{{ end }} {{ end }}>
     {{ end }}
       {{- .Pre -}}
@@ -20,7 +20,7 @@
         {{ .Name }}
       {{ end }}
       {{- .Post -}}
-    {{ if not (eq .Name "-") }}
+    {{ if not (eq .Name "⸻") }}
     </a>
     {{ end }}
     {{- with .Children }}
