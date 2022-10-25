@@ -3,6 +3,14 @@ languageCode = "en-us"
 title = "UAPI Group Specifications"
 theme = "hugo-book"
 
+[[menu.before]]
+  name = "⬅️  Back to top"
+  url = "https://uapi-group.org/"
+  weight = 1
+[[menu.before]]
+  name = "-"
+  weight = 2
+
 [[menu.after]]
   name = "-"
   weight = 10
