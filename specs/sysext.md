@@ -6,12 +6,12 @@ version: 1
 SPDX-License-Identifier: CC-BY-4.0
 ---
 # sysext (System Extension)
-sysexts (System Extensions) are DDIs ([Discoverable Disk Images](discoverable_disk_image.md)) that are
+sysexts (System Extensions) are DDIs ([Discoverable Disk Images](../discoverable_disk_image)) that are
 built to extend a base system via an overlay. A root (or `/usr/`) DDI can be extended by several sysext
 DDIs via, usually, a read-only OverlayFS.
 
 ## Image Format
-sysexts are DDIs ([Discoverable Disk Images](discoverable_disk_image.md)), so the file format will not be
+sysexts are DDIs ([Discoverable Disk Images](../discoverable_disk_image)), so the file format will not be
 redefined here.
 
 ## Content
