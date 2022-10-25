@@ -416,7 +416,7 @@ The `gdisk` tool (from version 1.0.5 onward) and its variants (`sgdisk`,
 
 ## Links
 
-[Boot Loader Specification](../boot_loader_specification)<br>
+[Boot Loader Specification](boot_loader_specification.md)<br>
 [Boot Loader Interface](https://systemd.io/BOOT_LOADER_INTERFACE)<br>
 [Safely Building Images](https://systemd.io/BUILDING_IMAGES)<br>
 [`systemd-boot(7)`](https://www.freedesktop.org/software/systemd/man/systemd-boot.html)<br>

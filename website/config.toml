@@ -5,3 +5,6 @@ theme = "hugo-book"
 
 [markup.goldmark.renderer]
   unsafe = true # Allow HTML in md files
+
+[params]
+  BookPortableLinks = true
