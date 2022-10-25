@@ -1,5 +1,6 @@
 ---
 title: UAPI Group Specifications
+BookToC: false
 ---
 
 # UAPI Group Specifications
