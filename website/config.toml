@@ -24,8 +24,9 @@ theme = "hugo-book"
 
 [params]
   BookPortableLinks = true
+  BookSection = '*'
   BookRepo = 'https://github.com/uapi-group/specifications'
   BookCommitPath = 'commit'
   BookEditPath = 'edit/main/specs'
   BookDateFormat = 'Jan 2, 2006'
-  BookIndexPage = '../website/content/_index.md'
+  BookIndexPage = 'README.md'

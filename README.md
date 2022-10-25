@@ -1,14 +1,28 @@
-# UAPI group specifications
+---
+title: UAPI Group Specifications
+BookToC: false
+---
 
+# UAPI Group Specifications
 
-# Userspace API Specifications
+See the menu on the left for a list of all specifications.
 
-This repo contains specifications for uapi standards as well as informational documentation.
-See [specs](specs/) for a list of all specs.
+Featured Specs:
 
-# Glossary
+* [Bootloader Specification](specs/boot_loader_specification.md):
+  Defines a set  of file formats and naming conventions to allow distribution independent boot loader menus supportable by multiple bootloaders.
+* [Base Directory Specification](specs/base_directory_specification.md):
+  Standardises default locations and environment variables for locating common files or base directories.
+* [Discoverable Partitions Specification](specs/discoverable_partitions_specification.md):
+  Discusses GUID UUIDs for auto-discovery of partition semantics and mount points.
 
-This section clarifies on terms and abbreviations used in specs and other documents throughout the organisation.
+## Work in Progress
+
+See [open PRs on github](https://github.com/uapi-group/specifications/pulls).
+
+## Glossary
+
+This section clarifies on terms and abbreviations used in specs and other documents.
 
 ## General terms and abbreviations
 - *MOK* - Machine Owner Key (shim)
@@ -21,9 +35,9 @@ This section clarifies on terms and abbreviations used in specs and other docume
 - [*DPS*](specs/discoverable_partitions_specification.md) - Discovery Partition Specification
 - [*UKI*](specs/unified_kernel_image.md) - Unified Kernel Images (sd-stub + kernel + initrd + more)
 - [*BLS*](specs/boot_loader_specification.md) - Boot Loader Specification
-- [*sysext*](specs/systext.md) – System Extension Image (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
+- [*sysext*](specs/sysext.md) – System Extension Image (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
 - *syscfg* – System Configuration Image (type of DDI that is overlayed on top of `/etc/` via overlayfs and can extend the underlying OS' configuration in a composable, immutable fashion)
 
-# Website generation
+## Participate
 
-Refer to the [website](website/) folder's [README](website/README.md) for regenerating static web pages.
+Please use the [specifications issue tracker](https://github.com/uapi-group/specifications/issues) to engage with the project.
