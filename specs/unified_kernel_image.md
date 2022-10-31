@@ -7,37 +7,51 @@ SPDX-License-Identifier: CC-BY-4.0
 ---
 # Unified Kernel Image (UKI)
 
-A Unified Kernel Image (UKI) is the combination of a Linux kernel image, and initrd, a UEFI boot stub
-program (and further resources, see below) into one single UEFI PE file that can either be directly
-invoked by the UEFI firmware (which is useful in particular in some cloud/Confidential Computing
-environments) or through a boot loader (which is generally useful to implement support for multiple
-kernel versions, with interactive or automatic selection of image to boot into, potentially with
-automatic fallback management to increase robustness).
+A Unified Kernel Image (UKI) is a combination of an UEFI boot stub program,
+a Linux kernel image, an initrd, and further resources in a single UEFI PE file.
+This file can either be directly invoked by the UEFI firmware
+(which is useful in particular in some cloud/Confidential Computing environments)
+or through a boot loader
+(which is generally useful to allow multiple kernel versions with interactive or
+automatic selection of version to boot into).
+
+Various components of the UKI are provided as PE/COFF sections of the executable.
+The stub is a small program that can be executed in UEFI mode
+that forms the main executable part of the combined image.
+The stub program loads other resources from its file,
+including in particular the kernel and initrd,
+and transitions into the kernel.
 
 This specification defines the format and components (mandatory and optional) of UKIs.
 
+[systemd-stub](https://www.freedesktop.org/software/systemd/man/systemd-stub.html)
+provides the reference implementation of the stub.
+
 ## File Format
 The file format is PE/COFF (Portable Executable / Common Object File Format). This is a well-known
-industry-standard file format, used for example in UEFI environments, and UKIs use it verbatim, so exact
-details will not be redefined here.
+industry-standard file format, used for example in UEFI environments,
+and UKIs follow the standard, so exact details will not be repeated here.
 
 UKIs can be generated via a [single, relatively simple `objcopy`
 invocation](https://www.freedesktop.org/software/systemd/man/systemd-stub.html#Assembling%20Kernel%20Images),
 that glues the listed components together, generating one PE binary that then can be signed for SecureBoot.
 
 ## UKI Components
-Specifically, UKIs typically consist of the following resources:
+UKIs consist of the following resources:
 
-* An UEFI boot stub that is a small piece of code still running in UEFI mode and that transitions into the Linux kernel included in the UKI (e.g., as implemented in [sd-stub](https://www.freedesktop.org/software/systemd/man/systemd-stub.html))
-* The Linux kernel to boot in the `.linux` PE section
-* The initrd that the kernel shall unpack and invoke in the `.initrd` PE section
-* A kernel command line string, in the `.cmdline` PE section
-* Optionally, information describing the OS this kernel is intended for, in the `.osrel` PE section (derived from `/etc/os-release` of the booted OS). This is useful for presentation of the UKI in the boot loader menu, and ordering it against other entries, using the included version information.
-* Optionally, information describing kernel release information (i.e. uname -r output) in the `.uname` PE section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
-* Optionally, a boot splash to bring to screen before transitioning into the Linux kernel in the `.splash` PE section
-* Optionally, a compiled Devicetree database file, for systems which need it, in the `.dtb` PE section
-* Optionally, the public key in PEM format that matches the signatures of the `.pcrsig` PE section (see below), in a `.pcrpkey` PE section.
-* Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, matching a specific public key in the `.pcrsig` PE section.
+* An UEFI boot stub that forms the initial program.
+  It contains various sections normally required for a program,
+  including `.text`, `.reloc`, `.data`, and others.
+* The Linux kernel in the `.linux` section.
+* The initrd that the kernel shall unpack and invoke, in the `.initrd` section.
+* The kernel command line in the `.cmdline` section.
+* Optionally, information describing the OS this kernel is intended for, in the `.osrel` section. The contents of this section are derived from `/etc/os-release` of the target OS. They can be useful for presentation of the UKI in the boot loader menu, and ordering it against other entries using the included version information.
+* Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
+* Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
+* Optionally, a compiled Devicetree database file, for systems which need it, in the `.dtb` section.
+* Optionally, the public part of a public-private key pair in PEM format used to sign the image, in the `.pcrsig` section.
+* Optionally, a signature made using the abovementioned key pair, in a `.pcrpkey` section.
+* Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the abovementioned key pair.
 
 ### JSON Format for `.pcrsig`
 The format is a single JSON object, encoded as a zero-terminated `UTF-8` string. Each name in the object
