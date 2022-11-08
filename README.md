@@ -20,7 +20,7 @@ Featured Specs:
 
 ## Work in Progress
 
-See [open PRs on github](https://github.com/uapi-group/specifications/pulls).
+See [open PRs on github](https://github.com/uapi-group/specifications/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc).
 
 ## Glossary
 
