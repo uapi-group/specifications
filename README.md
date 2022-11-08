@@ -9,7 +9,7 @@ See the menu on the left for a list of all specifications.
 
 Featured Specs:
 
-* [Bootloader Specification](specs/boot_loader_specification.md):
+* [Boot Loader Specification](specs/boot_loader_specification.md):
   Defines a set  of file formats and naming conventions to allow distribution independent boot loader menus supportable by multiple bootloaders.
 * [Base Directory Specification](specs/base_directory_specification.md):
   Standardises default locations and environment variables for locating common files or base directories.
@@ -27,7 +27,7 @@ See [open PRs on github](https://github.com/uapi-group/specifications/pulls).
 This section clarifies on terms and abbreviations used in specs and other documents.
 
 ## General terms and abbreviations
-- *MOK* - Machine Owner Key (shim)
+- *MOK* – Machine Owner Key (shim)
 - *PCR* – TPM Platform Configuration Registers
 - *TPM* – Trusted Platform Module (security chip)
 - *SBAT* – UEFI Secure Boot Advanced Targeting
