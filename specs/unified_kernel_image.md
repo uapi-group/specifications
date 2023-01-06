@@ -49,8 +49,8 @@ UKIs consist of the following resources:
 * Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
 * Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
 * Optionally, a compiled Devicetree database file, for systems which need it, in the `.dtb` section.
-* Optionally, the public part of a public-private key pair in PEM format used to sign the image, in the `.pcrsig` section.
-* Optionally, a signature made using the abovementioned key pair, in a `.pcrpkey` section.
+* Optionally, the public part of a public-private key pair in PEM format used to sign the image, in the `.pcrpkey` section.
+* Optionally, a signature made using the abovementioned key pair, in the `.pcrsig` section.
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the abovementioned key pair.
 
 ### JSON Format for `.pcrsig`
