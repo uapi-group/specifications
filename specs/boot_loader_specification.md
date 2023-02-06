@@ -57,8 +57,7 @@ in the following manner:
     locations for boot loader menu entries. This partition must be located on
     the same disk as the ESP.
 
-There may be at most one partition of each of the types listed above on the
-same disk.
+Each partition type mentioned above can be present only once on the same disk.
 
 **Note:** _These partitions are **shared** among all OS installations on the
 same disk. Instead of maintaining one boot partition per installed OS (as
