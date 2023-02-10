@@ -6,7 +6,7 @@ On disks with an MBR partition table:
 The boot partition — a partition with the type ID of 0xEA — shall be used as the single location for boot loader menu entries. On disks with GPT (GUID Partition Table)
 The EFI System Partition (ESP for short) — a partition with a GPT type GUID of c12a7328-f81f-11d2-ba4b-00a0c93ec93b — may be used as one of two locations for boot loader menu entries.
 Optionally, an Extended Boot Loader Partition (XBOOTLDR partition for short) — a partition with GPT type GUID of bc13c2ff-59e6-4262-a352-b275fd6f7172 — may be used as the second of two locations for boot loader menu entries. This partition must be located on the same disk as the ESP.
-There may be at most one partition of each of the types listed above on the same disk.
+Each partition type mentioned above can be present only once on the same disk.
 Note: These partitions are shared among all OS installations on the same disk. Instead of maintaining one boot partition per installed OS (as /boot/ was traditionally handled), all installed OSes use the same place for boot loader menu entries.
 For systems where the firmware is able to read file systems directly, the ESP must — and the MBR boot and GPT XBOOTLDR partition should — be a file system readable by the firmware. For most systems this means VFAT (16 or 32 bit). Applications accessing both partitions should hence not assume that fancier file system features such as symlinks, hardlinks, access control or case sensitivity are supported.
 The \$BOOT Partition Placeholder # In the text below, the placeholder \$BOOT will be used to refer to the partition determined as follows:
