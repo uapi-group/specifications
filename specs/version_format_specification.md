@@ -74,6 +74,22 @@ strings are found to compare as different. In a loop:
    of the whole string), if the other substring has remaining letters, it compares higher.
    Otherwise, the comparison continues at the following characters at point 1.
 
+## Comparison with Other Specifications
+Other specifications exist to mandate version formats:
+
+- [RPM Packaging Guidelines](https://docs.fedoraproject.org/en-US/packaging-guidelines/Versioning/)
+- [Debian Policy](https://www.debian.org/doc/debian-policy/ch-controlfields.html#version)
+- [Semantic Versioning](https://semver.org/)
+
+All of these, including the present document, share some commonalities but are also
+incompatible in some ways, as they all evolved in different environments. The main
+differences are as follows.
+
+- to separate components DEB uses `_`, RPM uses `-` with positional logic (it assumes different meaning in different positions), and SemVer does not specify anything as it is concerned only with the version part of the string
+- to identify a pre-release suffix RPM and DEB use `~` and SemVer uses `-`
+- to identify a rebuild suffix DEB uses `+`, SemVer uses `.`, and RPM increases the `release` part of the version
+- to identify an epoch prefix DEB and RPM use `:`, and SemVer does not specify anything
+
 ## Examples
 Examples (with '' meaning the empty string):
 
