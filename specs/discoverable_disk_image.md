@@ -18,3 +18,9 @@ The images use the GPT partition table verbatim, so it will not be redefined her
 a standard Linux filesystem (e.g.: squashfs), so again this will not be redefined here.
 The ([DPS](discoverable_partitions_specification.md)) defines the GUIDs to use and the format of the
 dm-verity signature partition's JSON content.
+
+## Image Version
+If the DDI is versioned, the version format described in the
+[Version Format Specification](version_format_specification.md) must be used. The underscore character (`_`)
+must be used to separate the version from the name of the image. For example: `foo_1.2.raw` denotes a `foo`
+DDI with version `1.2`.
