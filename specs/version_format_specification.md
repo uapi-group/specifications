@@ -14,13 +14,25 @@ defines what format these strings must follow, and how to deterministically
 compare them.
 
 ## Version Format
-A version string must use the following character set:
+The version string is a sequence of zero or more characters.
 
-- ASCII letters (`a-z`, `A-Z`) and digits (`0-9`) form alphanumerical components of the version.
-- Dot (`.`) separates parts of version or release.
-- Minus (`-`) separates the version and release parts.
-- Tilde (`~`) is a prefix that always compares lower.
-- Caret (`^`) is a prefix that always compares higher.
+The following characters have special meaning:
+- ASCII digits (`0-9`) form numerical components.
+- ASCII letters (`a-z`, `A-Z`) form alphabetical components.
+- Dot (`.`) separates parts of a component.
+- Minus (`-`) separates major parts of the version string.
+- Tilde (`~`) starts a suffix that always sorts lower.
+- Caret (`^`) starts a suffix that always sorts higher.
+
+Other characters are treated as separators.
+This includes plus (`+`) and underscore (`_`) and other printable or non-printable characters.
+The underscore MAY be used.
+The plus SHOULD NOT be used, to avoid confusion with SEMVER which attaches a special meaning to it.
+Other characters MUST NOT be used in a version string.
+
+Note that in some contexts (for example [the DDI specification](discoverable_disk_image.md) and DEB
+package file names), the underscore is used as a separator and cannot be used freely in the version
+string.
 
 ## Version Comparison
 
@@ -62,6 +74,22 @@ strings are found to compare as different. In a loop:
    of the whole string), if the other substring has remaining letters, it compares higher.
    Otherwise, the comparison continues at the following characters at point 1.
 
+## Comparison with Other Specifications
+Other specifications exist to mandate version formats:
+
+- [RPM Packaging Guidelines](https://docs.fedoraproject.org/en-US/packaging-guidelines/Versioning/)
+- [Debian Policy](https://www.debian.org/doc/debian-policy/ch-controlfields.html#version)
+- [Semantic Versioning](https://semver.org/)
+
+All of these, including the present document, share some commonalities but are also
+incompatible in some ways, as they all evolved in different environments. The main
+differences are as follows.
+
+- to separate components DEB uses `_`, RPM uses `-` with positional logic (it assumes different meaning in different positions), and SemVer does not specify anything as it is concerned only with the version part of the string
+- to identify a pre-release suffix RPM and DEB use `~` and SemVer uses `-`
+- to identify a rebuild suffix DEB uses `+`, SemVer uses `.`, and RPM increases the `release` part of the version
+- to identify an epoch prefix DEB and RPM use `:`, and SemVer does not specify anything
+
 ## Examples
 Examples (with '' meaning the empty string):
 
@@ -79,6 +107,18 @@ Examples (with '' meaning the empty string):
 * `0.0` > `0`
 * `0` < `~`
 * '' < `~`
+* `1_` == `1`
+* `_1` == `1`
+* `1_` < `1.2`
+* `1_2_3` > `1.3.3`
+* `1+` == `1`
+* `+1` == `1`
+* `1+` < `1.2`
+* `1+2+3` > `1.3.3`
+
+Note how in the `1_2_3` > `1.3.3` and `1+2+3` > `1.3.3` cases, the underscore and plus characters act as
+separators between components, so we first compare `1` with `1.3.3` as numerical version strings, and
+`1` < `1.3.3`. The remainder of the first string is not used in the comparison.
 
 ## Notes
 [systemd-analyze](https://www.freedesktop.org/software/systemd/man/systemd-analyze.html)

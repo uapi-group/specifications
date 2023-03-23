@@ -183,6 +183,9 @@ localized.
 For the Root/Verity/Verity signature partitions it might make sense to use a
 versioned naming scheme reflecting the OS name and its version,
 e.g. "fooOS_2021.4" or similar.
+For details about the version format see the
+[Version Format Specification](version_format_specification.md). The underscore
+character (`_`) must be used to separate the version from the name of the image.
 
 ## Partition Attribute Flags
 

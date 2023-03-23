@@ -528,7 +528,10 @@ compares lower. If both strings are unspecified or empty, they compare equal.
 ### Version Order
 
 The version format and the comparison algorithm are defined in the
-[Version Format Specification](version_format_specification.md).
+[Version Format Specification](version_format_specification.md). A specific
+separator character between the version and other tokens in a string is not
+mandated by this specification, as it often depends on existing kernel packages
+which differ between distributions and packaging formats.
 
 ## Additional discussion
 
