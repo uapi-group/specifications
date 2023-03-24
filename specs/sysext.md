@@ -33,7 +33,7 @@ be ignored, while if it is not present, but `VERSION_ID=` is, then the latter mu
 In addition, the `ID=` field must be present and match the base image's, or be set to the special value
 `_any`, in case the sysext can be used on any Linux distribution.
 
-### Fields in extension-
+### Fields in extension-release
 #### `SYSEXT_LEVEL=`
 A lower-case string (mostly numeric, no spaces or other characters outside of 0–9, a–z, ".", "_" and
 "-") identifying the operating system extensions support level, to indicate which extension images are
