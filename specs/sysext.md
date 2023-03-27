@@ -33,7 +33,7 @@ be ignored, while if it is not present, but `VERSION_ID=` is, then the latter mu
 In addition, the `ID=` field must be present and match the base image's, or be set to the special value
 `_any`, in case the sysext can be used on any Linux distribution.
 
-### Fields in extension-release - Matching with the root/usr DDI
+### Fields in extension-release — Matching with the root/usr DDI
 The following fields are used in order to match with the root/usr DDI used as a base.
 #### `SYSEXT_LEVEL=`
 A lower-case string (mostly numeric, no spaces or other characters outside of 0–9, a–z, ".", "_" and
@@ -48,14 +48,14 @@ If not present, and if `VERSION_ID=` is present instead, then this will be check
 `VERSION_ID=` and `ID=` are used to match the sysext with the root/usr DDI, and `ARCHITECTURE=` is used
 to match with the host's CPU architecture, as defined in the
 [`os-release` specification](https://www.freedesktop.org/software/systemd/man/os-release.html).
-`ID=` and `ARCHITECTURE=` also support specifying the `_any` wildcard, which allows to bypass the
-matching mechanism.
+`ID=` and `ARCHITECTURE=` also support specifying the `_any` wildcard, which allows the matching mechanism
+to be bypassed.
 
-### Fields in extension-release - Identifying the Sysext
+### Fields in extension-release — Identifying the Sysext
 The identification fields defined in the
 [`os-release` specification](https://www.freedesktop.org/software/systemd/man/os-release.html)
 can be used to also identify the sysext itself, by prefixing them with `SYSEXT_`. For example,
-`SYSEXT_ID=myext` `SYSEXT_VERSION_ID=0.1` denotes a 'myext' sysext of version '0.1.
+`SYSEXT_ID=myext` `SYSEXT_VERSION_ID=0.1` denotes a 'myext' sysext of version '0.1'.
 There are also two sysext-specific fields that do not apply to 'os-release', `SYSEXT_SCOPE=` and
 `ARCHITECTURE=`.
 
