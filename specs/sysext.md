@@ -19,7 +19,7 @@ sysext images extend `/usr/` (OS vendor tree) and/or `/opt/` (third-party vendor
 additive, and not override content present in the base image or other sysext images, but this will not be
 enforced.
 
-### Identification
+## Identification
 A sysext must contain a `/usr/lib/extension-release.d/extension-release.<IMAGE>` file, where `<IMAGE>`
 must either match the name of the sysext minus the suffix, or alternatively `extension-release.<IMAGE>`
 must be tagged with a `user.extension-release.strict` xattr set to the string `"0"` in order to be valid.
@@ -33,7 +33,8 @@ be ignored, while if it is not present, but `VERSION_ID=` is, then the latter mu
 In addition, the `ID=` field must be present and match the base image's, or be set to the special value
 `_any`, in case the sysext can be used on any Linux distribution.
 
-### Fields in extension-
+### Fields in extension-release - Matching with the root/usr DDI
+The following fields are used in order to match with the root/usr DDI used as a base.
 #### `SYSEXT_LEVEL=`
 A lower-case string (mostly numeric, no spaces or other characters outside of 0–9, a–z, ".", "_" and
 "-") identifying the operating system extensions support level, to indicate which extension images are
@@ -42,6 +43,21 @@ supported.
 Examples: `"SYSEXT_LEVEL=2"`, `"SYSEXT_LEVEL=15.14"`.
 
 If not present, and if `VERSION_ID=` is present instead, then this will be checked instead.
+
+#### `VERSION_ID=` `ID=` `ARCHITECTURE=`
+`VERSION_ID=` and `ID=` are used to match the sysext with the root/usr DDI, and `ARCHITECTURE=` is used
+to match with the host's CPU architecture, as defined in the
+[`os-release` specification](https://www.freedesktop.org/software/systemd/man/os-release.html).
+`ID=` and `ARCHITECTURE=` also support specifying the `_any` wildcard, which allows to bypass the
+matching mechanism.
+
+### Fields in extension-release - Identifying the Sysext
+The identification fields defined in the
+[`os-release` specification](https://www.freedesktop.org/software/systemd/man/os-release.html)
+can be used to also identify the sysext itself, by prefixing them with `SYSEXT_`. For example,
+`SYSEXT_ID=myext` `SYSEXT_VERSION_ID=0.1` denotes a 'myext' sysext of version '0.1.
+There are also two sysext-specific fields that do not apply to 'os-release', `SYSEXT_SCOPE=` and
+`ARCHITECTURE=`.
 
 #### `SYSEXT_SCOPE=`
 Takes a space-separated list of one or more of the strings `"system"`, `"initrd"` and `"portable"`. This field
