@@ -120,5 +120,6 @@ Valid values:
 |cris|
 |arc|
 |arc-be|
+|loongarch64|
 |native|
 |any|
