@@ -33,7 +33,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
 
   <tr>
    <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>0</strong></p></td>
-   <td style="background-color:#AEA;"><code style="background-color:#AEA;">Firmware 💻</code></td>
+   <td style="background-color:#838284;"><code style="background-color:#838284;">Firmware 💻</code></td>
    <td>UEFI Boot Component</td>
    <td>Core system firmware executable code</td>
    <td>UEFI TPM event log</td>
