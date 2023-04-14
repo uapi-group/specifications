@@ -209,7 +209,8 @@ The shim project will measure the PE binary it chain loads into this PCR.
 If the Linux kernel is invoked as UEFI PE binary, it is measured here, too.
 [systemd-stub](https://www.freedesktop.org/software/systemd/man/systemd-stub.html)
 measures system extension images read from the ESP here too
-(see [systemd-sysext](https://www.freedesktop.org/software/systemd/man/systemd-sysext.html)).
+(see [systemd-sysext](https://www.freedesktop.org/software/systemd/man/systemd-sysext.html)
+and [Extension Images](extension_image.md)).
 
 PCR 5 changes when partitions are added, modified, or removed.
 
@@ -219,6 +220,36 @@ The shim project will measure most of its (non-MOK) certificates and SBAT data i
 PCR 11 and 15 as shown in the list above are used by multiple components of systemd.
 These are not conflicting uses;
 the involved components are properly ordered to cooperatively guarantee predictable behaviour.
+
+[systemd-stub](https://www.freedesktop.org/software/systemd/man/systemd-stub.html)
+measures the ELF kernel image, embedded initrd and other payload of the PE image into PCR 11.
+Unlike PCR 4 (where the same data should be measured too), those values should be easy to pre-calculate,
+as they only reflect the static parts of the PE binary.
+[systemd-pcrphase.service](https://www.freedesktop.org/software/systemd/man/systemd-pcrphase.service.html)
+measures boot phase strings into this PCR at various milestones of the boot process.
+Use PCR 11 to bind TPM policies to a specific kernel image, possibly with an embedded initrd,
+and to a specific boot phase.
+
+[systemd-boot](https://www.freedesktop.org/software/systemd/man/systemd-boot.html)
+measures the kernel command line into PCR 12.
+[systemd-stub](https://www.freedesktop.org/software/systemd/man/systemd-stub.html)
+measures any manually specified kernel command line (i.e. a kernel command line that overrides the one embedded in the UKI)
+and loaded credentials into this PCR.
+This means that if `systemd-boot` and `systemd-stub` are used together, the command line might be measured twice.
+
+[systemd-stub](https://www.freedesktop.org/software/systemd/man/systemd-stub.html)
+measures any [Extension Images](extension_image.md)
+it passes to the booted kernel into PCR 13.
+
+[systemd-cryptsetup](https://www.freedesktop.org/software/systemd/man/systemd-cryptsetup.html)
+optionally measures the volume key of activated LUKS volumes into this PCR.
+[systemd-pcrmachine.service](https://www.freedesktop.org/software/systemd/man/systemd-pcrmachine.service.html)
+measures the
+[machine-id](https://www.freedesktop.org/software/systemd/man/machine-id.html)
+into this PCR.
+[systemd-pcrfs@.service](https://www.freedesktop.org/software/systemd/man/systemd-pcrfs@.service.html)
+measures mount points, file system UUIDs, labels, partion UUIDs
+of the root and `/var/` filesystems into this PCR.
 
 ## Sources
 * [systemd-cryptenroll(1)](https://www.freedesktop.org/software/systemd/man/systemd-cryptenroll.html#--tpm2-pcrs=PCR)
