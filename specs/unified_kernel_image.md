@@ -111,3 +111,12 @@ individual resources listed above at once, and their combination. Standard Linux
 [`sbsigntool`](https://manpages.debian.org/unstable/sbsigntool/sbsign.1.en.html) and
 [`pesign`](https://github.com/rhboot/pesign) can be used to sign UKI files. The signature format and process
 again match the ones already used for PE files, so they will not be redefined here.
+
+## Distribution-built UKIs Installed by Package Managers
+
+UKIs that are built centrally by distributions and installed via the package manager should be installed in
+`/usr/lib/modules/$UNAME/`, where `$UNAME` is the output of `uname -r` of the kernel included in the UKI, so
+that tools staging or consuming UKIs have a common place to store and look for them.
+
+The installed UKIs should have a filename `<version format specification>.efi`, i.e. the filename is left to
+implementers but must be valid for comparisons according to the [Version Format Specification](version_format_specification.md).
