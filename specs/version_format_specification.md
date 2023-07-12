@@ -44,17 +44,16 @@ strings are found to compare as different. In a loop:
 1. Any characters which are outside of the set of listed above (`a-z`, `A-Z`, `0-9`, `-`, `.`, `~`, `^`)
    are skipped in both strings. In particular, this means that non-ASCII characters
    that are Unicode digits or letters are skipped too.
-2. If one of the strings has ended: if the other string hasn't, the string that
-   has remaining characters compares higher. Otherwise, the strings compare
-   equal.
-3. If the remaining part of one of strings starts with `~`:
+2. If the remaining part of one of strings starts with `~`:
    if other remaining part does not start with `~`,
    the string with `~` compares lower. Otherwise, both tilde characters are skipped.
-4. The check from point 2. is repeated here.
-5. If the remaining part of one of strings starts with `-`:
+3. If one of the strings has ended: if the other string hasn't, the string that
+   has remaining characters compares higher. Otherwise, the strings compare
+   equal.
+4. If the remaining part of one of strings starts with `-`:
    if the other remaining part does not start with `-`,
    the string with `-` compares lower. Otherwise, both minus characters are skipped.
-6. If the remaining part of one of strings starts with `^`:
+5. If the remaining part of one of strings starts with `^`:
    if the other remaining part does not start with `^`,
    the string with `^` compares higher. Otherwise, both caret characters are skipped.
 6. If the remaining part of one of strings starts with `.`:
