@@ -55,7 +55,7 @@ strings are found to compare as different. In a loop:
    the string with `-` compares lower. Otherwise, both minus characters are skipped.
 5. If the remaining part of one of strings starts with `^`:
    if the other remaining part does not start with `^`,
-   the string with `^` compares higher. Otherwise, both caret characters are skipped.
+   the string with `^` compares lower. Otherwise, both caret characters are skipped.
 6. If the remaining part of one of strings starts with `.`:
    if the other remaining part does not start with `.`,
    the string with `.` compares lower. Otherwise, both dot characters are skipped.
@@ -118,6 +118,11 @@ Examples (with '' meaning the empty string):
 Note how in the `1_2_3` > `1.3.3` and `1+2+3` > `1.3.3` cases, the underscore and plus characters act as
 separators between components, so we first compare `1` with `1.3.3` as numerical version strings, and
 `1` < `1.3.3`. The remainder of the first string is not used in the comparison.
+
+* `122.1` < `123~rc1-1` < `123` < `123-a` < `123-a.1` < `123-1` < `123-1.1` < `123^post1` < `123.a-1` < `123.1-1` < `123a-1` < `124-1`
+
+In the above example each entry compares smaller than every entry to its right and equal only to itself,
+conversely each entry compares larger to every entry to its left and compares unequal to all except itself.
 
 ## Notes
 [systemd-analyze](https://www.freedesktop.org/software/systemd/man/systemd-analyze.html)
