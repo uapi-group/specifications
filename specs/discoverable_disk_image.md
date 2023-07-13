@@ -16,7 +16,7 @@ They are designed to be composable and stackable, and provide security by defaul
 ## Image Format
 The images use the GPT partition table verbatim, so it will not be redefined here. Each partition contains
 a standard Linux filesystem (e.g.: squashfs), so again this will not be redefined here.
-The ([DPS](discoverable_partitions_specification.md)) defines the GUIDs to use and the format of the
+The [DPS](discoverable_partitions_specification.md) defines the GUIDs to use and the format of the
 dm-verity signature partition's JSON content.
 
 ## Image Version
