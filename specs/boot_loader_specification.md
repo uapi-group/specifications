@@ -170,8 +170,9 @@ only: while boot loaders should look in both places, OSes should only add their
 files to `$BOOT`.
 
 **Note:** _In all cases the `/loader/entries/` directory should be located
-directly in the root of the file system. Specifically, the `/loader/entries/`
-directory should **not** be located under the `/EFI/` subdirectory on the ESP._
+directly in the root of the ESP or XBOOTLDR filesystem. Specifically, the
+`/loader/entries/` directory should **not** be located under the `/EFI/`
+subdirectory on the ESP or XBOOTLDR._
 
 The file name of the boot entry snippets is used for identification of the boot
 item but shall never be presented to the user in the UI. The file name may be
