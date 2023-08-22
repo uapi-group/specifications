@@ -6,12 +6,13 @@ SPDX-License-Identifier: CC-BY-4.0
 ---
 
 # Version Format Specification
-Many of the formats and concepts defined in these specifications rely on having
-a sort order for strings that include version components, and use it for various
-purposes, such as choosing the default boot entry in the
-[Boot Loader Specification](boot_loader_specification.md). This specification
-defines what format these strings must follow, and how to deterministically
-compare them.
+This specification defines the format of version strings and their ordering.
+Various documents that are part of the [uapi-group specification suite](https://uapi-group.org/specifications),
+as well as other projects like [systemd](https://systemd.io),
+rely on this specification to have
+a sort order for strings that include version components,
+and use it for various purposes,
+such as choosing the default boot entry in the [Boot Loader Specification](boot_loader_specification.md).
 
 ## Version Format
 The version string is a sequence of zero or more characters.
