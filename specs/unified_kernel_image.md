@@ -44,7 +44,7 @@ UKIs consist of the following resources:
   including `.text`, `.reloc`, `.data`, and others.
 * The Linux kernel in the `.linux` section.
 * The initrd that the kernel shall unpack and invoke, in the `.initrd` section.
-* Optionally, the kernel command line in the `.cmdline` section.
+* Optionally, the kernel command line in the `.cmdline` section. If this is absent, the loader implementation may allow local overrides instead.
 * Optionally, information describing the OS this kernel is intended for, in the `.osrel` section. The contents of this section are derived from `/etc/os-release` of the target OS. They can be useful for presentation of the UKI in the boot loader menu, and ordering it against other entries using the included version information.
 * Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
 * Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
