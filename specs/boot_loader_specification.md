@@ -112,9 +112,14 @@ These partitions shall be determined during _installation time_, and
 
 ### Mount Points
 
-It is recommended to mount `$BOOT` to `/boot/`, and the ESP to `/efi/`. If
-`$BOOT` and the ESP are the same, then either a bind mount or a symlink should
-be established making the partition available under both paths.
+It is recommended to mount `$BOOT` (either XBOOTLDR or the ESP) to `/boot/`.
+If both XBOOTLDR and the ESP are present, the ESP should be mounted to `/efi/`.
+
+Effectively, this means that
+`/boot/` is the location where new boot entries shall be written to.
+For the boot loader itself, the situation is more complicated,
+because its files may be located under `/boot/` or `/efi/`,
+depending on whether XBOOTLDR exists.
 
 (Mounting the ESP to `/boot/efi/`, as was traditionally done, is not
 recommended. Such a nested setup complicates an implementation via direct
