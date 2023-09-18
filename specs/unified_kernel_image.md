@@ -50,8 +50,8 @@ UKIs consist of the following resources:
 * Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
 * Optionally, a compiled Devicetree database file, for systems which need it, in the `.dtb` section.
 * Optionally, the public part of a public-private key pair in PEM format used to sign the image, in the `.pcrpkey` section.
-* Optionally, a signature made using the abovementioned key pair, in the `.pcrsig` section.
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the abovementioned key pair.
+* Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
 
 ### JSON Format for `.pcrsig`
 The format is a single JSON object, encoded as a zero-terminated `UTF-8` string. Each name in the object
