@@ -2,7 +2,7 @@
 title: Extension Images
 category: Concepts
 layout: default
-version: 1
+version: 2
 SPDX-License-Identifier: CC-BY-4.0
 ---
 # Extension Images
@@ -34,9 +34,107 @@ sysext images extend `/usr/` (OS vendor tree) and/or `/opt/` (third-party vendor
 confext images extend `/etc`. They must contain a `/etc/extension-release.d/extension-release.<IMAGE>` file
 to identify them.
 
-## Image Content
-Extension Images should be additive, and not override content present in the base image or other DDIs,
-but this will not be enforced.
+<h2 id="image-content">Image Content</h2>
+Extension Images should be additive, and not override content present in the base image or other DDIs.
+However, there currently is no safe and efficient way to detect collisions and to enforce content uniqueness
+across the stack of images.
+In a future version of this specification options for enforcing uniqueness may be provided.
+
+## Base Directory Immutability / Mutability
+By default, applying ("merging") an Extension Image on a mutable filesystem renders the underlying base
+directory (`/etc/`, `/usr/`, `/opt/`) immutable.
+By implication, merging a confext on a mutable filesystem will result in `/etc/` becoming read-only, and
+merging a sysext might render `/usr/` and/or `/opt/` read-only, depending on the sysext's contents.
+
+This affects base directories actually contained in extensions merged to a root filesystem:
+for instance, if a sysext extends `/usr/` but not `/opt/`, `/opt/` will remain mutable if
+it's on a mutable filesystem.
+However, immutability affects the _full_ base directory.
+Merging an extension on a mutable filesystem that ships a single custom path e.g. below
+`/etc/appconfig-extra/some/sub/path/` will still render the entirety of `/etc/` immutable.
+The base directory or directories remain immutable for as long as extensions are merged.
+Mutability, if present before the merge, is regained only after all extensions overlaying a base directory
+have been un-merged.
+
+### Optional Mutability
+While overlaid base directories are immutable by default, implementations may provide options
+for mutability.
+Retaining mutability may for instance be useful for compatibility with general purpose applications,
+enabling users to operate a "mixed mode" with both system and configuration extensions
+and traditional applications.
+Mixed mode may also be integrated by distributions to facilitate a smooth transition from
+traditional package management to a purely image-based composition of the root file system.
+Lastly, mutability mode may be used on an originally immutable filesystem to allow and to capture
+temporary changes.
+
+### Extension Overlay [Im]Mutability Modes
+System and configuration extensions may operate in one of three modes.
+
+1. *Immutable mode* - The overlaid base directory is immutable.
+    This is the default.
+2. *Mutable mode* - Writes are directed to an _upperdir_ specified by the user or operator
+    (see "Mutability Mode Configuration" below).
+    This _upperdir_ will contain all changes made to the overlaid base directory.
+    1. _Upperdir_ may be specified to _be_ the base directory: may be used to retain mutability
+       of the base directory after extensions have been merged.
+    2. Alternatively, _upperdir_ may be an entirely separate directory: modifications will be captured
+       but the base directory will remain unchanged, retaining its state from before the extension was merged.
+3. *Ephemeral Mode* - Similar to mutable mode (2.) above but writes are only stored temporarily while
+    extensions are merged, and discarded as soon as extensions are un-merged.
+    Location of temporary storage is implementation-specific.
+    Useful for e.g. development and for one-shot validation operations.
+
+### Mutability Mode Configuration
+Immutable mode is the default.
+If none of the configurations outlined below were specified then extension overlays operate
+in immutable mode and base directories are read-only.
+Implementation of any of the below mutable configurations is optional.
+_If_ mutable modes are supported by an implementation, configuration option 1. below _must_ be supported
+for compatibility across implementations.
+
+Mutability modes may be configured in the following ways:
+1. By creating qualified paths or soft-links below `/var/lib/extensions.mutable/`.
+   See "Qualified Paths Definition" below for details.
+   This is the most portable option across different implementations.
+   If an implementation supports base directory mutability then this mode _must_ be supported.
+2. By setting a respective option in an implementation's configuration file.
+   This option is implementation-specific.
+   Implementations may choose to support a single option, multiple options for
+   system and configuration extensions, and/or multiple options per base directory.
+   Using this option should selectively override any qualified path definitions from 1.
+3. By passing a command line parameter upon extension merge or refresh.
+   This option is implementation-specific.
+   Implementations may choose to support a single option and/or multiple options per base directory.
+   Using this option should selectively override any configurations from 1. and 2.
+
+#### Qualified Paths Definition
+
+Mutability Mode 1 enables mutability by creating paths or soft-links below
+`/var/lib/extensions.mutable/`.
+Qualified paths are:
+* `/var/lib/extensions.mutable/etc/` - directory or soft-link to a directory to store writes to
+  `/etc/`. This is for configuration extensions.
+* `/var/lib/extensions.mutable/usr/` - directory or soft-link to a directory to store writes to
+  `/usr/`. This is for system extensions.
+* `/var/lib/extensions.mutable/opt/` - directory or soft-link to a directory to store writes to
+  `/opt/`. This is for system extensions.
+
+Each base directory is treated separately.
+The existence and the type of each qualified path determines the mutability mode used.
+The following mutability modes are supported:
+* _Path does not exist_ - immutable mode.
+* Path is a _directory, subvolume, or mount point_ - the path at
+  `/var/lib/extensions.mutable/<basedir>/` is used to store writes to `/<basedir>/`.
+  * A tmpfs mount at the qualified path may be used for a custom ephemeral mode.
+    In this case, clean-up of the tmpfs is left to the user and/or is implementation-specific.
+* Path is a _soft link_ - the soft link is followed and writes are stored at the link's destination.
+  * If the destination is the base directory - i.e. `/var/lib/extensions.mutable/<basedir>/`
+    points to `/<basedir>/` - then the stacking order changes and `<basedir>` becomes _upperdir_.
+    Writes are directed to the base directory and files and paths present in the base directory
+    override files and paths in extensions if present.
+  * The soft link may point to a tmpfs destination for custom ephemeral mode.
+    In this case, clean-up of the tmpfs is left to the user and/or is implementation-specific.
+  * If the destination does not exist, immutable mode is used.
 
 ## File Suffix
 Since extensions images are DDIs, they should carry the `.raw` suffix. In order to make discerning system
