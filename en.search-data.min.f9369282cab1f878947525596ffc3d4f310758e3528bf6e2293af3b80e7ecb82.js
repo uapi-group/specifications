@@ -170,6 +170,7 @@ systemd-boot(7)
 bootctl(1)
 systemd-gpt-auto-generator(8)
 `}),e.add({id:5,href:"/specifications/specs/extension_image/",title:"Extension Images",section:"Specs",content:` Extension Images # Extension Images are DDIs ( Discoverable Disk Images) that are built to extend a base system via an overlay. A base system or a root DDI can be extended by several extension DDIs via, usually, a read-only OverlayFS. The defining characteristic of an Extension Image is that it contains an extension-release.\u0026lt;IMAGE\u0026gt; file that identifies itself and the base system or root DDI it applies to, and must not contain an os-release file.
+Ordering # The default order in which extensions are applied is based on lexicographic sorting as defined in the Version Format Specification, with images sorting as older being placed lower in the overlay. Implementations may allow a different order to be explicitly specified instead.
 Image Format # Extensions are DDIs ( Discoverable Disk Images), so the file format will not be redefined here.
 Extension Types # There are two types of extension images, sysext (System Extension) and confext (Configuration Extension). They are differentiated by the directory hierarchies they contain.
 sysext (System Extension) # sysext images extend /usr/ (OS vendor tree) and/or /opt/ (third-party vendor tree). They must contain a /usr/lib/extension-release.d/extension-release.\u0026lt;IMAGE\u0026gt; file to identify them.
