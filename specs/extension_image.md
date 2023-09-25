@@ -12,6 +12,12 @@ DDIs via, usually, a read-only OverlayFS. The defining characteristic of an Exte
 an `extension-release.<IMAGE>` file that identifies itself and the base system or root DDI it applies to,
 and must not contain an `os-release` file.
 
+## Ordering
+The default order in which extensions are applied is based on lexicographic sorting as
+[defined in the Version Format Specification](version_format_specification.md), with images sorting as
+older being placed lower in the overlay. Implementations may allow a different order to be explicitly
+specified instead.
+
 ## Image Format
 Extensions are DDIs ([Discoverable Disk Images](discoverable_disk_image.md)), so the file format will not be
 redefined here.
