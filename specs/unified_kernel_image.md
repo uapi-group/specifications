@@ -40,22 +40,45 @@ that glues the listed components together, generating one PE binary that then ca
 UKIs consist of the following resources:
 
 * An UEFI boot stub that forms the initial program.
-  It contains various sections normally required for a program,
+  It contains various PE sections normally required for a program,
   including `.text`, `.reloc`, `.data`, and others.
-* The Linux kernel in the `.linux` section.
-* The initrd that the kernel shall unpack and invoke, in the `.initrd` section.
-* Optionally, the kernel command line in the `.cmdline` section. If this is absent, the loader implementation may allow local overrides instead.
+* The Linux kernel in the `.linux` PE section.
 * Optionally, information describing the OS this kernel is intended for, in the `.osrel` section. The contents of this section are derived from `/etc/os-release` of the target OS. They can be useful for presentation of the UKI in the boot loader menu, and ordering it against other entries using the included version information.
-* Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
+* Optionally, the kernel command line in the `.cmdline` section. If this is absent, the loader implementation may allow local overrides instead.
+* The initrd that the kernel shall unpack and invoke, in the `.initrd` section.
 * Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
 * Optionally, one or more compiled Device Trees, for systems which need it, each in its separate `.dtb` section. If multiple `.dtb` sections exist then one of them is selected according to an implementation-specific algorithm.
-* Optionally, the public part of a public-private key pair in PEM format used to sign the image, in the `.pcrpkey` section.
-* Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the abovementioned key pair.
+* Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
+* Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the key pair described below.
+* Optionally, the public part of a public-private key pair in PEM format used to sign the image, in the `.pcrpkey` section.
 
-Note that all of the sections defined above are singletons: they may appear once at most – except for the `.dtb` section which may be appear more than once.
+Note that all of the sections defined above are singletons: they may
+appear once at most – except for the `.dtb` section which may
+appear more than once.
 
-### JSON Format for `.pcrsig`
+## UKI TPM PCR Measurements
+
+On systems with a Trusted Platform Module (TPM) the UEFI boot stub
+shall measure the payload sections (i.e. the PE sections listed above,
+starting from the `.linux` one), in the order as listed above (which
+should be considered the *canonical* *order*).
+
+For each section two measurements shall be made into PCR 11 with the
+event code `EV_IPL`:
+
+1. The section name in ASCII (including one trailing NUL byte)
+2. The (binary) section contents
+
+The above should be repeated for every section defined above, so that
+the measurements are interleaved: section name followed by section
+data, followed by the next section name and its section data, and so
+on.
+
+If multiple `.dtb` sections are present, they shall be measured in the
+order they appear in the PE file.
+
+## JSON Format for `.pcrsig`
 The format is a single JSON object, encoded as a zero-terminated `UTF-8` string. Each name in the object
 shall be unique as per recommendations of
 [RFC8259](https://datatracker.ietf.org/doc/html/rfc8259#section-4). Strings shall not contain any control
