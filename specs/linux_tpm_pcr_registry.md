@@ -6,10 +6,16 @@ SPDX-License-Identifier: CC0-1.0
 
 # 🔏 Linux TPM PCR Registry 🗒️
 
-_TPM PCRs are a scarce resource, there are only 24 of them in typical standards compliant TPMs. According to the [TCG PC Client Specific Platform Firmware Profile Specification | Trusted Computing Group](https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/) PCRs 8…15 are for the OS to make use of. In this document we intend to document for Linux platforms which component is using which PCR in order to minimize conflicts._
+_TPM PCRs are a scarce resource, there are only 24 of them in typical standards compliant TPMs.
+According to the
+[TCG PC Client Specific Platform Firmware Profile Specification | Trusted Computing Group](https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/)
+the OS can make use of PCRs 8…15.
+This document lists which component is using which PCR on a Linux platform
+in order to minimize conflicts._
 
 PCRs owned by the firmware, i.e. PCRs 0–7 are described here just for convenience.
 The authoriative description is in the TCG document.
+
 How other operating systems — in particular Windows — use PCRs, is out of scope of this document.
 
 This document is informational in nature: it just describes what is, it is not intended to formally declare “ownership” of a specific PCR, but simply is supposed to reflect which PCR assignments are common in the Linux ecosystems. That said, co-opting PCR usage will likely create problems down the line, in particular if measurement logs are maintained separately. (To be more explicit: on `systemd` systems the warranty is voided if you write to the PCRs it also uses, as per the list below.)

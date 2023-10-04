@@ -5,10 +5,6 @@ BookToC: false
 
 # UAPI Group Specifications
 
-See the menu on the left for a list of all specifications.
-
-Featured Specs:
-
 * [Boot Loader Specification](specs/boot_loader_specification.md):
   Defines a set  of file formats and naming conventions to allow distribution independent boot loader menus supportable by multiple bootloaders.
 * [Configuration Files Specification](specs/configuration_files_specification.md):
@@ -17,6 +13,16 @@ Featured Specs:
   to allow for separation between vendor and admin configuration files, drop-in files, and masking.
 * [Discoverable Partitions Specification](specs/discoverable_partitions_specification.md):
   Discusses GUID UUIDs for auto-discovery of partition semantics and mount points.
+* [Discoverable Disk Image](specs/discoverable_disk_image.md):
+  Describes the Discoverable Disk Image format for self-describing system images.
+* [Extension Image](specs/extension_image.md):
+  Describes the use of Discoverable Disk Images to create extensions to a base image.
+* [Unified Kernel Image](specs/unified_kernel_image.md):
+  Describes the use of UEFI PE binaries to provide a Unified Kernel Image containing the kernel, initrd, command line, and other components.
+* [Version Format Specification](specs/version_format_specification.md):
+  Defines semantics of version strings used in the other specifications listed here.
+* [Linux TPM PCR Registry](specs/linux_tpm_pcr_registry.md):
+  An informative list of how TPM PCRs are used on a Linux system.
 
 ## Work in Progress
 
@@ -37,8 +43,10 @@ This section clarifies on terms and abbreviations used in specs and other docume
 - [*DPS*](specs/discoverable_partitions_specification.md) - Discovery Partition Specification
 - [*UKI*](specs/unified_kernel_image.md) - Unified Kernel Images (sd-stub + kernel + initrd + more)
 - [*BLS*](specs/boot_loader_specification.md) - Boot Loader Specification
-- [*sysext*](specs/extension_image.md) – System Extension Image (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
-- [*confext*](specs/extension_image.md) – Configuration Extension Image (type of DDI that is overlayed on top of `/etc/` via overlayfs and can extend the underlying OS' configuration in a composable, immutable fashion)
+- [*sysext*](specs/extension_image.md) – System Extension Image
+  (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
+- [*confext*](specs/extension_image.md) – Configuration Extension Image
+  (type of DDI that is overlayed on top of `/etc/` via overlayfs and can extend the underlying OS' configuration in a composable, immutable fashion)
 
 ## Participate
 
