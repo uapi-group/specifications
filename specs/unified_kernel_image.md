@@ -31,9 +31,11 @@ The file format is PE/COFF (Portable Executable / Common Object File Format). Th
 industry-standard file format, used for example in UEFI environments,
 and UKIs follow the standard, so exact details will not be repeated here.
 
-UKIs can be generated via a [single, relatively simple `objcopy`
-invocation](https://www.freedesktop.org/software/systemd/man/systemd-stub.html#Assembling%20Kernel%20Images),
-that glues the listed components together, generating one PE binary that then can be signed for SecureBoot.
+UKIs are created as a PE/COFF file with additional sections that glues together all the components.
+In principle this can be done with a relatively simple `objcopy` invocation,
+but the recommended way is to use a helper program
+([`ukify`](https://www.freedesktop.org/software/systemd/man/ukify.html)),
+which takes care of appropriate alignment and facilitates signing for SecureBoot.
 
 ## UKI Components
 UKIs consist of the following resources:
