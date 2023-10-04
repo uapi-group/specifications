@@ -8,7 +8,7 @@ SPDX-License-Identifier: CC-BY-4.0
 # Unified Kernel Image (UKI)
 
 A Unified Kernel Image (UKI) is a combination of an UEFI boot stub program,
-a Linux kernel image, an initrd, and further resources in a single UEFI PE file.
+a Linux kernel image, an optional initrd, and further resources in a single UEFI PE file.
 This file can either be directly invoked by the UEFI firmware
 (which is useful in particular in some cloud/Confidential Computing environments)
 or through a boot loader
@@ -46,7 +46,7 @@ UKIs consist of the following resources:
 * The Linux kernel in the `.linux` PE section.
 * Optionally, information describing the OS this kernel is intended for, in the `.osrel` section. The contents of this section are derived from `/etc/os-release` of the target OS. They can be useful for presentation of the UKI in the boot loader menu, and ordering it against other entries using the included version information.
 * Optionally, the kernel command line in the `.cmdline` section. If this is absent, the loader implementation may allow local overrides instead.
-* The initrd that the kernel shall unpack and invoke, in the `.initrd` section.
+* Optionally, the initrd that the kernel shall unpack and invoke, in the `.initrd` section.
 * Optionally, a microcode initrd in the `.ucode` section, to be handed to the kernel before any other initrd.
 * Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
 * Optionally, one or more compiled Device Trees, for systems which need it, each in its separate `.dtb` section. If multiple `.dtb` sections exist then one of them is selected according to an implementation-specific algorithm.
@@ -55,9 +55,19 @@ UKIs consist of the following resources:
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the key pair described below.
 * Optionally, the public part of a public-private key pair in PEM format used to sign the expected PCR 11 value of the image, in the `.pcrpkey` section.
 
-Note that all of the sections defined above are singletons: they may
-appear once at most – except for the `.dtb` section which may
-appear more than once.
+Note that all of the sections defined above are singletons:
+they may appear at most once,
+except for the `.dtb` section which may appear multiple times.
+
+Only the `.linux` section is required for the image to be considered a Unified *Kernel* Image.
+A UKI will generally also contain various sections required for the boot stub,
+but we don't document those here.
+Boot menus such as [sd-boot](http://www.freedesktop.org/software/systemd/man/sd-boot.html)
+and other consumers of UKIs may place additional requirements,
+for example only show kernels with the `.osrel` section present.
+
+Note that the same file format is also used for other purposes,
+for example addons, which will contain a different subset of sections.
 
 ## UKI TPM PCR Measurements
 
