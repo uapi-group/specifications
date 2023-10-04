@@ -15,12 +15,11 @@ or through a boot loader
 (which is generally useful to allow multiple kernel versions with interactive or
 automatic selection of version to boot into).
 
-Various components of the UKI are provided as PE/COFF sections of the executable.
-The stub is a small program that can be executed in UEFI mode
-that forms the main executable part of the combined image.
-The stub program loads other resources from its file,
-including in particular the kernel and initrd,
-and transitions into the kernel.
+Various components of the UKI are provided as PE/COFF sections of the
+executable.  The stub is a small program that can be executed in UEFI
+mode that forms the initial executable part of the combined image.
+The stub program loads other resources from its executable, including
+in particular the kernel and initrd, and transitions into the kernel.
 
 This specification defines the format and components (mandatory and optional) of UKIs.
 
