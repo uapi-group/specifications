@@ -50,7 +50,7 @@ UKIs consist of the following resources:
 * Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the key pair described below.
-* Optionally, the public part of a public-private key pair in PEM format used to sign the image, in the `.pcrpkey` section.
+* Optionally, the public part of a public-private key pair in PEM format used to sign the expected PCR 11 value of the image, in the `.pcrpkey` section.
 
 Note that all of the sections defined above are singletons: they may
 appear once at most – except for the `.dtb` section which may
