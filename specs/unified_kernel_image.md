@@ -130,7 +130,7 @@ through single file atomic updates, which is useful given that the primary expec
 UKIs is the UEFI System Partition (ESP), which is a vFAT file system, with its limited data safety guarantees.
 
 ## Security
-Given UKIs are regular UEFI PE files, they can thus be signed as one for SecureBoot, protecting all of the
+Given UKIs are regular UEFI PE files, they can thus be signed as one for Secure Boot, protecting all of the
 individual resources listed above at once, and their combination. Standard Linux tools such as
 [`sbsigntool`](https://manpages.debian.org/unstable/sbsigntool/sbsign.1.en.html) and
 [`pesign`](https://github.com/rhboot/pesign) can be used to sign UKI files. The signature format and process
