@@ -227,7 +227,7 @@ The following keys are recognized:
   so that the boot loader can order entries by age or select the newest one
   automatically. This field is optional.
 
-  See [Sorting](#sorting) below.
+  See [Sorting]({{< relref "#sorting" >}}) below.
 
   Example: `version 3.7.2-201.fc18.x86_64`
 
