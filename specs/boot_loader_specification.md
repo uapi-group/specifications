@@ -499,9 +499,9 @@ primary sorting key. Instead, the boot loader should use the following rules:
    are thus sorted earlier.
 
 2. If `sort-key` is set on both entries, use in order of priority,
-   the `sort-key` (A-Z, increasing [alphanumerical order](#alphanumerical-order)),
+   the `sort-key` (A-Z, increasing [alphanumerical order]({{< relref "#alphanumerical-order" >}})),
    `machine-id` (A-Z, increasing alphanumerical order),
-   and `version` keys (decreasing [version order](#version-order)).
+   and `version` keys (decreasing [version order]({{< relref "#version-order" >}})).
 
 3. If `sort-key` is set on one entry, it sorts earlier.
 
