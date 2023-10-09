@@ -294,10 +294,10 @@ be sorted later than all other entries. Entries which are marked as
 &ldquo;indeterminate&rdquo; or &ldquo;good&rdquo; (or were not subject to boot counting at all),
 are thus sorted earlier.</p></li><li><p>If <code>sort-key</code> is set on both entries, use in order of priority,
 the <code>sort-key</code> (A-Z, increasing
-<a href=/specifications/#alphanumerical-order>alphanumerical order</a>),
+<a href=#alphanumerical-order>alphanumerical order</a>),
 <code>machine-id</code> (A-Z, increasing alphanumerical order),
 and <code>version</code> keys (decreasing
-<a href=/specifications/#version-order>version order</a>).</p></li><li><p>If <code>sort-key</code> is set on one entry, it sorts earlier.</p></li><li><p>At the end, if necessary, when <code>sort-key</code> is not set or those fields are not
+<a href=#version-order>version order</a>).</p></li><li><p>If <code>sort-key</code> is set on one entry, it sorts earlier.</p></li><li><p>At the end, if necessary, when <code>sort-key</code> is not set or those fields are not
 set or are all equal, the boot loader should sort using the file name of the
 entry (decreasing version sort), with the suffix removed.</p></li></ol><p><strong>Note:</strong> <em>This description assumes that the boot loader shows entries in a
 traditional menu, with newest and &ldquo;best&rdquo; entries at the top, thus entries with
