@@ -38,6 +38,11 @@ to identify them.
 Extension Images should be additive, and not override content present in the base image or other DDIs,
 but this will not be enforced.
 
+## File Suffix
+Since extensions images are DDIs, they should carry the `.raw` suffix. In order to make discerning system
+extensions and configuration extensions easy it is recommended to use the `.sysext.raw` suffix for system
+extensions, and `.confext.raw` for configuration extensions.
+
 ## Identification
 An Extension Image must contain a `extension-release.<IMAGE>` file, where `<IMAGE>` must either match the
 name of the sysext minus the suffix, or alternatively `extension-release.<IMAGE>` must be tagged with a
