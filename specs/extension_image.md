@@ -38,6 +38,11 @@ to identify them.
 Extension Images should be additive, and not override content present in the base image or other DDIs,
 but this will not be enforced.
 
+## File Suffix
+Since extensions images are DDIs, they should carry the `.raw` suffix. In order to make discerning system
+extensions and configuration extensions easy it is recommended to use the `.sysext.raw` suffix for system
+extensions, and `.confext.raw` for configuration extensions.
+
 ## Identification
 An Extension Image must contain a `extension-release.<IMAGE>` file, where `<IMAGE>` must either match the
 name of the sysext minus the suffix, or alternatively `extension-release.<IMAGE>` must be tagged with a
@@ -64,7 +69,7 @@ Examples: `"SYSEXT_LEVEL=2"`, `"CONFEXT_LEVEL=15.14"`.
 
 If not present, and if `VERSION_ID=` is present instead, then this will be checked instead.
 
-#### `VERSION_ID=` `ID=` `ARCHITECTURE=`
+#### `VERSION_ID=`, `ID=`, `ARCHITECTURE=`
 `VERSION_ID=` and `ID=` are used to match the Extension Image with the root DDI, and `ARCHITECTURE=` is used
 to match with the host's CPU architecture, as defined in the
 [`os-release` specification](https://www.freedesktop.org/software/systemd/man/os-release.html).
@@ -79,7 +84,7 @@ can be used to also identify the sysext itself, by prefixing them with `SYSEXT_`
 There are also extension-specific fields that do not apply to 'os-release', `SYSEXT_SCOPE=`,
 `CONFEXT_SCOPE=` and `ARCHITECTURE=`.
 
-#### `SYSEXT_SCOPE=` `CONFEXT_SCOPE=`
+#### `SYSEXT_SCOPE=`, `CONFEXT_SCOPE=`
 Takes a space-separated list of one or more of the strings `"system"`, `"initrd"` and `"portable"`. This field
 is optional and indicates what environments the system extension is applicable to: i.e. to regular systems,
 to initrds, or to [portable service images](https://systemd.io/PORTABLE_SERVICES/). If unspecified,
