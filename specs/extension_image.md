@@ -39,9 +39,10 @@ Extension Images should be additive, and not override content present in the bas
 but this will not be enforced.
 
 ## File Suffix
-Since extensions images are DDIs, they should carry the `.raw` suffix. In order to make discerning system
-extensions and configuration extensions easy it is recommended to use the `.sysext.raw` suffix for system
-extensions, and `.confext.raw` for configuration extensions.
+Since extension images are DDIs, they should also carry the `.gpt` suffix.
+In order to make discerning system extensions and configuration extensions easy
+it is recommended to use the `.sysext.gpt` suffix for system extensions,
+and `.confext.gpt` for configuration extensions.
 
 ## Identification
 An Extension Image must contain a `extension-release.<IMAGE>` file, where `<IMAGE>` must either match the

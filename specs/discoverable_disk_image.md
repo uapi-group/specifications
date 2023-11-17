@@ -25,16 +25,18 @@ or 4096, as per GPT specification.
 
 ## Naming
 
-DDIs should use `.raw` as file suffix. A secondary suffix may be used to clarify the specific usage class of
-a DDI. For now the two secondary suffixes `.sysext.raw` and `.confext.raw` are defined (for system extension
-DDIs and configuration extension DDIs, see [Extension
-Images](https://uapi-group.org/specifications/specs/extension_image) for details).
+DDIs should use `.gpt` as file suffix.
+A secondary suffix may be used to clarify the specific usage class of a DDI.
+For now the two secondary suffixes `.sysext.gpt` and `.confext.gpt` are defined
+(for system extension DDIs and configuration extension DDIs, see
+[Extension Images](https://uapi-group.org/specifications/specs/extension_image)
+for details).
 
 The MIME type for DDIs is `application/vnd.efi.img`, [as per
 IANA](https://www.iana.org/assignments/media-types/application/vnd.efi.img).
 
 ## Image Version
 If the DDI is versioned, the version format described in the
-[Version Format Specification](version_format_specification.md) must be used. The underscore character (`_`)
-must be used to separate the version from the name of the image. For example: `foo_1.2.raw` denotes a `foo`
-DDI with version `1.2`.
+[Version Format Specification](version_format_specification.md) must be used.
+The underscore character (`_`) must be used to separate the version from the name of the image.
+For example: `foo_1.2.gpt` denotes a `foo` DDI with version `1.2`.
