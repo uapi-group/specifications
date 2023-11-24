@@ -58,10 +58,12 @@ appear more than once.
 
 ## UKI TPM PCR Measurements
 
-On systems with a Trusted Platform Module (TPM) the UEFI boot stub
-shall measure the payload sections (i.e. the PE sections listed above,
-starting from the `.linux` one), in the order as listed above (which
-should be considered the *canonical* *order*).
+On systems with a Trusted Platform Module (TPM)
+the UEFI boot stub shall measure the sections listed above,
+starting from the `.linux` section,
+in the order as listed
+(which should be considered the *canonical order*).
+The `.pcrsig` section is not measured.
 
 For each section two measurements shall be made into PCR 11 with the
 event code `EV_IPL`:
