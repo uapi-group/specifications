@@ -159,3 +159,36 @@ that tools staging or consuming UKIs have a common place to store and look for t
 
 The installed UKIs should have a filename `<version format specification>.efi`, i.e. the filename is left to
 implementers but must be valid for comparisons according to the [Version Format Specification](version_format_specification.md).
+
+### Auxiliary resources
+
+Auxiliary UKI resources (such as PE addons for command line extensions and similar,
+as well as systemd-sysext and systemd-confext DDIs) built centrally by distributions and
+installed via package manager should be installed into locations depending on
+whether they should be applied to all UKIs installed in the ESP, or only to a
+single specific UKI.
+
+UKI auxiliary resources that apply to *all* installed UKIs should be
+installed into `/usr/lib/modules/uki.extra.d/`. UKI auxiliary resources that
+apply to *one* specific installed UKI should be instead installed into
+`/usr/lib/modules/$UNAME/$UKI.efi.extra.d/`, where `$UNAME` is the output of
+`uname -r` of the kernel included in the UKI and `$UKI` is the name of the
+corresponding centrally built UKI with the `.efi` extension stripped.
+
+The installed UKI auxiliary resources must have a specific file extension, which
+depends on the resource type:
+* `.addon.efi` for PE addons,
+* `.sysext.raw` for sysext DDIs,
+* `.confext.raw` for confext DDIs
+
+#### Example
+
+Given a UKI `bar_123.efi` that includes a kernel `6.9.1-1.foo`, consider
+* a PE addon `machine-id` that should apply to all installed UKIs,
+* a PE addon `proprietary-driver_2000` that is specific to the `bar_123` UKI, and
+* a sysext `mysysext_1.23.47^3` that should apply to all installed UKIs.
+
+The resulting paths would be
+* `/usr/lib/modules/uki.extra.d/machine-id.addon.efi`,
+* `/usr/lib/modules/6.9.1-1.foo/bar_123.efi.extra.d/proprietary-driver_2000.addon.efi`, and
+* `/usr/lib/modules/uki.extra.d/mysysext_1.23.47^3.sysext.raw`.
