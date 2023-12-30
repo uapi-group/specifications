@@ -471,7 +471,7 @@ also be used with other implementations.
 The boot counting data is stored in the name of the boot loader entry. A boot
 loader entry file name may contain a plus (`+`) followed by a number. This may
 optionally be followed by a minus (`-`) followed by a second number. The dot
-(`.`) and file name suffix (`conf` of `efi`) must immediately follow. Boot
+(`.`) and file name suffix (`conf` or `efi`) must immediately follow. Boot
 counting is enabled for entries which match this pattern.
 
 The first number is the "tries left" counter signifying how many attempts to boot
