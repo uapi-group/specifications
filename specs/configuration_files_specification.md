@@ -55,20 +55,23 @@ For example, an empty `/etc/foo/bar.conf` means that `/usr/lib/foo/bar.conf` is
 masked and thus not parsed.
 
 ## Drop-ins
-All configuration paths must support drop-ins. Supporting drop-ins means that in
-addition to parsing a full configuration file, an implementation also must parse all
-files in the drop-in directory associated with it, and merge the result in lexicographic
-order. Drop-ins are not full replacements, but must allow specifying a subset of settings
-present in the main configuration files.
+All configuration paths must support drop-ins,
+except for configuration file formats where automatic combining of multiple files is not feasible,
+for example scripts or structured documents.
+Supporting drop-ins means that in addition to parsing a full configuration file,
+an implementation also parses the drop-in files in the drop-in directories associated with it.
 
-For example, in addition to parsing `/etc/foo/bar.conf`, `/etc/foo/bar.conf.d/a.conf` and
-`/etc/foo/bar.conf.d/b.conf` must also be parsed, in this order.
+Drop-ins always have higher precedence than the configuration file they refer to.
+Drop-ins are sorted in the lexicographic order using the file name without the path,
+regardless of the hierarchy under which they are stored.
+The drop-ins that are later in this order have higher precedence.
 
-Drop-ins always have higher precedence than the configuration file they refer to,
-regardless of under which hierarchy they are stored.
-
-For example, settings in `/usr/lib/foo/bar.conf.d/a.conf` must override settings in
-`/etc/foo/bar.conf`.
+For example, in addition to parsing `/etc/foo/bar.conf`,
+`/etc/foo/bar.conf.d/a.conf` and `/usr/lib/foo/bar.conf.d/b.conf` must also be parsed,
+in this order.
+The configuration in `bar.conf` has the lowest priority,
+and is overridden by `a.conf` and `b.conf`.
+`b.conf` has the highest priority.
 
 If a config file is masked, drop-ins must still be parsed, unless they are masked
 themselves.
@@ -88,4 +91,4 @@ be supported by implementations. In such schemes many drop-ins are loaded from a
 directory in each hierarchy.
 
 For example, `/usr/lib/foo.d/a.conf`, `/usr/lib/foo.d/b.conf` and `/etc/foo.d/c.conf`
-are all loaded and parsed in this scheme.
+are all loaded and parsed in this scheme, in this order.
