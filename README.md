@@ -7,30 +7,30 @@ BookToC: false
 
 * [Boot Loader Specification](specs/boot_loader_specification.md):
   Defines a set  of file formats and naming conventions to allow distribution independent boot loader menus supportable by multiple bootloaders.
-  ([canonical online location](https://uapi-group.org/specifications/specs/boot_loader_specification/)
+  ([canonical online location](https://uapi-group.org/specifications/specs/boot_loader_specification/))
 * [Configuration Files Specification](specs/configuration_files_specification.md):
   Standardises default locations and environment variables for locating common files or base directories.
   This is derived from, and extends, the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html),
   to allow for separation between vendor and admin configuration files, drop-in files, and masking.
-  ([canonical online location](https://uapi-group.org/specifications/specs/configuration_files_specification/)
+  ([canonical online location](https://uapi-group.org/specifications/specs/configuration_files_specification/))
 * [Discoverable Partitions Specification](specs/discoverable_partitions_specification.md):
   Discusses GUID UUIDs for auto-discovery of partition semantics and mount points.
-  ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_partitions_specification/)
+  ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_partitions_specification/))
 * [Discoverable Disk Image](specs/discoverable_disk_image.md):
   Describes the Discoverable Disk Image format for self-describing system images.
-  ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_disk_image/)
+  ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_disk_image/))
 * [Extension Image](specs/extension_image.md):
   Describes the use of Discoverable Disk Images to create extensions to a base image.
-  ([canonical online location](https://uapi-group.org/specifications/specs/extension_image/)
+  ([canonical online location](https://uapi-group.org/specifications/specs/extension_image/))
 * [Unified Kernel Image](specs/unified_kernel_image.md):
   Describes the use of UEFI PE binaries to provide a Unified Kernel Image containing the kernel, initrd, command line, and other components.
-  ([canonical online location](https://uapi-group.org/specifications/specs/unified_kernel_image/)
+  ([canonical online location](https://uapi-group.org/specifications/specs/unified_kernel_image/))
 * [Version Format Specification](specs/version_format_specification.md):
   Defines semantics of version strings used in the other specifications listed here.
-  ([canonical online location](https://uapi-group.org/specifications/specs/version_format_specification/)
+  ([canonical online location](https://uapi-group.org/specifications/specs/version_format_specification/))
 * [Linux TPM PCR Registry](specs/linux_tpm_pcr_registry.md):
   An informative list of how TPM PCRs are used on a Linux system.
-  ([canonical online location](https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/)
+  ([canonical online location](https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/))
 
 ## Work in Progress
 
