@@ -146,3 +146,10 @@ that tools staging or consuming UKIs have a common place to store and look for t
 
 The installed UKIs should have a filename `<version format specification>.efi`, i.e. the filename is left to
 implementers but must be valid for comparisons according to the [Version Format Specification](version_format_specification.md).
+
+UKI addons (cmdline PE addons, systemd-sysext extensions for initrd) built centrally by distributions and
+installed via package manager should instead be installed in `/usr/lib/linux/extra.d/` if they are global
+addons/extensions, i.e. they are applied to all UKI installed in the ESP, and
+`/usr/lib/linux/$UNAME/$UKI.efi.extra.d/`, where `$UNAME` is the output of `uname -r` of the kernel included
+in the UKI, and `$UKI` is the UKI name just as in `$BOOT/EFI/Linux/$UKI.efi` and its addons folder
+`$BOOT/EFI/Linux/$UKI.efi.extra.d/` (see [`$BOOT`](./boot_loader_specification.md#the-boot-partition-placeholder)).
