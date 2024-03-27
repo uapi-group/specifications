@@ -45,6 +45,7 @@ UKIs consist of the following resources:
 * Optionally, information describing the OS this kernel is intended for, in the `.osrel` section. The contents of this section are derived from `/etc/os-release` of the target OS. They can be useful for presentation of the UKI in the boot loader menu, and ordering it against other entries using the included version information.
 * Optionally, the kernel command line in the `.cmdline` section. If this is absent, the loader implementation may allow local overrides instead.
 * The initrd that the kernel shall unpack and invoke, in the `.initrd` section.
+* Optionally, a microcode initrd in the `.ucode` section, to be handed to the kernel before any other initrd.
 * Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
 * Optionally, one or more compiled Device Trees, for systems which need it, each in its separate `.dtb` section. If multiple `.dtb` sections exist then one of them is selected according to an implementation-specific algorithm.
 * Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
