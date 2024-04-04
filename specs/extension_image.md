@@ -125,6 +125,8 @@ Valid values:
 |ppc-le|
 |ppc64|
 |ppc64-le|
+|riscv32|
+|riscv64|
 |s390|
 |s390x|
 |sh|
