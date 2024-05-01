@@ -69,7 +69,7 @@ strings are found to compare as different. In a loop:
 8. Leading alphabetical prefixes are compared alphabetically.
    The substrings are compared letter-by-letter.
    If both letters are the same, the comparison continues with the next letter.
-   Capital letters compare lower than lower-case letters (`A < a`).
+   All capital letters compare lower than lower-case letters (`B < a`).
    When the end of one substring has been reached (a non-letter character or the end
    of the whole string), if the other substring has remaining letters, it compares higher.
    Otherwise, the comparison continues at the following characters at point 1.
@@ -101,7 +101,7 @@ Examples (with '' meaning the empty string):
 * `123.a < 123.b`
 * `123a > 123.a`
 * `11α == 11β`
-* `A < a`
+* `B < a`
 * '' < `0`
 * `0.` > `0`
 * `0.0` > `0`
