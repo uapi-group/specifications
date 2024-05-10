@@ -361,16 +361,16 @@ does not exist, no assumptions should be made.
 ### Type #2 EFI Unified Kernel Images
 
 A unified kernel image is a single EFI PE executable combining an EFI stub
-loader, a kernel image, an initrd image, and the kernel command line. See
-[systemd-stub(7)](https://www.freedesktop.org/software/systemd/man/systemd-stub.html)
-for details. The primary place for such unified images is the `/EFI/Linux/`
-directory in `$BOOT`. Operating systems should place unified EFI kernels only
-in the `$BOOT` partition. Boot loaders should also look in the `/EFI/Linux/` of
-the ESP — if it is different from `$BOOT` — and present a merged list of menu
-entries from both partitions. Regardless if placed in the primary or secondary
-location: the files must have the extension `.efi`.  Support for images of this
-type is of course specific to systems with EFI firmware. Ignore this section if
-you work on systems not supporting EFI.
+loader, a kernel image, and possibly other, optional resources. See the
+[UKI Specification](unified_kernel_image.md) for details. The primary place for 
+such unified images is the `/EFI/Linux/` directory in `$BOOT`. Operating
+systems should place unified EFI kernels only in the `$BOOT` partition. Boot
+loaders should also look in the `/EFI/Linux/` of the ESP — if it is different
+from `$BOOT` — and present a merged list of menu entries from both partitions.
+Regardless if placed in the primary or secondary location: the files must have
+the extension `.efi`.  Support for images of this type is of course specific to
+systems with EFI firmware. Ignore this section if you work on systems not
+supporting EFI.
 
 Type #2 file names should be chosen from the same restricted character set as
 Type #1 described above (but with the file name suffix of `.efi` instead of
