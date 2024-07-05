@@ -71,8 +71,44 @@ Boot menus such as [sd-boot](http://www.freedesktop.org/software/systemd/man/sd-
 and other consumers of UKIs may place additional requirements,
 for example only show kernels with the `.osrel` section present.
 
-Note that the same file format is also used for other purposes,
-for example addons, which will contain a different subset of sections.
+## PE Addons
+
+UKIs are PE executables that may be executed directly in UEFI mode, and contain a variety of resources
+built-in, as described above. Sometimes it's useful to provide a minimal level of modularity and extend UKIs
+dynamically with additional resources from separate files. For this purpose UKIs can be combined with one or
+more "PE Addons". This are regular PE UEFI application binaries, that can be authenticated via the usual UEFI
+SecureBoot logic, and may contain additional PE sections from the list above, that shall be used in
+combination with any PE sections of the UKI itself. At UKI invocation time, the EFI stub contained in the UKI
+may load additional of these PE Addons and apply them (after authenticating them via UEFI APIs), combining
+them with the resources of the UKI.
+
+PE Addons may *not* contain `.linux` PE sections (this may be used to distinguish them from UKIs, which must
+have this section, see above).
+
+PE Addons must contain at least one section of the following types:
+
+* `.cmdline`
+* `.dtb`
+* `.ucode`
+
+PE Addons should be sorted by their filename, and applied in this order. In case of `.cmdline` all command
+lines provided by addons are suffixed in this order to any command line included in the UKI. In case of
+`.dtb` any such section included in the UKI shall be applied first, and those provided by add-ons should then
+by applied in order as a fix-up. In case of `.ucode` the contained `cpio` archives should be prefixed to the
+regular initrds passed to the kernel, in reverse order.
+
+PE Addons may include sections of multiple types (e.g. both a `.cmdline` and a `.dtb` section), in which case
+all of them should be applied.
+
+Just like UKIs PE Addons should have the `Subystem` field of the *optional* PE header set to 0x0A.
+
+The PE header's `Machine` field should be set to the local CPU type for the target machine of the Addon. When
+enumerating PE Addons to apply, candidates should be skipped when their header field reports a non-native CPU
+architecture.
+
+PE Addons may contain executable code in a `.text` section. This code may be useful to write a friendly error
+message to the UEFI console when executed as regular programs. The code should be ignored when the addon is
+applied on an UKI.
 
 ## UKI TPM PCR Measurements
 
