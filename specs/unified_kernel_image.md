@@ -26,16 +26,19 @@ This specification defines the format and components (mandatory and optional) of
 [systemd-stub](https://www.freedesktop.org/software/systemd/man/systemd-stub.html)
 provides the reference implementation of the stub.
 
-## File Format
-The file format is PE/COFF (Portable Executable / Common Object File Format).
-This is a well-known industry-standard file format, used for example in UEFI environments,
-and UKIs follow the standard, so exact details will not be repeated here.
+## UKI File Format
+The file format for UKIs is PE/COFF (Portable Executable / Common Object File Format).  This is a well-known
+industry-standard file format, used for example in UEFI environments, and UKIs follow the standard, so exact
+details will not be repeated here.
 
 UKIs are a PE/COFF file with various resources, listed below, stored in PE sections.
 In principle this file can be created with a relatively simple `objcopy` invocation,
 but the recommended way is to use a helper program
 ([`ukify`](https://www.freedesktop.org/software/systemd/man/ukify.html)),
 which takes care of appropriate alignment and facilitates signing for SecureBoot.
+
+UKIs are UEFI applications images, and hence should initialize the `Subsystem` field of the *optional* PE
+header to 0x0A (i.e. `IMAGE_SUBSYSTEM_EFI_APPLICATION`).
 
 ## UKI Components
 UKIs consist of the following resources:
@@ -60,8 +63,10 @@ they may appear at most once,
 except for the `.dtb` section which may appear multiple times.
 
 Only the `.linux` section is required for the image to be considered a Unified *Kernel* Image.
+
 A UKI will generally also contain various sections required for the boot stub,
 but we don't document those here.
+
 Boot menus such as [sd-boot](http://www.freedesktop.org/software/systemd/man/sd-boot.html)
 and other consumers of UKIs may place additional requirements,
 for example only show kernels with the `.osrel` section present.
