@@ -180,6 +180,72 @@ Example:
 The [`systemd-measure`](https://www.freedesktop.org/software/systemd/man/systemd-measure.html) tool can be
 used to generate and sign `.pcrsig`.
 
+## Multi-Profile UKIs
+
+In various contexts it is useful to support multiple different configurations ("profiles") an UKI may be
+booted into. An example: a single UKI that can be booted with one of three different kernel command lines,
+one covering regular boot, one implementing a factory reset logic, and a third one booting into Storage
+Target Mode, or similar. In order to support this, *Multi-Profile UKIs* may be defined, as an optional
+extension of the regular UKI concept described above.
+
+Multi-profile UKIs extend regular UKIs by introducing an additional PE section with the name `.profile` which
+can appear multiple times in a single PE file and both acts as a separator between multiple profiles of the
+same UKI, and carries meta-information about the profile it is introducing. All regular UKI PE sections
+listed above may appear multiple times in multi-profile UKIs, but only once before the first `.profile` PE
+section, once between each subsequent pair of `.profile` sections, and once after the last `.profile` (except
+for `.dtb`, which is allowed to be defined multiple times anyway, see above). Each `.profile` section
+introduces and defines a profile, which are numbered from zero, and typically denoted with an `@` character
+before the profile number, i.e. `@0`, `@1`, `@2`, … The sections listed in the PE binary before the first
+`.profile` section make up a special profile called the *base profile*.
+
+When a multi-profile UKI is invoked, the EFI stub code will make sure to load the PE sections matching the
+selected profile. A profile is (optionally) selected by prefixing the EFI stub's invocation parameters
+("command line") with `@0 `, `@1 `, `@2 `, (i.e. an `@` character, the numeric profile index, and a space
+character) in order to select the desired profile. The stub combines the PE sections of the selected profile
+with any PE sections from the base profile that are not specified in the selected profile. Or in other words:
+sections associated with specific profiles comprehensively override those of the same name in the base
+profile. If a multi-profile UKI is invoked without specification of a profile selector on its command line,
+profile `@0` is automatically selected as default.
+
+The profile selector prefix of the UKI's invocation parameters is stripped after parsing, and is thus neither
+passed on to the invoked kernel on the kernel's command line, nor is measured as part of the kernel command
+line.
+
+When measuring PE sections before passing control to the contained kernel, only the sections associated with
+the selected profile, or the base profile are measured. All others are ignored (neither measured nor used in
+any other way).
+
+A `.profile` section may optionally contain meta-information about the profile it introduces that a boot menu
+can use to automatically synthesize menu entries from the profiles a UKI defines. It contains text data,
+following a similar syntax as `.osrel` sections: environment-block like key-value pairs. Currently, two
+fields are defined: `ID=` may contain a brief textual, 7bit ASCII identifier for the profile. `TITLE=` may
+contain a brief human readable text string that may be shown in a boot menu that allows profile selection.
+
+A brief example for the structure of a hypothetical multi-profile UKI:
+
+| Section        | Contents                                                    | Profile |
+|----------------|-------------------------------------------------------------|---------|
+| `.linux`       | ELF kernel                                                  | Base    |
+| `.osrel`       | `/etc/os-release`                                           | Base    |
+| `.cmdline`     | `"quiet"`                                                   | Base    |
+| **`.profile`** | `ID=regular TITLE="Regular boot"`                           | `@0`    |
+| **`.profile`** | `ID=factory-reset TITLE="Reset Device to Factory Defaults"` | `@1`    |
+| `.cmdline`     | `"quiet systemd.unit=factory-reset.target"`                 | `@1`    |
+| **`.profile`** | `ID=storagetm TITLE="Boot into Storage Target Mode"`        | `@2`    |
+| `.cmdline`     | `"quiet rd.systemd.unit=storage-target-mode.target"`        | `@2`    |
+
+(Note: in this example, the `.cmdline` shown as part of the base profile might as well be moved into profile
+`@0` with identical effect. This is because every other profile overrides it anyway, and thus it only applies
+to profile `@0` either way.)
+
+While the primary usecase for multi-profile UKIs are allowing multiple kernel command line sections
+(i.e. `.cmdline`) choices, the concept is not limited to that: any of the UKI PE sections may appear in
+profiles, for example to allow alternative selection of multiple different CPU microcode or Devicetree blobs.
+
+Note that if the PCR signature mechanism described above is used it is recommended to include a separate
+`.pcrsig` PE section in each profile matching precisely the sections that apply to that profile (i.e. the
+combination of the profile's own sections and those of the base section).
+
 ## Updatability
 UKIs wrap all of the above data in a single file, hence all of the above components can be updated in one go
 through single file atomic updates, which is useful given that the primary expected storage place for these
