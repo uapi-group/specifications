@@ -64,6 +64,7 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Partition (64-bit SPARC (SPARC64))_ | `f7b4d167-1e51-42a9-8151-ec96c2e99478` `SD_GPT_ROOT_SPARC64` | ditto | ditto |
 | _Root Partition (SuperH (sh4))_ | `7b8f86b1-397a-4e1c-9eb0-850983baedc4` `SD_GPT_ROOT_SH4` | ditto | ditto |
 | _Root Partition (TILE-Gx)_ | `c50cdd70-3862-4cc3-90e1-809a8c93ee2c` `SD_GPT_ROOT_TILEGX` | ditto | ditto |
+| _Root Partition (x32)_ | `63595225-06a8-43f5-a67a-ca4a57f9755c` `SD_GPT_ROOT_X32` | ditto | ditto |
 | _Root Partition (x86)_ | `44479540-f297-41b2-9af7-d131d5f0458a` `SD_GPT_ROOT_X86` | ditto | ditto |
 | _Root Partition (amd64/x86_64)_ | `4f68bce3-e8cd-4db1-96e7-fbcaf984b709` `SD_GPT_ROOT_X86_64` | ditto | ditto |
 | _`/usr/` Partition (Alpha)_ | `e18cf08c-33ec-4c0d-8246-c6c6fb3da024` `SD_GPT_USR_ALPHA` | Any native, optionally in LUKS | Similar semantics to root partition, but just the `/usr/` partition. |
@@ -88,6 +89,7 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Partition (64-bit SPARC (SPARC64))_ | `db8ce399-787c-460a-80e3-69104c1ce375` `SD_GPT_USR_SPARC64` | ditto | ditto |
 | _`/usr/` Partition (SuperH (sh4))_ | `0b6d8f08-1548-4183-a6fa-22fe95bc5422` `SD_GPT_USR_SH4` | ditto | ditto |
 | _`/usr/` Partition (TILE-Gx)_ | `55497029-c7c1-44cc-aa39-815ed1558630` `SD_GPT_USR_TILEGX` | ditto | ditto |
+| _`/usr/` Partition (x32)_ | `892c7c79-6d60-4d69-9ac4-4566e8b5c878` `SD_GPT_USR_X32` | ditto | ditto |
 | _`/usr/` Partition (x86)_ | `75250d76-8cc6-458e-bd66-bd47cc81a812` `SD_GPT_USR_X86` | ditto | ditto |
 | _`/usr/` Partition (amd64/x86_64)_ | `8484680c-9521-48c6-9c11-b0720656f69e` `SD_GPT_USR_X86_64` | ditto | ditto |
 | _Root Verity Partition (Alpha)_ | `fc56d9e9-e6e5-4c06-be32-e74407ce09a5` `SD_GPT_ROOT_ALPHA_VERITY` | A dm-verity superblock followed by hash data | Contains dm-verity integrity hash data for the matching root partition. If this feature is used the partition UUID of the root partition should be the first 128 bits of the root hash of the dm-verity hash data, and the partition UUID of this dm-verity partition should be the final 128 bits of it, so that the root partition and its Verity partition can be discovered easily, simply by specifying the root hash. |
@@ -112,6 +114,7 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Partition (64-bit SPARC (SPARC64))_ | `4a42d3da-9a55-4973-beff-173496dee76f` `SD_GPT_ROOT_SPARC64_VERITY` | ditto | ditto |
 | _Root Verity Partition (SuperH (sh4))_ | `4a6c2f25-be67-45c5-95ac-255424f94f89` `SD_GPT_ROOT_SH4_VERITY` | ditto | ditto |
 | _Root Verity Partition (TILE-Gx)_ | `966061ec-28e4-4b2e-b4a5-1f0a825a1d84` `SD_GPT_ROOT_TILEGX_VERITY` | ditto | ditto |
+| _Root Verity Partition (x32)_ | `f3cac76c-ae97-497e-a98e-4dbe3864b8cd` `SD_GPT_ROOT_X32_VERITY` | ditto | ditto |
 | _Root Verity Partition (amd64/x86_64)_ | `2c7357ed-ebd2-46d9-aec1-23d437ec2bf5` `SD_GPT_ROOT_X86_64_VERITY` | ditto | ditto |
 | _Root Verity Partition (x86)_ | `d13c5d3b-b5d1-422a-b29f-9454fdc89d76` `SD_GPT_ROOT_X86_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (Alpha)_ | `8cce0d25-c0d0-4a44-bd87-46331bf1df67` `SD_GPT_USR_ALPHA_VERITY` | A dm-verity superblock followed by hash data | Similar semantics to root Verity partition, but just for the `/usr/` partition. |
@@ -136,6 +139,7 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Partition (64-bit SPARC (SPARC64))_ | `c94cddd2-694d-4ce1-bf7b-8b6f29bafeb1` `SD_GPT_USR_SPARC64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (SuperH (sh4))_ | `7dd626a2-f8a9-4e38-b8aa-8cedfef0f0ee` `SD_GPT_USR_SH4_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (TILE-Gx)_ | `2fb4bf56-07fa-42da-8132-6b139f2026ae` `SD_GPT_USR_TILEGX_VERITY` | ditto | ditto |
+| _`/usr/` Verity Partition (x32)_ | `46bf874f-d80c-4141-814e-e1482a881636` `SD_GPT_USR_X32_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (amd64/x86_64)_ | `77ff5f63-e7b6-4633-acf4-1565b864c0e6` `SD_GPT_USR_X86_64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (x86)_ | `8f461b0d-14ee-4e81-9aa9-049b6fb97abd` `SD_GPT_USR_X86_VERITY` | ditto | ditto |
 | _Root Verity Signature Partition (Alpha)_ | `d46495b7-a053-414f-80f7-700c99921ef8` `SD_GPT_ROOT_ALPHA_VERITY_SIG` | A serialized JSON object, see below | Contains a root hash and a PKCS#7 signature for it, permitting signed dm-verity GPT images. |
@@ -160,6 +164,7 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Signature Partition (64-bit SPARC (SPARC64))_ | `795cf80b-dcbf-4952-9c7b-4fd4729dfd97` `SD_GPT_ROOT_SPARC64_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (SuperH (sh4))_ | `c6284716-c0b3-4c93-b349-a386d6bdee62` `SD_GPT_ROOT_SH4_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (TILE-Gx)_ | `b3671439-97b0-4a53-90f7-2d5a8f3ad47b` `SD_GPT_ROOT_TILEGX_VERITY_SIG` | ditto | ditto |
+| _Root Verity Signature Partition (x32)_ | `8d266d5f-d24d-4070-9cf6-38f61473762c` `SD_GPT_ROOT_X32_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (amd64/x86_64)_ | `41092b05-9fc8-4523-994f-2def0408b176` `SD_GPT_ROOT_X86_64_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (x86)_ | `5996fc05-109c-48de-808b-23fa0830b676` `SD_GPT_ROOT_X86_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (Alpha)_ | `5c6e1c76-076a-457a-a0fe-f3b4cd21ce6e` `SD_GPT_USR_ALPHA_VERITY_SIG` | A serialized JSON object, see below | Similar semantics to root Verity signature partition, but just for the `/usr/` partition. |
@@ -184,6 +189,7 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Signature Partition (64-bit SPARC (SPARC64))_ | `0bebc110-9e89-4e17-9e52-6f3973889b2b` `SD_GPT_USR_SPARC64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (SuperH (sh4))_ | `71bbee31-fc3c-4ba4-8050-0b75ed32b466` `SD_GPT_USR_SH4_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (TILE-Gx)_ | `4ede75e2-6ccc-4cc8-b9c7-70334b087510` `SD_GPT_USR_TILEGX_VERITY_SIG` | ditto | ditto |
+| _`/usr/` Verity Signature Partition (x32)_ | `c4753c76-e51c-4bbc-b150-3edbafb903c3` `SD_GPT_USR_X32_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (amd64/x86_64)_ | `e7bb33fb-06cf-4e81-8273-e543b413e2e2` `SD_GPT_USR_X86_64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (x86)_ | `974a71c0-de41-43c3-be5d-5c5ccd1ad2c0` `SD_GPT_USR_X86_VERITY_SIG` | ditto | ditto |
 | _EFI System Partition_ | `c12a7328-f81f-11d2-ba4b-00a0c93ec93b` `SD_GPT_ESP` | VFAT | The ESP used for the current boot is automatically mounted to `/boot/` or `/efi/`, unless a different partition is mounted there (possibly via `/etc/fstab`) or the mount point directory is non-empty on the root disk. If both ESP and XBOOTLDR exist, the `/efi/` mount point shall be used for ESP. This partition type is defined by the [UEFI Specification](http://www.uefi.org/specifications). |
