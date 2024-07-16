@@ -61,6 +61,7 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Partition (RISC-V 64-bit)_ | `72ec70a6-cf74-40e6-bd49-4bda08e8f224` `SD_GPT_ROOT_RISCV64` | ditto | ditto |
 | _Root Partition (s390)_ | `08a7acea-624c-4a20-91e8-6e0fa67d23f9` `SD_GPT_ROOT_S390` | ditto | ditto |
 | _Root Partition (s390x)_ | `5eead9a9-fe09-4a1e-a1d7-520d00531306` `SD_GPT_ROOT_S390X` | ditto | ditto |
+| _Root Partition (SuperH (sh4))_ | `7b8f86b1-397a-4e1c-9eb0-850983baedc4` `SD_GPT_ROOT_SH4` | ditto | ditto |
 | _Root Partition (TILE-Gx)_ | `c50cdd70-3862-4cc3-90e1-809a8c93ee2c` `SD_GPT_ROOT_TILEGX` | ditto | ditto |
 | _Root Partition (x86)_ | `44479540-f297-41b2-9af7-d131d5f0458a` `SD_GPT_ROOT_X86` | ditto | ditto |
 | _Root Partition (amd64/x86_64)_ | `4f68bce3-e8cd-4db1-96e7-fbcaf984b709` `SD_GPT_ROOT_X86_64` | ditto | ditto |
@@ -83,6 +84,7 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Partition (RISC-V 64-bit)_ | `beaec34b-8442-439b-a40b-984381ed097d` `SD_GPT_USR_RISCV64` | ditto | ditto |
 | _`/usr/` Partition (s390)_ | `cd0f869b-d0fb-4ca0-b141-9ea87cc78d66` `SD_GPT_USR_S390` | ditto | ditto |
 | _`/usr/` Partition (s390x)_ | `8a4f5770-50aa-4ed3-874a-99b710db6fea` `SD_GPT_USR_S390X` | ditto | ditto |
+| _`/usr/` Partition (SuperH (sh4))_ | `0b6d8f08-1548-4183-a6fa-22fe95bc5422` `SD_GPT_USR_SH4` | ditto | ditto |
 | _`/usr/` Partition (TILE-Gx)_ | `55497029-c7c1-44cc-aa39-815ed1558630` `SD_GPT_USR_TILEGX` | ditto | ditto |
 | _`/usr/` Partition (x86)_ | `75250d76-8cc6-458e-bd66-bd47cc81a812` `SD_GPT_USR_X86` | ditto | ditto |
 | _`/usr/` Partition (amd64/x86_64)_ | `8484680c-9521-48c6-9c11-b0720656f69e` `SD_GPT_USR_X86_64` | ditto | ditto |
@@ -105,6 +107,7 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Partition (RISC-V 64-bit)_ | `b6ed5582-440b-4209-b8da-5ff7c419ea3d` `SD_GPT_ROOT_RISCV64_VERITY` | ditto | ditto |
 | _Root Verity Partition (s390)_ | `7ac63b47-b25c-463b-8df8-b4a94e6c90e1` `SD_GPT_ROOT_S390_VERITY` | ditto | ditto |
 | _Root Verity Partition (s390x)_ | `b325bfbe-c7be-4ab8-8357-139e652d2f6b` `SD_GPT_ROOT_S390X_VERITY` | ditto | ditto |
+| _Root Verity Partition (SuperH (sh4))_ | `4a6c2f25-be67-45c5-95ac-255424f94f89` `SD_GPT_ROOT_SH4_VERITY` | ditto | ditto |
 | _Root Verity Partition (TILE-Gx)_ | `966061ec-28e4-4b2e-b4a5-1f0a825a1d84` `SD_GPT_ROOT_TILEGX_VERITY` | ditto | ditto |
 | _Root Verity Partition (amd64/x86_64)_ | `2c7357ed-ebd2-46d9-aec1-23d437ec2bf5` `SD_GPT_ROOT_X86_64_VERITY` | ditto | ditto |
 | _Root Verity Partition (x86)_ | `d13c5d3b-b5d1-422a-b29f-9454fdc89d76` `SD_GPT_ROOT_X86_VERITY` | ditto | ditto |
@@ -127,6 +130,7 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Partition (RISC-V 64-bit)_ | `8f1056be-9b05-47c4-81d6-be53128e5b54` `SD_GPT_USR_RISCV64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (s390)_ | `b663c618-e7bc-4d6d-90aa-11b756bb1797` `SD_GPT_USR_S390_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (s390x)_ | `31741cc4-1a2a-4111-a581-e00b447d2d06` `SD_GPT_USR_S390X_VERITY` | ditto | ditto |
+| _`/usr/` Verity Partition (SuperH (sh4))_ | `7dd626a2-f8a9-4e38-b8aa-8cedfef0f0ee` `SD_GPT_USR_SH4_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (TILE-Gx)_ | `2fb4bf56-07fa-42da-8132-6b139f2026ae` `SD_GPT_USR_TILEGX_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (amd64/x86_64)_ | `77ff5f63-e7b6-4633-acf4-1565b864c0e6` `SD_GPT_USR_X86_64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (x86)_ | `8f461b0d-14ee-4e81-9aa9-049b6fb97abd` `SD_GPT_USR_X86_VERITY` | ditto | ditto |
@@ -149,6 +153,7 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Signature Partition (RISC-V 64-bit)_ | `efe0f087-ea8d-4469-821a-4c2a96a8386a` `SD_GPT_ROOT_RISCV64_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (s390)_ | `3482388e-4254-435a-a241-766a065f9960` `SD_GPT_ROOT_S390_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (s390x)_ | `c80187a5-73a3-491a-901a-017c3fa953e9` `SD_GPT_ROOT_S390X_VERITY_SIG` | ditto | ditto |
+| _Root Verity Signature Partition (SuperH (sh4))_ | `c6284716-c0b3-4c93-b349-a386d6bdee62` `SD_GPT_ROOT_SH4_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (TILE-Gx)_ | `b3671439-97b0-4a53-90f7-2d5a8f3ad47b` `SD_GPT_ROOT_TILEGX_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (amd64/x86_64)_ | `41092b05-9fc8-4523-994f-2def0408b176` `SD_GPT_ROOT_X86_64_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (x86)_ | `5996fc05-109c-48de-808b-23fa0830b676` `SD_GPT_ROOT_X86_VERITY_SIG` | ditto | ditto |
@@ -171,6 +176,7 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Signature Partition (RISC-V 64-bit)_ | `d2f9000a-7a18-453f-b5cd-4d32f77a7b32` `SD_GPT_USR_RISCV64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (s390)_ | `17440e4f-a8d0-467f-a46e-3912ae6ef2c5` `SD_GPT_USR_S390_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (s390x)_ | `3f324816-667b-46ae-86ee-9b0c0c6c11b4` `SD_GPT_USR_S390X_VERITY_SIG` | ditto | ditto |
+| _`/usr/` Verity Signature Partition (SuperH (sh4))_ | `71bbee31-fc3c-4ba4-8050-0b75ed32b466` `SD_GPT_USR_SH4_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (TILE-Gx)_ | `4ede75e2-6ccc-4cc8-b9c7-70334b087510` `SD_GPT_USR_TILEGX_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (amd64/x86_64)_ | `e7bb33fb-06cf-4e81-8273-e543b413e2e2` `SD_GPT_USR_X86_64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (x86)_ | `974a71c0-de41-43c3-be5d-5c5ccd1ad2c0` `SD_GPT_USR_X86_VERITY_SIG` | ditto | ditto |
