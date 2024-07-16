@@ -115,8 +115,8 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Partition (SuperH (sh4))_ | `4a6c2f25-be67-45c5-95ac-255424f94f89` `SD_GPT_ROOT_SH4_VERITY` | ditto | ditto |
 | _Root Verity Partition (TILE-Gx)_ | `966061ec-28e4-4b2e-b4a5-1f0a825a1d84` `SD_GPT_ROOT_TILEGX_VERITY` | ditto | ditto |
 | _Root Verity Partition (x32)_ | `f3cac76c-ae97-497e-a98e-4dbe3864b8cd` `SD_GPT_ROOT_X32_VERITY` | ditto | ditto |
-| _Root Verity Partition (amd64/x86_64)_ | `2c7357ed-ebd2-46d9-aec1-23d437ec2bf5` `SD_GPT_ROOT_X86_64_VERITY` | ditto | ditto |
 | _Root Verity Partition (x86)_ | `d13c5d3b-b5d1-422a-b29f-9454fdc89d76` `SD_GPT_ROOT_X86_VERITY` | ditto | ditto |
+| _Root Verity Partition (amd64/x86_64)_ | `2c7357ed-ebd2-46d9-aec1-23d437ec2bf5` `SD_GPT_ROOT_X86_64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (Alpha)_ | `8cce0d25-c0d0-4a44-bd87-46331bf1df67` `SD_GPT_USR_ALPHA_VERITY` | A dm-verity superblock followed by hash data | Similar semantics to root Verity partition, but just for the `/usr/` partition. |
 | _`/usr/` Verity Partition (ARC)_ | `fca0598c-d880-4591-8c16-4eda05c7347c` `SD_GPT_USR_ARC_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (32-bit ARM)_ | `c215d751-7bcd-4649-be90-6627490a4c05` `SD_GPT_USR_ARM_VERITY` | ditto | ditto |
@@ -140,8 +140,8 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Partition (SuperH (sh4))_ | `7dd626a2-f8a9-4e38-b8aa-8cedfef0f0ee` `SD_GPT_USR_SH4_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (TILE-Gx)_ | `2fb4bf56-07fa-42da-8132-6b139f2026ae` `SD_GPT_USR_TILEGX_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (x32)_ | `46bf874f-d80c-4141-814e-e1482a881636` `SD_GPT_USR_X32_VERITY` | ditto | ditto |
-| _`/usr/` Verity Partition (amd64/x86_64)_ | `77ff5f63-e7b6-4633-acf4-1565b864c0e6` `SD_GPT_USR_X86_64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (x86)_ | `8f461b0d-14ee-4e81-9aa9-049b6fb97abd` `SD_GPT_USR_X86_VERITY` | ditto | ditto |
+| _`/usr/` Verity Partition (amd64/x86_64)_ | `77ff5f63-e7b6-4633-acf4-1565b864c0e6` `SD_GPT_USR_X86_64_VERITY` | ditto | ditto |
 | _Root Verity Signature Partition (Alpha)_ | `d46495b7-a053-414f-80f7-700c99921ef8` `SD_GPT_ROOT_ALPHA_VERITY_SIG` | A serialized JSON object, see below | Contains a root hash and a PKCS#7 signature for it, permitting signed dm-verity GPT images. |
 | _Root Verity Signature Partition (ARC)_ | `143a70ba-cbd3-4f06-919f-6c05683a78bc` `SD_GPT_ROOT_ARC_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (32-bit ARM)_ | `42b0455f-eb11-491d-98d3-56145ba9d037` `SD_GPT_ROOT_ARM_VERITY_SIG` | ditto | ditto |
@@ -165,8 +165,8 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Signature Partition (SuperH (sh4))_ | `c6284716-c0b3-4c93-b349-a386d6bdee62` `SD_GPT_ROOT_SH4_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (TILE-Gx)_ | `b3671439-97b0-4a53-90f7-2d5a8f3ad47b` `SD_GPT_ROOT_TILEGX_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (x32)_ | `8d266d5f-d24d-4070-9cf6-38f61473762c` `SD_GPT_ROOT_X32_VERITY_SIG` | ditto | ditto |
-| _Root Verity Signature Partition (amd64/x86_64)_ | `41092b05-9fc8-4523-994f-2def0408b176` `SD_GPT_ROOT_X86_64_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (x86)_ | `5996fc05-109c-48de-808b-23fa0830b676` `SD_GPT_ROOT_X86_VERITY_SIG` | ditto | ditto |
+| _Root Verity Signature Partition (amd64/x86_64)_ | `41092b05-9fc8-4523-994f-2def0408b176` `SD_GPT_ROOT_X86_64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (Alpha)_ | `5c6e1c76-076a-457a-a0fe-f3b4cd21ce6e` `SD_GPT_USR_ALPHA_VERITY_SIG` | A serialized JSON object, see below | Similar semantics to root Verity signature partition, but just for the `/usr/` partition. |
 | _`/usr/` Verity Signature Partition (ARC)_ | `94f9a9a1-9971-427a-a400-50cb297f0f35` `SD_GPT_USR_ARC_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (32-bit ARM)_ | `d7ff812f-37d1-4902-a810-d76ba57b975a` `SD_GPT_USR_ARM_VERITY_SIG` | ditto | ditto |
@@ -190,8 +190,8 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Signature Partition (SuperH (sh4))_ | `71bbee31-fc3c-4ba4-8050-0b75ed32b466` `SD_GPT_USR_SH4_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (TILE-Gx)_ | `4ede75e2-6ccc-4cc8-b9c7-70334b087510` `SD_GPT_USR_TILEGX_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (x32)_ | `c4753c76-e51c-4bbc-b150-3edbafb903c3` `SD_GPT_USR_X32_VERITY_SIG` | ditto | ditto |
-| _`/usr/` Verity Signature Partition (amd64/x86_64)_ | `e7bb33fb-06cf-4e81-8273-e543b413e2e2` `SD_GPT_USR_X86_64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (x86)_ | `974a71c0-de41-43c3-be5d-5c5ccd1ad2c0` `SD_GPT_USR_X86_VERITY_SIG` | ditto | ditto |
+| _`/usr/` Verity Signature Partition (amd64/x86_64)_ | `e7bb33fb-06cf-4e81-8273-e543b413e2e2` `SD_GPT_USR_X86_64_VERITY_SIG` | ditto | ditto |
 | _EFI System Partition_ | `c12a7328-f81f-11d2-ba4b-00a0c93ec93b` `SD_GPT_ESP` | VFAT | The ESP used for the current boot is automatically mounted to `/boot/` or `/efi/`, unless a different partition is mounted there (possibly via `/etc/fstab`) or the mount point directory is non-empty on the root disk. If both ESP and XBOOTLDR exist, the `/efi/` mount point shall be used for ESP. This partition type is defined by the [UEFI Specification](http://www.uefi.org/specifications). |
 | _Extended Boot Loader Partition_ | `bc13c2ff-59e6-4262-a352-b275fd6f7172` `SD_GPT_XBOOTLDR` | Typically VFAT | The Extended Boot Loader Partition (XBOOTLDR) used for the current boot is automatically mounted to `/boot/`, unless a different partition is mounted there (possibly via `/etc/fstab`) or the mount point directory is non-empty on the root disk. This partition type is defined by the [Boot Loader Specification](https://systemd.io/BOOT_LOADER_SPECIFICATION). |
 | _Swap_ | `0657fd6d-a4ab-43c4-84e5-0933c84b4f4f` `SD_GPT_SWAP` | Swap, optionally in LUKS | All swap partitions on the disk containing the root partition are automatically enabled. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/swap`. This partition type predates the Discoverable Partitions Specification. |
