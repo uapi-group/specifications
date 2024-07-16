@@ -48,6 +48,7 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Partition (64-bit ARM/AArch64)_ | `b921b045-1df0-41c3-af44-4c6f280d3fae` `SD_GPT_ROOT_ARM64` | ditto | ditto |
 | _Root Partition (Itanium/IA-64)_ | `993d8d3d-f80e-4225-855a-9daf8ed7ea97` `SD_GPT_ROOT_IA64` | ditto | ditto |
 | _Root Partition (LoongArch 64-bit)_ | `77055800-792c-4f94-b39a-98c91b762bb6` `SD_GPT_ROOT_LOONGARCH64` | ditto | ditto |
+| _Root Partition (Motorola 68000)_ | `0cf191c8-3b54-433a-b715-68c6fa4086de` `SD_GPT_ROOT_M68K` | ditto | ditto |
 | _Root Partition (32-bit MIPS BigEndian (mips))_ | `e9434544-6e2c-47cc-bae2-12d6deafb44c` | ditto | ditto |
 | _Root Partition (64-bit MIPS BigEndian (mips64))_ | `d113af76-80ef-41b4-bdb6-0cff4d3d4a25` | ditto | ditto |
 | _Root Partition (32-bit MIPS LittleEndian (mipsel))_ | `37c58c8a-d913-4156-a25f-48b1b64e07f0` `SD_GPT_ROOT_MIPS_LE` | ditto | ditto |
@@ -69,6 +70,7 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Partition (64-bit ARM/AArch64)_ | `b0e01050-ee5f-4390-949a-9101b17104e9` `SD_GPT_USR_ARM64` | ditto | ditto |
 | _`/usr/` Partition (Itanium/IA-64)_ | `4301d2a6-4e3b-4b2a-bb94-9e0b2c4225ea` `SD_GPT_USR_IA64` | ditto | ditto |
 | _`/usr/` Partition (LoongArch 64-bit)_ | `e611c702-575c-4cbe-9a46-434fa0bf7e3f` `SD_GPT_USR_LOONGARCH64` | ditto | ditto |
+| _`/usr/` Partition (Motorola 68000)_ | `a639b810-a02d-44bc-b579-d23e7bffdede` `SD_GPT_USR_M68K` | ditto | ditto |
 | _`/usr/` Partition (32-bit MIPS BigEndian (mips))_ | `773b2abc-2a99-4398-8bf5-03baac40d02b` | ditto | ditto |
 | _`/usr/` Partition (64-bit MIPS BigEndian (mips64))_ | `57e13958-7331-4365-8e6e-35eeee17c61b` | ditto | ditto |
 | _`/usr/` Partition (32-bit MIPS LittleEndian (mipsel))_ | `0f4868e9-9952-4706-979f-3ed3a473e947` `SD_GPT_USR_MIPS_LE` | ditto | ditto |
@@ -90,6 +92,7 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Partition (64-bit ARM/AArch64)_ | `df3300ce-d69f-4c92-978c-9bfb0f38d820` `SD_GPT_ROOT_ARM64_VERITY` | ditto | ditto |
 | _Root Verity Partition (Itanium/IA-64)_ | `86ed10d5-b607-45bb-8957-d350f23d0571` `SD_GPT_ROOT_IA64_VERITY` | ditto | ditto |
 | _Root Verity Partition (LoongArch 64-bit)_ | `f3393b22-e9af-4613-a948-9d3bfbd0c535` `SD_GPT_ROOT_LOONGARCH64_VERITY` | ditto | ditto |
+| _Root Verity Partition Partition (Motorola 68000)_ | `843e63a4-c1ff-476e-a8a4-1b72e399475f` `SD_GPT_ROOT_M68K_VERITY` | ditto | ditto |
 | _Root Verity Partition (32-bit MIPS BigEndian (mips))_ | `7a430799-f711-4c7e-8e5b-1d685bd48607` | ditto | ditto |
 | _Root Verity Partition (64-bit MIPS BigEndian (mips64))_ | `579536f8-6a33-4055-a95a-df2d5e2c42a8` | ditto | ditto |
 | _Root Verity Partition (32-bit MIPS LittleEndian (mipsel))_ | `d7d150d2-2a04-4a33-8f12-16651205ff7b` `SD_GPT_ROOT_MIPS_LE_VERITY` | ditto | ditto |
@@ -111,6 +114,7 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Partition (64-bit ARM/AArch64)_ | `6e11a4e7-fbca-4ded-b9e9-e1a512bb664e` `SD_GPT_USR_ARM64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (Itanium/IA-64)_ | `6a491e03-3be7-4545-8e38-83320e0ea880` `SD_GPT_USR_IA64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (LoongArch 64-bit)_ | `f46b2c26-59ae-48f0-9106-c50ed47f673d` `SD_GPT_USR_LOONGARCH64_VERITY` | ditto | ditto |
+| _`/usr/` Verity Partition Partition (Motorola 68000)_ | `267da076-7f71-445b-961f-f97b817dfd11` `SD_GPT_USR_M68K_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (32-bit MIPS BigEndian (mips))_ | `6e5a1bc8-d223-49b7-bca8-37a5fcceb996` | ditto | ditto |
 | _`/usr/` Verity Partition (64-bit MIPS BigEndian (mips64))_ | `81cf9d90-7458-4df4-8dcf-c8a3a404f09b` | ditto | ditto |
 | _`/usr/` Verity Partition (32-bit MIPS LittleEndian (mipsel))_ | `46b98d8d-b55c-4e8f-aab3-37fca7f80752` `SD_GPT_USR_MIPS_LE_VERITY` | ditto | ditto |
@@ -132,6 +136,7 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Signature Partition (64-bit ARM/AArch64)_ | `6db69de6-29f4-4758-a7a5-962190f00ce3` `SD_GPT_ROOT_ARM64_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (Itanium/IA-64)_ | `e98b36ee-32ba-4882-9b12-0ce14655f46a` `SD_GPT_ROOT_IA64_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (LoongArch 64-bit)_ | `5afb67eb-ecc8-4f85-ae8e-ac1e7c50e7d0` `SD_GPT_ROOT_LOONGARCH64_VERITY_SIG` | ditto | ditto |
+| _Root Verity Signature Partition (Motorola 68000)_ | `d6e4b0ae-10f8-46d9-9f36-d8fd1a14b51f` `SD_GPT_ROOT_M68K_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (32-bit MIPS BigEndian (mips))_ | `bba210a2-9c5d-45ee-9e87-ff2ccbd002d0` | ditto | ditto |
 | _Root Verity Signature Partition (64-bit MIPS BigEndian (mips64))_ | `43ce94d4-0f3d-4999-8250-b9deafd98e6e` | ditto | ditto |
 | _Root Verity Signature Partition (32-bit MIPS LittleEndian (mipsel))_ | `c919cc1f-4456-4eff-918c-f75e94525ca5` `SD_GPT_ROOT_MIPS_LE_VERITY_SIG` | ditto | ditto |
@@ -153,6 +158,7 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Signature Partition (64-bit ARM/AArch64)_ | `c23ce4ff-44bd-4b00-b2d4-b41b3419e02a` `SD_GPT_USR_ARM64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (Itanium/IA-64)_ | `8de58bc2-2a43-460d-b14e-a76e4a17b47f` `SD_GPT_USR_IA64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (LoongArch 64-bit)_ | `b024f315-d330-444c-8461-44bbde524e99` `SD_GPT_USR_LOONGARCH64_VERITY_SIG` | ditto | ditto |
+| _`/usr/` Verity Signature Partition (Motorola 68000)_ | `3b935677-dd33-4d7d-8b30-e602e316499e` `SD_GPT_USR_M68K_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (32-bit MIPS BigEndian (mips))_ | `97ae158d-f216-497b-8057-f7f905770f54` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (64-bit MIPS BigEndian (mips64))_ | `05816ce2-dd40-4ac6-a61d-37d32dc1ba7d` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (32-bit MIPS LittleEndian (mipsel))_ | `3e23ca0b-a4bc-4b4e-8087-5ab6a26aa8a9` `SD_GPT_USR_MIPS_LE_VERITY_SIG` | ditto | ditto |
