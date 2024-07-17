@@ -45,6 +45,8 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Partition (Alpha)_ | `6523f8ae-3eb1-4e2a-a05a-18b695ae656f` `SD_GPT_ROOT_ALPHA` | Any native, optionally in LUKS | On systems with matching architecture, the first partition with this type UUID on the disk containing the active EFI ESP is automatically mounted to the root directory `/`. If the partition is encrypted with LUKS or has dm-verity integrity data (see below), the device mapper file will be named `/dev/mapper/root`. |
 | _Root Partition (ARC)_ | `d27f46ed-2919-4cb8-bd25-9531f3c16534` `SD_GPT_ROOT_ARC` | ditto | ditto |
 | _Root Partition (32-bit ARM)_ | `69dad710-2ce4-4e3c-b16c-21a1d49abed3` `SD_GPT_ROOT_ARM` | ditto | ditto |
+| _Root Partition (32-bit ARM Software FP)_ | `60cc4129-60ea-4cd8-a502-d7a01b6731b1` `SD_GPT_ROOT_ARMEL` | ditto | ditto |
+| _Root Partition (32-bit ARM Hardware FP)_ | `86f3e677-80fe-4f9e-b466-0d2d563d4e5e` `SD_GPT_ROOT_ARMHF` | ditto | ditto |
 | _Root Partition (64-bit ARM/AArch64)_ | `b921b045-1df0-41c3-af44-4c6f280d3fae` `SD_GPT_ROOT_ARM64` | ditto | ditto |
 | _Root Partition (Itanium/IA-64)_ | `993d8d3d-f80e-4225-855a-9daf8ed7ea97` `SD_GPT_ROOT_IA64` | ditto | ditto |
 | _Root Partition (LoongArch 64-bit)_ | `77055800-792c-4f94-b39a-98c91b762bb6` `SD_GPT_ROOT_LOONGARCH64` | ditto | ditto |
@@ -70,6 +72,8 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Partition (Alpha)_ | `e18cf08c-33ec-4c0d-8246-c6c6fb3da024` `SD_GPT_USR_ALPHA` | Any native, optionally in LUKS | Similar semantics to root partition, but just the `/usr/` partition. |
 | _`/usr/` Partition (ARC)_ | `7978a683-6316-4922-bbee-38bff5a2fecc` `SD_GPT_USR_ARC` | ditto | ditto |
 | _`/usr/` Partition (32-bit ARM)_ | `7d0359a3-02b3-4f0a-865c-654403e70625` `SD_GPT_USR_ARM` | ditto | ditto |
+| _`/usr/` Partition (32-bit ARM Software FP)_ | `33f1c810-418b-4f68-abdd-7232ed9716a9` `SD_GPT_USR_ARMEL` | ditto | ditto |
+| _`/usr/` Partition (32-bit ARM Hardware FP)_ | `9fc0a01b-c58a-40d3-9a4b-7a23aa0b5db7` `SD_GPT_USR_ARMHF` | ditto | ditto |
 | _`/usr/` Partition (64-bit ARM/AArch64)_ | `b0e01050-ee5f-4390-949a-9101b17104e9` `SD_GPT_USR_ARM64` | ditto | ditto |
 | _`/usr/` Partition (Itanium/IA-64)_ | `4301d2a6-4e3b-4b2a-bb94-9e0b2c4225ea` `SD_GPT_USR_IA64` | ditto | ditto |
 | _`/usr/` Partition (LoongArch 64-bit)_ | `e611c702-575c-4cbe-9a46-434fa0bf7e3f` `SD_GPT_USR_LOONGARCH64` | ditto | ditto |
@@ -95,6 +99,8 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Partition (Alpha)_ | `fc56d9e9-e6e5-4c06-be32-e74407ce09a5` `SD_GPT_ROOT_ALPHA_VERITY` | A dm-verity superblock followed by hash data | Contains dm-verity integrity hash data for the matching root partition. If this feature is used the partition UUID of the root partition should be the first 128 bits of the root hash of the dm-verity hash data, and the partition UUID of this dm-verity partition should be the final 128 bits of it, so that the root partition and its Verity partition can be discovered easily, simply by specifying the root hash. |
 | _Root Verity Partition (ARC)_ | `24b2d975-0f97-4521-afa1-cd531e421b8d` `SD_GPT_ROOT_ARC_VERITY` | ditto | ditto |
 | _Root Verity Partition (32-bit ARM)_ | `7386cdf2-203c-47a9-a498-f2ecce45a2d6` `SD_GPT_ROOT_ARM_VERITY` | ditto | ditto |
+| _Root Verity Partition (32-bit ARM Software FP)_ | `771ad3e9-a3f0-4907-b1e1-05d8937a7e42` `SD_GPT_ROOT_ARMEL_VERITY` | ditto | ditto |
+| _Root Verity Partition (32-bit ARM Hardware FP)_ | `6aaf1fda-f0e7-49d9-8017-525a66343be3` `SD_GPT_ROOT_ARMHF_VERITY` | ditto | ditto |
 | _Root Verity Partition (64-bit ARM/AArch64)_ | `df3300ce-d69f-4c92-978c-9bfb0f38d820` `SD_GPT_ROOT_ARM64_VERITY` | ditto | ditto |
 | _Root Verity Partition (Itanium/IA-64)_ | `86ed10d5-b607-45bb-8957-d350f23d0571` `SD_GPT_ROOT_IA64_VERITY` | ditto | ditto |
 | _Root Verity Partition (LoongArch 64-bit)_ | `f3393b22-e9af-4613-a948-9d3bfbd0c535` `SD_GPT_ROOT_LOONGARCH64_VERITY` | ditto | ditto |
@@ -120,6 +126,8 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Partition (Alpha)_ | `8cce0d25-c0d0-4a44-bd87-46331bf1df67` `SD_GPT_USR_ALPHA_VERITY` | A dm-verity superblock followed by hash data | Similar semantics to root Verity partition, but just for the `/usr/` partition. |
 | _`/usr/` Verity Partition (ARC)_ | `fca0598c-d880-4591-8c16-4eda05c7347c` `SD_GPT_USR_ARC_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (32-bit ARM)_ | `c215d751-7bcd-4649-be90-6627490a4c05` `SD_GPT_USR_ARM_VERITY` | ditto | ditto |
+| _`/usr/` Verity Partition (32-bit ARM Software FP)_ | `bc18e0b0-c098-4740-8d4c-4a99027385b1` `SD_GPT_USR_ARMEL_VERITY` | ditto | ditto |
+| _`/usr/` Verity Partition (32-bit ARM Hardware FP)_ | `2f54bb1b-5db1-4888-9504-5f8624be4d3a` `SD_GPT_USR_ARMHF_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (64-bit ARM/AArch64)_ | `6e11a4e7-fbca-4ded-b9e9-e1a512bb664e` `SD_GPT_USR_ARM64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (Itanium/IA-64)_ | `6a491e03-3be7-4545-8e38-83320e0ea880` `SD_GPT_USR_IA64_VERITY` | ditto | ditto |
 | _`/usr/` Verity Partition (LoongArch 64-bit)_ | `f46b2c26-59ae-48f0-9106-c50ed47f673d` `SD_GPT_USR_LOONGARCH64_VERITY` | ditto | ditto |
@@ -145,6 +153,8 @@ boot loader communicates this information to the OS, by implementing the
 | _Root Verity Signature Partition (Alpha)_ | `d46495b7-a053-414f-80f7-700c99921ef8` `SD_GPT_ROOT_ALPHA_VERITY_SIG` | A serialized JSON object, see below | Contains a root hash and a PKCS#7 signature for it, permitting signed dm-verity GPT images. |
 | _Root Verity Signature Partition (ARC)_ | `143a70ba-cbd3-4f06-919f-6c05683a78bc` `SD_GPT_ROOT_ARC_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (32-bit ARM)_ | `42b0455f-eb11-491d-98d3-56145ba9d037` `SD_GPT_ROOT_ARM_VERITY_SIG` | ditto | ditto |
+| _Root Verity Signature Partition (32-bit ARM Software FP)_ | `9a742089-40fa-4112-b27e-1cce25ffd25e` `SD_GPT_ROOT_ARMEL_VERITY_SIG` | ditto | ditto |
+| _Root Verity Signature Partition (32-bit ARM Hardware FP)_ | `52ece4e6-049f-4398-b7bb-d9cd9d72cc3b` `SD_GPT_ROOT_ARMHF_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (64-bit ARM/AArch64)_ | `6db69de6-29f4-4758-a7a5-962190f00ce3` `SD_GPT_ROOT_ARM64_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (Itanium/IA-64)_ | `e98b36ee-32ba-4882-9b12-0ce14655f46a` `SD_GPT_ROOT_IA64_VERITY_SIG` | ditto | ditto |
 | _Root Verity Signature Partition (LoongArch 64-bit)_ | `5afb67eb-ecc8-4f85-ae8e-ac1e7c50e7d0` `SD_GPT_ROOT_LOONGARCH64_VERITY_SIG` | ditto | ditto |
@@ -170,6 +180,8 @@ boot loader communicates this information to the OS, by implementing the
 | _`/usr/` Verity Signature Partition (Alpha)_ | `5c6e1c76-076a-457a-a0fe-f3b4cd21ce6e` `SD_GPT_USR_ALPHA_VERITY_SIG` | A serialized JSON object, see below | Similar semantics to root Verity signature partition, but just for the `/usr/` partition. |
 | _`/usr/` Verity Signature Partition (ARC)_ | `94f9a9a1-9971-427a-a400-50cb297f0f35` `SD_GPT_USR_ARC_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (32-bit ARM)_ | `d7ff812f-37d1-4902-a810-d76ba57b975a` `SD_GPT_USR_ARM_VERITY_SIG` | ditto | ditto |
+| _`/usr/` Verity Signature Partition (32-bit ARM Software FP)_ | `13ac232f-bf21-4bb0-b345-edc494d7d14b` `SD_GPT_USR_ARMEL_VERITY_SIG` | ditto | ditto |
+| _`/usr/` Verity Signature Partition (32-bit ARM Hardware FP)_ | `b306635f-fdda-4d5c-8a38-ac61fe7a0e68` `SD_GPT_USR_ARMHF_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (64-bit ARM/AArch64)_ | `c23ce4ff-44bd-4b00-b2d4-b41b3419e02a` `SD_GPT_USR_ARM64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (Itanium/IA-64)_ | `8de58bc2-2a43-460d-b14e-a76e4a17b47f` `SD_GPT_USR_IA64_VERITY_SIG` | ditto | ditto |
 | _`/usr/` Verity Signature Partition (LoongArch 64-bit)_ | `b024f315-d330-444c-8461-44bbde524e99` `SD_GPT_USR_LOONGARCH64_VERITY_SIG` | ditto | ditto |
