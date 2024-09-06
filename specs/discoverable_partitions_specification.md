@@ -42,7 +42,7 @@ boot loader communicates this information to the OS, by implementing the
 
 | Name | Partition Type UUID | Allowed File Systems | Explanation |
 |------|---------------------|----------------------|-------------|
-| _Root Partition (Alpha)_ | `6523f8ae-3eb1-4e2a-a05a-18b695ae656f` `SD_GPT_ROOT_ALPHA` | Any native, optionally in LUKS | On systems with matching architecture, the first partition with this type UUID on the disk containing the active EFI ESP is automatically mounted to the root directory `/`. If the partition is encrypted with LUKS or has dm-verity integrity data (see below), the device mapper file will be named `/dev/mapper/root`. |
+| _Root Partition (Alpha)_ | `6523f8ae-3eb1-4e2a-a05a-18b695ae656f` `SD_GPT_ROOT_ALPHA` | Any native, optionally in LUKS | On systems with matching architecture, a partition with this type UUID (selected as described under Partition Ownership below) on the disk containing the active EFI ESP is automatically mounted to the root directory `/`. If the partition is encrypted with LUKS or has dm-verity integrity data (see below), the device mapper file will be named `/dev/mapper/root`. |
 | _Root Partition (ARC)_ | `d27f46ed-2919-4cb8-bd25-9531f3c16534` `SD_GPT_ROOT_ARC` | ditto | ditto |
 | _Root Partition (32-bit ARM)_ | `69dad710-2ce4-4e3c-b16c-21a1d49abed3` `SD_GPT_ROOT_ARM` | ditto | ditto |
 | _Root Partition (64-bit ARM/AArch64)_ | `b921b045-1df0-41c3-af44-4c6f280d3fae` `SD_GPT_ROOT_ARM64` | ditto | ditto |
@@ -171,10 +171,10 @@ boot loader communicates this information to the OS, by implementing the
 | _EFI System Partition_ | `c12a7328-f81f-11d2-ba4b-00a0c93ec93b` `SD_GPT_ESP` | VFAT | The ESP used for the current boot is automatically mounted to `/boot/` or `/efi/`, unless a different partition is mounted there (possibly via `/etc/fstab`) or the mount point directory is non-empty on the root disk. If both ESP and XBOOTLDR exist, the `/efi/` mount point shall be used for ESP. This partition type is defined by the [UEFI Specification](http://www.uefi.org/specifications). |
 | _Extended Boot Loader Partition_ | `bc13c2ff-59e6-4262-a352-b275fd6f7172` `SD_GPT_XBOOTLDR` | Typically VFAT | The Extended Boot Loader Partition (XBOOTLDR) used for the current boot is automatically mounted to `/boot/`, unless a different partition is mounted there (possibly via `/etc/fstab`) or the mount point directory is non-empty on the root disk. This partition type is defined by the [Boot Loader Specification](https://systemd.io/BOOT_LOADER_SPECIFICATION). |
 | _Swap_ | `0657fd6d-a4ab-43c4-84e5-0933c84b4f4f` `SD_GPT_SWAP` | Swap, optionally in LUKS | All swap partitions on the disk containing the root partition are automatically enabled. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/swap`. This partition type predates the Discoverable Partitions Specification. |
-| _Home Partition_ | `933ac7e1-2eb4-4f13-b844-0e14e2aef915` `SD_GPT_HOME` | Any native, optionally in LUKS | The first partition with this type UUID on the disk containing the root partition is automatically mounted to `/home/`. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/home`. |
-| _Server Data Partition_ | `3b8f8425-20e0-4f3b-907f-1a25a76f98e8` `SD_GPT_SRV` | Any native, optionally in LUKS | The first partition with this type UUID on the disk containing the root partition is automatically mounted to `/srv/`. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/srv`. |
-| _Variable Data Partition_ | `4d21b016-b534-45c2-a9fb-5c16e091fd2d` `SD_GPT_VAR` | Any native, optionally in LUKS | The first partition with this type UUID on the disk containing the root partition is automatically mounted to `/var/` — under the condition that its partition UUID matches the first 128 bits of `HMAC-SHA256(machine-id, 0x4d21b016b53445c2a9fb5c16e091fd2d)` (i.e. the SHA256 HMAC hash of the binary type UUID keyed by the machine ID as read from [`/etc/machine-id`](https://www.freedesktop.org/software/systemd/man/machine-id.html). This special requirement is made because `/var/` (unlike the other partition types listed here) is inherently private to a specific installation and cannot possibly be shared between multiple OS installations on the same disk, and thus should be bound to a specific instance of the OS, identified by its machine ID. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/var`. |
-| _Temporary Data Partition_ | `7ec6f557-3bc5-4aca-b293-16ef5df639d1` `SD_GPT_TMP` | Any native, optionally in LUKS | The first partition with this type UUID on the disk containing the root partition is automatically mounted to `/var/tmp/`. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/tmp`. Note that the intended mount point is indeed `/var/tmp/`, not `/tmp/`. The latter is typically maintained in memory via `tmpfs` and does not require a partition on disk. In some cases it might be desirable to make `/tmp/` persistent too, in which case it is recommended to make it a symlink or bind mount to `/var/tmp/`, thus not requiring its own partition type UUID. |
+| _Home Partition_ | `933ac7e1-2eb4-4f13-b844-0e14e2aef915` `SD_GPT_HOME` | Any native, optionally in LUKS | A partition with this type UUID on the disk containing the root partition is automatically mounted to `/home/`. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/home`. |
+| _Server Data Partition_ | `3b8f8425-20e0-4f3b-907f-1a25a76f98e8` `SD_GPT_SRV` | Any native, optionally in LUKS | A partition with this type UUID on the disk containing the root partition is automatically mounted to `/srv/`. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/srv`. |
+| _Variable Data Partition_ | `4d21b016-b534-45c2-a9fb-5c16e091fd2d` `SD_GPT_VAR` | Any native, optionally in LUKS | A partition with this type UUID on the disk containing the root partition is automatically mounted to `/var/`. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/var`. |
+| _Temporary Data Partition_ | `7ec6f557-3bc5-4aca-b293-16ef5df639d1` `SD_GPT_TMP` | Any native, optionally in LUKS | A partition with this type UUID on the disk containing the root partition is automatically mounted to `/var/tmp/`. If the partition is encrypted with LUKS, the device mapper file will be named `/dev/mapper/tmp`. Note that the intended mount point is indeed `/var/tmp/`, not `/tmp/`. The latter is typically maintained in memory via `tmpfs` and does not require a partition on disk. In some cases it might be desirable to make `/tmp/` persistent too, in which case it is recommended to make it a symlink or bind mount to `/var/tmp/`, thus not requiring its own partition type UUID. |
 | _Per-user Home Partition_ | `773f91ef-66d4-49b5-bd83-d683bf40ad16` `SD_GPT_USER_HOME` | Any native, optionally in LUKS | A home partition of a user, managed by [`systemd-homed`](https://www.freedesktop.org/software/systemd/man/systemd-homed.html). |
 | _Generic Linux Data Partition_ | `0fc63daf-8483-4772-8e79-3d69d8477de4` `SD_GPT_LINUX_GENERIC` | Any native, optionally in LUKS | No automatic mounting takes place for other Linux data partitions. This partition type should be used for all partitions that carry Linux file systems. The installer needs to mount them explicitly via entries in `/etc/fstab`. Optionally, these partitions may be encrypted with LUKS. This partition type predates the Discoverable Partitions Specification. |
 
@@ -185,19 +185,42 @@ this specification.
 [systemd-id128(1)](https://www.freedesktop.org/software/systemd/man/systemd-id128.html)'s
 `show` command may be used to list those GPT partition type UUIDs.
 
-## Partition Names
+## Partition Ownership
 
-For partitions of the types listed above it is recommended to use
-human-friendly, descriptive partition names in the GPT partition table, for
-example "*Home*", "*Server* *Data*", "*Fedora* *Root*" and similar, possibly
-localized.
+If two Linux-based operating systems are installed on the same disk, the scheme
+above suggests that they may share the swap, `/home/`, `/srv/`, `/var/tmp/`,
+ESP, XBOOTLDR. However, they should each have their own root, `/usr/` and
+`/var/` partition.
 
-For the Root/Verity/Verity signature partitions it might make sense to use a
-versioned naming scheme reflecting the OS name and its version,
-e.g. "fooOS_2021.4" or similar.
-For details about the version format see the
-[Version Format Specification](version_format_specification.md). The underscore
-character (`_`) must be used to separate the version from the name of the image.
+To this end, OSs can claim ownership over a partition by prefixing its GPT label
+with its `ID=`, as described in [os-release(5)](https://www.freedesktop.org/software/systemd/man/latest/os-release.html))
+followed by an underscore as a separator. For example, a root partition on an installation of
+Fedora should have its label prefixed with `fedora_`. What follows is up to the
+OS, but for the Root/Verity/Verity Signature partitions it might make sense to
+use the [Version Format Specification](version_format_specification.md) to specify
+the version of the OS the partitions contain.
+
+Given a partition type UUID, implementations _should_ follow the following procedure
+to pick the exact partition to mount. The first partition with a matching type
+UUID will be mounted, as long as the currently-running distribution has claimed
+ownership over it. If no such partition is found, then the first partition with
+a matching type UUID will be mounted, no matter the ownership.
+
+Previous versions of this specification had additional requirements placed on
+the `/var/` partition: it would only be auto-mounted if the partition's UUID
+matched the first 128 bits of `HMAC-SHA256(machine-id, 0x4d21b016b53445c2a9fb5c16e091fd2d)`
+(i.e. the SHA256 HMAC hash of the binary `/var/` type UUID keyed by the machine
+ID as read from [`/etc/machine-id`](https://www.freedesktop.org/software/systemd/man/machine-id.html)).
+Implementations of this specification *must* attempt this check, and *must* prefer
+to mount a `/var/` partition that passes before mounting one that doesn't. For
+instance, it is valid for an implementation to do the following: pick the `/var/`
+partition with a matching UUID for auto-mount, or if one isn't found pick the
+`/var/` partition claimed by the currently-running distribution, or if one isn't
+found pick the first `/var/` partition encountered on disk.
+
+The OS side of the algorithm described here is implemented in the
+[systemd-gpt-auto-generator(8)](https://www.freedesktop.org/software/systemd/man/systemd-gpt-auto-generator.html),
+starting with version v257.
 
 ## Partition Attribute Flags
 
@@ -314,34 +337,33 @@ above. The installer should not pre-populate such an interface with any
 identified root, `/usr` or `/var/` partition unless the intention is to
 overwrite an existing operating system that might be installed.
 
-An *installer* _may_ omit creating entries in `/etc/fstab` for root, `/home/`,
-`/srv/`, `/var/`, `/var/tmp` and for the swap partitions if they use these UUID
-partition types, and are the first partitions on the disk of each type. If the
-ESP shall be mounted to `/efi/` (or `/boot/`), it may additionally omit
+An *installer* _may_ omit creating entries in `/etc/fstab` for root, `/usr/`,
+`/home/`, `/srv/`, `/var/`, `/var/tmp` and for the swap partitions if they use
+these UUID partition types, and are the first partitions on the disk of each type.
+If the ESP shall be mounted to `/efi/` (or `/boot/`), it may additionally omit
 creating the entry for it in `/etc/fstab`.  If the EFI partition shall not be
 mounted to `/efi/` or `/boot/`, it _must_ create `/etc/fstab` entries for them.
-If other partitions are used (for example for `/usr/local/` or
-`/var/lib/mysql/`), the installer _must_ register these in `/etc/fstab`.  The
-`root=` parameter passed to the kernel by the boot loader may be omitted if the
-root partition is the first one on the disk of its type.  If the root partition
-is not the first one on the disk, the `root=` parameter _must_ be passed to the
-kernel by the boot loader.  An installer that mounts a root, `/usr/`, `/home/`,
-`/srv/`, `/var/`, or `/var/tmp/` file system with the partition types defined
-as above which contains a LUKS header _must_ call the device mapper device
-"root", "usr", "home", "srv", "var" or "tmp", respectively.  This is necessary
-to ensure that the automatic discovery will never result in different device
-mapper names than any static configuration by the installer, thus eliminating
-possible naming conflicts and ambiguities.
+Similar requirements apply to the XBOOTLDR partition. If other partitions are
+used (for example for `/usr/local/` or `/var/lib/mysql/`), the installer _must_
+register these in `/etc/fstab`.  The `root=` parameter passed to the kernel by
+the boot loader may be omitted if the root partition is the first one on the disk
+of its type, or if the OS claims ownership over it as described above. Otherwise,
+the `root=` parameter _must_ be passed to the kernel by the boot loader. An
+installer that mounts a root, `/usr/`, `/home/`, `/srv/`, `/var/`, or `/var/tmp/`
+file system with the partition types defined as above which contains a LUKS header
+_must_ call the device mapper device "root", "usr", "home", "srv", "var" or "tmp",
+respectively.  This is necessary to ensure that the automatic discovery will never
+result in different device mapper names than any static configuration by the
+installer, thus eliminating possible naming conflicts and ambiguities.
 
-An *operating* *system* _should_ automatically discover and mount the first
-root partition that does not have the no-auto flag set (as described above) by
-scanning the disk containing the currently used EFI ESP.  It _should_
-automatically discover and mount the first `/usr/`, `/home/`, `/srv/`, `/var/`,
-`/var/tmp/` and swap partitions that do not have the no-auto flag set by
-scanning the disk containing the discovered root partition.  It should
-automatically discover and mount the partition containing the currently used
-EFI ESP to `/efi/` (or `/boot/` as fallback).  It should automatically discover
-and mount the partition containing the currently used Extended Boot Loader
+An *operating system* _should_ automatically discover and mount the root
+partition as described above, unless the no-auto GPT flag is set, by scanning
+the disk containing the currently used EFI ESP.  It _should_ automatically discover
+and mount the appropriate `/usr/`, `/home/`, `/srv/`, `/var/`, `/var/tmp/` and
+swap partitions that do not have the no-auto flag set by scanning the disk
+containing the discovered root partition.  It should automatically discover and
+mount the currently used EFI ESP to `/efi/` (or `/boot/` as fallback).  It should
+automatically discover and mount the currently used Extended Boot Loader
 Partition to `/boot/`. It _should not_ discover or automatically mount
 partitions with other UUID partition types, or partitions located on other
 disks, or partitions with the no-auto flag set.  User configuration shall
@@ -352,13 +374,12 @@ it _must_ take precedence over automatically discovered partitions.  If a
 `/home/`, `/usr/`, `/srv/`, `/boot/`, `/var/`, `/var/tmp/`, `/efi/` or `/boot/`
 directory is found to be populated already in the root partition, the automatic
 discovery _must not_ mount any discovered file system over it. Optionally, in
-case of the root, `/usr/` and their Verity partitions instead of strictly
-mounting the first suitable partition an OS might choose to mount the partition
-whose label compares the highest according to `strverscmp()` or similar logic,
-in order to implement a simple partition-based A/B versioning scheme. The
-precise rules are left for the implementation to decide, but when in doubt
-earlier partitions (by their index) should always win over later partitions if
-the label comparison is inconclusive.
+case of the root, `/usr/`, and associated Verity partitions, the OS _may_ choose
+to mount the partition whose label compares the highest according to the
+[Version Format Specification](version_format_specification.md), to implement a
+simple partition-based A/B versioning scheme. The precise rules are left for the
+implementation to decide, but when in doubt earlier partitions (by their index)
+should always win over later partitions if the label comparison is inconclusive.
 
 A *container* *manager* should automatically discover and mount the root,
 `/usr/`, `/home/`, `/srv/`, `/var/`, `/var/tmp/` partitions inside a container
@@ -370,13 +391,6 @@ If a btrfs file system is automatically discovered and mounted by the operating
 system/container manager it will be mounted with its *default* subvolume.  The
 installer should make sure to set the default subvolume correctly using "btrfs
 subvolume set-default".
-
-## Sharing of File Systems between Installations
-
-If two Linux-based operating systems are installed on the same disk, the scheme
-above suggests that they may share the swap, `/home/`, `/srv/`, `/var/tmp/`,
-ESP, XBOOTLDR. However, they should each have their own root, `/usr/` and
-`/var/` partition.
 
 ## Frequently Asked Questions
 
@@ -399,23 +413,34 @@ discovery of the appropriate root partition on each architecture.
 
 ### Doesn't this break multi-boot scenarios?
 
-No, it doesn't.  The specification says that installers may not stop creating
-`/etc/fstab` or stop including `root=` on the kernel command line, unless the used
-partitions are the first ones of their type on the disk. Additionally,
-`/etc/fstab` and `root=` both override automatic discovery.  Multi-boot is hence
-well supported, since it doesn't change anything for anything but the first
-installation.
+No, it doesn't. The specification gives two solutions for installers that wish
+to support multi-boot.
 
-That all said, it's not expected that generic installers generally stop setting
-`root=` and creating `/etc/fstab` anyway. The option to drop these configuration
-bits is primarily something for appliance-like devices.  However, generic
-installers should *still* set the right GPT partition types for the partitions
-they create so that container managers, partition tools and administrators can
-benefit.  Phrased differently, this specification introduces A) the
-*recommendation* to use the newly defined partition types to tag things
-properly and B) the *option* to then drop `root=` and `/etc/fstab`.  While we
-advertise A) to *all* installers, we only propose B) for simpler,
-appliance-like installations.
+First, there is the option of claiming ownership over the partition with its
+label, which permits multi-boot between different distributions without relying
+on any other kind of configuration. This option is suitable for cases where
+`/etc/fstab` may be wiped at will by the user, such as immutable distributions
+that support factory reset.
+
+Second, the specification requires that installers continue creating `/etc/fstab`
+and including `root=` on the kernel command line, unless they can rely on the
+ownership behavior or their partitions are just the first on disk. Additionally,
+`/etc/fstab` and `root=` both override automatic discovery.  Multi-boot is hence
+well supported - OSs can continue using `/etc/fstab` and `root=` like they always
+have done.
+
+The authors of this specification don't expect that generic installers will stop
+setting `root=` and creating `/etc/fstab`. The option to drop these bits of
+configuration is there primarily to enable image-based OSs, or appliance-like
+applications. However, generic installers should *still* set the right GPT partition
+types for the partitions they create for the benefit of container managers,
+partition tools, and administrators.
+
+Phrased differently, this specification introduces A) the *recommendation* to
+use the newly defined partition types, and to tag things properly, so that the
+partition table is self-describing and B) the *option* to then drop `root=` and
+`/etc/fstab`. While we advertise A) to *all* installers, we only propose B) for
+more specialized cases.
 
 ### What partitioning tools will create a DPS-compliant partition table?
 
@@ -428,6 +453,9 @@ available.
 
 The `gdisk` tool (from version 1.0.5 onward) and its variants (`sgdisk`,
 `cgdisk`) also support creation of partitions with a matching type code.
+
+The `systemd-repart` tool creates DPS and DDI compliant disk images. It can also
+be used to deploy disk images onto new disks.
 
 ## Links
 
