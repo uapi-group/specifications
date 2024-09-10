@@ -26,6 +26,8 @@ The authoriative description is in the TCG document.
 
 How other operating systems — in particular Windows — use PCRs, is out of scope of this document.
 
+Also see [UAPI.19 Linux TPM 2.0 NV Index Registry](linux_tpm_nvindex_registry.md).
+
 This document is informational in nature: it just describes what is, it is not intended to formally declare “ownership” of a specific PCR, but simply is supposed to reflect which PCR assignments are common in the Linux ecosystems. That said, co-opting PCR usage will likely create problems down the line, in particular if measurement logs are maintained separately. (To be more explicit: on `systemd` systems the warranty is voided if you write to the PCRs it also uses, as per the list below.)
 
 PCR measurements most commonly serve two distinct purposes:
