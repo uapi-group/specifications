@@ -56,7 +56,7 @@ strings are found to compare as different. In a loop:
    the string with `-` compares lower. Otherwise, both minus characters are skipped.
 5. If the remaining part of one of strings starts with `^`:
    if the other remaining part does not start with `^`,
-   the string with `^` compares lower. Otherwise, both caret characters are skipped.
+   the string with `^` compares higher. Otherwise, both caret characters are skipped.
 6. If the remaining part of one of strings starts with `.`:
    if the other remaining part does not start with `.`,
    the string with `.` compares lower. Otherwise, both dot characters are skipped.
