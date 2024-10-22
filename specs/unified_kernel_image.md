@@ -52,7 +52,9 @@ UKIs consist of the following resources:
 * Optionally, the initrd that the kernel shall unpack and invoke, in the `.initrd` section.
 * Optionally, a microcode initrd in the `.ucode` section, to be handed to the kernel before any other initrd.
 * Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
-* Optionally, one or more compiled Device Trees, for systems which need it, each in its separate `.dtb` section. If multiple `.dtb` sections exist then one of them is selected according to an implementation-specific algorithm.
+* Optionally, a compiled Devicetree, for systems which need it, in the `.dtb` section.
+* Optionally, one or more compiled Devicetrees, for systems which need it, each in a separate `.dtbauto` section. The first `.dtbauto` section that matches the current hardware (matching is done either by the first `compatible` property with one from the firmware-provided Devicetree or by the SMBIOS fields using the contents of `.hwids` section as described below) will override the `.dtb` section.
+* Optionally, a hardware identification table (also known as [HWID](https://github.com/fwupd/fwupd/blob/main/docs/hwids.md) or [CHID](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/specifying-hardware-ids-for-a-computer)) in the `.hwids` section.
 * Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the key pair described below.
@@ -60,7 +62,7 @@ UKIs consist of the following resources:
 
 Note that all of the sections defined above are singletons:
 they may appear at most once,
-except for the `.dtb` section which may appear multiple times.
+except for the `.dtbauto` section which may appear multiple times.
 
 Only the `.linux` section is required for the image to be considered a Unified *Kernel* Image.
 
@@ -89,12 +91,13 @@ PE Addons must contain at least one section of the following types:
 
 * `.cmdline`
 * `.dtb`
+* `.dtbauto`
 * `.ucode`
 * `.initrd`
 
 PE Addons should be sorted by their filename, and applied in this order. In case of `.cmdline` all command
 lines provided by addons are suffixed in this order to any command line included in the UKI. In case of
-`.dtb` any such section included in the UKI shall be applied first, and those provided by add-ons should then
+`.dtb` and `.dtbauto` any such section included in the UKI shall be applied first, and those provided by add-ons should then
 by applied in order as a fix-up. In case of `.ucode` the contained `cpio` archives should be prefixed to the
 regular initrds passed to the kernel, in reverse order. In case of `.initrd` the contained `cpio` archives
 should be appended to the regular initrds passed to the kernel.
@@ -132,8 +135,7 @@ the measurements are interleaved: section name followed by section
 data, followed by the next section name and its section data, and so
 on.
 
-If multiple `.dtb` sections are present, they shall be measured in the
-order they appear in the PE file.
+If multiple `.dtbauto` sections are present, only the one that is actually in use shall be measured.
 
 ## JSON Format for `.pcrsig`
 The format is a single JSON object, encoded as a zero-terminated `UTF-8` string. Each name in the object
@@ -195,7 +197,7 @@ can appear multiple times in a single PE file and both acts as a separator betwe
 same UKI, and carries meta-information about the profile it is introducing. All regular UKI PE sections
 listed above may appear multiple times in multi-profile UKIs, but only once before the first `.profile` PE
 section, once between each subsequent pair of `.profile` sections, and once after the last `.profile` (except
-for `.dtb`, which is allowed to be defined multiple times anyway, see above). Each `.profile` section
+for `.dtbauto`, which is allowed to be defined multiple times anyway, see above). Each `.profile` section
 introduces and defines a profile, which are numbered from zero, and typically denoted with an `@` character
 before the profile number, i.e. `@0`, `@1`, `@2`, … The sections listed in the PE binary before the first
 `.profile` section make up a special profile called the *base profile*.
