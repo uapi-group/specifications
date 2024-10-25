@@ -67,7 +67,7 @@ regardless of the hierarchy under which they are stored.
 The drop-ins that are later in this order have higher precedence.
 
 For example, in addition to parsing `/etc/foo/bar.conf`,
-`/etc/foo/bar.conf.d/a.conf` and `/usr/lib/foo/bar.conf.d/b.conf` must also be parsed,
+`/etc/foo/bar.conf.d/a.conf` and `/etc/foo/bar.conf.d/b.conf` must also be parsed,
 in this order.
 The configuration in `bar.conf` has the lowest priority,
 and is overridden by `a.conf` and `b.conf`.
