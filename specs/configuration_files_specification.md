@@ -68,16 +68,14 @@ The drop-ins that are later in this order have higher precedence.
 
 Considering the following files are present on the filesystem, this would be the order in which the
 files are parsed. Note, that files with the same name override each other. The configuration in
-`bar.conf` has the lowest priority, and is overridden by `a.conf` and `b.conf`.`b.conf` has the
-highest priority.
+`bar.conf` has the lowest priority, and is read before `a.conf` and `b.conf`. `b.conf` has the
+highest priority:
 
-```
-/usr/lib/foo/bar.conf
-/etc/foo/bar.conf (overrides /usr/lib/foo/bar.conf)
-/usr/lib/foo/bar.conf.d/a.conf
-/etc/foo/bar.conf.d/a.conf (/usr/lib/foo/bar.conf.d/a.conf)
-/usr/lib/foo/bar.conf.d/b.conf
-```
+  - ~~`/usr/lib/foo/bar.conf`~~ (overridden by `/etc/foo/bar.conf`)
+  - `/etc/foo/bar.conf`
+  - ~~`/usr/lib/foo/bar.conf.d/a.conf`~~ (overridden by `/etc/foo/bar.conf.d/a.conf`)
+  - `/etc/foo/bar.conf.d/a.conf`
+  - `/usr/lib/foo/bar.conf.d/b.conf`
 
 If a config file is masked, drop-ins must still be parsed, unless they are masked
 themselves.
