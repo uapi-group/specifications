@@ -203,12 +203,14 @@ set: ASCII upper and lower case characters, digits, "+", "-", "_" and ".".
 Also, the file names should have a length of at least one and at most 255
 characters (including the file name suffix).
 
-These boot loader menu snippets shall be UNIX-style text files (i.e. lines
-separated by a single newline character), in the UTF-8 encoding. The
-boot loader menu snippets are loosely inspired by Grub1's configuration syntax.
-Lines beginning with "#" are used for comments and shall be ignored. The first
-word of a line is used as key and is separated by one or more spaces from the
-value.
+These boot loader menu snippets shall be UNIX-style text files
+(i.e. lines separated by a single newline character),
+in the UTF-8 encoding.
+The boot loader menu snippets are loosely inspired by Grub1's configuration syntax.
+Lines beginning with "#" are used for comments and shall be ignored.
+The first word of a line is used as key
+and is separated by one or more spaces from the value.
+The rest of the line contains the value, a literal string.
 
 #### Type #1 Boot Loader Entry Keys
 
@@ -250,19 +252,29 @@ The following keys are recognized:
 
   Example: `sort-key fedora`
 
-* `linux` is the Linux kernel image to execute and takes a path relative to the
-  root of the file system containing the boot entry snippet itself. It is
-  recommended that every distribution creates an entry-token/machine-id and
-  version specific subdirectory and places its kernels and initrd images there
+* `linux` specifies the Linux kernel image to execute.
+  The value is a path relative to the root of the file system
+  containing the boot entry snippet itself.
+
+  It is recommended that every distribution creates
+  a subdirectory specific to the entry-token or machine-id,
+  and underneath that, subdirectories specific to the kernel version,
+  and places places the kernel and initrd images there
   (see below).
 
   Example: `linux /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/linux`
 
-* `initrd` is the initrd `cpio` image to use when executing the kernel. This key
-  may appear more than once in which case all specified images are used, in the
-  order they are listed.
+* `initrd` specifies the initrd to use when executing the kernel (`cpio` image).
+  The value is a path relative to the root of the file system
+  containing the boot entry snippet itself.
+  This key may appear more than once,
+  in which case all specified images are used,
+  in the order they are listed.
 
-  Example: `initrd 6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/initrd`
+  Example:
+
+      initrd /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/initrd
+      initrd /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/modules
 
 * `efi` refers to an arbitrary EFI program. If this key is set, and the system
   is not an EFI system, this entry should be hidden.
