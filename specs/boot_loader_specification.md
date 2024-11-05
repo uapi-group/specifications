@@ -66,10 +66,26 @@ boot loader menu entries._
 
 For systems where the firmware is able to read file systems directly, the ESP
 must — and the MBR boot and GPT XBOOTLDR partition should — be a file system
-readable by the firmware. For most systems this means VFAT (16 or 32
-bit). Applications accessing both partitions should hence not assume that
+readable by the firmware. For most systems this means VFAT (16 or 32 bit).
+Applications accessing both partitions should hence not assume that
 fancier file system features such as symlinks, hardlinks, access control or
 case sensitivity are supported.
+
+Note that the partitions described here are not the exclusive territory of this specification.
+This specification only defines semantics of the `/loader/entries/` directory
+(along with the companion file `/loader/entries.srel`)
+and the `/EFI/Linux/` directory inside the file system,
+but it doesn't define other contents of the file system.
+Boot loaders, firmware, and other software implementing this specification
+may choose to place other files and directories in the same file system.
+For example,
+boot loaders might install their own boot code on the same partition;
+this is particularly common in the case of the ESP.
+Implementations of this specification must be able to operate correctly if
+files or directories other than `/loader/entries/` and `/EFI/Linux/` are found in the top level directory.
+Implementations that add their own files or directories to the file systems
+should use well-named directories,
+to make name collisions between multiple users of the file system unlikely.
 
 ### The `$BOOT` Partition Placeholder
 
@@ -145,21 +161,6 @@ match the local platform and what the boot loader can support, and hide them
 from the user. Only entries matching the feature set of boot loader and system
 shall be considered and displayed. This allows image builders to put together
 images that transparently support multiple different architectures.
-
-Note that the three partitions described above are not supposed to be the
-exclusive territory of this specification. This specification only defines
-semantics of the `/loader/entries/` directory (along with the companion file
-`/loader/entries.srel`) and the `/EFI/Linux/` directory inside the file system,
-but it doesn't intend to define contents of the rest of the file system. Boot
-loaders, firmware, and other software implementing this specification may
-choose to place other files and directories in the same file system. For
-example, boot loaders that implement this specification might install their own
-boot code on the same partition; this is particularly common in the case of the
-ESP. Implementations of this specification must be able to operate correctly if
-files or directories other than `/loader/entries/` and `/EFI/Linux/` are found
-in the top level directory. Implementations that add their own files or
-directories to the file systems should use well-named directories, to make name
-collisions between multiple users of the file system unlikely.
 
 ### Type #1 Boot Loader Specification Entries
 
