@@ -146,12 +146,14 @@ integrity properties and should remain unmounted whenever possible.)
 
 ## Boot Loader Entries
 
-This specification defines two types of boot loader entries. The first type is
-text based, very simple, and suitable for a variety of firmware, architecture
-and image types ("Type #1"). The second type is specific to EFI, but allows
-single-file images that embed all metadata in the kernel binary itself, which
-is useful to cryptographically sign them as one file for the purpose of
-SecureBoot ("Type #2").
+This specification defines two types of boot loader entries.
+The first type is text based, very simple,
+and suitable for a variety of firmware, architecture and image types ("Type #1").
+The second type is specific to EFI,
+but allows single-file images that combine the kernel binary
+with the configuration, initrd, and other components of the boot loader entry.
+This is also useful because the file can be cryptographically signed
+for the purposes of SecureBoot ("Type #2", Unified Kernel Images).
 
 Not all boot loader entries will apply to all systems. For example, Type #1
 entries that use the `efi` key and all Type #2 entries only apply to EFI
