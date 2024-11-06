@@ -66,10 +66,26 @@ boot loader menu entries._
 
 For systems where the firmware is able to read file systems directly, the ESP
 must — and the MBR boot and GPT XBOOTLDR partition should — be a file system
-readable by the firmware. For most systems this means VFAT (16 or 32
-bit). Applications accessing both partitions should hence not assume that
+readable by the firmware. For most systems this means VFAT (16 or 32 bit).
+Applications accessing both partitions should hence not assume that
 fancier file system features such as symlinks, hardlinks, access control or
 case sensitivity are supported.
+
+Note that the partitions described here are not the exclusive territory of this specification.
+This specification only defines semantics of the `/loader/entries/` directory
+(along with the companion file `/loader/entries.srel`)
+and the `/EFI/Linux/` directory inside the file system,
+but it doesn't define other contents of the file system.
+Boot loaders, firmware, and other software implementing this specification
+may choose to place other files and directories in the same file system.
+For example,
+boot loaders might install their own boot code on the same partition;
+this is particularly common in the case of the ESP.
+Implementations of this specification must be able to operate correctly if
+files or directories other than `/loader/entries/` and `/EFI/Linux/` are found in the top level directory.
+Implementations that add their own files or directories to the file systems
+should use well-named directories,
+to make name collisions between multiple users of the file system unlikely.
 
 ### The `$BOOT` Partition Placeholder
 
@@ -130,12 +146,14 @@ integrity properties and should remain unmounted whenever possible.)
 
 ## Boot Loader Entries
 
-This specification defines two types of boot loader entries. The first type is
-text based, very simple, and suitable for a variety of firmware, architecture
-and image types ("Type #1"). The second type is specific to EFI, but allows
-single-file images that embed all metadata in the kernel binary itself, which
-is useful to cryptographically sign them as one file for the purpose of
-SecureBoot ("Type #2").
+This specification defines two types of boot loader entries.
+The first type is text based, very simple,
+and suitable for a variety of firmware, architecture and image types ("Type #1").
+The second type is specific to EFI,
+but allows single-file images that combine the kernel binary
+with the configuration, initrd, and other components of the boot loader entry.
+This is also useful because the file can be cryptographically signed
+for the purposes of SecureBoot ("Type #2", Unified Kernel Images).
 
 Not all boot loader entries will apply to all systems. For example, Type #1
 entries that use the `efi` key and all Type #2 entries only apply to EFI
@@ -145,21 +163,6 @@ match the local platform and what the boot loader can support, and hide them
 from the user. Only entries matching the feature set of boot loader and system
 shall be considered and displayed. This allows image builders to put together
 images that transparently support multiple different architectures.
-
-Note that the three partitions described above are not supposed to be the
-exclusive territory of this specification. This specification only defines
-semantics of the `/loader/entries/` directory (along with the companion file
-`/loader/entries.srel`) and the `/EFI/Linux/` directory inside the file system,
-but it doesn't intend to define contents of the rest of the file system. Boot
-loaders, firmware, and other software implementing this specification may
-choose to place other files and directories in the same file system. For
-example, boot loaders that implement this specification might install their own
-boot code on the same partition; this is particularly common in the case of the
-ESP. Implementations of this specification must be able to operate correctly if
-files or directories other than `/loader/entries/` and `/EFI/Linux/` are found
-in the top level directory. Implementations that add their own files or
-directories to the file systems should use well-named directories, to make name
-collisions between multiple users of the file system unlikely.
 
 ### Type #1 Boot Loader Specification Entries
 
@@ -200,12 +203,14 @@ set: ASCII upper and lower case characters, digits, "+", "-", "_" and ".".
 Also, the file names should have a length of at least one and at most 255
 characters (including the file name suffix).
 
-These boot loader menu snippets shall be UNIX-style text files (i.e. lines
-separated by a single newline character), in the UTF-8 encoding. The
-boot loader menu snippets are loosely inspired by Grub1's configuration syntax.
-Lines beginning with "#" are used for comments and shall be ignored. The first
-word of a line is used as key and is separated by one or more spaces from the
-value.
+These boot loader menu snippets shall be UNIX-style text files
+(i.e. lines separated by a single newline character),
+in the UTF-8 encoding.
+The boot loader menu snippets are loosely inspired by Grub1's configuration syntax.
+Lines beginning with "#" are used for comments and shall be ignored.
+The first word of a line is used as key
+and is separated by one or more spaces from the value.
+The rest of the line contains the value, a literal string.
 
 #### Type #1 Boot Loader Entry Keys
 
@@ -247,19 +252,29 @@ The following keys are recognized:
 
   Example: `sort-key fedora`
 
-* `linux` is the Linux kernel image to execute and takes a path relative to the
-  root of the file system containing the boot entry snippet itself. It is
-  recommended that every distribution creates an entry-token/machine-id and
-  version specific subdirectory and places its kernels and initrd images there
+* `linux` specifies the Linux kernel image to execute.
+  The value is a path relative to the root of the file system
+  containing the boot entry snippet itself.
+
+  It is recommended that every distribution creates
+  a subdirectory specific to the entry-token or machine-id,
+  and underneath that, subdirectories specific to the kernel version,
+  and places places the kernel and initrd images there
   (see below).
 
   Example: `linux /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/linux`
 
-* `initrd` is the initrd `cpio` image to use when executing the kernel. This key
-  may appear more than once in which case all specified images are used, in the
-  order they are listed.
+* `initrd` specifies the initrd to use when executing the kernel (`cpio` image).
+  The value is a path relative to the root of the file system
+  containing the boot entry snippet itself.
+  This key may appear more than once,
+  in which case all specified images are used,
+  in the order they are listed.
 
-  Example: `initrd 6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/initrd`
+  Example:
+
+      initrd /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/initrd
+      initrd /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/modules
 
 * `efi` refers to an arbitrary EFI program. If this key is set, and the system
   is not an EFI system, this entry should be hidden.
