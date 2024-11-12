@@ -62,6 +62,7 @@ UKIs consist of the following resources:
 * Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
 * Optionally, a compiled Devicetree, for systems which need it, in the `.dtb` section.
 * Optionally, one or more compiled Devicetrees, for systems which need it, each in a separate `.dtbauto` section. The first `.dtbauto` section that matches the current hardware (matching is done either by the first `compatible` property with one from the firmware-provided Devicetree or by the SMBIOS fields using the contents of `.hwids` section as described below) will override the `.dtb` section.
+* Optionally, a firmware image in the `.efifw` section. This UEFI firmware image is an opaque binary blob that can be used as firmware in the next reset. The first `.efifw` section that matches the current hardware (matching is done first by the SMBIOS fields using the contents of `.hwids` section as described below and then by the firmware id of that matched entry) will be loaded.
 * Optionally, a hardware identification table (also known as [HWID](https://github.com/fwupd/fwupd/blob/main/docs/hwids.md) or [CHID](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/specifying-hardware-ids-for-a-computer)) in the `.hwids` section.
 * Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
@@ -70,7 +71,7 @@ UKIs consist of the following resources:
 
 Note that all of the sections defined above are singletons:
 they may appear at most once,
-except for the `.dtbauto` section which may appear multiple times.
+except for the `.dtbauto` and `.efifw` sections which may appear multiple times.
 
 Only the `.linux` section is required for the image to be considered a Unified *Kernel* Image.
 
