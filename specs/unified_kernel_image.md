@@ -52,6 +52,7 @@ UKIs consist of the following resources:
 * Optionally, the initrd that the kernel shall unpack and invoke, in the `.initrd` section.
 * Optionally, a microcode initrd in the `.ucode` section, to be handed to the kernel before any other initrd.
 * Optionally, a splash image to bring to screen before transitioning into the Linux kernel, in the `.splash` section.
+* Optionally, a firmware image in the `.efifw` section. This UEFI firmware image is an opaque binary blob that can be used as firmware in the next reset. If multiple `.efifw` sections exist then one of them is selected according to the matching hardware.
 * Optionally, one or more compiled Device Trees, for systems which need it, each in its separate `.dtb` section. If multiple `.dtb` sections exist then one of them is selected according to an implementation-specific algorithm.
 * Optionally, information describing kernel release information (i.e. `uname -r` output) in the `.uname` section. This is also useful for presentation of the UKI in the boot loader menu, and ordering it against other entries.
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
