@@ -90,12 +90,14 @@ PE Addons must contain at least one section of the following types:
 * `.cmdline`
 * `.dtb`
 * `.ucode`
+* `.initrd`
 
 PE Addons should be sorted by their filename, and applied in this order. In case of `.cmdline` all command
 lines provided by addons are suffixed in this order to any command line included in the UKI. In case of
 `.dtb` any such section included in the UKI shall be applied first, and those provided by add-ons should then
 by applied in order as a fix-up. In case of `.ucode` the contained `cpio` archives should be prefixed to the
-regular initrds passed to the kernel, in reverse order.
+regular initrds passed to the kernel, in reverse order. In case of `.initrd` the contained `cpio` archives
+should be appended to the regular initrds passed to the kernel.
 
 PE Addons may include sections of multiple types (e.g. both a `.cmdline` and a `.dtb` section), in which case
 all of them should be applied.
