@@ -279,6 +279,36 @@ The following keys are recognized:
 * `efi` refers to an arbitrary EFI program. If this key is set, and the system
   is not an EFI system, this entry should be hidden.
 
+* `uki` is a combination of the `linux` key, the `efi` key and Type #2 semantics: if this key is used the
+  specified path shall refer to a [unified kernel image (UKI)](unified_kernel_image.md). This informs the
+  boot loader to use UKI semantics (as exposed by Type #2) even though it is referenced via a Type #1
+  entry. This is useful to parameterize the UKI differently, to place it in a directory other than
+  `/EFI/Linux`, or to share a single UKI image among multiple menu entries.
+
+  If this key is set, and the system is not an EFI system, this entry should be hidden.
+
+  Example: `uki /fooos/bar.efi`
+
+* `uki-url` is similar to `uki`, but takes an RFC 3986 URI instead of a file path. It may be used to
+  reference remotely stored UKIs, which shall be downloaded using network boot support of the boot loader or
+  firmware on activation.
+
+  Example: `uki-url http://example.com/fooos.efi`
+
+  Optionally, in place of an URL a simple filename prefixed with `:` may be specified. In this case, if the
+  boot loader itself was booted via the network and knows its originating URL it shall replace the last
+  path component of that URL (i.e. the filename part) with the specified filename.
+
+  Example: `uki-url :fooos.efi`
+
+  This example would mean: if the boot loader was acquired from `http://example.com/somedir/fooosbootldr.img`
+  such a line would be treated equivalent to `uki-url http://example.com/somedir/fooos.efi`.
+
+  If this key is set, and the system is not an EFI system, or the boot loader/firmware does not support
+  network booting, this entry *shall* be hidden. Similarly, if the `:` syntax is used, but the boot loader
+  was not invoked via network booting (or doesn't know its originating URL) entries of this type *shall* be
+  hidden.
+
 * `options` shall contain kernel parameters to pass to the Linux kernel to
   spawn. This key is optional and may appear more than once in which case all
   specified parameters are combined in the order they are listed.
@@ -318,10 +348,10 @@ key. Here is an example for a complete drop-in file:
     linux        /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/linux
     initrd       /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/initrd
 
-On EFI systems all Linux kernel images should be EFI images. In order to
-increase compatibility with EFI systems it is highly recommended only to
-install EFI kernel images, even on non-EFI systems, if that's applicable and
-supported on the specific architecture.
+On EFI systems all Linux kernel images *should* be EFI PE images, or in case of the `uki` or `uki-url` key
+*must* be EFI PE images conforming to the [UKI Specification](unified_kernel_image.md). In order to increase
+compatibility with EFI systems it is highly recommended only to install EFI kernel images, even on non-EFI
+systems, if that's applicable and supported on the specific architecture.
 
 Conversely, in order to increase compatibility it is recommended to install
 generic kernel images that make few assumptions about the firmware they run on,
