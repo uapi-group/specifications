@@ -146,7 +146,7 @@ integrity properties and should remain unmounted whenever possible.)
 
 ## Boot Loader Entries
 
-This specification defines two types of boot loader entries.
+This specification defines three types of boot loader entries.
 The first type is text based, very simple,
 and suitable for a variety of firmware, architecture and image types ("Type #1").
 The second type is specific to EFI,
@@ -154,6 +154,10 @@ but allows single-file images that combine the kernel binary
 with the configuration, initrd, and other components of the boot loader entry.
 This is also useful because the file can be cryptographically signed
 for the purposes of SecureBoot ("Type #2", Unified Kernel Images).
+
+The third type is more general in purpose, while also providing for single-file
+images, combining one or more kernel, initrd and devicetree images. It supports
+multiple configurations which can share images. Configurations can be signed.
 
 Not all boot loader entries will apply to all systems. For example, Type #1
 entries that use the `efi` key and all Type #2 entries only apply to EFI
@@ -409,6 +413,122 @@ fields are not necessary, and there is no counterpart for the `machine-id`
 field.
 
 On EFI, any such images shall be added to the list of valid boot entries.
+
+### Type #3 Flattened Image Tree (FIT)
+
+A FIT is a single file combining one or more images arranged in one or more
+configurations. Each configuration targets a particular hardware model or use
+case. For ARM and RISC-V systems, specific support is provided for locating the
+correct devicetree and overlays for a given model.
+
+As with Type #1, `/loader/entries/` in `$BOOT` is the primary directory
+containing Type #3 drop-in files defining boot entries, one `.fit` file for each
+boot-menu item. Each OS may provide one or more such entries. No `entries.srel`
+file is required for Type #3 files.
+
+If the ESP is separate from `$BOOT` it may also contain a `/loader/entries/`
+directory, where the boot loader should look for boot entry snippets, as an
+additional source. The boot loader should enumerate both directories and
+present a merged list to the user. Note that this is done for compatibility
+only: while boot loaders should look in both places, OSes should only add their
+files to `$BOOT`.
+
+**Note:** _In all cases the `/loader/entries/` directory should be located
+directly in the root of the ESP or XBOOTLDR filesystem. Specifically, the
+`/loader/entries/` directory should **not** be located under the `/EFI/`
+subdirectory on the ESP._
+
+FITs which are not able to run on the system should not be displayed to the
+user. For example, FITs for a different architecture should be excluded. For
+systems which use devicetree, FITs without a matching devicetree for the system
+should be excluded.
+
+The FIT description should be set to the 'pretty name' from the
+[os-release](https://www.freedesktop.org/software/systemd/man/os-release.html)
+file (e.g. "Fedora 18 (Spherical Cow)"). This should be shown to the user to
+identify the FIT.
+
+Configurations may include a `cmdline` property containing the kernel
+command-line.
+
+Additional metadata relating to the OS release should be included in the FIT in
+an `os-release` subnode. This subnode either be in the kernel-image node, or in
+the configuration node, with the latter taking preference on an item-by-item
+basis. Items from the os-release file should be converted to the normal format
+for FIT properties, which is lower case, with hyphen instead of underscore. For
+example:
+
+    / {
+        description = "Ubuntu 24.04.2 LTS";
+        #address-cells = <1>;
+
+        kernel-1 {
+          description = "Linux 6.8.0-52-generic #53-Ubuntu";
+          type = "kernel";
+          arch = "arm64";
+          os = "linux";
+          compression = "lz4";
+
+          hash-1 {
+            algo = "sha256";
+          };
+
+          os-release {
+            name = "Ubuntu";
+            version-id = "24.04";
+            version = "24.04.2 LTS (Noble Numbat)";
+            version-codename = "noble";
+            id = "ubuntu";
+            home-url = "https://www.ubuntu.com/";
+            support-url = "https://help.ubuntu.com/";
+            bug-report-url = "https://bugs.launchpad.net/ubuntu/";
+            privacy-policy-url = "https://www.ubuntu.com/legal/terms-and-policies/privacy-policy";
+            logo = "ubuntu-logo";
+            data-offset...
+          };
+        };
+
+        ramdisk-1 {
+          ...
+          data-offset...
+        };
+
+        configurations {
+          default = "config-1";
+
+          config-1 {
+            description = "Ubuntu 24.04.2 LTS";
+            kernel = "kernel-1";
+            ramdisk = "ramdisk-1";
+            cmdline = "root=/dev/mapper/vgubuntu-root ro quiet splash";
+
+            signature {
+                algo = "sha256,rsa2048";
+                key-name-hint = "dev";
+                sign-images = ""kernel", "ramdisk";
+                signature data...
+            };
+
+            signature {
+                algo = "sha256,rsa2048";
+                key-name-hint = "prod";
+                sign-images = ""kernel", "ramdisk";
+                signature data...
+            };
+          };
+
+          config-2 {
+            description = "Ubuntu, with Linux 6.8.0-57-generic (recovery mode)";
+            kernel = "kernel-1";
+            ramdisk = "ramdisk-1";
+            cmdline = "root=/dev/mapper/vgubuntu-root ro recovery nomodeset";
+          };
+        };
+      };
+
+Please consult the full [FIT specification](https://fitspec.osfw.foundation/)
+for more information about the format of `.fit` files.
+
 
 ### Additional Notes
 
