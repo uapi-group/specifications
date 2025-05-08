@@ -447,6 +447,24 @@ Further, an implementation must check that the extended key usage of a _signatur
 
 It is strongly recommended to use signature formats that include metadata about the raw signature, in particular the signature creation time (e.g. [PKCS#7]/ [CMS]).
 
+#### Minisign
+
+---
+
+**NOTE**: This technology is in draft mode.
+Before implementing a minisign VOA backend, this section needs to be specified further to describe dedicated semantics.
+
+---
+
+This technology is referred to as `minisign` in the VOA structure.
+
+Minisign is a "point to point" signing technology.
+The targeted [purpose] only requires plain _artifact verifiers_, as there is no support for _trust anchors_ in this technology (i.e. any verifiers in "trust-anchor-*" purpose directories must be ignored, also when the target of a symlink).
+
+There is no concept of [verifier revocation].
+
+The file ending `.pub` is used for _artifact verifier_ files, following the default naming convention of the canonical [`minisign`] output.
+
 ## Examples
 
 The following examples provide an overview for several (hypothetical) scenarios in which VOA may be used.
@@ -591,6 +609,7 @@ If the need arises, this specification should be extended accordingly.
 [`ssh-keygen`]: https://man.archlinux.org/man/ssh-keygen.1
 [`ssh`]: https://man.archlinux.org/man/ssh.1
 [`sshd`]: https://man.archlinux.org/man/sshd.8
+[`minisign`]: https://man.archlinux.org/man/minisign.1
 [classification of signature verification models]: #classification-of-signature-verification-models
 [context]: #context
 [examples]: #examples
