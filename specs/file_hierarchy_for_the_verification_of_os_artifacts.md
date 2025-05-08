@@ -392,6 +392,39 @@ OpenPGP VOA backends must reject files where the certificate fingerprint of the 
 By default, in VOA, OpenPGP certificates that act as _trust anchors_ are considered with a _trust amount_ of 40 at a _trust depth_ of 1.
 More complex delegation setups are possible, but must be implemented using an application specific configuration mechanism.
 
+#### SSH
+
+---
+
+**NOTE**: This technology is in draft mode.
+Before implementing an SSH VOA backend, this section needs to be specified further to describe dedicated semantics for key revocation lists.
+
+---
+
+SSH can be used in two distinct [signature verification models]:
+
+- [point to point]: with this model the targeted [purpose] only requires _artifact verifiers_, it does not support _trust anchors_
+- [hierarchical delegation]: when relying on [SSH CA] this model expects both _artifact verifiers_ and _trust anchors_
+
+In both cases the [technology] is referred to as `ssh` in the VOA structure.
+
+The file ending `.pub` is used for _artifact verifier_ files, following the default naming convention of OpenSSH's [`ssh-keygen`] output.
+
+File names must consist of the sha256 fingerprint of the SSH public key, encoded in lowercase hex notation (e.g. `b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c.pub`).
+This format can for example be generated via `ssh-keygen -l -f ~/.ssh/id_rsa.pub | cut -f 2 -d ' ' | cut -d ':' -f 2 | base64 -d | xxd -p -c32`.
+SSH VOA backends must reject files where the sha256 fingerprint of the file name does not match the actual sha256 fingerprint of the contained SSH public key and should emit a warning if such a file is encountered.
+
+SSH signatures support the concept of namespaces, which declare a specific scope in which a signature is to be created and used.
+In VOA, the equivalent to an SSH namespace is the combination of _signature verifier_ [purpose] and [context].
+When verifying SSH signatures with a _signature verifier_, their namespaces should be matched against the combination of the _signature verifier_'s [purpose]/[context] (e.g. `package/core` ).
+
+SSH has various concepts for revoking keys (see [sshd.8#SSH_KNOWN_HOSTS_FILE_FORMAT] and [ssh-keygen.1#KEY_REVOCATION_LISTS]).
+
+VOA does not interpret the global revocation lists and configurations used by [`sshd`] or [`ssh`], but expects revocation information in VOA-specific well-known locations.
+
+Revocations must be handled with [merging] semantics.
+For example, a revocation found in any location considered in the current _verifier lookup_ must be applied for all uses of a verifier.
+
 ## Examples
 
 The following examples provide an overview for several (hypothetical) scenarios in which VOA may be used.
@@ -526,9 +559,13 @@ If the need arises, this specification should be extended accordingly.
 [OpenPGP]: https://openpgp.org
 [OpenPGPv4]: https://datatracker.ietf.org/doc/html/rfc4880
 [OpenPGPv6]: https://datatracker.ietf.org/doc/html/rfc9580
+[SSH CA]: https://liw.fi/sshca/
 [VOA hierarchy]: #hierarchy
 [Web of Trust (WoT)]: https://openpgp.dev/book/signing_components.html#wot
 [XDG Base Directory Specification]: https://specifications.freedesktop.org/basedir-spec/latest/
+[`ssh-keygen`]: https://man.archlinux.org/man/ssh-keygen.1
+[`ssh`]: https://man.archlinux.org/man/ssh.1
+[`sshd`]: https://man.archlinux.org/man/sshd.8
 [classification of signature verification models]: #classification-of-signature-verification-models
 [context]: #context
 [examples]: #examples
@@ -547,6 +584,8 @@ If the need arises, this specification should be extended accordingly.
 [purpose]: #purpose
 [role]: #role
 [signature verification models]: #signature-verification-models
+[ssh-keygen.1#KEY_REVOCATION_LISTS]: https://man.archlinux.org/man/ssh-keygen.1.en#KEY_REVOCATION_LISTS
+[sshd.8#SSH_KNOWN_HOSTS_FILE_FORMAT]: https://man.archlinux.org/man/sshd.8#SSH_KNOWN_HOSTS_FILE_FORMAT
 [symlinking]: #symlinking
 [technology]: #technology
 [third-party identity certifications]: https://openpgp.dev/book/certificates.html#third-party-identity-certifications
