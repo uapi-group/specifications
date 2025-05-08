@@ -392,6 +392,24 @@ OpenPGP VOA backends must reject files where the certificate fingerprint of the 
 By default, in VOA, OpenPGP certificates that act as _trust anchors_ are considered with a _trust amount_ of 40 at a _trust depth_ of 1.
 More complex delegation setups are possible, but must be implemented using an application specific configuration mechanism.
 
+#### Signify
+
+---
+
+**NOTE**: This technology is in draft mode.
+Before implementing a signify VOA backend, this section needs to be specified further to describe dedicated semantics.
+
+---
+
+This technology is referred to as `signify` in the VOA structure.
+
+Signify is a [point to point] signing technology.
+The targeted [purpose] only requires plain _artifact verifiers_, as there is no support for _trust anchors_ in this technology (i.e. any verifiers in "trust-anchor-*" purpose directories must be ignored, also when the target of a symlink).
+
+There is no concept of [verifier revocation].
+
+The file ending `.pub` is used for _artifact verifier_ files, following the default naming convention of the canonical [`signify`] output.
+
 ## Examples
 
 The following examples provide an overview for several (hypothetical) scenarios in which VOA may be used.
@@ -529,6 +547,7 @@ If the need arises, this specification should be extended accordingly.
 [VOA hierarchy]: #hierarchy
 [Web of Trust (WoT)]: https://openpgp.dev/book/signing_components.html#wot
 [XDG Base Directory Specification]: https://specifications.freedesktop.org/basedir-spec/latest/
+[`signify`]: https://man.archlinux.org/man/signify.1
 [classification of signature verification models]: #classification-of-signature-verification-models
 [context]: #context
 [examples]: #examples
