@@ -377,7 +377,7 @@ does not exist, no assumptions should be made.
 
 A unified kernel image is a single EFI PE executable combining an EFI stub
 loader, a kernel image, and possibly other, optional resources. See the
-[UKI Specification](unified_kernel_image.md) for details. The primary place for 
+[UKI Specification](unified_kernel_image.md) for details. The primary place for
 such unified images is the `/EFI/Linux/` directory in `$BOOT`. Operating
 systems should place unified EFI kernels only in the `$BOOT` partition. Boot
 loaders should also look in the `/EFI/Linux/` of the ESP — if it is different
