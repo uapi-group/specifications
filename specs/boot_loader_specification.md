@@ -395,20 +395,20 @@ Images of this type have the advantage that all metadata and payload that makes
 up the boot entry is contained in a single PE file that can be signed
 cryptographically as one for the purpose of EFI SecureBoot.
 
-A valid unified kernel image in the `/EFI/Linux/` directory must contain two PE sections:
+A unified kernel image in the `/EFI/Linux/` directory contains PE sections
+described in the [UKI Specification](unified_kernel_image.md).
 
-* `.cmdline` section with the kernel command line,
-* `.osrel` section with an embedded copy of the
-  [os-release](https://www.freedesktop.org/software/systemd/man/os-release.html)
-  file describing the image.
-
+Of these sections, the `.osrel` section is used to generate boot entries.
 The `PRETTY_NAME=` and `VERSION_ID=` fields in the embedded `os-release` file
 are used the same as `title` and `version` in the Type #1 entries. The
 `.cmdline` section is used instead of the `options` field. `linux` and `initrd`
 fields are not necessary, and there is no counterpart for the `machine-id`
 field.
 
-On EFI, any such images shall be added to the list of valid boot entries.
+On EFI, any such images shall be added to the list of valid boot entries. Absent
+these fields, other metadata may be used to display the images as boot entries.
+For a full list of mandatory and allowed fields, see the
+[UKI Specification](unified_kernel_image.md).
 
 ### Additional Notes
 
