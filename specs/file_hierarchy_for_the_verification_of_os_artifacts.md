@@ -277,6 +277,9 @@ Either two or one _purpose_ directories may exist per _role_:
 - One directory which contains _artifact verifiers_ (e.g. `package`), and a second directory which contains the corresponding _trust anchors_ (e.g. `trust-anchor-package`).
 - Just one directory which contains _artifact verifiers_ (e.g. `package`).
 
+The _purpose_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"` and `"-"`.
+VOA implementations must not consider invalid directories and should raise a warning if such a directory is encountered.
+
 ##### Two purpose directories: Verification relying on trust anchors
 
 For example, verifiers for the "package" _role_ may be stored in two _purpose_ directories:
@@ -347,11 +350,13 @@ Different parties can implement different backends and this document outlines th
 The details of verifier [load logic] is defined per technology to leverage the individual features and strengths of each technology, while offering semantics that are closely shared between all VOA technologies.
 
 Currently, only the OpenPGP technology is specified in detail.
-All other technology sections merely serve as rough outlines.
-Further specification work is required before implementing them.
+Further specification work is required before implementing further technologies.
 
 Each technology specifies file suffixes for verifiers.
 Note that these suffixes may overlap.
+
+A _technology_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"` and `"-"`.
+VOA implementations must not consider invalid directories and should raise a warning if such a directory is encountered.
 
 #### OpenPGP
 
