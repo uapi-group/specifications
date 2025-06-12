@@ -148,13 +148,18 @@ Refer to the [XDG Base Directory Specification] for details on default values.
 Load paths are constrained to self-contained locations on a host as they provide vital data for the integrity and verification of all components on a system.
 However, symlinks can be used in the VOA hierarchy to point to files or directories below one of the [load paths] in descending priority.
 Symlinks to files or directories below ephemeral load paths (i.e. `/run/voa/` and `$XDG_RUNTIME_DIR/voa/`) are prohibited, as they possibly lead to dangling references.
+Additionally, symlinks to verifier files are only valid if the final file name part of the symlink matches that of the file pointed at.
 
 As an example, symlinks to files below the same load path or to another load path with lower priority may be used to deduplicate the use of a single _signature verifier_ for multiple use-cases.
 Additionally, using symlinks allows to automatically keep _signature verifiers_ in sync with canonical upstream data.
 
-Symlinking to files or directories external to the load paths is prohibited.
-VOA implementations must not consider symlinks to files outside of the specified load paths and should raise a warning if such symlinks are encountered.
-If dangling references (broken links) are encountered, these should be disregarded as well and a warning should be reaised for them.
+VOA implementations must not consider symlinks under the following conditions and raise a warning for them instead:
+
+- the symlink is for a file in an ephemeral load path (i.e. `/run/voa/` and `$XDG_RUNTIME_DIR/voa/`),
+- the symlink is for a file outside of the specified load paths,
+- the symlink is broken (aka. "dangling"),
+- the final file name of the symlink does not match that of the file pointed at,
+- or the symlink for a verifier does not point at a file but a directory or symlink.
 
 ### Masking
 
