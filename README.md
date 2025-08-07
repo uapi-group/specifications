@@ -22,6 +22,9 @@ BookToC: false
 * [Extension Image](specs/extension_image.md):
   Describes the use of Discoverable Disk Images to create extensions to a base image.
   ([canonical online location](https://uapi-group.org/specifications/specs/extension_image/))
+* [FileSystem Hierarchy](specs/filesystem_hierarchy.md):
+  Describes the use of Discoverable Disk Images to create extensions to a base image.
+  ([canonical online location](https://uapi-group.org/specifications/specs/filesystem_hierarchy/))
 * [File Hierarchy for the Verification of OS Artifacts (VOA)](file_hierarchy_for_the_verification_of_os_artifacts.md):
   Describes the use of Discoverable Disk Images to create extensions to a base image.
   ([canonical online location](https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/))
