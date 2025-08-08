@@ -223,9 +223,11 @@ such as documentation, man pages, time zone information, fonts and other resourc
 Usually, the precise location and format of files stored below this directory
 is subject to specifications that ensure interoperability.
 
-Note that resources placed in this directory may be under shared ownership,
-with multiple different packages providing and consuming these resources
-on equal footing without any obvious primary owner.
+Note that resources placed in this directory typically are under shared ownership,
+i.e. multiple different packages have provided and consumed these resources,
+on equal footing, without any obvious primary owner.
+This makes things systematically different from `/usr/lib/`,
+where ownership is generally not shared.
 
 ### `/usr/share/doc/`
 
