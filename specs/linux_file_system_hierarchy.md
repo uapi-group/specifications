@@ -10,10 +10,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 ## Description
 
-This page describes the layout of a modern Linux system,
-as expected by the
-[`systemd(1)`](https://www.freedesktop.org/software/systemd/man/systemd.html)
-system and service manager.
+This page describes the layout of a modern Linux system.
 This hierarchy is an evolution of the historical UNIX layout,
 and includes concepts described in the
 [File System Hierarchy](http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html)
