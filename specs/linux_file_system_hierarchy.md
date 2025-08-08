@@ -76,7 +76,9 @@ This directory may be read-only.
 Frequently, this directory is pre-populated with vendor-supplied configuration files,
 but applications should not make assumptions
 about this directory being fully populated or populated at all,
-and should fall back to defaults if configuration is missing.
+and should fall back to defaults if configuration is missing,
+following the
+[Configuration Files Specification](configuration_files_specification.md).
 
 ### `/home/`
 
