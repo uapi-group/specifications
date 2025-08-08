@@ -608,3 +608,8 @@ per-user local configuration and files created during runtime:
 | `$XDG_RUNTIME_DIR/package/` | User runtime data for the package. |
 | `~/.cache/package/`         | Persistent cache data of the package. If this directory is flushed, the application should work correctly on next invocation, though possibly slowed down due to the need to rebuild any local cache files. The application must be capable of recreating this directory should it be missing and necessary. |
 | `~/.local/state/package/`   | Persistent state data of the package. |
+
+## See Also
+
+The [`systemd(1)`](https://www.freedesktop.org/software/systemd/man/systemd.html)
+system and service manager implements and expects the layout described in this specification.
