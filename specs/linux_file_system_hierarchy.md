@@ -34,11 +34,10 @@ This document doesn't define the directory structure comprehensively,
 it only documents a skeleton of a directory tree,
 to be extended by additional directories lower in the hierarchy.
 Some directories like
-`/usr/include/`
-or
-`/var/spool/`
+`/usr/include/`,
+`/var/spool/` or `/usr/libexec/`
 are not covered,
-even though it might make sense to include them
+even though they might be common and it might even make sense to include them
 in the structure of an actually deployed OS.
 
 Many of the paths described here can be queried with the
