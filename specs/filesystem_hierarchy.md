@@ -10,9 +10,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 ## Description
 
-Operating systems using the
-[`systemd(1)`](https://www.freedesktop.org/software/systemd/man/systemd.html)
-system and service manager are organized based on a file system hierarchy inspired by UNIX,
+Modern Linux-based operating systems are organized based on a file system hierarchy inspired by UNIX,
 more specifically the hierarchy described in the
 [File System Hierarchy](http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html)
 specification and
@@ -21,11 +19,11 @@ with various extensions,
 partially documented in the
 [XDG Base Directory Specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 and [XDG User Directories](https://www.freedesktop.org/wiki/Software/xdg-user-dirs).
-This manual page describes a more generalized, though minimal and modernized
-subset of these specifications that defines more strictly the suggestions and
-restrictions systemd makes on the file system hierarchy.
+This specification describes a more generalized, though minimal and modernized
+subset of these specifications, and defines more strictly the suggestions and
+restrictions modern distributions make on the file system hierarchy.
 Note that this document makes no attempt to define the directory structure comprehensively,
-it only documents a skeleton of a directory tree, that downstreams can extend.
+it only documents a skeleton of a directory tree, that Linux distributions can extend.
 Because of that traditional directories such as
 `/usr/include/`
 or
@@ -56,22 +54,23 @@ also see
 This directory is usually strictly local to the host,
 and should be considered read-only,
 except when a new kernel or boot loader is installed.
-This directory only exists on systems that run on
-physical or emulated hardware that requires boot loaders.
+This directory is required for systems that run on
+physical or emulated hardware that requires boot loaders,
+and may be present on other systems such as containers as well.
 
 ### `/efi/`
 
 If the boot partition `/boot/` is maintained separately from the EFI System Partition (ESP),
 the latter is mounted here.
-Tools that need to operate on the EFI system partition should look for it at this mount point first,
-and fall back to `/boot/` — if the former does not qualify
+Tools that need to operate on the EFI system partition should look for the ESP at the `/efi/` mount point first,
+and fall back to `/boot/` — if `/efi/` does not qualify
 (for example if it is not a mount point
 or does not have the correct file system type `MSDOS_SUPER_MAGIC`).
 
 ### `/etc/`
 
 System-specific configuration.
-This directory may or may not be read-only.
+This directory may be read-only.
 Frequently, this directory is pre-populated with vendor-supplied configuration files,
 but applications should not make assumptions
 about this directory being fully populated or populated at all,
@@ -463,14 +462,14 @@ For unprivileged system processes,
 only `/tmp/`, `/var/tmp/` and `/dev/shm/` are writable.
 If an unprivileged system process needs a private writable directory
 in `/var/` or `/run/`,
-it is recommended to either create it before dropping privileges in the daemon code,
-to create it via
-[`tmpfiles.d(5)`](https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html)
-fragments during boot,
-or via the `StateDirectory=` and `RuntimeDirectory=` directives of service units
+it is recommended to either create it via the `StateDirectory=` and `RuntimeDirectory=` directives of service units
 (see
 [`systemd.unit(5)`](https://www.freedesktop.org/software/systemd/man/systemd.unit.html)
-for details).
+for details),
+or via
+[`tmpfiles.d(5)`](https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html)
+fragments during boot,
+or to create it before dropping privileges in the daemon code.
 
 `/tmp/`, `/var/tmp/` and `/dev/shm/` should be mounted `nosuid` and `nodev`,
 which means that set-user-id mode and character or block special devices
