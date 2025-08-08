@@ -10,28 +10,35 @@ SPDX-License-Identifier: CC-BY-4.0
 
 ## Description
 
-Operating systems using the
+This page describes the layout of a modern Linux system,
+as expected by the
 [`systemd(1)`](https://www.freedesktop.org/software/systemd/man/systemd.html)
-system and service manager are organized based on a file system hierarchy inspired by UNIX,
-more specifically the hierarchy described in the
+system and service manager.
+This hierarchy is an evolution of the historical UNIX layout,
+and includes concepts described in the
 [File System Hierarchy](http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html)
 specification and
-[`hier(7)`](https://man7.org/linux/man-pages/man7/hier.7.html),
-with various extensions,
-partially documented in the
+[`hier(7)`](https://man7.org/linux/man-pages/man7/hier.7.html) man page,
+and various extensions documented in the
 [XDG Base Directory Specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 and [XDG User Directories](https://www.freedesktop.org/wiki/Software/xdg-user-dirs).
-This manual page describes a more generalized, though minimal and modernized
-subset of these specifications that defines more strictly the suggestions and
-restrictions systemd makes on the file system hierarchy.
-Note that this document makes no attempt to define the directory structure comprehensively,
-it only documents a skeleton of a directory tree, that downstreams can extend.
-Because of that traditional directories such as
+
+In some areas this document is stricter than those older documents.
+In particular it makes additional restrictions and recommendations
+to separate vendor defaults and local configuration, and also
+static installed files, persistent data, and empheral runtime files.
+In other areas it is simpler,
+with the vendor files using a single hierarchy under `/usr`.
+
+This document doesn't define the directory structure comprehensively,
+it only documents a skeleton of a directory tree,
+to be extended by additional directories lower in the hierarchy.
+Some directories like
 `/usr/include/`
 or
 `/var/spool/`
 are not covered,
-even though it might (or might not) make a lot of sense to include them
+even though it might make sense to include them
 in the structure of an actually deployed OS.
 
 Many of the paths described here can be queried with the
@@ -49,29 +56,30 @@ Not shared with other hosts (unless read-only).
 
 ### `/boot/`
 
-The boot partition used for bringing up the system.
+The partition where kernels and other assets used to bring up the system are stored.
 On EFI systems, this is possibly the EFI System Partition (ESP),
 also see
 [`systemd-gpt-auto-generator(8)`](https://www.freedesktop.org/software/systemd/man/systemd-gpt-auto-generator.html).
 This directory is usually strictly local to the host,
 and should be considered read-only,
-except when a new kernel or boot loader is installed.
-This directory only exists on systems that run on
-physical or emulated hardware that requires boot loaders.
+except when a kernel or boot loader is installed or updated.
+This directory is only populated on systems that run on
+physical or emulated hardware that requires a boot loader.
 
 ### `/efi/`
 
-If the boot partition `/boot/` is maintained separately from the EFI System Partition (ESP),
-the latter is mounted here.
-Tools that need to operate on the EFI system partition should look for it at this mount point first,
-and fall back to `/boot/` — if the former does not qualify
+If the EFI System Partition (ESP) is maintained separately
+from the boot partition described in the previous section,
+it is mounted here.
+Tools that need to operate on the ESP should look for it at this mount point first,
+and fall back to `/boot/` — if the first location does not qualify
 (for example if it is not a mount point
 or does not have the correct file system type `MSDOS_SUPER_MAGIC`).
 
 ### `/etc/`
 
 System-specific configuration.
-This directory may or may not be read-only.
+This directory may be read-only.
 Frequently, this directory is pre-populated with vendor-supplied configuration files,
 but applications should not make assumptions
 about this directory being fully populated or populated at all,
@@ -460,19 +468,21 @@ and the runtime directory `$XDG_RUNTIME_DIR` (found below `/run/user/`)
 of the user, which are all writable.
 
 For unprivileged system processes,
-only `/tmp/`, `/var/tmp/` and `/dev/shm/` are writable.
+only `/tmp/`, `/var/tmp/`, and `/dev/shm/` are writable.
 If an unprivileged system process needs a private writable directory
 in `/var/` or `/run/`,
-it is recommended to either create it before dropping privileges in the daemon code,
-to create it via
-[`tmpfiles.d(5)`](https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html)
-fragments during boot,
-or via the `StateDirectory=` and `RuntimeDirectory=` directives of service units
+it is recommended to to create it via
+the `StateDirectory=` and `RuntimeDirectory=` directives of service units
 (see
 [`systemd.unit(5)`](https://www.freedesktop.org/software/systemd/man/systemd.unit.html)
-for details).
+for details),
+or via
+[`tmpfiles.d(5)`](https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html)
+fragments during boot.
+A daemon may also create it before dropping privileges,
+but it is not recommended to start the daemon with privileges just for this.
 
-`/tmp/`, `/var/tmp/` and `/dev/shm/` should be mounted `nosuid` and `nodev`,
+`/tmp/`, `/var/tmp/`, and `/dev/shm/` should be mounted `nosuid` and `nodev`,
 which means that set-user-id mode and character or block special devices
 are not interpreted on those file systems.
 In general it is not possible to mount them `noexec`,
