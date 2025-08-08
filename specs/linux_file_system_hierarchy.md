@@ -31,8 +31,6 @@ This document doesn't define the directory structure comprehensively,
 it only documents a skeleton of a directory tree,
 to be extended by additional directories lower in the hierarchy.
 Some directories like
-`/usr/include/`
-or
 `/var/spool/`
 are not covered,
 even though it might make sense to include them
@@ -176,6 +174,24 @@ It is recommended not to place binaries in this directory
 that are not useful for invocation from a shell (such as daemon binaries);
 these should be placed in a subdirectory of `/usr/lib/` instead.
 
+### `/usr/include/`
+
+Header files for the C and C++ languages.
+The corresponding library shall be placed in `$libdir`, see below.
+
+Packages may place header files directly in this directory,
+or in a package-specific subdirectory.
+Using a subdirectory is recommended if the package installs multiple files.
+It is also necessary if multiple versions of the same headers shall be coinstallable.
+
+Note that to use the headers, flags for the compiler might be required
+to bring the appropriate subdirectory into the search path.
+See man pages
+[`pc(7)`](https://www.mankier.com/5/pc),
+[`pkgconf(1)`](https://www.mankier.com/1/pkgconf),
+[gcc's Search Path](https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html),
+and other compiler specific documentation.
+
 ### `/usr/lib/`
 
 Static, private vendor data that is compatible with all architectures
@@ -199,7 +215,7 @@ and a subdirectory under `/usr/lib/` is better if the package
 has other non-executable files and needs to have directory there anyway.
 This document does not mandate any specific choice.
 
-### `/usr/lib/arch-id/`
+### `/usr/lib/arch-id/`, `$libdir`
 
 Location for placing dynamic libraries into, also called `$libdir`.
 The architecture identifier to use is defined on
