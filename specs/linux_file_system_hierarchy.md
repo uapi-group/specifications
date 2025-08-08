@@ -6,7 +6,7 @@ version: 1
 SPDX-License-Identifier: CC-BY-4.0
 ---
 
-# FileSystem Hierarchy
+# Linux File System Hierarchy
 
 ## Description
 
