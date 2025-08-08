@@ -1,5 +1,5 @@
 ---
-title: FileSystem Hierarchy
+title: Linux File System Hierarchy
 category: Concepts
 layout: default
 version: 1
