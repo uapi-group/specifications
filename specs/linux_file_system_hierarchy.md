@@ -30,11 +30,7 @@ with the vendor files using a single hierarchy under `/usr`.
 This document doesn't define the directory structure comprehensively,
 it only documents a skeleton of a directory tree,
 to be extended by additional directories lower in the hierarchy.
-Some directories like
-`/usr/include/`
-or
-`/var/spool/`
-are not covered,
+Some directories like `/var/spool/` are not covered,
 even though it might make sense to include them
 in the structure of an actually deployed OS.
 
@@ -175,6 +171,30 @@ Binaries and executables for user commands that shall appear in the `$PATH` sear
 It is recommended not to place binaries in this directory
 that are not useful for invocation from a shell (such as daemon binaries);
 these should be placed in a subdirectory of `/usr/lib/` instead.
+
+### `/usr/include/`
+
+Programmatic APIs header files, typically used when compiling `C/C++` programs.
+Packages may place such files either directly in `/usr/include/`,
+or in a subdirectory.
+Using a subdirectory is recommended if the package installs multiple files.
+It is also necessary if multiple versions of the same headers shall be coinstallable.
+The subdirectory may be named after the package or project providing it.
+Packages may place architecture-dependent header files and directories in a
+`/usr/include/arch-id/` subdirectory,
+following the identifiers defined on the
+[Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
+list.
+
+Note that to use the headers, flags for the compiler may be required
+to bring the appropriate subdirectory into the search path.
+See man pages
+[`pc(7)`](https://www.mankier.com/5/pc),
+[`pkgconf(1)`](https://www.mankier.com/1/pkgconf),
+[gcc's Search Path](https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html),
+and other compiler-specific documentation.
+
+The corresponding library or libraries shall be placed in `$libdir`, see below.
 
 ### `/usr/lib/`
 
