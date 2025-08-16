@@ -25,7 +25,7 @@ BookToC: false
 * [Linux File System Hierarchy](specs/linux_file_system_hierarchy.md):
   Describes the layout of directories and files in an installation of Linux
   ([canonical online location](https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/))
-* [File Hierarchy for the Verification of OS Artifacts (VOA)](file_hierarchy_for_the_verification_of_os_artifacts.md):
+* [File Hierarchy for the Verification of OS Artifacts (VOA)](specs/file_hierarchy_for_the_verification_of_os_artifacts.md):
   Describes the use of Discoverable Disk Images to create extensions to a base image.
   ([canonical online location](https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/))
 * [Unified Kernel Image](specs/unified_kernel_image.md):
