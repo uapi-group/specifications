@@ -36,7 +36,7 @@ in the structure of an actually deployed OS.
 
 Many of the paths described here can be queried with the
 [`systemd-path(1)`](https://www.freedesktop.org/software/systemd/man/systemd-path.html)
-tool.
+tool, on systems where this tool is available.
 
 ## General Structure
 
@@ -224,14 +224,15 @@ This document does not mandate any specific choice.
 ### `/usr/lib/arch-id/`
 
 Location for placing dynamic libraries into, also called `$libdir`.
-The architecture identifier to use is defined on
+The architecture identifier to use is defined on the
 [Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
 list.
 Legacy locations of `$libdir` are `/usr/lib/`, `/usr/lib64/`.
+
 This directory should not be used for package-specific data,
 unless this data is architecture-dependent, too.
 
-To query `$libdir` for the primary architecture of the system, invoke:
+The primary architecture of the system (`$libdir`) may be queried with:
 
     systemd-path system-library-arch
 
@@ -329,6 +330,7 @@ The root directory for device nodes.
 Usually, this directory is mounted as a `devtmpfs` instance,
 but might be of a different type in sandboxed/containerized setups.
 This directory is managed jointly by the kernel and
+a userspace component such as
 [`systemd-udevd(8)`](https://www.freedesktop.org/software/systemd/man/systemd-udevd.html),
 and should not be written to by other components.
 A number of special purpose virtual file systems might be mounted below this directory.
