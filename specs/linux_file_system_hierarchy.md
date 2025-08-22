@@ -231,16 +231,18 @@ use `$libdir` (see below), instead.
 
 ### `/usr/libexec/`
 
-Vendor binaries or other programs that are not regularly invoked from a shell.
+A secondary location for
+vendor binaries or other programs that are not regularly invoked from a shell
+that is used by some distributions.
 Such binaries may be for any architecture supported by the system.
 
-Packages may either place such programs directly in `/usr/libexec/`,
-in a subdirectory of `/usr/libexec/` named after the package,
-or in some subdirectory of `/usr/lib/`.
-Using `/usr/libexec/` is better if the package only has a single such file,
-and a subdirectory under `/usr/lib/` is better if the package
-has other non-executable files and needs to have directory there anyway.
-This document does not mandate any specific choice.
+Packages may either place such programs
+in a subdirectory of `/usr/lib/`,
+directly in `/usr/libexec/`,
+or in a subdirectory of `/usr/libexec/` named after the package.
+The first option is the recommended approach,
+but `/usr/libexec/` is used by some distributions,
+so it is mentioned here too.
 
 ### `/usr/lib/arch-id/`
 
