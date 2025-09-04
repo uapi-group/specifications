@@ -34,6 +34,10 @@ Some directories like `/var/spool/` are not covered,
 even though it might make sense to include them
 in the structure of an actually deployed OS.
 
+Some directories are described for compatibility with current Linux distributions,
+but their use is not recommended.
+The subsections that describe those directories are marked with ⚠️.
+
 Many of the paths described here can be queried with the
 [`systemd-path(1)`](https://www.freedesktop.org/software/systemd/man/systemd-path.html)
 tool, on systems where this tool is available.
@@ -81,8 +85,8 @@ following the
 [Configuration Files Specification](configuration_files_specification.md).
 
 If `/opt/` is supported (see below),
-then the `/etc/opt/` subdirectory is the location where third-party software installed in `/opt/` may store
-their configuration.
+then the `/etc/opt/` ⚠️ subdirectory is the location where
+third-party software installed in `/opt/` may store its configuration.
 The same naming convention as directories under `/opt/` is used for directories under `/etc/opt/`.
 
 ### `/home/`
@@ -98,7 +102,7 @@ Applications should generally not reference this directory directly,
 but via the per-user `$HOME` environment variable,
 or via the home directory field of the user database.
 
-### `/opt/`
+### `/opt/` ⚠️
 
 A secondary location for third-party vendor directories.
 This directory is optional,
@@ -235,7 +239,7 @@ Such binaries may be for any architecture supported by the system.
 Do not place public libraries in this directory,
 use `$libdir` (see below), instead.
 
-### `/usr/libexec/`
+### `/usr/libexec/` ⚠️
 
 A secondary location for
 vendor binaries or other programs that are not regularly invoked from a shell
@@ -330,10 +334,11 @@ though it is recommended to do most logging via the
 [`sd_journal_print(3)`](https://www.freedesktop.org/software/systemd/man/sd_journal_print.html)
 calls.
 
-### `/var/opt/`
+### `/var/opt/` ⚠️
+
 If `/opt/` is supported (see above),
-then the `/var/opt/` subdirectory is the location where third-party software installed in `/opt/` stores its
-persistent, variable data.
+then the `/var/opt/` subdirectory is the location where third-party software installed in `/opt/`
+stores its persistent, variable data.
 The same naming convention as directories under `/opt/` is used for directories under `/var/opt/`.
 
 ### `/var/tmp/`
