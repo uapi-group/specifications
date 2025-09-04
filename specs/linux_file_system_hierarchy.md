@@ -100,13 +100,25 @@ or via the home directory field of the user database.
 
 ### `/opt/`
 
-The location for third-party vendor directories.
-Third-party vendors (i.e.: unrelated to the OS provider) use a directory,
+A secondary location for third-party vendor directories.
+This directory is optional,
+as not all systems allow installing third-party software.
+
+Each third-party vendor (i.e.: unrelated to the OS provider) may use a subdirectory,
 typically named after the vendor or the software, under this location.
 It is usually read-only, but this is not required.
 This directory should not be modified by the administrator,
 except when installing or removing third-party-supplied software.
-This directory is optional, as not all systems allow installing third-party software.
+
+Using `/opt/` is not recommended.
+It is not integrated with the rest of the distribution:
+a package which uses `/opt/` may need to install
+binaries or links in `/usr/bin/`
+and other supplementary files,
+e.g. desktops files or manual pages,
+into their appropriate locations under `/usr`.
+Instead of using a subdirectory under `/opt/`,
+a third party vendor should put their directory under `/usr/lib/`.
 
 ### `/root/`
 
