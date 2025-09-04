@@ -229,7 +229,7 @@ Each of the following identifiers represents a subdirectory layer in that hierar
 The _os_ identifier is used to uniquely identify an Operating System (OS).
 
 The identifier relies on data provided by the ubiquitous [os-release].
-The following keywords are understood and their value format follows that established by [os-release] (i.e. no spaces and no characters outside of `0–9`, `a–z`, `"."`, `"_"` and `"-"` are allowed):
+The following keywords are understood and their value format follows that established by [os-release] (i.e. no spaces and no characters outside of `0–9`, `a–z`, `"."`, `"_"`, and `"-"` are allowed):
 
 - `ID`: name of OS (e.g. `arch` or `debian`)
 - `VERSION_ID`: the version of the OS (e.g. `1.0.0` or `24.12`)
@@ -280,7 +280,7 @@ Either two or one _purpose_ directories may exist per _role_:
 - One directory which contains _artifact verifiers_ (e.g. `package`), and a second directory which contains the corresponding _trust anchors_ (e.g. `trust-anchor-package`).
 - Just one directory which contains _artifact verifiers_ (e.g. `package`).
 
-The _purpose_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"` and `"-"`.
+The _purpose_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"`, and `"-"`.
 VOA implementations must not consider invalid directories and should raise a warning if such a directory is encountered.
 
 ##### Two purpose directories: Verification relying on trust anchors
@@ -339,7 +339,7 @@ Specific examples for **context** are
 
 If no specific context is required, the **context** directory `default` must be used.
 
-Analogous to the os-release data, **context** strings may only contain `[a-z]`, `[0-9]`, `_`, `.` and `-`.
+Analogous to the os-release data, **context** strings may only contain `[a-z]`, `[0-9]`, `_`, `.`, and `-`.
 
 For more in-depth discussion on the use of the _context_ identifier, see the [examples] section.
 
@@ -358,7 +358,7 @@ Further specification work is required before implementing further technologies.
 Each technology specifies file suffixes for verifiers.
 Note that these suffixes may overlap.
 
-A _technology_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"` and `"-"`.
+A _technology_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"`, and `"-"`.
 VOA implementations must not consider invalid directories and should raise a warning if such a directory is encountered.
 
 #### OpenPGP
