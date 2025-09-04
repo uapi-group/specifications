@@ -425,6 +425,64 @@ VOA does not interpret the global revocation lists and configurations used by [`
 Revocations must be handled with [merging] semantics.
 For example, a revocation found in any location considered in the current _verifier lookup_ must be applied for all uses of a verifier.
 
+#### X.509
+
+---
+
+**NOTE**: This technology is in draft mode.
+Before implementing an X.509 VOA backend, this section needs to be specified further to describe dedicated semantics.
+
+---
+
+X.509 is a widely adopted hierarchical model, that is often used for signature validation.
+
+This technology is named `x509` in the VOA structure.
+
+X.509 _artifact verifier_ files must be used in [Privacy-Enhanced Mail] (PEM) format, with the file ending `.pem`.
+Analogous to the use in systemd, file names of the form `*-certificate.pem` must be used for X.509 certificates and `*-public-key.pem` for X.509 public keys.
+
+X.509 VOA backends must implement appropriate [merging] semantics.
+In particular, revocations must be considered for all uses of a certificate in a _verifier lookup_, even if some copies don't contain the revocation information.
+Further, an implementation must check that the extended key usage of a _signature verifier_ is aligned with its [purpose] (e.g. `codesigning` for certain _artifact verifiers_ and `certificate authority` for _trust anchors_).
+
+It is strongly recommended to use signature formats that include metadata about the raw signature, in particular the signature creation time (e.g. [PKCS#7]/ [CMS]).
+
+#### Minisign
+
+---
+
+**NOTE**: This technology is in draft mode.
+Before implementing a minisign VOA backend, this section needs to be specified further to describe dedicated semantics.
+
+---
+
+This technology is referred to as `minisign` in the VOA structure.
+
+Minisign is a "point to point" signing technology.
+The targeted [purpose] only requires plain _artifact verifiers_, as there is no support for _trust anchors_ in this technology (i.e. any verifiers in "trust-anchor-*" purpose directories must be ignored, also when the target of a symlink).
+
+There is no concept of [verifier revocation].
+
+The file ending `.pub` is used for _artifact verifier_ files, following the default naming convention of the canonical [`minisign`] output.
+
+#### Signify
+
+---
+
+**NOTE**: This technology is in draft mode.
+Before implementing a signify VOA backend, this section needs to be specified further to describe dedicated semantics.
+
+---
+
+This technology is referred to as `signify` in the VOA structure.
+
+Signify is a [point to point] signing technology.
+The targeted [purpose] only requires plain _artifact verifiers_, as there is no support for _trust anchors_ in this technology (i.e. any verifiers in "trust-anchor-*" purpose directories must be ignored, also when the target of a symlink).
+
+There is no concept of [verifier revocation].
+
+The file ending `.pub` is used for _artifact verifier_ files, following the default naming convention of the canonical [`signify`] output.
+
 ## Examples
 
 The following examples provide an overview for several (hypothetical) scenarios in which VOA may be used.
@@ -553,6 +611,7 @@ Extending the [purpose] scheme for verifiers used for timestamping purposes may 
 If the need arises, this specification should be extended accordingly.
 
 ["Storage Directories and Overrides" in the Configuration Files Sepcification]: https://uapi-group.org/specifications/specs/configuration_files_specification/#storage-directories-and-overrides
+[CMS]: https://en.wikipedia.org/wiki/Cryptographic_Message_Syntax
 [NSS]: https://firefox-source-docs.mozilla.org/security/nss/index.html
 [OpenPGP certificate revocation]: https://openpgp.dev/book/certificates.html#revocations
 [OpenPGP signature revocation]: https://openpgp.dev/book/verification.html#revocations]
@@ -560,12 +619,16 @@ If the need arises, this specification should be extended accordingly.
 [OpenPGPv4]: https://datatracker.ietf.org/doc/html/rfc4880
 [OpenPGPv6]: https://datatracker.ietf.org/doc/html/rfc9580
 [SSH CA]: https://liw.fi/sshca/
+[PKCS#7]: https://en.wikipedia.org/wiki/PKCS_7
+[Privacy-Enhanced Mail]: https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail
 [VOA hierarchy]: #hierarchy
 [Web of Trust (WoT)]: https://openpgp.dev/book/signing_components.html#wot
 [XDG Base Directory Specification]: https://specifications.freedesktop.org/basedir-spec/latest/
+[`signify`]: https://man.archlinux.org/man/signify.1
 [`ssh-keygen`]: https://man.archlinux.org/man/ssh-keygen.1
 [`ssh`]: https://man.archlinux.org/man/ssh.1
 [`sshd`]: https://man.archlinux.org/man/sshd.8
+[`minisign`]: https://man.archlinux.org/man/minisign.1
 [classification of signature verification models]: #classification-of-signature-verification-models
 [context]: #context
 [examples]: #examples
