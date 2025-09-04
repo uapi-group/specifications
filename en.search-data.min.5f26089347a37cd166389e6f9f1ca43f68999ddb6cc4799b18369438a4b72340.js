@@ -325,6 +325,22 @@ SSH signatures support the concept of namespaces, which declare a specific scope
 SSH has various concepts for revoking keys (see sshd.8#SSH_KNOWN_HOSTS_FILE_FORMAT and ssh-keygen.1#KEY_REVOCATION_LISTS).
 VOA does not interpret the global revocation lists and configurations used by sshd or ssh, but expects revocation information in VOA-specific well-known locations.
 Revocations must be handled with merging semantics. For example, a revocation found in any location considered in the current verifier lookup must be applied for all uses of a verifier.
+X.509 # NOTE: This technology is in draft mode. Before implementing an X.509 VOA backend, this section needs to be specified further to describe dedicated semantics.
+X.509 is a widely adopted hierarchical model, that is often used for signature validation.
+This technology is named x509 in the VOA structure.
+X.509 artifact verifier files must be used in Privacy-Enhanced Mail (PEM) format, with the file ending .pem. Analogous to the use in systemd, file names of the form *-certificate.pem must be used for X.509 certificates and *-public-key.pem for X.509 public keys.
+X.509 VOA backends must implement appropriate merging semantics. In particular, revocations must be considered for all uses of a certificate in a verifier lookup, even if some copies don\u0026rsquo;t contain the revocation information. Further, an implementation must check that the extended key usage of a signature verifier is aligned with its purpose (e.g. codesigning for certain artifact verifiers and certificate authority for trust anchors).
+It is strongly recommended to use signature formats that include metadata about the raw signature, in particular the signature creation time (e.g. PKCS#7/ CMS).
+Minisign # NOTE: This technology is in draft mode. Before implementing a minisign VOA backend, this section needs to be specified further to describe dedicated semantics.
+This technology is referred to as minisign in the VOA structure.
+Minisign is a \u0026ldquo;point to point\u0026rdquo; signing technology. The targeted purpose only requires plain artifact verifiers, as there is no support for trust anchors in this technology (i.e. any verifiers in \u0026ldquo;trust-anchor-*\u0026rdquo; purpose directories must be ignored, also when the target of a symlink).
+There is no concept of verifier revocation.
+The file ending .pub is used for artifact verifier files, following the default naming convention of the canonical minisign output.
+Signify # NOTE: This technology is in draft mode. Before implementing a signify VOA backend, this section needs to be specified further to describe dedicated semantics.
+This technology is referred to as signify in the VOA structure.
+Signify is a point to point signing technology. The targeted purpose only requires plain artifact verifiers, as there is no support for trust anchors in this technology (i.e. any verifiers in \u0026ldquo;trust-anchor-*\u0026rdquo; purpose directories must be ignored, also when the target of a symlink).
+There is no concept of verifier revocation.
+The file ending .pub is used for artifact verifier files, following the default naming convention of the canonical signify output.
 Examples # The following examples provide an overview for several (hypothetical) scenarios in which VOA may be used. For more details on valid components for os identifiers refer to the documentation of os-release.
 Package manager verifies package signatures, with trust anchor # In this example, we\u0026rsquo;ll consider the use case of a package management software that uses VOA to verify the signature of a package file on a custom image-based Arch Linux OS.
 The package manager issues a lookup for OpenPGP signature verifiers from VOA, based on two os strings: arch:::cashier-system:1.0.0 and arch.
