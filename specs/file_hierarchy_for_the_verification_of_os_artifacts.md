@@ -125,7 +125,7 @@ The existence of multiple load paths allows system administrators and users to d
 
 #### System mode
 
-The priority of load paths in system mode follows the definition of ["Storage Directories and Overrides" in the Configuration Files Sepcification], which is also reflected in the following list of paths:
+The priority of load paths in system mode follows the definition of ["Storage Directories and Overrides" in the Configuration Files Specification], which is also reflected in the following list of paths:
 
 - `/etc/voa/`
 - `/run/voa/`
@@ -155,7 +155,7 @@ VOA implementations must not consider symlinks under the following conditions an
 
 - the symlink is for a file or directory in an ephemeral load path (i.e. `/run/voa/` and `$XDG_RUNTIME_DIR/voa/`),
 - the symlink is for a file or directory outside of the specified _load paths_,
-- the symlink is broken (aka. "dangling"),
+- the symlink is broken (a.k.a. "dangling"),
 - the file name of the symlink (also those of intermediate symlinks in the case of a symlink chain) does not match that of the target,
 - or the file type of the source and target of the fully resolved symlink do not match (e.g. a verifier file points to a directory, or a directory to a verifier file).
 
@@ -229,7 +229,7 @@ Each of the following identifiers represents a subdirectory layer in that hierar
 The _os_ identifier is used to uniquely identify an Operating System (OS).
 
 The identifier relies on data provided by the ubiquitous [os-release].
-The following keywords are understood and their value format follows that established by [os-release] (i.e. no spaces and no characters outside of `0–9`, `a–z`, `"."`, `"_"` and `"-"` are allowed):
+The following keywords are understood and their value format follows that established by [os-release] (i.e. no spaces and no characters outside of `0–9`, `a–z`, `"."`, `"_"`, and `"-"` are allowed):
 
 - `ID`: name of OS (e.g. `arch` or `debian`)
 - `VERSION_ID`: the version of the OS (e.g. `1.0.0` or `24.12`)
@@ -280,7 +280,7 @@ Either two or one _purpose_ directories may exist per _role_:
 - One directory which contains _artifact verifiers_ (e.g. `package`), and a second directory which contains the corresponding _trust anchors_ (e.g. `trust-anchor-package`).
 - Just one directory which contains _artifact verifiers_ (e.g. `package`).
 
-The _purpose_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"` and `"-"`.
+The _purpose_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"`, and `"-"`.
 VOA implementations must not consider invalid directories and should raise a warning if such a directory is encountered.
 
 ##### Two purpose directories: Verification relying on trust anchors
@@ -339,7 +339,7 @@ Specific examples for **context** are
 
 If no specific context is required, the **context** directory `default` must be used.
 
-Analogous to the os-release data, **context** strings may only contain `[a-z]`, `[0-9]`, `_`, `.` and `-`.
+Analogous to the os-release data, **context** strings may only contain `[a-z]`, `[0-9]`, `_`, `.`, and `-`.
 
 For more in-depth discussion on the use of the _context_ identifier, see the [examples] section.
 
@@ -358,7 +358,7 @@ Further specification work is required before implementing further technologies.
 Each technology specifies file suffixes for verifiers.
 Note that these suffixes may overlap.
 
-A _technology_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"` and `"-"`.
+A _technology_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"`, and `"-"`.
 VOA implementations must not consider invalid directories and should raise a warning if such a directory is encountered.
 
 #### OpenPGP
@@ -367,7 +367,7 @@ VOA implementations must not consider invalid directories and should raise a war
 
 This technology is named `openpgp` in the VOA structure.
 
-Most Linux distributions use OpenPGP, often combined with _PGPKI_ (aka. [Web of Trust (WoT)]), in which chains of trust are evaluated during signature validation.
+Most Linux distributions use OpenPGP, often combined with _PGPKI_ (a.k.a. [Web of Trust (WoT)]), in which chains of trust are evaluated during signature validation.
 
 OpenPGP has a rich model of validity, both for certificates and signatures.
 Certificates can expire or be revoked by the key holder (via [OpenPGP certificate revocation]).
@@ -614,7 +614,7 @@ If the need arises, this specification should be extended accordingly.
 [CMS]: https://en.wikipedia.org/wiki/Cryptographic_Message_Syntax
 [NSS]: https://firefox-source-docs.mozilla.org/security/nss/index.html
 [OpenPGP certificate revocation]: https://openpgp.dev/book/certificates.html#revocations
-[OpenPGP signature revocation]: https://openpgp.dev/book/verification.html#revocations]
+[OpenPGP signature revocation]: https://openpgp.dev/book/verification.html#revocations
 [OpenPGP]: https://openpgp.org
 [OpenPGPv4]: https://datatracker.ietf.org/doc/html/rfc4880
 [OpenPGPv6]: https://datatracker.ietf.org/doc/html/rfc9580
@@ -639,7 +639,7 @@ If the need arises, this specification should be extended accordingly.
 [load paths]: #load-paths
 [masking]: #masking
 [merging]: #merging
-[os-release]: https://man.archlinux.org/man/os-release.5.en
+[os-release]: https://www.freedesktop.org/software/systemd/man/latest/os-release.html
 [os]: #os
 [overriding]: #overriding
 [point to point]: #point-to-point
