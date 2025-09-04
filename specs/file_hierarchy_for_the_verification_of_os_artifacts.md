@@ -522,7 +522,7 @@ If the need arises, this specification should be extended accordingly.
 ["Storage Directories and Overrides" in the Configuration Files Sepcification]: https://uapi-group.org/specifications/specs/configuration_files_specification/#storage-directories-and-overrides
 [NSS]: https://firefox-source-docs.mozilla.org/security/nss/index.html
 [OpenPGP certificate revocation]: https://openpgp.dev/book/certificates.html#revocations
-[OpenPGP signature revocation]: https://openpgp.dev/book/verification.html#revocations]
+[OpenPGP signature revocation]: https://openpgp.dev/book/verification.html#revocations
 [OpenPGP]: https://openpgp.org
 [OpenPGPv4]: https://datatracker.ietf.org/doc/html/rfc4880
 [OpenPGPv6]: https://datatracker.ietf.org/doc/html/rfc9580
@@ -539,7 +539,7 @@ If the need arises, this specification should be extended accordingly.
 [load paths]: #load-paths
 [masking]: #masking
 [merging]: #merging
-[os-release]: https://man.archlinux.org/man/os-release.5.en
+[os-release]: https://www.freedesktop.org/software/systemd/man/latest/os-release.html
 [os]: #os
 [overriding]: #overriding
 [point to point]: #point-to-point
