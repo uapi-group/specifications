@@ -162,12 +162,6 @@ Runtime system logs.
 System components may place private logs in this directory.
 Always writable, even when `/var/log/` might not be accessible yet.
 
-### `/run/opt/`
-If `/opt/` is supported (see above),
-then the `/run/opt/` subdirectory is the location where third-party software installed in `/opt/` stores its
-runtime, variable data.
-The same naming convention as directories under `/opt/` is used for directories under `/run/opt/`.
-
 ### `/run/user/`
 
 Contains per-user runtime directories,
