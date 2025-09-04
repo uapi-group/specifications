@@ -125,7 +125,7 @@ The existence of multiple load paths allows system administrators and users to d
 
 #### System mode
 
-The priority of load paths in system mode follows the definition of ["Storage Directories and Overrides" in the Configuration Files Sepcification], which is also reflected in the following list of paths:
+The priority of load paths in system mode follows the definition of ["Storage Directories and Overrides" in the Configuration Files Specification], which is also reflected in the following list of paths:
 
 - `/etc/voa/`
 - `/run/voa/`
@@ -155,7 +155,7 @@ VOA implementations must not consider symlinks under the following conditions an
 
 - the symlink is for a file or directory in an ephemeral load path (i.e. `/run/voa/` and `$XDG_RUNTIME_DIR/voa/`),
 - the symlink is for a file or directory outside of the specified _load paths_,
-- the symlink is broken (aka. "dangling"),
+- the symlink is broken (a.k.a. "dangling"),
 - the file name of the symlink (also those of intermediate symlinks in the case of a symlink chain) does not match that of the target,
 - or the file type of the source and target of the fully resolved symlink do not match (e.g. a verifier file points to a directory, or a directory to a verifier file).
 
@@ -367,7 +367,7 @@ VOA implementations must not consider invalid directories and should raise a war
 
 This technology is named `openpgp` in the VOA structure.
 
-Most Linux distributions use OpenPGP, often combined with _PGPKI_ (aka. [Web of Trust (WoT)]), in which chains of trust are evaluated during signature validation.
+Most Linux distributions use OpenPGP, often combined with _PGPKI_ (a.k.a. [Web of Trust (WoT)]), in which chains of trust are evaluated during signature validation.
 
 OpenPGP has a rich model of validity, both for certificates and signatures.
 Certificates can expire or be revoked by the key holder (via [OpenPGP certificate revocation]).
