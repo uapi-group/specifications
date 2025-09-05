@@ -34,6 +34,10 @@ Some directories like `/var/spool/` are not covered,
 even though it might make sense to include them
 in the structure of an actually deployed OS.
 
+Some directories are described for compatibility with current Linux distributions,
+but their use is not recommended.
+The subsections that describe those directories are marked with ⚠️.
+
 Many of the paths described here can be queried with the
 [`systemd-path(1)`](https://www.freedesktop.org/software/systemd/man/systemd-path.html)
 tool, on systems where this tool is available.
@@ -81,8 +85,8 @@ following the
 [Configuration Files Specification](configuration_files_specification.md).
 
 If `/opt/` is supported (see below),
-then the `/etc/opt/` subdirectory is the location where third-party software installed in `/opt/` may store
-their configuration.
+then the `/etc/opt/` ⚠️ subdirectory is the location where
+third-party software installed in `/opt/` may store its configuration.
 The same naming convention as directories under `/opt/` is used for directories under `/etc/opt/`.
 
 ### `/home/`
@@ -98,15 +102,27 @@ Applications should generally not reference this directory directly,
 but via the per-user `$HOME` environment variable,
 or via the home directory field of the user database.
 
-### `/opt/`
+### `/opt/` ⚠️
 
-The location for third-party vendor directories.
-Third-party vendors (i.e.: unrelated to the OS provider) use a directory,
+A secondary location for third-party vendor directories.
+This directory is optional,
+as not all systems allow installing third-party software.
+
+Each third-party vendor (i.e.: unrelated to the OS provider) may use a subdirectory,
 typically named after the vendor or the software, under this location.
 It is usually read-only, but this is not required.
 This directory should not be modified by the administrator,
 except when installing or removing third-party-supplied software.
-This directory is optional, as not all systems allow installing third-party software.
+
+Using `/opt/` is not recommended.
+It is not integrated with the rest of the distribution:
+a package which uses `/opt/` may need to install
+binaries or links in `/usr/bin/`
+and other supplementary files,
+e.g. desktops files or manual pages,
+into their appropriate locations under `/usr`.
+Instead of using a subdirectory under `/opt/`,
+a third party vendor should put their directory under `/usr/lib/`.
 
 ### `/root/`
 
@@ -161,12 +177,6 @@ Always writable.
 Runtime system logs.
 System components may place private logs in this directory.
 Always writable, even when `/var/log/` might not be accessible yet.
-
-### `/run/opt/`
-If `/opt/` is supported (see above),
-then the `/run/opt/` subdirectory is the location where third-party software installed in `/opt/` stores its
-runtime, variable data.
-The same naming convention as directories under `/opt/` is used for directories under `/run/opt/`.
 
 ### `/run/user/`
 
@@ -229,18 +239,21 @@ Such binaries may be for any architecture supported by the system.
 Do not place public libraries in this directory,
 use `$libdir` (see below), instead.
 
-### `/usr/libexec/`
+### `/usr/libexec/` ⚠️
 
-Vendor binaries or other programs that are not regularly invoked from a shell.
-Such binaries may be for any architecture supported by the system.
+A secondary location for
+vendor binaries or other programs that are not regularly invoked from a shell
+that is used by some distributions.
+Packages may either place such programs
+in a subdirectory of `/usr/lib/`,
+directly in `/usr/libexec/`,
+or in a subdirectory of `/usr/libexec/` named after the package.
+The first option is the recommended approach.
+`/usr/libexec/` is used by some distributions,
+so it is mentioned here too,
+but its use is not encouraged.
 
-Packages may either place such programs directly in `/usr/libexec/`,
-in a subdirectory of `/usr/libexec/` named after the package,
-or in some subdirectory of `/usr/lib/`.
-Using `/usr/libexec/` is better if the package only has a single such file,
-and a subdirectory under `/usr/lib/` is better if the package
-has other non-executable files and needs to have directory there anyway.
-This document does not mandate any specific choice.
+Binaries in `/usr/libexec/` may be for any architecture supported by the system.
 
 ### `/usr/lib/arch-id/`
 
@@ -321,10 +334,11 @@ though it is recommended to do most logging via the
 [`sd_journal_print(3)`](https://www.freedesktop.org/software/systemd/man/sd_journal_print.html)
 calls.
 
-### `/var/opt/`
+### `/var/opt/` ⚠️
+
 If `/opt/` is supported (see above),
-then the `/var/opt/` subdirectory is the location where third-party software installed in `/opt/` stores its
-persistent, variable data.
+then the `/var/opt/` subdirectory is the location where third-party software installed in `/opt/`
+stores its persistent, variable data.
 The same naming convention as directories under `/opt/` is used for directories under `/var/opt/`.
 
 ### `/var/tmp/`
