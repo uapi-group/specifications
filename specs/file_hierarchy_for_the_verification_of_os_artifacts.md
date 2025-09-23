@@ -283,6 +283,8 @@ Either two or one _purpose_ directories may exist per _role_:
 The _purpose_ directory name must not contain characters outside of `0–9`, `a–z`, `"."`, `"_"`, and `"-"`.
 VOA implementations must not consider invalid directories and should raise a warning if such a directory is encountered.
 
+A _role_'s name must not start with the string "trust-anchor-", so that there can be no confusion with a purpose with _trust anchor_ usage _mode_.
+
 ##### Two purpose directories: Verification relying on trust anchors
 
 For example, verifiers for the "package" _role_ may be stored in two _purpose_ directories:
@@ -621,7 +623,7 @@ If the need arises, this specification should be extended accordingly.
 [SSH CA]: https://liw.fi/sshca/
 [PKCS#7]: https://en.wikipedia.org/wiki/PKCS_7
 [Privacy-Enhanced Mail]: https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail
-[VOA hierarchy]: #hierarchy
+[VOA hierarchy]: #file-hierarchy
 [Web of Trust (WoT)]: https://openpgp.dev/book/signing_components.html#wot
 [XDG Base Directory Specification]: https://specifications.freedesktop.org/basedir-spec/latest/
 [`signify`]: https://man.archlinux.org/man/signify.1
@@ -645,7 +647,7 @@ If the need arises, this specification should be extended accordingly.
 [point to point]: #point-to-point
 [public key infrastructure]: https://en.wikipedia.org/wiki/Public_key_infrastructure
 [purpose]: #purpose
-[role]: #role
+[role]: #purpose
 [signature verification models]: #signature-verification-models
 [ssh-keygen.1#KEY_REVOCATION_LISTS]: https://man.archlinux.org/man/ssh-keygen.1.en#KEY_REVOCATION_LISTS
 [sshd.8#SSH_KNOWN_HOSTS_FILE_FORMAT]: https://man.archlinux.org/man/sshd.8#SSH_KNOWN_HOSTS_FILE_FORMAT
@@ -655,4 +657,3 @@ If the need arises, this specification should be extended accordingly.
 [time stamp protocol]: https://en.wikipedia.org/wiki/Time_stamp_protocol
 [trust anchor]: https://en.wikipedia.org/wiki/Trust_anchor
 [verifier revocation]: #revocation-of-verifiers
-[version]: #version
