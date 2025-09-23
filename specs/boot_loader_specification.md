@@ -335,6 +335,13 @@ The following keys are recognized:
 
   Example: `architecture aa64`
 
+* `profile` refers to the profile number to use in multi-profile EFI programs.
+  See the section `multi-profile UKIs` in [the UKI Specification](unified_kernel_image.md)
+  for more information.
+  This should only be used when `uki` or `uki-url` is set to a multi-profile UKI. Behaviour is undefined for any other cases.
+
+  Example: `profile 1`
+
 Each boot loader menu entry drop-in snippet must include at least a `linux` or an `efi`
 key. Here is an example for a complete drop-in file:
 
