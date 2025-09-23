@@ -285,6 +285,7 @@ Directory naming # Purpose directories for direct artifact verifiers are named \
 Note that trust anchor directory names always start with a \u0026ldquo;trust-anchor-\u0026rdquo; fragment.
 Either two or one purpose directories may exist per role:
 One directory which contains artifact verifiers (e.g. package), and a second directory which contains the corresponding trust anchors (e.g. trust-anchor-package). Just one directory which contains artifact verifiers (e.g. package). The purpose directory name must not contain characters outside of 0–9, a–z, \u0026quot;.\u0026quot;, \u0026quot;_\u0026quot;, and \u0026quot;-\u0026quot;. VOA implementations must not consider invalid directories and should raise a warning if such a directory is encountered.
+A role\u0026rsquo;s name must not start with the string \u0026ldquo;trust-anchor-\u0026rdquo;, so that there can be no confusion with a purpose with trust anchor usage mode.
 Two purpose directories: Verification relying on trust anchors # For example, verifiers for the \u0026ldquo;package\u0026rdquo; role may be stored in two purpose directories:
 package (\u0026quot;artifact verifiers of actors who are designated for package signing\u0026quot;), and trust-anchor-package (\u0026quot;trust anchors for artifact verifiers used for package signing\u0026quot;) In this scenario, verification based on trust anchors is performed.
 One purpose directory: Direct verification # In another example, verifiers for the \u0026ldquo;image\u0026rdquo; role may be stored in only one purpose directory:
