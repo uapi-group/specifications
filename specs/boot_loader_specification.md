@@ -315,6 +315,12 @@ The following keys are recognized:
 
   Example: `options root=UUID=6d3376e4-fc93-4509-95ec-a21d68011da2 quiet`
 
+* `linux-appendroot` is a boolean option that, if set to `yes`, instructs the
+  boot loader to generate a suitable `root=` parameter and add it to the
+  Linux kernel command-line prior to any kernel parameters indicated by
+  the `options` key.
+  This key is optional and its absence is treated as `no`.
+
 * `devicetree` refers to the binary device tree to use when executing the
   kernel. This key is optional.
 
@@ -334,6 +340,9 @@ The following keys are recognized:
   entry should be hidden. The comparison should be done case-insensitively.
 
   Example: `architecture aa64`
+
+Boolean arguments may be written as `yes`/`y`/`true`/`t`/`on`/`1`
+or `no`/`n`/`false`/`f`/`off`/`0`. 
 
 Each boot loader menu entry drop-in snippet must include at least a `linux` or an `efi`
 key. Here is an example for a complete drop-in file:
