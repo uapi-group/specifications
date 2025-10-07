@@ -528,6 +528,18 @@ then it is assumed to be equivalent to zero.) If the "tries left" counter is
 above zero the entry is still considered "indeterminate". A boot entry with the
 "tries left" counter at zero is considered "bad".
 
+When decrementing the "tries left" counter, implementations should preserve
+the total number of digits by padding with leading zeroes if needed. For example,
+`+10` becomes `+09` instead of `+9`. This ensures that the filename length
+and structure remain constant during counter updates.
+
+The "tries done" counter should be pre-initialized with fixed number of digits,
+initially all zero. The number of digits should be sufficient for the expected range
+of increments (e.g. `-00` or `-0000`). During boot counting, this counter is
+incremented without changing its width. If the counter would overflow its allocated
+width, it shall be capped at the maximum representable value (e.g. `-99` for two digits)
+and processing shall continue as normal.
+
 If the boot attempt completed successfully the entry's counters are removed
 from the name (entry state becomes "good"), thus turning off boot counting for
 this entry.
@@ -682,6 +694,14 @@ benefit that the boot count metadata is directly attached to the boot loader
 entry file, and thus the lifecycle of the metadata and the entry itself are
 bound together. This means no additional clean-up needs to take place to drop
 the boot loader counting information for an entry when it is removed.
+
+This is also why the size of the counters should remain fixed while boot counting
+is active: renames that change the filename length may no longer be atomic on some
+file systems. On FAT32, for example, long filenames are stored using multiple
+consecutive directory records, and growing or shrinking a filename can require
+allocating or releasing these entries. To keep such updates effectively atomic,
+the specification requires fixed-width counters and pre-allocation of the "tries done"
+field so that counter updates do not change the filename length.
 
 ### Why not use EFI variables for storing the boot counter?
 
