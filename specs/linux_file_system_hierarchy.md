@@ -293,10 +293,15 @@ of all configuration files that may be placed in `/etc/`.
 This is useful to compare the local configuration of a system with vendor defaults
 and to populate the local configuration with defaults.
 
+Software should not read configuration settings directly from `/usr/share/factory/`.
+Those files will be copied to other locations if appropriate,
+and should only be read from there.
+
 ### `/usr/share/factory/var/`
 
 Similar to `/usr/share/factory/etc/`,
 but for vendor versions of files in the variable, persistent data directory `/var/`.
+The same recommendations as for `/usr/share/factory/etc/` apply here.
 
 ## Persistent Variable System Data
 
