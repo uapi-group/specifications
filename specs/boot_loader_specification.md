@@ -338,7 +338,9 @@ The following keys are recognized:
 * `profile` refers to the profile number to use in multi-profile EFI programs.
   See the section `multi-profile UKIs` in [the UKI Specification](unified_kernel_image.md)
   for more information.
-  This should only be used when `uki` or `uki-url` is set to a multi-profile UKI. Behaviour is undefined for any other cases.
+  This should only be used when `uki` or `uki-url` is set to a multi-profile UKI.
+  Behaviour is implementation-defined for any other case and implementors may choose to
+  ignore the field or issue a warning.
 
   Example: `profile 1`
 
