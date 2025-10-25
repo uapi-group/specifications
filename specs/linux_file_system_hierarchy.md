@@ -23,7 +23,7 @@ and [XDG User Directories](https://www.freedesktop.org/wiki/Software/xdg-user-di
 In some areas this document is stricter than those older documents.
 In particular it makes additional restrictions and recommendations
 to separate vendor defaults and local configuration, and also
-static installed files, persistent data, and empheral runtime files.
+static installed files, persistent data, and ephemeral runtime files.
 In other areas it is simpler,
 with the vendor files using a single hierarchy under `/usr`.
 
