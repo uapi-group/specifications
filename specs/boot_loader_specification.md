@@ -64,12 +64,19 @@ same disk. Instead of maintaining one boot partition per installed OS (as
 `/boot/` was traditionally handled), all installed OSes use the same place for
 boot loader menu entries._
 
-For systems where the firmware is able to read file systems directly, the ESP
-must — and the MBR boot and GPT XBOOTLDR partition should — be a file system
-readable by the firmware. For most systems this means VFAT (16 or 32 bit).
-Applications accessing both partitions should hence not assume that
-fancier file system features such as symlinks, hardlinks, access control or
-case sensitivity are supported.
+For systems where the firmware is able to read file systems directly,
+the ESP and XBOOTLDR must use a file system readable by the firmware.
+For most systems this means VFAT (16 or 32 bit).
+The same file system type must be used for both partitions.
+
+Inode types other than directories and regular files
+are not allowed as any part of the paths defined by this specification.
+If for some reason a file system type allowing those is used,
+those must not be created by any tools supporting this specification,
+and such paths must be ignored by tools supporting this specification.
+
+Applications should not expect case sensitivity,
+and need to be able to deal with case insensitive behaviour of the file system.
 
 Note that the partitions described here are not the exclusive territory of this specification.
 This specification only defines semantics of the `/loader/entries/` directory
@@ -143,6 +150,8 @@ recommended. Such a nested setup complicates an implementation via direct
 the inner `autofs` will trigger the outer one. Mounting the two partitions via
 `autofs` is recommended because the simple VFAT file system has weak data
 integrity properties and should remain unmounted whenever possible.)
+
+From Linux, the file systems must be mounted with `MS_NOEXEC`, `MS_NODEV`, `MS_NOSUID`, `MS_NOSYMFOLLOW`.
 
 ## Boot Loader Entries
 
