@@ -214,7 +214,7 @@ Using a subdirectory is recommended if the package installs multiple files.
 It is also necessary if multiple versions of the same headers shall be coinstallable.
 The subdirectory may be named after the package or project providing it.
 Packages may place architecture-dependent header files and directories in a
-`/usr/include/arch-id/` subdirectory,
+`/usr/include/<arch-id>/` subdirectory,
 following the identifiers defined on the
 [Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
 list.
@@ -229,17 +229,64 @@ and other compiler-specific documentation.
 
 The corresponding library or libraries shall be placed in `$libdir`, see below.
 
-### `/usr/lib/`
+### Libraries, system programs, and program assets
+
+This section describes the directories used to store shared libraries,
+internal binaries or other programs that are not regularly invoked from a shell
+(and thus should not be placed in the directories in `$PATH`),
+and other static files that are part of program installations.
+
+There are two main schemes for shared libraries.
+On "multiarch" systems,
+multiple different architecture and ABI variants can be installed in parallel.
+Each variant uses a hierarchy of files under a directory named using the
+[Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
+list.
+On "multilib" systems,
+a simpler scheme is used that only supports 32-bit and 64-bit variants of the same architecture.
+
+Both schemes are widely used, and distributions typically choose one or the other.
+Multiarch is the recommended approach, especially for new systems.
+
+Note that many locations described in this section
+are under shared ownership,
+with multiple different packages installing and consuming resources
+on equal footing without any obvious primary owner,
+and are subject to specifications that ensure interoperability.
+
+#### `/usr/lib/`
 
 Static, private vendor data that is compatible with all architectures
 (though not necessarily architecture-independent).
 Note that this includes
 internal binaries or other programs that are not regularly invoked from a shell.
 Such binaries may be for any architecture supported by the system.
-Do not place public libraries in this directory,
-use `$libdir` (see below), instead.
 
-### `/usr/libexec/` ⚠️
+In the multilib scheme,
+32-bit libraries are placed directly in this directory.
+In the multiarch scheme,
+libraries should not be placed directly in this directory,
+but in `$libdir` (see below), instead.
+
+#### `/usr/lib/<arch-id>/`
+
+Location for dynamic libraries, also called `$libdir`.
+The architecture identifier to use is defined on the
+[Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
+list.
+Those directories are used on multiarch systems.
+
+On multilib systems,
+`/usr/lib/` and `/usr/lib64/` are used instead,
+and one of them is `$libdir`.
+
+This directory can be used for architecture-dependent package-specific data too.
+
+The primary architecture of the system (`$libdir`) may be queried with:
+
+    systemd-path system-library-arch
+
+#### `/usr/libexec/` ⚠️
 
 A secondary location for
 vendor binaries or other programs that are not regularly invoked from a shell
@@ -255,31 +302,14 @@ but its use is not encouraged.
 
 Binaries in `/usr/libexec/` may be for any architecture supported by the system.
 
-### `/usr/lib/arch-id/`
-
-Location for placing dynamic libraries into, also called `$libdir`.
-The architecture identifier to use is defined on the
-[Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
-list.
-Legacy locations of `$libdir` are `/usr/lib/`, `/usr/lib64/`.
-
-This directory should not be used for package-specific data,
-unless this data is architecture-dependent, too.
-
-The primary architecture of the system (`$libdir`) may be queried with:
-
-    systemd-path system-library-arch
-
 ### `/usr/share/`
 
-Resources shared between multiple packages,
-such as documentation, man pages, time zone information, fonts and other resources.
-Usually, the precise location and format of files stored below this directory
-is subject to specifications that ensure interoperability.
+Architecture-independent resources of packages,
+such as documentation, man pages, time zone information, and fonts.
 
-Note that resources placed in this directory may be under shared ownership,
-with multiple different packages providing and consuming these resources
-on equal footing without any obvious primary owner.
+Those files are often shared between multiple packages,
+so the precise location and format of files stored below this directory
+are subject to specifications that ensure interoperability.
 
 ### `/usr/share/doc/`
 
@@ -510,7 +540,7 @@ between multiple hosts with different architectures.
 
 Static, private vendor data that is compatible with all architectures.
 
-### `~/.local/lib/arch-id/`
+### `~/.local/lib/<arch-id>/`
 
 Location for placing public dynamic libraries.
 The architecture identifier to use is defined on
@@ -618,12 +648,12 @@ specific types of files supplied by the vendor.
 
 ### System package vendor files locations
 
-| Directory                   | Purpose |
-|-----------------------------|---------|
-| `/usr/bin/`                 | Package executables that shall appear in the `$PATH` executable search path, compiled for any of the supported architectures compatible with the operating system. It is not recommended to place internal binaries or binaries that are not commonly invoked from the shell in this directory, such as daemon binaries. As this directory is shared with most other packages of the system, special care should be taken to pick unique names for files placed here, that are unlikely to clash with other package's files. |
-| `/usr/lib/arch-id/`         | Public shared libraries of the package. As above, be careful with using too generic names, and pick unique names for your libraries to place here to avoid name clashes. |
-| `/usr/lib/package/`         | Private static vendor resources of the package, including private binaries and libraries, or any other kind of read-only vendor data. |
-| `/usr/lib/arch-id/package/` | Private other vendor resources of the package that are architecture-specific and cannot be shared between architectures. Note that this generally does not include private executables since binaries of a specific architecture may be freely invoked from any other supported system architecture. |
+| Directory                     | Purpose |
+|-------------------------------|---------|
+| `/usr/bin/`                   | Package executables that shall appear in the `$PATH` executable search path, compiled for any of the supported architectures compatible with the operating system. It is not recommended to place internal binaries or binaries that are not commonly invoked from the shell in this directory, such as daemon binaries. As this directory is shared with most other packages of the system, special care should be taken to pick unique names for files placed here, that are unlikely to clash with other package's files. |
+| `/usr/lib/<arch-id>/`         | Public shared libraries of the package. As above, be careful with using too generic names, and pick unique names for your libraries to place here to avoid name clashes. |
+| `/usr/lib/package/`           | Private static vendor resources of the package, including private binaries and libraries, or any other kind of read-only vendor data. |
+| `/usr/lib/<arch-id>/package/` | Private other vendor resources of the package that are architecture-specific and cannot be shared between architectures. Note that this generally does not include private executables since binaries of a specific architecture may be freely invoked from any other supported system architecture. |
 
 Additional static vendor files with shared ownership
 may be installed in the `/usr/share/` hierarchy
@@ -655,12 +685,12 @@ covered by the rules outlined above for vendor files.)
 
 ### Vendor package file locations under the home directory of the user
 
-| Directory                       | Purpose |
-|---------------------------------|---------|
-| `~/.local/bin/`                 | Package executables that shall appear in the `$PATH` executable search path. It is not recommended to place internal executables or executables that are not commonly invoked from the shell in this directory, such as daemon executables. As this directory is shared with most other packages of the user, special care should be taken to pick unique names for files placed here, that are unlikely to clash with other package's files. |
-| `~/.local/lib/arch-id/`         | Public shared libraries of the package. As above, be careful with using overly generic names, and pick unique names for your libraries to place here to avoid name clashes. |
-| `~/.local/lib/package/`         | Private, static vendor resources of the package, compatible with any architecture, or any other kind of read-only vendor data. |
-| `~/.local/lib/arch-id/package/` | Private other vendor resources of the package that are architecture-specific and cannot be shared between architectures. |
+| Directory                         | Purpose |
+|-----------------------------------|---------|
+| `~/.local/bin/`                   | Package executables that shall appear in the `$PATH` executable search path. It is not recommended to place internal executables or executables that are not commonly invoked from the shell in this directory, such as daemon executables. As this directory is shared with most other packages of the user, special care should be taken to pick unique names for files placed here, that are unlikely to clash with other package's files. |
+| `~/.local/lib/<arch-id>/`         | Public shared libraries of the package. As above, be careful with using overly generic names, and pick unique names for your libraries to place here to avoid name clashes. |
+| `~/.local/lib/package/`           | Private, static vendor resources of the package, compatible with any architecture, or any other kind of read-only vendor data. |
+| `~/.local/lib/<arch-id>/package/` | Private other vendor resources of the package that are architecture-specific and cannot be shared between architectures. |
 
 Additional static vendor files with shared ownership
 may be installed in the `~/.local/share/` hierarchy,
