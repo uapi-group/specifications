@@ -7,6 +7,10 @@ SPDX-License-Identifier: CC-BY-4.0
 ---
 # The Discoverable Partitions Specification (DPS)
 
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
+
 _TL;DR: Let's automatically discover, mount and enable the root partition,
 `/home/`, `/srv/`, `/var/` and `/var/tmp/` and the swap partitions based on
 GUID Partition Tables (GPT)!_

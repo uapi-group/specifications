@@ -8,6 +8,10 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # File Hierarchy for the Verification of OS Artifacts (VOA)
 
+| Version | Changes |
+|---------|---------|
+| 0.1     | Work in progress |
+
 ## Motivation
 
 Cryptographic validation of artifacts with the help of digital signatures is a use-case of most Linux distributions.

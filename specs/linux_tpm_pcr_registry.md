@@ -6,6 +6,10 @@ SPDX-License-Identifier: CC0-1.0
 
 # 🔏 Linux TPM PCR Registry 🗒️
 
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
+
 _TPM PCRs are a scarce resource, there are only 24 of them in typical standards compliant TPMs.
 According to the
 [TCG PC Client Specific Platform Firmware Profile Specification | Trusted Computing Group](https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/)

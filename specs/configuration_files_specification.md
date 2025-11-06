@@ -6,6 +6,10 @@ version: 1
 
 # Configuration Files Specification
 
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
+
 ## Introduction
 
 Various specifications attempt to define configuration files and file formats. This

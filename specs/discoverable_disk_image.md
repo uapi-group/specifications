@@ -7,6 +7,10 @@ SPDX-License-Identifier: CC-BY-4.0
 ---
 # Discoverable Disk Image (DDI)
 
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
+
 DDIs (Discoverable Disk Images) are self-describing file system images that follow the DPS ([Discoverable
 Partitions Specification](discoverable_partitions_specification.md)), wrapped in a GPT partition table, that
 may contain root (or `/usr/`) filesystems for bootable OS images, system extensions, configuration

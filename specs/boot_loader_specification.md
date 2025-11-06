@@ -8,6 +8,10 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # The Boot Loader Specification
 
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
+
 This document defines a set of file formats and naming conventions that allow
 the boot loader menu entries to be shared between multiple operating systems
 and boot loaders installed on one device.
