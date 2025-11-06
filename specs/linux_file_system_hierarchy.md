@@ -21,7 +21,7 @@ and includes concepts described in the
 specification and
 [`hier(7)`](https://man7.org/linux/man-pages/man7/hier.7.html) man page,
 and various extensions documented in the
-[XDG Base Directory Specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html)
+[XDG Base Directory Specification](https://specifications.freedesktop.org/basedir/latest/)
 and [XDG User Directories](https://www.freedesktop.org/wiki/Software/xdg-user-dirs).
 
 In some areas this document is stricter than those older documents.
@@ -190,7 +190,7 @@ Always writable, flushed at each reboot and when the user logs out.
 User code should not reference this directory directly,
 but via the `$XDG_RUNTIME_DIR` environment variable,
 as documented in the
-[XDG Base Directory Specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html).
+[XDG Base Directory Specification](https://specifications.freedesktop.org/basedir/latest/).
 
 ## Vendor-supplied Operating System Resources
 
@@ -508,7 +508,7 @@ in the user's home directory.
 They should follow the following basic structure.
 Note that some of these directories are also standardized
 (though more weakly) by the
-[XDG Base Directory Specification](https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html).
+[XDG Base Directory Specification](https://specifications.freedesktop.org/basedir/latest/).
 Additional locations for high-level user resources are defined by
 [xdg-user-dirs](https://www.freedesktop.org/wiki/Software/xdg-user-dirs).
 
