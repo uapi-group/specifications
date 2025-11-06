@@ -10,7 +10,7 @@ BookToC: false
   ([canonical online location](https://uapi-group.org/specifications/specs/boot_loader_specification/))
 * [Configuration Files Specification](specs/configuration_files_specification.md):
   Standardises default locations and environment variables for locating common files or base directories.
-  This is derived from, and extends, the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html),
+  This is derived from, and extends, the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir/latest/),
   to allow for separation between vendor and admin configuration files, drop-in files, and masking.
   ([canonical online location](https://uapi-group.org/specifications/specs/configuration_files_specification/))
 * [Discoverable Partitions Specification](specs/discoverable_partitions_specification.md):
