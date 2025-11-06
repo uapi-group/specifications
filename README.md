@@ -42,6 +42,10 @@ BookToC: false
 
 See [open PRs on github](https://github.com/uapi-group/specifications/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc).
 
+## License
+
+All specifications are licensed under [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0.html).
+
 ## Glossary
 
 This section clarifies on terms and abbreviations used in specs and other documents.
