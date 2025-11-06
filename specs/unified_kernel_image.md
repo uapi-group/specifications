@@ -7,6 +7,10 @@ SPDX-License-Identifier: CC-BY-4.0
 ---
 # Unified Kernel Image (UKI)
 
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
+
 A Unified Kernel Image (UKI) is a combination of an UEFI boot stub program,
 a Linux kernel image, an optional initrd, and further resources in a single UEFI PE file.
 This file can either be directly invoked by the UEFI firmware

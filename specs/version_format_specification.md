@@ -6,6 +6,11 @@ SPDX-License-Identifier: CC-BY-4.0
 ---
 
 # Version Format Specification
+
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
+
 This specification defines the format of version strings and their ordering.
 Various documents that are part of the [uapi-group specification suite](https://uapi-group.org/specifications),
 as well as other projects like [systemd](https://systemd.io),

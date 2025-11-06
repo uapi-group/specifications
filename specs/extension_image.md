@@ -6,6 +6,11 @@ version: 2
 SPDX-License-Identifier: CC-BY-4.0
 ---
 # Extension Images
+
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
+
 Extension Images are DDIs ([Discoverable Disk Images](discoverable_disk_image.md)) that are
 built to extend a base system via an overlay. A base system or a root DDI can be extended by several extension
 DDIs via, usually, a read-only OverlayFS. The defining characteristic of an Extension Image is that it contains

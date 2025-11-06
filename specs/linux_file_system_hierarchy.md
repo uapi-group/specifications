@@ -8,6 +8,10 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # Linux File System Hierarchy
 
+| Version | Changes |
+|---------|---------|
+| 0.1     | Work in progress |
+
 ## Description
 
 This page describes the layout of a modern Linux system.
