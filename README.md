@@ -46,6 +46,18 @@ See [open PRs on github](https://github.com/uapi-group/specifications/pulls?q=is
 
 All specifications are licensed under [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0.html).
 
+## Versioning
+
+All specifications are versioned.
+
+The versioning format is MAJOR.MINOR.
+Compatible changes increment the MINOR version.
+Incompatible changes increment the MAJOR version and reset the MINOR version to `0`.
+
+Work in progress specifications have a MAJOR version of `0`.
+
+A `filename/MAJOR.MINOR` git tag will be created when a new version of a given spec is released.
+
 ## Glossary
 
 This section clarifies on terms and abbreviations used in specs and other documents.
