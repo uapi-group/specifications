@@ -2,7 +2,7 @@
 title: Discoverable Disk Image
 category: Concepts
 layout: default
-version: 1
+version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
 # Discoverable Disk Image (DDI)

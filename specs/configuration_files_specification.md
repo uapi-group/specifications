@@ -1,7 +1,7 @@
 ---
 title: Configuration Files Specification
 layout: posts
-version: 1
+version: 1.0
 ---
 
 # Configuration Files Specification
