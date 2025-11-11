@@ -2,7 +2,7 @@
 title: File Hierarchy for the Verification of OS Artifacts (VOA)
 category: Concepts
 layout: default
-version: 1
+version: 0.1
 SPDX-License-Identifier: CC-BY-4.0
 ---
 

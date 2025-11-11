@@ -1,6 +1,6 @@
 ---
 title: Linux TPM PCR Registry
-version: 1
+version: 1.0
 SPDX-License-Identifier: CC0-1.0
 ---
 

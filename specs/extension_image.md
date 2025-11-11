@@ -2,7 +2,7 @@
 title: Extension Images
 category: Concepts
 layout: default
-version: 2
+version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
 # Extension Images

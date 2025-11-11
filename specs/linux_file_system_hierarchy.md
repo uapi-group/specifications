@@ -2,7 +2,7 @@
 title: Linux File System Hierarchy
 category: Concepts
 layout: default
-version: 1
+version: 0.1
 SPDX-License-Identifier: CC-BY-4.0
 ---
 
