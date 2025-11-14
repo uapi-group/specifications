@@ -51,6 +51,10 @@ header to 0x0A (i.e. `IMAGE_SUBSYSTEM_EFI_APPLICATION`).
 ## UKI Components
 UKIs consist of the following resources:
 
+<!--
+NOTE: these components are in canonical order for predictable PCR measurements.
+Please add any new components at the bottom of the list and NEVER reorder anything in this list.
+-->
 * An UEFI boot stub that forms the initial program.
   It contains various PE sections normally required for a program,
   including `.text`, `.reloc`, `.data`, and others.
@@ -68,6 +72,10 @@ UKIs consist of the following resources:
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the key pair described below.
 * Optionally, the public part of a public-private key pair in PEM format used to sign the expected PCR 11 value of the image, in the `.pcrpkey` section.
+
+This list specifies the canonical order of sections.
+Items will not be reordered and new sections will be added at the end only.
+This is required for predicatable PCR measurements.
 
 Note that all of the sections defined above are singletons:
 they may appear at most once,
