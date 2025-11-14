@@ -47,7 +47,10 @@ header to 0x0A (i.e. `IMAGE_SUBSYSTEM_EFI_APPLICATION`).
 ## UKI Components
 UKIs consist of the following resources:
 
-<!-- NOTE: these components are in canonical for predictable PCR measurements. Please add any new components at the bottom of the list and NEVER reorder anything in this list. -->
+<!--
+NOTE: these components are in canonical for predictable PCR measurements.
+Please add any new components at the bottom of the list and NEVER reorder anything in this list.
+-->
 * An UEFI boot stub that forms the initial program.
   It contains various PE sections normally required for a program,
   including `.text`, `.reloc`, `.data`, and others.
