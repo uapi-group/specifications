@@ -2,7 +2,7 @@
 title: Dlopen Metadata for ELF Files
 category: Interfaces
 layout: default
-SPDX-License-Identifier: LGPL-2.1-or-later
+SPDX-License-Identifier: CC-BY-4.0
 ---
 
 # `dlopen()` Metadata for ELF Files
