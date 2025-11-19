@@ -37,6 +37,12 @@ BookToC: false
 * [Linux TPM PCR Registry](specs/linux_tpm_pcr_registry.md):
   An informative list of how TPM PCRs are used on a Linux system.
   ([canonical online location](https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/))
+* [Package Metadata for Executable Files](specs/package_metadata_for_executable_files.md):
+  Describes the format and mechanism to include packaging metadata in ELF/PE binaries.
+  ([canonical online location](https://uapi-group.org/specifications/specs/package_metadata_for_executable_files/))
+* [Dlopen Metadata for ELF Files](specs/elf_dlopen_metadata.md):
+  Describes the format and mechanism to include dynamically loaded libraries metadata in ELF binaries.
+  ([canonical online location](https://uapi-group.org/specifications/specs/elf_dlopen_metadata/))
 
 ## Work in Progress
 
