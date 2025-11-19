@@ -2,10 +2,15 @@
 title: Dlopen Metadata for ELF Files
 category: Interfaces
 layout: default
+version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
 
 # `dlopen()` Metadata for ELF Files
+
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
 
 *Intended audience: hackers working on packaging ELF files that use dlopen to load libraries.*
 

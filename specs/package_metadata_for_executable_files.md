@@ -2,10 +2,15 @@
 title: Package Metadata for Executable Files
 category: Interfaces
 layout: default
+version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
 
 # Package Metadata for Executable Files
+
+| Version | Changes |
+|---------|---------|
+| 1.0     | Initial Release |
 
 *Intended audience: hackers working on userspace subsystems that
 create or manipulate ELF or PE/COFF binaries
