@@ -12,9 +12,12 @@ SPDX-License-Identifier: CC-BY-4.0
 |---------|---------|
 | 1.0     | Initial Release |
 
-*Intended audience: hackers working on userspace subsystems that
-create or manipulate ELF or PE/COFF binaries
-or parse core files.*
+## Target Audience
+
+The target audience for this specification is:
+
+* Developers working on userspace subsystems that create or manipulate ELF or PE/COFF binaries
+* Developers working on userspace subsystems that parse core files
 
 ## Motivation
 

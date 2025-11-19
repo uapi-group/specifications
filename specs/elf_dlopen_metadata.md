@@ -12,7 +12,12 @@ SPDX-License-Identifier: CC-BY-4.0
 |---------|---------|
 | 1.0     | Initial Release |
 
-*Intended audience: hackers working on packaging ELF files that use dlopen to load libraries.*
+## Target Audience
+
+The target audience for this specification is:
+
+* Developers working on userspace subsystems that create ELF binaries that dynamically load libraries
+* Developers working on userspace subsystems that package ELF binaries that dynamically load libraries
 
 ## Motivation
 
