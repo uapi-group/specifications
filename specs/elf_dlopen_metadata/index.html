@@ -1,0 +1,120 @@
+<!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.104.3"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="dlopen() Metadata for ELF Files # Version Changes 1.0 Initial Release Target Audience # The target audience for this specification is:
+Developers working on userspace subsystems that create ELF binaries that dynamically load libraries Developers working on userspace subsystems that package ELF binaries that dynamically load libraries Motivation # Using dlopen() to load optional dependencies brings several advantages: programs can gracefully downgrade a feature when a library is not available, and the shared library is only loaded into the process (and its ELF constructors are run) only when the requested feature is actually used."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Dlopen Metadata for ELF Files"><meta property="og:description" content="dlopen() Metadata for ELF Files # Version Changes 1.0 Initial Release Target Audience # The target audience for this specification is:
+Developers working on userspace subsystems that create ELF binaries that dynamically load libraries Developers working on userspace subsystems that package ELF binaries that dynamically load libraries Motivation # Using dlopen() to load optional dependencies brings several advantages: programs can gracefully downgrade a feature when a library is not available, and the shared library is only loaded into the process (and its ELF constructors are run) only when the requested feature is actually used."><meta property="og:type" content="article"><meta property="og:url" content="https://uapi-group.org/specifications/specs/elf_dlopen_metadata/"><meta property="article:section" content="specs"><title>Dlopen Metadata for ELF Files | UAPI Group Specifications</title><link rel=manifest href=/specifications/manifest.json><link rel=icon href=/specifications/favicon.png type=image/x-icon><link rel=stylesheet href=/specifications/book.min.f716a89e40b01f033146ee402497165ac5bcf8935948094dceafbcb19f6f3c8d.css integrity="sha256-9xaonkCwHwMxRu5AJJcWWsW8+JNZSAlNzq+8sZ9vPI0="><script defer src=/specifications/en.search.min.0eed10c9f2cb2ac177b570ad97f352759af8ca744ab277048f24603c2a3f0d78.js integrity="sha256-Du0QyfLLKsF3tXCtl/NSdZr4ynRKsncEjyRgPCo/DXg="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/specifications><span>UAPI Group Specifications</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://uapi-group.org/>⬅️ Back to top</a></li><li>⸻</li></ul><ul><li><span>Specs</span><ul><li><a href=https://uapi-group.org/specifications/specs/sysext/>Sysext</a></li><li><a href=https://uapi-group.org/specifications/specs/boot_loader_specification/>Boot Loader Specification</a></li><li><a href=https://uapi-group.org/specifications/specs/configuration_files_specification/>Configuration Files Specification</a></li><li><a href=https://uapi-group.org/specifications/specs/discoverable_disk_image/>Discoverable Disk Image</a></li><li><a href=https://uapi-group.org/specifications/specs/discoverable_partitions_specification/>Discoverable Partitions Specification</a></li><li><a href=https://uapi-group.org/specifications/specs/elf_dlopen_metadata/ class=active>Dlopen Metadata for ELF Files</a></li><li><a href=https://uapi-group.org/specifications/specs/extension_image/>Extension Images</a></li><li><a href=https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/>File Hierarchy for the Verification of OS Artifacts (VOA)</a></li><li><a href=https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/>Linux File System Hierarchy</a></li><li><a href=https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/>Linux TPM PCR Registry</a></li><li><a href=https://uapi-group.org/specifications/specs/package_metadata_for_executable_files/>Package Metadata for Executable Files</a></li><li><a href=https://uapi-group.org/specifications/specs/unified_kernel_image/>Unified Kernel Image</a></li><li><a href=https://uapi-group.org/specifications/specs/version_format_specification/>Version Format Specification</a></li></ul></li></ul><ul><li>⸻</li><li><a href=https://github.com/uapi-group/specifications target=_blank rel=noopener>Collaborate on Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Dlopen Metadata for ELF Files</strong>
+<label for=toc-control><img src=/specifications/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#target-audience>Target Audience</a></li><li><a href=#motivation>Motivation</a></li><li><a href=#implementation>Implementation</a></li><li><a href=#well-known-keys>Well-known keys</a><ul><li><a href=#priority-definition>Priority definition</a></li><li><a href=#displaying-dlopen-notes>Displaying <code>dlopen()</code> notes</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=dlopen-metadata-for-elf-files><code>dlopen()</code> Metadata for ELF Files
+<a class=anchor href=#dlopen-metadata-for-elf-files>#</a></h1><table><thead><tr><th>Version</th><th>Changes</th></tr></thead><tbody><tr><td>1.0</td><td>Initial Release</td></tr></tbody></table><h2 id=target-audience>Target Audience
+<a class=anchor href=#target-audience>#</a></h2><p>The target audience for this specification is:</p><ul><li>Developers working on userspace subsystems that create ELF binaries that dynamically load libraries</li><li>Developers working on userspace subsystems that package ELF binaries that dynamically load libraries</li></ul><h2 id=motivation>Motivation
+<a class=anchor href=#motivation>#</a></h2><p>Using <code>dlopen()</code> to load optional dependencies brings several advantages: programs can gracefully downgrade
+a feature when a library is not available, and the shared library is only loaded into the process (and its
+ELF constructors are run) only when the requested feature is actually used. But it also has some drawbacks,
+and the main one is that it is harder to track a program&rsquo;s dependencies, since unlike build-time dynamic
+linking there will not be a mention in the ELF metadata. This specification aims to solve this problem by
+providing a standardized specification for a custom ELF note that can be used to list <code>dlopen()</code>
+dependencies.</p><h2 id=implementation>Implementation
+<a class=anchor href=#implementation>#</a></h2><p>This document will attempt to define a common metadata format specification, so that multiple implementers
+might use it when coding upstream software, and packagers might use it when building packages and setting
+dependencies.</p><p>The metadata will be embedded in a series of new, 4-byte-aligned, allocated, 0-padded, read-only ELF header
+sections, in a JSON array containing name-value objects, either one ELF note per dependency or as a single
+note listing multiple dependencies in the top-level array. Implementers working on parsing ELF files should
+not assume a specific list of names, but parse anything that is included in the section, and should look for
+the note using the <code>note type</code>. Implementers working on build tools should strive to use the same names, for
+consistency. The most common will be listed here.</p><ul><li>Section header</li></ul><pre tabindex=0><code>SECTION: `.note.dlopen`
+note type: `0x407c0c0a`
+Owner: `FDO` (FreeDesktop.org)
+Value: an array of JSON objects encoded as a zero-terminated UTF-8 string
+</code></pre><ul><li>JSON payload</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>[
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;soname&#34;</span>:      [<span style=color:#e6db74>&#34;libfoo.so.1&#34;</span>],
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;feature&#34;</span>:     <span style=color:#e6db74>&#34;foo&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;description&#34;</span>: <span style=color:#e6db74>&#34;Enables the foo feature&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;priority&#34;</span>:    <span style=color:#e6db74>&#34;recommended&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>]
+</span></span></code></pre></div><p>The format is a single JSON array containing objects, encoded as a zero-terminated <code>UTF-8</code> string. Each key
+in each object shall be unique as per recommendations of
+<a href=https://datatracker.ietf.org/doc/html/rfc8259#section-4>RFC8259</a>.
+Strings shall not contain any control characters or use <code>\uXXX</code> escaping.</p><p>Reference implementations of
+<a href=https://github.com/systemd/package-notes>packaging tools for <code>.deb</code> and <code>.rpm</code></a>
+are available, and provide macros/helpers to parse the note when building packages and adding dependencies.</p><h2 id=well-known-keys>Well-known keys
+<a class=anchor href=#well-known-keys>#</a></h2><p>The metadata format is intentionally extensible, so that upstreams and later revisions of this spec can add
+their own information. The &lsquo;soname&rsquo; array is required, with at least one element, everything else is
+optional. If alternative soname versions for the same library are supported at the same time, an array can
+be used, listing the most preferred first, and parsers are expected to select only the first one that is
+available on the system, as it is a mechanism to specify alternatives. If the <code>priority</code> field is used, it
+must follow the specification and use one of the values specified in the table. If it is not specified, a
+parser should assume &lsquo;recommended&rsquo; if a priority is needed. If the <code>feature</code> field is used, it will identify
+an individual feature, and multiple entries using the same <code>feature</code> denote functionality that requires all
+of the libraries they specify in order to be enabled.</p><table><thead><tr><th>Key name</th><th>Key type</th><th>Mandatory</th><th>Key description</th><th>Example value</th></tr></thead><tbody><tr><td>soname</td><td>array of strings</td><td>yes</td><td>The library names loaded by <code>dlopen()</code></td><td>[ &ldquo;libfoo.so.1&rdquo;, &ldquo;libfoo.so.0&rdquo; ]</td></tr><tr><td>feature</td><td>string</td><td>no</td><td>A keyword identifying the feature that the library contributes to enable</td><td>&ldquo;foo&rdquo;</td></tr><tr><td>description</td><td>string</td><td>no</td><td>A human-readable text string describing the feature</td><td>&ldquo;Enables the foo feature&rdquo;</td></tr><tr><td>priority</td><td>string</td><td>no</td><td>The priority of the feature, one of: required, recommended, suggested</td><td>&ldquo;recommended&rdquo;</td></tr></tbody></table><h3 id=priority-definition>Priority definition
+<a class=anchor href=#priority-definition>#</a></h3><table><thead><tr><th>Priority</th><th>Semantics</th></tr></thead><tbody><tr><td>required</td><td>Core functionality needs the dependency, the binary will not work if it cannot be found</td></tr><tr><td>recommended</td><td>Important functionality needs the dependency, the binary will work but in most cases the dependency should be provided</td></tr><tr><td>suggested</td><td>Secondary functionality needs the dependency, the binary will work and the dependency is only needed for full-featured installations</td></tr></tbody></table><h3 id=displaying-dlopen-notes>Displaying <code>dlopen()</code> notes
+<a class=anchor href=#displaying-dlopen-notes>#</a></h3><p>The raw ELF section can be extracted using <code>objdump</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ objdump -j .note.dlopen -s /usr/lib64/systemd/libsystemd-shared-257.so
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>/usr/lib64/systemd/libsystemd-shared-257.so:     file format elf64-x86-64
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>Contents of section .note.dlopen:
+</span></span><span style=display:flex><span> 0334 04000000 8e000000 0a0c7c40 46444f00  ..........|@FDO.
+</span></span><span style=display:flex><span> 0344 5b7b2266 65617475 7265223a 22627066  [{&#34;feature&#34;:&#34;bpf
+</span></span><span style=display:flex><span> 0354 222c2264 65736372 69707469 6f6e223a  &#34;,&#34;description&#34;:
+</span></span><span style=display:flex><span> 0364 22537570 706f7274 20666972 6577616c  &#34;Support firewal
+</span></span><span style=display:flex><span> 0374 6c696e67 20616e64 2073616e 64626f78  ling and sandbox
+</span></span><span style=display:flex><span> 0384 696e6720 77697468 20425046 222c2270  ing with BPF&#34;,&#34;p
+</span></span><span style=display:flex><span> 0394 72696f72 69747922 3a227375 67676573  riority&#34;:&#34;sugges
+</span></span><span style=display:flex><span> 03a4 74656422 2c22736f 6e616d65 223a5b22  ted&#34;,&#34;soname&#34;:[&#34;
+</span></span><span style=display:flex><span> 03b4 6c696262 70662e73 6f2e3122 2c226c69  libbpf.so.1&#34;,&#34;li
+</span></span><span style=display:flex><span> 03c4 62627066 2e736f2e 30225d7d 5d000000  bbpf.so.0&#34;]}]...
+</span></span><span style=display:flex><span> 03d4 04000000 9e000000 0a0c7c40 46444f00  ..........|@FDO.
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p>It is more convenient to use a higher level tool:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ dlopen-notes /usr/lib64/systemd/libsystemd-shared-257.so
+</span></span><span style=display:flex><span># /usr/lib64/systemd/libsystemd-shared-257.so
+</span></span><span style=display:flex><span>[
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    &#34;feature&#34;: &#34;archive&#34;,
+</span></span><span style=display:flex><span>    &#34;description&#34;: &#34;Support for decompressing archive files&#34;,
+</span></span><span style=display:flex><span>    &#34;priority&#34;: &#34;suggested&#34;,
+</span></span><span style=display:flex><span>    &#34;soname&#34;: [
+</span></span><span style=display:flex><span>      &#34;libarchive.so.13&#34;
+</span></span><span style=display:flex><span>    ]
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    &#34;feature&#34;: &#34;bpf&#34;,
+</span></span><span style=display:flex><span>    &#34;description&#34;: &#34;Support firewalling and sandboxing with BPF&#34;,
+</span></span><span style=display:flex><span>    &#34;priority&#34;: &#34;suggested&#34;,
+</span></span><span style=display:flex><span>    &#34;soname&#34;: [
+</span></span><span style=display:flex><span>      &#34;libbpf.so.1&#34;,
+</span></span><span style=display:flex><span>      &#34;libbpf.so.0&#34;
+</span></span><span style=display:flex><span>    ]
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p><code>dlopen-notes</code> can display the notes grouped in a few different ways.
+One option is to filter the libraries by &ldquo;feature&rdquo;. This answers the
+question &ldquo;what libraries are needed to provide specified features&rdquo;:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ dlopen-notes.py -f archive,bpf /usr/lib64/systemd/libsystemd-shared-257.so
+</span></span><span style=display:flex><span># grouped by feature
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  &#34;bpf&#34;: {
+</span></span><span style=display:flex><span>    &#34;description&#34;: &#34;Support firewalling and sandboxing with BPF&#34;,
+</span></span><span style=display:flex><span>    &#34;sonames&#34;: {
+</span></span><span style=display:flex><span>      &#34;libbpf.so.1&#34;: &#34;suggested&#34;,
+</span></span><span style=display:flex><span>      &#34;libbpf.so.0&#34;: &#34;suggested&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  &#34;archive&#34;: {
+</span></span><span style=display:flex><span>    &#34;description&#34;: &#34;Support for decompressing archive files&#34;,
+</span></span><span style=display:flex><span>    &#34;sonames&#34;: {
+</span></span><span style=display:flex><span>      &#34;libarchive.so.13&#34;: &#34;suggested&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>The format that is used when building `deb` packages:
+</span></span><span style=display:flex><span>```console
+</span></span><span style=display:flex><span>$ dlopen-notes -s /usr/lib64/systemd/libsystemd-shared-257.so
+</span></span><span style=display:flex><span>libarchive.so.13 suggested
+</span></span><span style=display:flex><span>libbpf.so.0 suggested
+</span></span><span style=display:flex><span>libbpf.so.1 suggested
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p>The format that can be useful when building <code>rpm</code> packages:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ dlopen-notes --rpm-requires archive --rpm-recommends bpf  /usr/lib64/systemd/libsystemd-shared-257.so
+</span></span><span style=display:flex><span>Requires: libarchive.so.13()(64bit)
+</span></span><span style=display:flex><span>Recommends: libbpf.so.1()(64bit)
+</span></span></code></pre></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/uapi-group/specifications/edit/main/specs/elf_dlopen_metadata.md target=_blank rel=noopener><img src=/specifications/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#target-audience>Target Audience</a></li><li><a href=#motivation>Motivation</a></li><li><a href=#implementation>Implementation</a></li><li><a href=#well-known-keys>Well-known keys</a><ul><li><a href=#priority-definition>Priority definition</a></li><li><a href=#displaying-dlopen-notes>Displaying <code>dlopen()</code> notes</a></li></ul></li></ul></nav></div></aside></main></body></html>
