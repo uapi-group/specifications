@@ -154,7 +154,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrphase 🚀</code></td>
    <td>Userspace</td>
    <td>Boot phase strings, indicating various milestones of the boot process</td>
-   <td>Journal (for now)</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -171,7 +171,8 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>13</strong></p></td>
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-stub 🚀</code></td>
    <td>UEFI Stub</td>
-   <td>All system extension images for the initrd</td><td>UEFI TPM event log</td>
+   <td>All system extension images for the initrd</td>
+   <td>UEFI TPM event log</td>
    <td>in EFI variable <code>StubPcrInitRDSysExts</code></td>
   </tr>
 
@@ -189,7 +190,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-cryptsetup@.service 🚀</code></td>
    <td>Userspace</td>
    <td>Root file system volume encryption key</td>
-   <td>Journal (for now)</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -198,7 +199,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrmachine.service 🚀</code></td>
    <td>Userspace</td>
    <td>Machine ID (<code>/etc/machine-id</code>)</td>
-   <td>Journal (for now)</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -207,7 +208,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrfs@.service 🚀</code></td>
    <td>Userspace</td>
    <td>File system mount point, UUID, label, partition UUID label of root file system and <code>/var/</code></td>
-   <td>Journal (for now)</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 </table>
