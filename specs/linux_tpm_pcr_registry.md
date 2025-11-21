@@ -189,7 +189,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>12</strong></p></td>
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-stub 🚀</code></td>
    <td>UEFI Stub</td>
-   <td>Kernel command line, system credentials and system configuration images</td>
+   <td>Kernel command line, system credentials, system configuration images, initrd addons, µcode addons, devicetree addons</td>
    <td>UEFI TPM event log</td>
    <td>in EFI variable <code>StubPcrKernelParameters</code></td>
   </tr>
