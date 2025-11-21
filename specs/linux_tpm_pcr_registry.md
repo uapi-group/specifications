@@ -96,6 +96,15 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td style="background-color:#fff3bf;"></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-boot 🚀</code></td>
+   <td>UEFI Boot Component</td>
+   <td>Used <code>loader.conf</code></td>
+   <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>7</strong></p></td>
    <td style="background-color:#838284;"><code style="background-color:#838284;">Firmware 💻</code></td>
    <td>UEFI Boot Component</td>
@@ -132,6 +141,24 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td style="background-color:#fff3bf;"></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-tpm2-setup.service 🚀</code></td>
+   <td>Userspace</td>
+   <td>State of each NvPCR after anchor measurement</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
+   <td style="background-color:#fff3bf;"></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrnvdone.service 🚀</code></td>
+   <td>Userspace</td>
+   <td>NvPCR anchor measurement separator</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>10</strong></p></td>
    <td style="background-color:#a3c2d4;">IMA 📐</td>
    <td>Kernel</td>
@@ -154,7 +181,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrphase 🚀</code></td>
    <td>Userspace</td>
    <td>Boot phase strings, indicating various milestones of the boot process</td>
-   <td>Journal (for now)</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -162,7 +189,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>12</strong></p></td>
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-stub 🚀</code></td>
    <td>UEFI Stub</td>
-   <td>Kernel command line, system credentials and system configuration images</td>
+   <td>Kernel command line, system credentials, system configuration images, initrd addons, µcode addons, devicetree addons</td>
    <td>UEFI TPM event log</td>
    <td>in EFI variable <code>StubPcrKernelParameters</code></td>
   </tr>
@@ -171,7 +198,8 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>13</strong></p></td>
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-stub 🚀</code></td>
    <td>UEFI Stub</td>
-   <td>All system extension images for the initrd</td><td>UEFI TPM event log</td>
+   <td>All system extension images for the initrd</td>
+   <td>UEFI TPM event log</td>
    <td>in EFI variable <code>StubPcrInitRDSysExts</code></td>
   </tr>
 
@@ -189,7 +217,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-cryptsetup@.service 🚀</code></td>
    <td>Userspace</td>
    <td>Root file system volume encryption key</td>
-   <td>Journal (for now)</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -198,7 +226,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrmachine.service 🚀</code></td>
    <td>Userspace</td>
    <td>Machine ID (<code>/etc/machine-id</code>)</td>
-   <td>Journal (for now)</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -207,7 +235,7 @@ In both cases it is important that data measured into the PCRs is carefully chos
    <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrfs@.service 🚀</code></td>
    <td>Userspace</td>
    <td>File system mount point, UUID, label, partition UUID label of root file system and <code>/var/</code></td>
-   <td>Journal (for now)</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 </table>
