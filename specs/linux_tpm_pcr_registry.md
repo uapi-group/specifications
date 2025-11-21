@@ -96,6 +96,15 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td style="background-color:#fff3bf;"></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-boot 🚀</code></td>
+   <td>UEFI Boot Component</td>
+   <td>Used <code>loader.conf</code></td>
+   <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>7</strong></p></td>
    <td style="background-color:#838284;"><code style="background-color:#838284;">Firmware 💻</code></td>
    <td>UEFI Boot Component</td>
