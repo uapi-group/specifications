@@ -1,5 +1,5 @@
 ---
-title: Configuration Files Specification
+title: UAPI.6 Configuration Files Specification
 layout: posts
 version: 1.0
 ---

@@ -1,5 +1,5 @@
 ---
-title: Dlopen Metadata for ELF Files
+title: UAPI.12 dlopen() Metadata for ELF Files
 category: Interfaces
 layout: default
 version: 1.0

@@ -1,5 +1,5 @@
 ---
-title: File Hierarchy for the Verification of OS Artifacts (VOA)
+title: UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)
 category: Concepts
 layout: default
 version: 0.1

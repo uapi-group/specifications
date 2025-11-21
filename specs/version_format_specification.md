@@ -1,5 +1,5 @@
 ---
-title: Version Format Specification
+title: UAPI.10 Version Format Specification
 layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
@@ -136,4 +136,3 @@ implements this version comparison algorithm as
 ```
 systemd-analyze compare-versions <version-a> <version-b>
 ```
-

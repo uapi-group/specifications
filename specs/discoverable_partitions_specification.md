@@ -1,5 +1,5 @@
 ---
-title: Discoverable Partitions Specification
+title: UAPI.2 Discoverable Partitions Specification
 category: Concepts
 layout: default
 version: 1.0
