@@ -132,6 +132,24 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td style="background-color:#fff3bf;"></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-tpm2-setup.service 🚀</code></td>
+   <td>Userspace</td>
+   <td>State of each NvPCR after anchor measurement</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
+   <td style="background-color:#fff3bf;"></td>
+   <td style="background-color:#e5c8e6;"><code style="background-color:#e5c8e6;">systemd-pcrnvdone.service 🚀</code></td>
+   <td>Userspace</td>
+   <td>NvPCR anchor measurement separator</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td style="background-color:#fff3bf;"><p style="text-align: right"><strong>10</strong></p></td>
    <td style="background-color:#a3c2d4;">IMA 📐</td>
    <td>Kernel</td>
