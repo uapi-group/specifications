@@ -486,16 +486,16 @@ Firmware 💻 UEFI Boot Component Core system firmware data/host platform config
 Firmware 💻 UEFI Boot Component Extended or pluggable executable code; includes option ROMs on pluggable hardware UEFI TPM event log n/a 3
 Firmware 💻 UEFI Boot Component Extended or pluggable firmware data; includes information about pluggable hardware UEFI TPM event log n/a 4
 Firmware 💻 UEFI Boot Component Boot loader and additional drivers; binaries and extensions loaded by the boot loader UEFI TPM event log n/a 5
-Firmware 💻 UEFI Boot Component GPT/Partition table UEFI TPM event log n/a 7
+Firmware 💻 UEFI Boot Component GPT/Partition table UEFI TPM event log n/a systemd-boot 🚀 UEFI Boot Component Used loader.conf UEFI TPM event log n/a 7
 Firmware 💻 UEFI Boot Component SecureBoot state UEFI TPM event log n/a 8
 grub 🍲 UEFI Boot Component Commands and kernel command line UEFI TPM event log n/a 9
-grub 🍲 UEFI Boot Component All files read (including kernel image) UEFI TPM event log n/a Linux kernel 🌰 Kernel All passed initrds (when the new LOAD_FILE2 initrd protocol is used) UEFI TPM event log n/a 10
+grub 🍲 UEFI Boot Component All files read (including kernel image) UEFI TPM event log n/a Linux kernel 🌰 Kernel All passed initrds (when the new LOAD_FILE2 initrd protocol is used) UEFI TPM event log n/a systemd-tpm2-setup.service 🚀 Userspace State of each NvPCR after anchor measurement /run/log/systemd/tpm2-measure.log n/a systemd-pcrnvdone.service 🚀 Userspace NvPCR anchor measurement separator /run/log/systemd/tpm2-measure.log n/a 10
 IMA 📐 Kernel Protection of the IMA measurement log IMA event log n/a 11
-systemd-stub 🚀 UEFI Stub All components of unified kernel images (UKIs) UEFI TPM event log in EFI variable StubPcrKernelImage systemd-pcrphase 🚀 Userspace Boot phase strings, indicating various milestones of the boot process Journal (for now) n/a 12
-systemd-stub 🚀 UEFI Stub Kernel command line, system credentials and system configuration images UEFI TPM event log in EFI variable StubPcrKernelParameters 13
-systemd-stub 🚀 UEFI Stub All system extension images for the initrdUEFI TPM event log in EFI variable StubPcrInitRDSysExts 14
+systemd-stub 🚀 UEFI Stub All components of unified kernel images (UKIs) UEFI TPM event log in EFI variable StubPcrKernelImage systemd-pcrphase 🚀 Userspace Boot phase strings, indicating various milestones of the boot process /run/log/systemd/tpm2-measure.log n/a 12
+systemd-stub 🚀 UEFI Stub Kernel command line, system credentials, system configuration images, initrd addons, µcode addons, devicetree addons UEFI TPM event log in EFI variable StubPcrKernelParameters 13
+systemd-stub 🚀 UEFI Stub All system extension images for the initrd UEFI TPM event log in EFI variable StubPcrInitRDSysExts 14
 shim 🔑 UEFI Boot Component “MOK” certificates and hashes UEFI TPM event log n/a 15
-systemd-cryptsetup@.service 🚀 Userspace Root file system volume encryption key Journal (for now) n/a systemd-pcrmachine.service 🚀 Userspace Machine ID (/etc/machine-id) Journal (for now) n/a systemd-pcrfs@.service 🚀 Userspace File system mount point, UUID, label, partition UUID label of root file system and /var/ Journal (for now) n/a PCR 0 changes on firmware updates; PCR 1 changes on basic hardware/CPU/RAM replacements.
+systemd-cryptsetup@.service 🚀 Userspace Root file system volume encryption key /run/log/systemd/tpm2-measure.log n/a systemd-pcrmachine.service 🚀 Userspace Machine ID (/etc/machine-id) /run/log/systemd/tpm2-measure.log n/a systemd-pcrfs@.service 🚀 Userspace File system mount point, UUID, label, partition UUID label of root file system and /var/ /run/log/systemd/tpm2-measure.log n/a PCR 0 changes on firmware updates; PCR 1 changes on basic hardware/CPU/RAM replacements.
 PCR 4 changes on boot loader updates. The shim project will measure the PE binary it chain loads into this PCR. If the Linux kernel is invoked as UEFI PE binary, it is measured here, too. systemd-stub measures system extension images read from the ESP here too (see systemd-sysext and Extension Images).
 PCR 5 changes when partitions are added, modified, or removed.
 PCR 7 changes when UEFI SecureBoot mode is enabled/disabled, or firmware certificates (PK, KEK, db, dbx, …) are updated. The shim project will measure most of its (non-MOK) certificates and SBAT data into this PCR.
