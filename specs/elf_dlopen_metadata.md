@@ -168,6 +168,7 @@ $ dlopen-notes.py -f archive,bpf /usr/lib64/systemd/libsystemd-shared-257.so
     }
   }
 }
+```
 
 The format that is used when building `deb` packages:
 ```console
