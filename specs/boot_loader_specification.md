@@ -1,5 +1,5 @@
 ---
-title: Boot Loader Specification
+title: UAPI.1 Boot Loader Specification
 category: Booting
 layout: default
 version: 1.0

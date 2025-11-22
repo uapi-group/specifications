@@ -1,5 +1,5 @@
 ---
-title: Discoverable Disk Image
+title: UAPI.3 Discoverable Disk Image
 category: Concepts
 layout: default
 version: 1.0

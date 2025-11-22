@@ -1,5 +1,5 @@
 ---
-title: Extension Images
+title: UAPI.4 Extension Images
 category: Concepts
 layout: default
 version: 1.0
