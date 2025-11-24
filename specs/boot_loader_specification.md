@@ -6,7 +6,7 @@ version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
 
-# The Boot Loader Specification
+# UAPI.1 The Boot Loader Specification
 
 | Version | Changes |
 |---------|---------|

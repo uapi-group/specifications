@@ -5,7 +5,7 @@ version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
 
-# Version Format Specification
+# UAPI.10 Version Format Specification
 
 | Version | Changes |
 |---------|---------|

@@ -5,7 +5,7 @@ layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
-# Extension Images
+# UAPI.4 Extension Images
 
 | Version | Changes |
 |---------|---------|

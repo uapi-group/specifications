@@ -6,7 +6,7 @@ version: 0.1
 SPDX-License-Identifier: CC-BY-4.0
 ---
 
-# File Hierarchy for the Verification of OS Artifacts (VOA)
+# UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)
 
 | Version | Changes |
 |---------|---------|

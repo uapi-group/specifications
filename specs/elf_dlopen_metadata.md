@@ -6,7 +6,7 @@ version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
 
-# `dlopen()` Metadata for ELF Files
+# UAPI.12 `dlopen()` Metadata for ELF Files
 
 | Version | Changes |
 |---------|---------|

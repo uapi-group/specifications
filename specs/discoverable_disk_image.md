@@ -5,7 +5,7 @@ layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
-# Discoverable Disk Image (DDI)
+# UAPI.3 Discoverable Disk Image (DDI)
 
 | Version | Changes |
 |---------|---------|

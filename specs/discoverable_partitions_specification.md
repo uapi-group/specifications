@@ -5,7 +5,7 @@ layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
-# The Discoverable Partitions Specification (DPS)
+# UAPI.2 The Discoverable Partitions Specification (DPS)
 
 | Version | Changes |
 |---------|---------|

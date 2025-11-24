@@ -5,7 +5,7 @@ layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 ---
-# Unified Kernel Image (UKI)
+# UAPI.5 Unified Kernel Image (UKI)
 
 | Version | Changes |
 |---------|---------|

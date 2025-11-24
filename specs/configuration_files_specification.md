@@ -4,7 +4,7 @@ layout: posts
 version: 1.0
 ---
 
-# Configuration Files Specification
+# UAPI.6 Configuration Files Specification
 
 | Version | Changes |
 |---------|---------|

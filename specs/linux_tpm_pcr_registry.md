@@ -4,7 +4,7 @@ version: 1.0
 SPDX-License-Identifier: CC0-1.0
 ---
 
-# 🔏 Linux TPM PCR Registry 🗒️
+# 🔏 UAPI.7 Linux TPM PCR Registry 🗒️
 
 | Version | Changes |
 |---------|---------|
