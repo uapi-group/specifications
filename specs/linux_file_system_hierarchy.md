@@ -46,6 +46,16 @@ Many of the paths described here can be queried with the
 [`systemd-path(1)`](https://www.freedesktop.org/software/systemd/man/systemd-path.html)
 tool, on systems where this tool is available.
 
+## Character Sets
+
+All paths and filenames currently defined by this specification use the 7bit ASCII (ANSI_X3.4-1968) character
+set, and it is expected that future additions will continue to do so.
+
+Names of files or directories placed within the directories defined should generally be in UTF-8 ([IETF RFC
+3629](https://www.rfc-editor.org/rfc/rfc3629.html)) encoding. Applications should generally assume that the
+names of any files or directories placed in any of these directories (or below) are in UTF-8, unless
+explicitly configured otherwise.
+
 ## General Structure
 
 ### `/`
