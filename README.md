@@ -69,20 +69,23 @@ A `filename/MAJOR.MINOR` git tag will be created when a new version of a given s
 This section clarifies on terms and abbreviations used in specs and other documents.
 
 ## General terms and abbreviations
+- *ELF* – Executable and Linkable Format (Linux executable binary format)
 - *MOK* – Machine Owner Key (shim)
 - *PCR* – TPM Platform Configuration Registers
-- *TPM* – Trusted Platform Module (security chip)
+- *PE* – Portable Executable (UEFI executable binary format)
 - *SBAT* – UEFI Secure Boot Advanced Targeting
+- *TPM* – Trusted Platform Module (security chip)
 
 ## Terms and abbreviations specific to UAPI group specifications
-- [*DDI*](specs/discoverable_disk_image.md) - Discoverable Disk Image
-- [*DPS*](specs/discoverable_partitions_specification.md) - Discovery Partition Specification
-- [*UKI*](specs/unified_kernel_image.md) - Unified Kernel Images (UEFI boot stub + kernel + initrd + more)
 - [*BLS*](specs/boot_loader_specification.md) - Boot Loader Specification
-- [*sysext*](specs/extension_image.md) – System Extension Image
-  (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
 - [*confext*](specs/extension_image.md) – Configuration Extension Image
   (type of DDI that is overlayed on top of `/etc/` via overlayfs and can extend the underlying OS' configuration in a composable, immutable fashion)
+- [*DDI*](specs/discoverable_disk_image.md) - Discoverable Disk Image
+- [*DPS*](specs/discoverable_partitions_specification.md) - Discovery Partition Specification
+- [*sysext*](specs/extension_image.md) – System Extension Image
+  (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
+- [*UKI*](specs/unified_kernel_image.md) - Unified Kernel Images (UEFI boot stub + kernel + initrd + more)
+- [*VOA*](specs/file_hierarchy_for_the_verification_of_os_artifacts.md) – Verification of OS Artifacts
 
 ## Participate
 
