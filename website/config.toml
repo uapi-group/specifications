@@ -30,3 +30,11 @@ theme = "hugo-book"
   BookEditPath = 'edit/main'
   BookDateFormat = 'Jan 2, 2006'
   BookIndexPage = 'README.md'
+
+[modules]
+  [[module.mounts]]
+    source = '../README.md'
+    target = 'content/_index.md'
+  [[module.mounts]]
+    source = '../specs'
+    target = 'content/specs'

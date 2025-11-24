@@ -1,1 +1,0 @@
-linux_tpm_pcr_registry.md
