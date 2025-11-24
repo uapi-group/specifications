@@ -5,42 +5,42 @@ BookToC: false
 
 # UAPI Group Specifications
 
-* [Boot Loader Specification](specs/boot_loader_specification.md):
+* [UAPI.1 Boot Loader Specification](specs/boot_loader_specification.md):
   Defines a set  of file formats and naming conventions to allow distribution independent boot loader menus supportable by multiple bootloaders.
   ([canonical online location](https://uapi-group.org/specifications/specs/boot_loader_specification/))
-* [Configuration Files Specification](specs/configuration_files_specification.md):
+* [UAPI.2 Discoverable Partitions Specification](specs/discoverable_partitions_specification.md):
+  Discusses GUID UUIDs for auto-discovery of partition semantics and mount points.
+  ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_partitions_specification/))
+* [UAPI.3 Discoverable Disk Image](specs/discoverable_disk_image.md):
+  Describes the Discoverable Disk Image format for self-describing system images.
+  ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_disk_image/))
+* [UAPI.4 Extension Image](specs/extension_image.md):
+  Describes the use of Discoverable Disk Images to create extensions to a base image.
+  ([canonical online location](https://uapi-group.org/specifications/specs/extension_image/))
+* [UAPI.5 Unified Kernel Image](specs/unified_kernel_image.md):
+  Describes the use of UEFI PE binaries to provide a Unified Kernel Image containing the kernel, initrd, command line, and other components.
+  ([canonical online location](https://uapi-group.org/specifications/specs/unified_kernel_image/))
+* [UAPI.6 Configuration Files Specification](specs/configuration_files_specification.md):
   Standardises default locations and environment variables for locating common files or base directories.
   This is derived from, and extends, the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir/latest/),
   to allow for separation between vendor and admin configuration files, drop-in files, and masking.
   ([canonical online location](https://uapi-group.org/specifications/specs/configuration_files_specification/))
-* [Discoverable Partitions Specification](specs/discoverable_partitions_specification.md):
-  Discusses GUID UUIDs for auto-discovery of partition semantics and mount points.
-  ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_partitions_specification/))
-* [Discoverable Disk Image](specs/discoverable_disk_image.md):
-  Describes the Discoverable Disk Image format for self-describing system images.
-  ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_disk_image/))
-* [Extension Image](specs/extension_image.md):
-  Describes the use of Discoverable Disk Images to create extensions to a base image.
-  ([canonical online location](https://uapi-group.org/specifications/specs/extension_image/))
-* [Linux File System Hierarchy](specs/linux_file_system_hierarchy.md):
-  Describes the layout of directories and files in an installation of Linux
-  ([canonical online location](https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/))
-* [File Hierarchy for the Verification of OS Artifacts (VOA)](specs/file_hierarchy_for_the_verification_of_os_artifacts.md):
-  Describes the use of Discoverable Disk Images to create extensions to a base image.
-  ([canonical online location](https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/))
-* [Unified Kernel Image](specs/unified_kernel_image.md):
-  Describes the use of UEFI PE binaries to provide a Unified Kernel Image containing the kernel, initrd, command line, and other components.
-  ([canonical online location](https://uapi-group.org/specifications/specs/unified_kernel_image/))
-* [Version Format Specification](specs/version_format_specification.md):
-  Defines semantics of version strings used in the other specifications listed here.
-  ([canonical online location](https://uapi-group.org/specifications/specs/version_format_specification/))
-* [Linux TPM PCR Registry](specs/linux_tpm_pcr_registry.md):
+* [UAPI.7 Linux TPM PCR Registry](specs/linux_tpm_pcr_registry.md):
   An informative list of how TPM PCRs are used on a Linux system.
   ([canonical online location](https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/))
-* [Package Metadata for Executable Files](specs/package_metadata_for_executable_files.md):
+* [UAPI.8 Package Metadata for Executable Files](specs/package_metadata_for_executable_files.md):
   Describes the format and mechanism to include packaging metadata in ELF/PE binaries.
   ([canonical online location](https://uapi-group.org/specifications/specs/package_metadata_for_executable_files/))
-* [Dlopen Metadata for ELF Files](specs/elf_dlopen_metadata.md):
+* [UAPI.9 Linux File System Hierarchy](specs/linux_file_system_hierarchy.md):
+  Describes the layout of directories and files in an installation of Linux
+  ([canonical online location](https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/))
+* [UAPI.10 Version Format Specification](specs/version_format_specification.md):
+  Defines semantics of version strings used in the other specifications listed here.
+  ([canonical online location](https://uapi-group.org/specifications/specs/version_format_specification/))
+* [UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)](specs/file_hierarchy_for_the_verification_of_os_artifacts.md):
+  Describes the use of Discoverable Disk Images to create extensions to a base image.
+  ([canonical online location](https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/))
+* [UAPI.12 dlopen() Metadata for ELF Files](specs/elf_dlopen_metadata.md):
   Describes the format and mechanism to include dynamically loaded libraries metadata in ELF binaries.
   ([canonical online location](https://uapi-group.org/specifications/specs/elf_dlopen_metadata/))
 
