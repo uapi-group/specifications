@@ -1,1 +1,0 @@
-discoverable_disk_image.md

@@ -1,1 +1,0 @@
-file_hierarchy_for_the_verification_of_os_artifacts.md

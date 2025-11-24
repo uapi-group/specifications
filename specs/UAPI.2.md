@@ -1,1 +1,0 @@
-discoverable_partitions_specification.md
