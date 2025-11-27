@@ -7,13 +7,7 @@ theme = "hugo-book"
   name = "⬅️  Back to top"
   url = "https://uapi-group.org/"
   weight = 1
-[[menu.before]]
-  name = "⸻"
-  weight = 2
 
-[[menu.after]]
-  name = "⸻"
-  weight = 10
 [[menu.after]]
   name = "Collaborate on Github"
   url = "https://github.com/uapi-group/specifications"
