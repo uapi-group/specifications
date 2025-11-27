@@ -5,7 +5,7 @@ theme = "hugo-book"
 
 [[menu.before]]
   name = "⬅️  Back to top"
-  url = "https://uapi-group.org/"
+  url = "/.."
   weight = 1
 
 [[menu.after]]
