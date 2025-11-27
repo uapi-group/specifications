@@ -4,6 +4,7 @@ category: Interfaces
 layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
+weight: 12
 ---
 
 # UAPI.12 `dlopen()` Metadata for ELF Files

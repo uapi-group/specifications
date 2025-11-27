@@ -4,6 +4,7 @@ category: Concepts
 layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
+weight: 5
 ---
 # UAPI.5 Unified Kernel Image (UKI)
 
