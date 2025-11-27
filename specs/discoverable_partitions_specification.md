@@ -5,6 +5,9 @@ layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 weight: 2
+aliases:
+- /UAPI.2
+- /2
 ---
 # UAPI.2 The Discoverable Partitions Specification (DPS)
 

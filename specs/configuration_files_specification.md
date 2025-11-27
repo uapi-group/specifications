@@ -3,6 +3,9 @@ title: UAPI.6 Configuration Files Specification
 layout: posts
 version: 1.0
 weight: 6
+aliases:
+- /UAPI.6
+- /6
 ---
 
 # UAPI.6 Configuration Files Specification

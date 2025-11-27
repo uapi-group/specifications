@@ -4,6 +4,9 @@ layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 weight: 10
+aliases:
+- /UAPI.10
+- /10
 ---
 
 # UAPI.10 Version Format Specification

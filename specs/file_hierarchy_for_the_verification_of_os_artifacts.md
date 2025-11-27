@@ -5,6 +5,9 @@ layout: default
 version: 0.1
 SPDX-License-Identifier: CC-BY-4.0
 weight: 11
+aliases:
+- /UAPI.11
+- /11
 ---
 
 # UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)

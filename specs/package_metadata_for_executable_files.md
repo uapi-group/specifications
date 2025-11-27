@@ -5,6 +5,9 @@ layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 weight: 8
+aliases:
+- /UAPI.8
+- /8
 ---
 
 # UAPI.8 Package Metadata for Executable Files

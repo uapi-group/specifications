@@ -5,6 +5,9 @@ layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
 weight: 12
+aliases:
+- /UAPI.12
+- /12
 ---
 
 # UAPI.12 `dlopen()` Metadata for ELF Files
