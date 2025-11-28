@@ -44,7 +44,7 @@ enable automatic discovery of partitions and their intended mountpoints.
 Traditionally Linux has made little use of partition types, mostly just
 defining one UUID for file system/data partitions and another one for swap
 partitions. With this specification, we introduce additional partition types
-for specific uses. This has many benefits:&lt;/p></description></item><item><title>UAPI.3 Discoverable Disk Image</title><link>https://uapi-group.org/specifications/specs/discoverable_disk_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/discoverable_disk_image/</guid><description>&lt;h1 id="uapi3-discoverable-disk-image-ddi">UAPI.3 Discoverable Disk Image (DDI)&lt;a class="anchor" href="#uapi3-discoverable-disk-image-ddi">#&lt;/a>&lt;/h1>
+for specific uses. This has many benefits:&lt;/p></description></item><item><title>UAPI.3 Discoverable Disk Images</title><link>https://uapi-group.org/specifications/specs/discoverable_disk_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/discoverable_disk_image/</guid><description>&lt;h1 id="uapi3-discoverable-disk-images-ddi">UAPI.3 Discoverable Disk Images (DDI)&lt;a class="anchor" href="#uapi3-discoverable-disk-images-ddi">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -82,7 +82,7 @@ into one. They are designed to be composable and stackable, and provide security
 built to extend a base system via an overlay. A base system or a root DDI can be extended by several extension
 DDIs via, usually, a read-only OverlayFS. The defining characteristic of an Extension Image is that it contains
 an &lt;code>extension-release.&amp;lt;IMAGE&amp;gt;&lt;/code> file that identifies itself and the base system or root DDI it applies to,
-and must not contain an &lt;code>os-release&lt;/code> file.&lt;/p></description></item><item><title>UAPI.5 Unified Kernel Image</title><link>https://uapi-group.org/specifications/specs/unified_kernel_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/unified_kernel_image/</guid><description>&lt;h1 id="uapi5-unified-kernel-image-uki">UAPI.5 Unified Kernel Image (UKI)&lt;a class="anchor" href="#uapi5-unified-kernel-image-uki">#&lt;/a>&lt;/h1>
+and must not contain an &lt;code>os-release&lt;/code> file.&lt;/p></description></item><item><title>UAPI.5 Unified Kernel Images</title><link>https://uapi-group.org/specifications/specs/unified_kernel_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/unified_kernel_image/</guid><description>&lt;h1 id="uapi5-unified-kernel-images-uki">UAPI.5 Unified Kernel Images (UKI)&lt;a class="anchor" href="#uapi5-unified-kernel-images-uki">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
