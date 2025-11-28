@@ -24,6 +24,7 @@ theme = "hugo-book"
   BookEditLink = '{{ .Site.Params.BookRepo }}/edit/main/{{ .Path }}'
   BookDateFormat = 'Jan 2, 2006'
   BookIndexPage = 'README.md'
+  BookTheme = 'auto'
 
 [modules]
   [[module.mounts]]
