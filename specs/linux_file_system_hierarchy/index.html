@@ -1,50 +1,9 @@
-<!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.147.8"><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
-  UAPI.9 Linux File System Hierarchy
-  #
-
-
-  
-      
-          Version
-          Changes
-      
-  
-  
-      
-          0.1
-          Work in progress
-      
-  
-
-
-  Description
-  #
-
-This page describes the layout of a modern Linux system.
-This hierarchy is an evolution of the historical UNIX layout,
-and includes concepts described in the
-
-  File System Hierarchy
-specification and
-
-  hier(7) man page,
-and various extensions documented in the
-
-  XDG Base Directory Specification
-and 
-  XDG User Directories.
-In some areas this document is stricter than those older documents.
-In particular it makes additional restrictions and recommendations
-to separate vendor defaults and local configuration, and also
-static installed files, persistent data, and ephemeral runtime files.
-In other areas it is simpler,
-with the vendor files using a single hierarchy under /usr."><meta name=theme-color content="#FFFFFF"><meta property="og:url" content="https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/"><meta property="og:site_name" content="UAPI Group Specifications"><meta property="og:title" content="UAPI.9 Linux File System Hierarchy"><meta property="og:description" content="UAPI.9 Linux File System Hierarchy # Version Changes 0.1 Work in progress Description # This page describes the layout of a modern Linux system. This hierarchy is an evolution of the historical UNIX layout, and includes concepts described in the File System Hierarchy specification and hier(7) man page, and various extensions documented in the XDG Base Directory Specification and XDG User Directories.
-In some areas this document is stricter than those older documents. In particular it makes additional restrictions and recommendations to separate vendor defaults and local configuration, and also static installed files, persistent data, and ephemeral runtime files. In other areas it is simpler, with the vendor files using a single hierarchy under /usr."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="specs"><title>UAPI.9 Linux File System Hierarchy | UAPI Group Specifications</title><link rel=manifest href=/specifications/manifest.json><link rel=icon href=/specifications/favicon.png type=image/x-icon><link rel=stylesheet href=/specifications/book.min.3c3310df1da3aa3033f55b28b0c1d3d84b1068b4c151601ce8e78f9e72169463.css integrity="sha256-PDMQ3x2jqjAz9VsosMHT2EsQaLTBUWAc6OePnnIWlGM="><script defer src=/specifications/en.search.min.c0b5e911b0db87748c0656b070065e51d78b9e8fe190b055cb71538724f5ff5e.js integrity="sha256-wLXpEbDbh3SMBlawcAZeUdeLno/hkLBVy3FThyT1/14="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
-<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/specifications><span>UAPI Group Specifications</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://uapi-group.org/>⬅️ Back to top</a></li><li>⸻</li></ul><ul><li><span>Specs</span><ul><li><a href=https://uapi-group.org/specifications/specs/sysext/>Sysext</a></li><li><a href=https://uapi-group.org/specifications/specs/boot_loader_specification/>UAPI.1 Boot Loader Specification</a></li><li><a href=https://uapi-group.org/specifications/specs/version_format_specification/>UAPI.10 Version Format Specification</a></li><li><a href=https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</a></li><li><a href=https://uapi-group.org/specifications/specs/elf_dlopen_metadata/>UAPI.12 dlopen() Metadata for ELF Files</a></li><li><a href=https://uapi-group.org/specifications/specs/discoverable_partitions_specification/>UAPI.2 Discoverable Partitions Specification</a></li><li><a href=https://uapi-group.org/specifications/specs/discoverable_disk_image/>UAPI.3 Discoverable Disk Image</a></li><li><a href=https://uapi-group.org/specifications/specs/extension_image/>UAPI.4 Extension Images</a></li><li><a href=https://uapi-group.org/specifications/specs/unified_kernel_image/>UAPI.5 Unified Kernel Image</a></li><li><a href=https://uapi-group.org/specifications/specs/configuration_files_specification/>UAPI.6 Configuration Files Specification</a></li><li><a href=https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/>UAPI.7 Linux TPM PCR Registry</a></li><li><a href=https://uapi-group.org/specifications/specs/package_metadata_for_executable_files/>UAPI.8 Package Metadata for Executable Files</a></li><li><a href=https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/ class=active>UAPI.9 Linux File System Hierarchy</a></li></ul></li></ul><ul><li>⸻</li><li><a href=https://github.com/uapi-group/specifications target=_blank rel=noopener>Collaborate on Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/svg/menu.svg class=book-icon alt=Menu>
-</label><strong>UAPI.9 Linux File System Hierarchy</strong>
-<label for=toc-control><img src=/specifications/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#description>Description</a></li><li><a href=#character-sets>Character Sets</a></li><li><a href=#general-structure>General Structure</a><ul><li><a href=#heading><code>/</code></a></li><li><a href=#boot><code>/boot/</code></a></li><li><a href=#efi><code>/efi/</code></a></li><li><a href=#etc><code>/etc/</code></a></li><li><a href=#home><code>/home/</code></a></li><li><a href=#opt-><code>/opt/</code> ⚠️</a></li><li><a href=#root><code>/root/</code></a></li><li><a href=#srv><code>/srv/</code></a></li><li><a href=#tmp><code>/tmp/</code></a></li></ul></li><li><a href=#runtime-data>Runtime Data</a><ul><li><a href=#run><code>/run/</code></a></li><li><a href=#runlog><code>/run/log/</code></a></li><li><a href=#runuser><code>/run/user/</code></a></li></ul></li><li><a href=#vendor-supplied-operating-system-resources>Vendor-supplied Operating System Resources</a><ul><li><a href=#usr><code>/usr/</code></a></li><li><a href=#usrbin><code>/usr/bin/</code></a></li><li><a href=#usrinclude><code>/usr/include/</code></a></li><li><a href=#libraries-system-programs-and-program-assets>Libraries, system programs, and program assets</a></li><li><a href=#usrshare><code>/usr/share/</code></a></li><li><a href=#usrsharedoc><code>/usr/share/doc/</code></a></li><li><a href=#usrsharefactoryetc><code>/usr/share/factory/etc/</code></a></li><li><a href=#usrsharefactoryvar><code>/usr/share/factory/var/</code></a></li></ul></li><li><a href=#persistent-variable-system-data>Persistent Variable System Data</a><ul><li><a href=#var><code>/var/</code></a></li><li><a href=#varcache><code>/var/cache/</code></a></li><li><a href=#varlib><code>/var/lib/</code></a></li><li><a href=#varlog><code>/var/log/</code></a></li><li><a href=#varopt-><code>/var/opt/</code> ⚠️</a></li><li><a href=#vartmp><code>/var/tmp/</code></a></li></ul></li><li><a href=#virtual-kernel-and-api-file-systems>Virtual Kernel and API File Systems</a><ul><li><a href=#dev><code>/dev/</code></a></li><li><a href=#devshm><code>/dev/shm/</code></a></li><li><a href=#proc><code>/proc/</code></a></li><li><a href=#procsys><code>/proc/sys/</code></a></li><li><a href=#sys><code>/sys/</code></a></li><li><a href=#sysfscgroup><code>/sys/fs/cgroup/</code></a></li></ul></li><li><a href=#compatibility-symlinks>Compatibility Symlinks</a><ul><li><a href=#bin-sbin-usrsbin><code>/bin/</code>; <code>/sbin/</code>; <code>/usr/sbin/</code></a></li><li><a href=#lib><code>/lib/</code></a></li><li><a href=#lib64><code>/lib64/</code></a></li><li><a href=#varrun><code>/var/run/</code></a></li></ul></li><li><a href=#home-directory>Home Directory</a><ul><li><a href=#cache><code>~/.cache/</code></a></li><li><a href=#config><code>~/.config/</code></a></li><li><a href=#localbin><code>~/.local/bin/</code></a></li><li><a href=#locallib><code>~/.local/lib/</code></a></li><li><a href=#locallibarch-id><code>~/.local/lib/&lt;arch-id>/</code></a></li><li><a href=#localshare><code>~/.local/share/</code></a></li><li><a href=#localstate><code>~/.local/state/</code></a></li></ul></li><li><a href=#write-access>Write Access</a><ul><li><a href=#unprivileged-write-access>Unprivileged Write Access</a></li><li><a href=#lack-of-write-access-on-read-only-systems-and-during-system-recovery>Lack of Write Access on Read-Only Systems and during System Recovery</a></li></ul></li><li><a href=#node-types>Node Types</a></li><li><a href=#system-packages>System Packages</a><ul><li><a href=#system-package-vendor-files-locations>System package vendor files locations</a></li><li><a href=#system-package-variable-files-locations>System package variable files locations</a></li></ul></li><li><a href=#user-packages>User Packages</a><ul><li><a href=#vendor-package-file-locations-under-the-home-directory-of-the-user>Vendor package file locations under the home directory of the user</a></li><li><a href=#user-package-variable-file-locations>User package variable file locations</a></li></ul></li><li><a href=#see-also>See Also</a></li></ul></nav></aside></header><article class=markdown><h1 id=uapi9-linux-file-system-hierarchy>UAPI.9 Linux File System Hierarchy
-<a class=anchor href=#uapi9-linux-file-system-hierarchy>#</a></h1><table><thead><tr><th>Version</th><th>Changes</th></tr></thead><tbody><tr><td>0.1</td><td>Work in progress</td></tr></tbody></table><h2 id=description>Description
-<a class=anchor href=#description>#</a></h2><p>This page describes the layout of a modern Linux system.
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="UAPI.9 Linux File System Hierarchy# Version Changes 0.1 Work in progress Description# This page describes the layout of a modern Linux system. This hierarchy is an evolution of the historical UNIX layout, and includes concepts described in the File System Hierarchy specification and hier(7) man page, and various extensions documented in the XDG Base Directory Specification and XDG User Directories.
+In some areas this document is stricter than those older documents. In particular it makes additional restrictions and recommendations to separate vendor defaults and local configuration, and also static installed files, persistent data, and ephemeral runtime files. In other areas it is simpler, with the vendor files using a single hierarchy under /usr.
+"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/"><meta property="og:site_name" content="UAPI Group Specifications"><meta property="og:title" content="UAPI.9 Linux File System Hierarchy"><meta property="og:description" content="UAPI.9 Linux File System Hierarchy# Version Changes 0.1 Work in progress Description# This page describes the layout of a modern Linux system. This hierarchy is an evolution of the historical UNIX layout, and includes concepts described in the File System Hierarchy specification and hier(7) man page, and various extensions documented in the XDG Base Directory Specification and XDG User Directories.
+In some areas this document is stricter than those older documents. In particular it makes additional restrictions and recommendations to separate vendor defaults and local configuration, and also static installed files, persistent data, and ephemeral runtime files. In other areas it is simpler, with the vendor files using a single hierarchy under /usr."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="specs"><meta itemprop=name content="UAPI.9 Linux File System Hierarchy"><meta itemprop=description content="UAPI.9 Linux File System Hierarchy# Version Changes 0.1 Work in progress Description# This page describes the layout of a modern Linux system. This hierarchy is an evolution of the historical UNIX layout, and includes concepts described in the File System Hierarchy specification and hier(7) man page, and various extensions documented in the XDG Base Directory Specification and XDG User Directories.
+In some areas this document is stricter than those older documents. In particular it makes additional restrictions and recommendations to separate vendor defaults and local configuration, and also static installed files, persistent data, and ephemeral runtime files. In other areas it is simpler, with the vendor files using a single hierarchy under /usr."><meta itemprop=wordCount content="4423"><title>UAPI.9 Linux File System Hierarchy | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.c75a995c283db1b34919d8a138afbdbc87e17b7359c4bfa4fc7a7e04769749f3.js integrity="sha256-x1qZXCg9sbNJGdihOK+9vIfhe3NZxL+k/Hp+BHaXSfM=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/specifications/><span>UAPI Group Specifications</span></a></h2><div class="book-search hidden"><input id=book-search-input type=text placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li><a href=/>⬅️ Back to top</a></li></ul><ul><li><a>Specifications</a><ul><li><a href=/specifications/specs/boot_loader_specification/>UAPI.1 Boot Loader Specification</a></li><li><a href=/specifications/specs/discoverable_partitions_specification/>UAPI.2 Discoverable Partitions Specification</a></li><li><a href=/specifications/specs/discoverable_disk_image/>UAPI.3 Discoverable Disk Image</a></li><li><a href=/specifications/specs/extension_image/>UAPI.4 Extension Images</a></li><li><a href=/specifications/specs/unified_kernel_image/>UAPI.5 Unified Kernel Image</a></li><li><a href=/specifications/specs/configuration_files_specification/>UAPI.6 Configuration Files Specification</a></li><li><a href=/specifications/specs/linux_tpm_pcr_registry/>UAPI.7 Linux TPM PCR Registry</a></li><li><a href=/specifications/specs/package_metadata_for_executable_files/>UAPI.8 Package Metadata for Executable Files</a></li><li><a href=/specifications/specs/linux_file_system_hierarchy/ class=active>UAPI.9 Linux File System Hierarchy</a></li><li><a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format Specification</a></li><li><a href=/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</a></li><li><a href=/specifications/specs/elf_dlopen_metadata/>UAPI.12 dlopen() Metadata for ELF Files</a></li></ul></li></ul><ul><li><a href=https://github.com/uapi-group/specifications target=_blank rel=noopener>Collaborate on Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class="book-header hidden"><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/icons/menu.svg class=book-icon alt=Menu></label><h3>UAPI.9 Linux File System Hierarchy</h3><label for=toc-control><img src=/specifications/icons/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class=hidden><nav id=TableOfContents><ul><li><a href=#description>Description</a></li><li><a href=#character-sets>Character Sets</a></li><li><a href=#general-structure>General Structure</a><ul><li><a href=#heading><code>/</code></a></li><li><a href=#boot><code>/boot/</code></a></li><li><a href=#efi><code>/efi/</code></a></li><li><a href=#etc><code>/etc/</code></a></li><li><a href=#home><code>/home/</code></a></li><li><a href=#opt-><code>/opt/</code> ⚠️</a></li><li><a href=#root><code>/root/</code></a></li><li><a href=#srv><code>/srv/</code></a></li><li><a href=#tmp><code>/tmp/</code></a></li></ul></li><li><a href=#runtime-data>Runtime Data</a><ul><li><a href=#run><code>/run/</code></a></li><li><a href=#runlog><code>/run/log/</code></a></li><li><a href=#runuser><code>/run/user/</code></a></li></ul></li><li><a href=#vendor-supplied-operating-system-resources>Vendor-supplied Operating System Resources</a><ul><li><a href=#usr><code>/usr/</code></a></li><li><a href=#usrbin><code>/usr/bin/</code></a></li><li><a href=#usrinclude><code>/usr/include/</code></a></li><li><a href=#libraries-system-programs-and-program-assets>Libraries, system programs, and program assets</a></li><li><a href=#usrshare><code>/usr/share/</code></a></li><li><a href=#usrsharedoc><code>/usr/share/doc/</code></a></li><li><a href=#usrsharefactoryetc><code>/usr/share/factory/etc/</code></a></li><li><a href=#usrsharefactoryvar><code>/usr/share/factory/var/</code></a></li></ul></li><li><a href=#persistent-variable-system-data>Persistent Variable System Data</a><ul><li><a href=#var><code>/var/</code></a></li><li><a href=#varcache><code>/var/cache/</code></a></li><li><a href=#varlib><code>/var/lib/</code></a></li><li><a href=#varlog><code>/var/log/</code></a></li><li><a href=#varopt-><code>/var/opt/</code> ⚠️</a></li><li><a href=#vartmp><code>/var/tmp/</code></a></li></ul></li><li><a href=#virtual-kernel-and-api-file-systems>Virtual Kernel and API File Systems</a><ul><li><a href=#dev><code>/dev/</code></a></li><li><a href=#devshm><code>/dev/shm/</code></a></li><li><a href=#proc><code>/proc/</code></a></li><li><a href=#procsys><code>/proc/sys/</code></a></li><li><a href=#sys><code>/sys/</code></a></li><li><a href=#sysfscgroup><code>/sys/fs/cgroup/</code></a></li></ul></li><li><a href=#compatibility-symlinks>Compatibility Symlinks</a><ul><li><a href=#bin-sbin-usrsbin><code>/bin/</code>; <code>/sbin/</code>; <code>/usr/sbin/</code></a></li><li><a href=#lib><code>/lib/</code></a></li><li><a href=#lib64><code>/lib64/</code></a></li><li><a href=#varrun><code>/var/run/</code></a></li></ul></li><li><a href=#home-directory>Home Directory</a><ul><li><a href=#cache><code>~/.cache/</code></a></li><li><a href=#config><code>~/.config/</code></a></li><li><a href=#localbin><code>~/.local/bin/</code></a></li><li><a href=#locallib><code>~/.local/lib/</code></a></li><li><a href=#locallibarch-id><code>~/.local/lib/&lt;arch-id>/</code></a></li><li><a href=#localshare><code>~/.local/share/</code></a></li><li><a href=#localstate><code>~/.local/state/</code></a></li></ul></li><li><a href=#write-access>Write Access</a><ul><li><a href=#unprivileged-write-access>Unprivileged Write Access</a></li><li><a href=#lack-of-write-access-on-read-only-systems-and-during-system-recovery>Lack of Write Access on Read-Only Systems and during System Recovery</a></li></ul></li><li><a href=#node-types>Node Types</a></li><li><a href=#system-packages>System Packages</a><ul><li><a href=#system-package-vendor-files-locations>System package vendor files locations</a></li><li><a href=#system-package-variable-files-locations>System package variable files locations</a></li></ul></li><li><a href=#user-packages>User Packages</a><ul><li><a href=#vendor-package-file-locations-under-the-home-directory-of-the-user>Vendor package file locations under the home directory of the user</a></li><li><a href=#user-package-variable-file-locations>User package variable file locations</a></li></ul></li><li><a href=#see-also>See Also</a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=uapi9-linux-file-system-hierarchy>UAPI.9 Linux File System Hierarchy<a class=anchor href=#uapi9-linux-file-system-hierarchy>#</a></h1><table><thead><tr><th>Version</th><th>Changes</th></tr></thead><tbody><tr><td>0.1</td><td>Work in progress</td></tr></tbody></table><h2 id=description>Description<a class=anchor href=#description>#</a></h2><p>This page describes the layout of a modern Linux system.
 This hierarchy is an evolution of the historical UNIX layout,
 and includes concepts described in the
 <a href=http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html>File System Hierarchy</a>
@@ -52,8 +11,7 @@ specification and
 <a href=https://man7.org/linux/man-pages/man7/hier.7.html><code>hier(7)</code></a> man page,
 and various extensions documented in the
 <a href=https://specifications.freedesktop.org/basedir/latest/>XDG Base Directory Specification</a>
-and
-<a href=https://www.freedesktop.org/wiki/Software/xdg-user-dirs>XDG User Directories</a>.</p><p>In some areas this document is stricter than those older documents.
+and <a href=https://www.freedesktop.org/wiki/Software/xdg-user-dirs>XDG User Directories</a>.</p><p>In some areas this document is stricter than those older documents.
 In particular it makes additional restrictions and recommendations
 to separate vendor defaults and local configuration, and also
 static installed files, persistent data, and ephemeral runtime files.
@@ -67,19 +25,14 @@ in the structure of an actually deployed OS.</p><p>Some directories are describe
 but their use is not recommended.
 The subsections that describe those directories are marked with ⚠️.</p><p>Many of the paths described here can be queried with the
 <a href=https://www.freedesktop.org/software/systemd/man/systemd-path.html><code>systemd-path(1)</code></a>
-tool, on systems where this tool is available.</p><h2 id=character-sets>Character Sets
-<a class=anchor href=#character-sets>#</a></h2><p>All paths and filenames currently defined by this specification use the 7bit ASCII (ANSI_X3.4-1968) character
-set, and it is expected that future additions will continue to do so.</p><p>Names of files or directories placed within the directories defined should generally be in UTF-8 (
-<a href=https://www.rfc-editor.org/rfc/rfc3629.html>IETF RFC
+tool, on systems where this tool is available.</p><h2 id=character-sets>Character Sets<a class=anchor href=#character-sets>#</a></h2><p>All paths and filenames currently defined by this specification use the 7bit ASCII (ANSI_X3.4-1968) character
+set, and it is expected that future additions will continue to do so.</p><p>Names of files or directories placed within the directories defined should generally be in UTF-8 (<a href=https://www.rfc-editor.org/rfc/rfc3629.html>IETF RFC
 3629</a>) encoding. Applications should generally assume that the
 names of any files or directories placed in any of these directories (or below) are in UTF-8, unless
-explicitly configured otherwise.</p><h2 id=general-structure>General Structure
-<a class=anchor href=#general-structure>#</a></h2><h3 id=heading><code>/</code>
-<a class=anchor href=#heading>#</a></h3><p>The file system root.
+explicitly configured otherwise.</p><h2 id=general-structure>General Structure<a class=anchor href=#general-structure>#</a></h2><h3 id=heading><code>/</code><a class=anchor href=#heading>#</a></h3><p>The file system root.
 Usually writable, but this is not required.
 Possibly a temporary file system (<code>tmpfs</code>).
-Not shared with other hosts (unless read-only).</p><h3 id=boot><code>/boot/</code>
-<a class=anchor href=#boot>#</a></h3><p>The partition where kernels and other assets used to bring up the system are stored.
+Not shared with other hosts (unless read-only).</p><h3 id=boot><code>/boot/</code><a class=anchor href=#boot>#</a></h3><p>The partition where kernels and other assets used to bring up the system are stored.
 On EFI systems, this is possibly the EFI System Partition (ESP),
 also see
 <a href=https://www.freedesktop.org/software/systemd/man/systemd-gpt-auto-generator.html><code>systemd-gpt-auto-generator(8)</code></a>.
@@ -87,15 +40,13 @@ This directory is usually strictly local to the host,
 and should be considered read-only,
 except when a kernel or boot loader is installed or updated.
 This directory is only populated on systems that run on
-physical or emulated hardware that requires a boot loader.</p><h3 id=efi><code>/efi/</code>
-<a class=anchor href=#efi>#</a></h3><p>If the EFI System Partition (ESP) is maintained separately
+physical or emulated hardware that requires a boot loader.</p><h3 id=efi><code>/efi/</code><a class=anchor href=#efi>#</a></h3><p>If the EFI System Partition (ESP) is maintained separately
 from the boot partition described in the previous section,
 it is mounted here.
 Tools that need to operate on the ESP should look for it at this mount point first,
 and fall back to <code>/boot/</code> — if the first location does not qualify
 (for example if it is not a mount point
-or does not have the correct file system type <code>MSDOS_SUPER_MAGIC</code>).</p><h3 id=etc><code>/etc/</code>
-<a class=anchor href=#etc>#</a></h3><p>System-specific configuration.
+or does not have the correct file system type <code>MSDOS_SUPER_MAGIC</code>).</p><h3 id=etc><code>/etc/</code><a class=anchor href=#etc>#</a></h3><p>System-specific configuration.
 This directory may be read-only.
 Frequently, this directory is pre-populated with vendor-supplied configuration files,
 but applications should not make assumptions
@@ -105,8 +56,7 @@ following the
 <a href=/specifications/specs/configuration_files_specification/>Configuration Files Specification</a>.</p><p>If <code>/opt/</code> is supported (see below),
 then the <code>/etc/opt/</code> ⚠️ subdirectory is the location where
 third-party software installed in <code>/opt/</code> may store its configuration.
-The same naming convention as directories under <code>/opt/</code> is used for directories under <code>/etc/opt/</code>.</p><h3 id=home><code>/home/</code>
-<a class=anchor href=#home>#</a></h3><p>The location for normal user&rsquo;s home directories.
+The same naming convention as directories under <code>/opt/</code> is used for directories under <code>/etc/opt/</code>.</p><h3 id=home><code>/home/</code><a class=anchor href=#home>#</a></h3><p>The location for normal user&rsquo;s home directories.
 Possibly shared with other systems, and never read-only.
 This directory should only be used for normal users, never for system users.
 This directory and possibly the directories contained within it
@@ -115,8 +65,7 @@ This directory might be placed on limited-functionality network file systems,
 hence applications should not assume the full set of file API is available on this directory.
 Applications should generally not reference this directory directly,
 but via the per-user <code>$HOME</code> environment variable,
-or via the home directory field of the user database.</p><h3 id=opt-><code>/opt/</code> ⚠️
-<a class=anchor href=#opt->#</a></h3><p>A secondary location for third-party vendor directories.
+or via the home directory field of the user database.</p><h3 id=opt-><code>/opt/</code> ⚠️<a class=anchor href=#opt->#</a></h3><p>A secondary location for third-party vendor directories.
 This directory is optional,
 as not all systems allow installing third-party software.</p><p>Each third-party vendor (i.e.: unrelated to the OS provider) may use a subdirectory,
 typically named after the vendor or the software, under this location.
@@ -130,16 +79,13 @@ and other supplementary files,
 e.g. desktops files or manual pages,
 into their appropriate locations under <code>/usr</code>.
 Instead of using a subdirectory under <code>/opt/</code>,
-a third party vendor should put their directory under <code>/usr/lib/</code>.</p><h3 id=root><code>/root/</code>
-<a class=anchor href=#root>#</a></h3><p>The home directory of the root user.
+a third party vendor should put their directory under <code>/usr/lib/</code>.</p><h3 id=root><code>/root/</code><a class=anchor href=#root>#</a></h3><p>The home directory of the root user.
 The root user&rsquo;s home directory is located outside of <code>/home/</code>
 in order to make sure the root user may log in
-even without <code>/home/</code> being available and mounted.</p><h3 id=srv><code>/srv/</code>
-<a class=anchor href=#srv>#</a></h3><p>The place to store general server payload, managed by the administrator.
+even without <code>/home/</code> being available and mounted.</p><h3 id=srv><code>/srv/</code><a class=anchor href=#srv>#</a></h3><p>The place to store general server payload, managed by the administrator.
 No restrictions are made how this directory is organized internally.
 Generally writable, and possibly shared among systems.
-This directory might become available or writable only very late during boot.</p><h3 id=tmp><code>/tmp/</code>
-<a class=anchor href=#tmp>#</a></h3><p>The place for small temporary files.
+This directory might become available or writable only very late during boot.</p><h3 id=tmp><code>/tmp/</code><a class=anchor href=#tmp>#</a></h3><p>The place for small temporary files.
 This directory is usually mounted as a <code>tmpfs</code> instance,
 and should hence not be used for larger files.
 (Use <code>/var/tmp/</code> for larger files.)
@@ -155,34 +101,26 @@ it is essential that files and subdirectories under this directory are only crea
 <a href=https://man7.org/linux/man-pages/man3/mkdtemp.3.html><code>mkdtemp(3)</code></a>,
 and similar calls.
 For more details, see
-<a href=https://systemd.io/TEMPORARY_DIRECTORIES>Using /tmp/ and /var/tmp/ Safely</a>.</p><h2 id=runtime-data>Runtime Data
-<a class=anchor href=#runtime-data>#</a></h2><h3 id=run><code>/run/</code>
-<a class=anchor href=#run>#</a></h3><p>A <code>tmpfs</code> file system for system packages to place
+<a href=https://systemd.io/TEMPORARY_DIRECTORIES>Using /tmp/ and /var/tmp/ Safely</a>.</p><h2 id=runtime-data>Runtime Data<a class=anchor href=#runtime-data>#</a></h2><h3 id=run><code>/run/</code><a class=anchor href=#run>#</a></h3><p>A <code>tmpfs</code> file system for system packages to place
 runtime data, socket files, and similar.
 This directory is flushed on boot,
 and generally writable for privileged programs only.
-Always writable.</p><h3 id=runlog><code>/run/log/</code>
-<a class=anchor href=#runlog>#</a></h3><p>Runtime system logs.
+Always writable.</p><h3 id=runlog><code>/run/log/</code><a class=anchor href=#runlog>#</a></h3><p>Runtime system logs.
 System components may place private logs in this directory.
-Always writable, even when <code>/var/log/</code> might not be accessible yet.</p><h3 id=runuser><code>/run/user/</code>
-<a class=anchor href=#runuser>#</a></h3><p>Contains per-user runtime directories,
+Always writable, even when <code>/var/log/</code> might not be accessible yet.</p><h3 id=runuser><code>/run/user/</code><a class=anchor href=#runuser>#</a></h3><p>Contains per-user runtime directories,
 each usually individually mounted <code>tmpfs</code> instances.
 Always writable, flushed at each reboot and when the user logs out.
 User code should not reference this directory directly,
 but via the <code>$XDG_RUNTIME_DIR</code> environment variable,
 as documented in the
-<a href=https://specifications.freedesktop.org/basedir/latest/>XDG Base Directory Specification</a>.</p><h2 id=vendor-supplied-operating-system-resources>Vendor-supplied Operating System Resources
-<a class=anchor href=#vendor-supplied-operating-system-resources>#</a></h2><h3 id=usr><code>/usr/</code>
-<a class=anchor href=#usr>#</a></h3><p>Vendor-supplied operating system resources.
+<a href=https://specifications.freedesktop.org/basedir/latest/>XDG Base Directory Specification</a>.</p><h2 id=vendor-supplied-operating-system-resources>Vendor-supplied Operating System Resources<a class=anchor href=#vendor-supplied-operating-system-resources>#</a></h2><h3 id=usr><code>/usr/</code><a class=anchor href=#usr>#</a></h3><p>Vendor-supplied operating system resources.
 Usually read-only, but this is not required.
 Possibly shared between multiple hosts.
 This directory should not be modified by the administrator,
-except when installing or removing vendor-supplied packages.</p><h3 id=usrbin><code>/usr/bin/</code>
-<a class=anchor href=#usrbin>#</a></h3><p>Binaries and executables for user commands that shall appear in the <code>$PATH</code> search path.
+except when installing or removing vendor-supplied packages.</p><h3 id=usrbin><code>/usr/bin/</code><a class=anchor href=#usrbin>#</a></h3><p>Binaries and executables for user commands that shall appear in the <code>$PATH</code> search path.
 It is recommended not to place binaries in this directory
 that are not useful for invocation from a shell (such as daemon binaries);
-these should be placed in a subdirectory of <code>/usr/lib/</code> instead.</p><h3 id=usrinclude><code>/usr/include/</code>
-<a class=anchor href=#usrinclude>#</a></h3><p>Programmatic APIs header files, typically used when compiling <code>C/C++</code> programs.
+these should be placed in a subdirectory of <code>/usr/lib/</code> instead.</p><h3 id=usrinclude><code>/usr/include/</code><a class=anchor href=#usrinclude>#</a></h3><p>Programmatic APIs header files, typically used when compiling <code>C/C++</code> programs.
 Packages may place such files either directly in <code>/usr/include/</code>,
 or in a subdirectory.
 Using a subdirectory is recommended if the package installs multiple files.
@@ -198,8 +136,7 @@ See man pages
 <a href=https://www.mankier.com/5/pc><code>pc(7)</code></a>,
 <a href=https://www.mankier.com/1/pkgconf><code>pkgconf(1)</code></a>,
 <a href=https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html>gcc&rsquo;s Search Path</a>,
-and other compiler-specific documentation.</p><p>The corresponding library or libraries shall be placed in <code>$libdir</code>, see below.</p><h3 id=libraries-system-programs-and-program-assets>Libraries, system programs, and program assets
-<a class=anchor href=#libraries-system-programs-and-program-assets>#</a></h3><p>This section describes the directories used to store shared libraries,
+and other compiler-specific documentation.</p><p>The corresponding library or libraries shall be placed in <code>$libdir</code>, see below.</p><h3 id=libraries-system-programs-and-program-assets>Libraries, system programs, and program assets<a class=anchor href=#libraries-system-programs-and-program-assets>#</a></h3><p>This section describes the directories used to store shared libraries,
 internal binaries or other programs that are not regularly invoked from a shell
 (and thus should not be placed in the directories in <code>$PATH</code>),
 and other static files that are part of program installations.</p><p>There are two main schemes for shared libraries.
@@ -214,8 +151,7 @@ Multiarch is the recommended approach, especially for new systems.</p><p>Note th
 are under shared ownership,
 with multiple different packages installing and consuming resources
 on equal footing without any obvious primary owner,
-and are subject to specifications that ensure interoperability.</p><h4 id=usrlib><code>/usr/lib/</code>
-<a class=anchor href=#usrlib>#</a></h4><p>Static, private vendor data that is compatible with all architectures
+and are subject to specifications that ensure interoperability.</p><h4 id=usrlib><code>/usr/lib/</code><a class=anchor href=#usrlib>#</a></h4><p>Static, private vendor data that is compatible with all architectures
 (though not necessarily architecture-independent).
 Note that this includes
 internal binaries or other programs that are not regularly invoked from a shell.
@@ -223,16 +159,14 @@ Such binaries may be for any architecture supported by the system.</p><p>In the 
 32-bit libraries are placed directly in this directory.
 In the multiarch scheme,
 libraries should not be placed directly in this directory,
-but in <code>$libdir</code> (see below), instead.</p><h4 id=usrlibarch-id><code>/usr/lib/&lt;arch-id>/</code>
-<a class=anchor href=#usrlibarch-id>#</a></h4><p>Location for dynamic libraries, also called <code>$libdir</code>.
+but in <code>$libdir</code> (see below), instead.</p><h4 id=usrlibarch-id><code>/usr/lib/&lt;arch-id>/</code><a class=anchor href=#usrlibarch-id>#</a></h4><p>Location for dynamic libraries, also called <code>$libdir</code>.
 The architecture identifier to use is defined on the
 <a href=https://wiki.debian.org/Multiarch/Tuples>Multiarch Architecture Specifiers (Tuples)</a>
 list.
 Those directories are used on multiarch systems.</p><p>On multilib systems,
 <code>/usr/lib/</code> and <code>/usr/lib64/</code> are used instead,
 and one of them is <code>$libdir</code>.</p><p>This directory can be used for architecture-dependent package-specific data too.</p><p>The primary architecture of the system (<code>$libdir</code>) may be queried with:</p><pre><code>systemd-path system-library-arch
-</code></pre><h4 id=usrlibexec-><code>/usr/libexec/</code> ⚠️
-<a class=anchor href=#usrlibexec->#</a></h4><p>A secondary location for
+</code></pre><h4 id=usrlibexec-><code>/usr/libexec/</code> ⚠️<a class=anchor href=#usrlibexec->#</a></h4><p>A secondary location for
 vendor binaries or other programs that are not regularly invoked from a shell
 that is used by some distributions.
 Packages may either place such programs
@@ -242,24 +176,18 @@ or in a subdirectory of <code>/usr/libexec/</code> named after the package.
 The first option is the recommended approach.
 <code>/usr/libexec/</code> is used by some distributions,
 so it is mentioned here too,
-but its use is not encouraged.</p><p>Binaries in <code>/usr/libexec/</code> may be for any architecture supported by the system.</p><h3 id=usrshare><code>/usr/share/</code>
-<a class=anchor href=#usrshare>#</a></h3><p>Architecture-independent resources of packages,
+but its use is not encouraged.</p><p>Binaries in <code>/usr/libexec/</code> may be for any architecture supported by the system.</p><h3 id=usrshare><code>/usr/share/</code><a class=anchor href=#usrshare>#</a></h3><p>Architecture-independent resources of packages,
 such as documentation, man pages, time zone information, and fonts.</p><p>Those files are often shared between multiple packages,
 so the precise location and format of files stored below this directory
-are subject to specifications that ensure interoperability.</p><h3 id=usrsharedoc><code>/usr/share/doc/</code>
-<a class=anchor href=#usrsharedoc>#</a></h3><p>Documentation for the operating system or system packages.</p><h3 id=usrsharefactoryetc><code>/usr/share/factory/etc/</code>
-<a class=anchor href=#usrsharefactoryetc>#</a></h3><p>Repository for vendor-supplied default configuration files.
+are subject to specifications that ensure interoperability.</p><h3 id=usrsharedoc><code>/usr/share/doc/</code><a class=anchor href=#usrsharedoc>#</a></h3><p>Documentation for the operating system or system packages.</p><h3 id=usrsharefactoryetc><code>/usr/share/factory/etc/</code><a class=anchor href=#usrsharefactoryetc>#</a></h3><p>Repository for vendor-supplied default configuration files.
 This directory should be populated with pristine vendor versions
 of all configuration files that may be placed in <code>/etc/</code>.
 This is useful to compare the local configuration of a system with vendor defaults
 and to populate the local configuration with defaults.</p><p>Software should not read configuration settings directly from <code>/usr/share/factory/</code>.
 Those files will be copied to other locations if appropriate,
-and should only be read from there.</p><h3 id=usrsharefactoryvar><code>/usr/share/factory/var/</code>
-<a class=anchor href=#usrsharefactoryvar>#</a></h3><p>Similar to <code>/usr/share/factory/etc/</code>,
+and should only be read from there.</p><h3 id=usrsharefactoryvar><code>/usr/share/factory/var/</code><a class=anchor href=#usrsharefactoryvar>#</a></h3><p>Similar to <code>/usr/share/factory/etc/</code>,
 but for vendor versions of files in the variable, persistent data directory <code>/var/</code>.
-The same recommendations as for <code>/usr/share/factory/etc/</code> apply here.</p><h2 id=persistent-variable-system-data>Persistent Variable System Data
-<a class=anchor href=#persistent-variable-system-data>#</a></h2><h3 id=var><code>/var/</code>
-<a class=anchor href=#var>#</a></h3><p>Persistent, variable system data.
+The same recommendations as for <code>/usr/share/factory/etc/</code> apply here.</p><h2 id=persistent-variable-system-data>Persistent Variable System Data<a class=anchor href=#persistent-variable-system-data>#</a></h2><h3 id=var><code>/var/</code><a class=anchor href=#var>#</a></h3><p>Persistent, variable system data.
 Writable during normal system operation.
 This directory might be pre-populated with vendor-supplied data,
 but applications should be able to reconstruct
@@ -268,24 +196,19 @@ as the system might start up without this directory being populated.
 Persistency is recommended, but optional, to support ephemeral systems.
 This directory might become available or writable only very late during boot.
 Components that are required to operate during early boot
-hence shall not unconditionally rely on this directory.</p><h3 id=varcache><code>/var/cache/</code>
-<a class=anchor href=#varcache>#</a></h3><p>Persistent system cache data.
+hence shall not unconditionally rely on this directory.</p><h3 id=varcache><code>/var/cache/</code><a class=anchor href=#varcache>#</a></h3><p>Persistent system cache data.
 System components may place non-essential data in this directory.
 Flushing this directory should have no effect on operation of programs,
-except for increased runtimes necessary to rebuild these caches.</p><h3 id=varlib><code>/var/lib/</code>
-<a class=anchor href=#varlib>#</a></h3><p>Persistent system data.
-System components may place private data in this directory.</p><h3 id=varlog><code>/var/log/</code>
-<a class=anchor href=#varlog>#</a></h3><p>Persistent system logs.
+except for increased runtimes necessary to rebuild these caches.</p><h3 id=varlib><code>/var/lib/</code><a class=anchor href=#varlib>#</a></h3><p>Persistent system data.
+System components may place private data in this directory.</p><h3 id=varlog><code>/var/log/</code><a class=anchor href=#varlog>#</a></h3><p>Persistent system logs.
 System components may place private logs in this directory,
 though it is recommended to do most logging via the
 <a href=https://man7.org/linux/man-pages/man3/syslog.3.html><code>syslog(3)</code></a> and
 <a href=https://www.freedesktop.org/software/systemd/man/sd_journal_print.html><code>sd_journal_print(3)</code></a>
-calls.</p><h3 id=varopt-><code>/var/opt/</code> ⚠️
-<a class=anchor href=#varopt->#</a></h3><p>If <code>/opt/</code> is supported (see above),
+calls.</p><h3 id=varopt-><code>/var/opt/</code> ⚠️<a class=anchor href=#varopt->#</a></h3><p>If <code>/opt/</code> is supported (see above),
 then the <code>/var/opt/</code> subdirectory is the location where third-party software installed in <code>/opt/</code>
 stores its persistent, variable data.
-The same naming convention as directories under <code>/opt/</code> is used for directories under <code>/var/opt/</code>.</p><h3 id=vartmp><code>/var/tmp/</code>
-<a class=anchor href=#vartmp>#</a></h3><p>The place for larger and persistent temporary files.
+The same naming convention as directories under <code>/opt/</code> is used for directories under <code>/var/opt/</code>.</p><h3 id=vartmp><code>/var/tmp/</code><a class=anchor href=#vartmp>#</a></h3><p>The place for larger and persistent temporary files.
 In contrast to <code>/tmp/</code>,
 this directory is usually mounted from a persistent physical file system
 and can thus accept larger files.
@@ -293,24 +216,20 @@ and can thus accept larger files.
 This directory is generally not flushed at boot-up,
 but time-based cleanup of files that have not been accessed for a certain time is applied.</p><p>If applications find the environment variable <code>$TMPDIR</code> set,
 they should use the directory specified in it instead of <code>/var/tmp/</code>
-(see
-<a href=https://man7.org/linux/man-pages/man7/environ.7.html><code>environ(7)</code></a>
+(see <a href=https://man7.org/linux/man-pages/man7/environ.7.html><code>environ(7)</code></a>
 for details).</p><p>The same security restrictions as with <code>/tmp/</code> apply:
 <a href=https://man7.org/linux/man-pages/man3/mkstemp.3.html><code>mkstemp(3)</code></a>,
 <a href=https://man7.org/linux/man-pages/man3/mkdtemp.3.html><code>mkdtemp(3)</code></a>,
 and similar calls should be used.
 For further details about this directory, see
-<a href=https://systemd.io/TEMPORARY_DIRECTORIES>Using /tmp/ and /var/tmp/ Safely</a>.</p><h2 id=virtual-kernel-and-api-file-systems>Virtual Kernel and API File Systems
-<a class=anchor href=#virtual-kernel-and-api-file-systems>#</a></h2><h3 id=dev><code>/dev/</code>
-<a class=anchor href=#dev>#</a></h3><p>The root directory for device nodes.
+<a href=https://systemd.io/TEMPORARY_DIRECTORIES>Using /tmp/ and /var/tmp/ Safely</a>.</p><h2 id=virtual-kernel-and-api-file-systems>Virtual Kernel and API File Systems<a class=anchor href=#virtual-kernel-and-api-file-systems>#</a></h2><h3 id=dev><code>/dev/</code><a class=anchor href=#dev>#</a></h3><p>The root directory for device nodes.
 Usually, this directory is mounted as a <code>devtmpfs</code> instance,
 but might be of a different type in sandboxed/containerized setups.
 This directory is managed jointly by the kernel and
 a userspace component such as
 <a href=https://www.freedesktop.org/software/systemd/man/systemd-udevd.html><code>systemd-udevd(8)</code></a>,
 and should not be written to by other components.
-A number of special purpose virtual file systems might be mounted below this directory.</p><h3 id=devshm><code>/dev/shm/</code>
-<a class=anchor href=#devshm>#</a></h3><p>Place for POSIX shared memory segments, as created via
+A number of special purpose virtual file systems might be mounted below this directory.</p><h3 id=devshm><code>/dev/shm/</code><a class=anchor href=#devshm>#</a></h3><p>Place for POSIX shared memory segments, as created via
 <a href=https://man7.org/linux/man-pages/man3/shm_open.3.html><code>shm_open(3)</code></a>.
 This directory is flushed on boot,
 and is a <code>tmpfs</code> file system.
@@ -322,24 +241,20 @@ Usually, it is a better idea to use memory mapped files in <code>/run/</code> (f
 or <code>$XDG_RUNTIME_DIR</code> (for user programs)
 instead of POSIX shared memory segments,
 since these directories are not world-writable
-and hence not vulnerable to security-sensitive name clashes.</p><h3 id=proc><code>/proc/</code>
-<a class=anchor href=#proc>#</a></h3><p>A virtual kernel file system exposing the process list and other functionality.
+and hence not vulnerable to security-sensitive name clashes.</p><h3 id=proc><code>/proc/</code><a class=anchor href=#proc>#</a></h3><p>A virtual kernel file system exposing the process list and other functionality.
 This file system is mostly an API to interface with the kernel
 and not a place where normal files may be stored.
 For details, see
 <a href=https://man7.org/linux/man-pages/man5/proc.5.html><code>proc(5)</code></a>.
-A number of special purpose virtual file systems might be mounted below this directory.</p><h3 id=procsys><code>/proc/sys/</code>
-<a class=anchor href=#procsys>#</a></h3><p>A hierarchy below <code>/proc/</code> that exposes a number of kernel tunables.
+A number of special purpose virtual file systems might be mounted below this directory.</p><h3 id=procsys><code>/proc/sys/</code><a class=anchor href=#procsys>#</a></h3><p>A hierarchy below <code>/proc/</code> that exposes a number of kernel tunables.
 The primary way to configure the settings in this API file tree is via
 <a href=https://www.freedesktop.org/software/systemd/man/sysctl.d.html><code>sysctl.d(5)</code></a>
 files.
-In sandboxed/containerized setups, this directory is generally mounted read-only.</p><h3 id=sys><code>/sys/</code>
-<a class=anchor href=#sys>#</a></h3><p>A virtual kernel file system exposing discovered devices and other functionality.
+In sandboxed/containerized setups, this directory is generally mounted read-only.</p><h3 id=sys><code>/sys/</code><a class=anchor href=#sys>#</a></h3><p>A virtual kernel file system exposing discovered devices and other functionality.
 This file system is mostly an API to interface with the kernel
 and not a place where normal files may be stored.
 In sandboxed/containerized setups, this directory is generally mounted read-only.
-A number of special purpose virtual file systems might be mounted below this directory.</p><h3 id=sysfscgroup><code>/sys/fs/cgroup/</code>
-<a class=anchor href=#sysfscgroup>#</a></h3><p>A virtual kernel file system exposing process control groups (cgroups).
+A number of special purpose virtual file systems might be mounted below this directory.</p><h3 id=sysfscgroup><code>/sys/fs/cgroup/</code><a class=anchor href=#sysfscgroup>#</a></h3><p>A virtual kernel file system exposing process control groups (cgroups).
 This file system is an API to interface with the kernel
 and not a place where normal files may be stored.
 On current systems running in the default &ldquo;unified&rdquo; mode,
@@ -352,67 +267,52 @@ in such configurations,
 if <code>cgroup2</code> is mounted it will be mounted on <code>/sys/fs/cgroup/unified/</code>,
 but cgroup2 will not have resource controllers attached.
 In sandboxed/containerized setups,
-this directory may either not exist or may include a subset of functionality.</p><h2 id=compatibility-symlinks>Compatibility Symlinks
-<a class=anchor href=#compatibility-symlinks>#</a></h2><h3 id=bin-sbin-usrsbin><code>/bin/</code>; <code>/sbin/</code>; <code>/usr/sbin/</code>
-<a class=anchor href=#bin-sbin-usrsbin>#</a></h3><p>These compatibility symlinks point to <code>/usr/bin/</code>,
+this directory may either not exist or may include a subset of functionality.</p><h2 id=compatibility-symlinks>Compatibility Symlinks<a class=anchor href=#compatibility-symlinks>#</a></h2><h3 id=bin-sbin-usrsbin><code>/bin/</code>; <code>/sbin/</code>; <code>/usr/sbin/</code><a class=anchor href=#bin-sbin-usrsbin>#</a></h3><p>These compatibility symlinks point to <code>/usr/bin/</code>,
 ensuring that scripts and binaries referencing these legacy paths
-correctly find their binaries.</p><h3 id=lib><code>/lib/</code>
-<a class=anchor href=#lib>#</a></h3><p>This compatibility symlink points to <code>/usr/lib/</code>,
+correctly find their binaries.</p><h3 id=lib><code>/lib/</code><a class=anchor href=#lib>#</a></h3><p>This compatibility symlink points to <code>/usr/lib/</code>,
 ensuring that programs referencing this legacy path
-correctly find their resources.</p><h3 id=lib64><code>/lib64/</code>
-<a class=anchor href=#lib64>#</a></h3><p>On some architecture ABIs, this compatibility symlink points to <code>$libdir</code>,
+correctly find their resources.</p><h3 id=lib64><code>/lib64/</code><a class=anchor href=#lib64>#</a></h3><p>On some architecture ABIs, this compatibility symlink points to <code>$libdir</code>,
 ensuring that binaries referencing this legacy path
 correctly find their dynamic loader.
 This symlink only exists on architectures whose ABI
-places the dynamic loader in this path.</p><h3 id=varrun><code>/var/run/</code>
-<a class=anchor href=#varrun>#</a></h3><p>This compatibility symlink points to <code>/run/</code>,
+places the dynamic loader in this path.</p><h3 id=varrun><code>/var/run/</code><a class=anchor href=#varrun>#</a></h3><p>This compatibility symlink points to <code>/run/</code>,
 ensuring that programs referencing this legacy path
-correctly find their runtime data.</p><h2 id=home-directory>Home Directory
-<a class=anchor href=#home-directory>#</a></h2><p>User applications may want to place files and directories
+correctly find their runtime data.</p><h2 id=home-directory>Home Directory<a class=anchor href=#home-directory>#</a></h2><p>User applications may want to place files and directories
 in the user&rsquo;s home directory.
 They should follow the following basic structure.
 Note that some of these directories are also standardized
 (though more weakly) by the
 <a href=https://specifications.freedesktop.org/basedir/latest/>XDG Base Directory Specification</a>.
 Additional locations for high-level user resources are defined by
-<a href=https://www.freedesktop.org/wiki/Software/xdg-user-dirs>xdg-user-dirs</a>.</p><h3 id=cache><code>~/.cache/</code>
-<a class=anchor href=#cache>#</a></h3><p>Persistent user cache data.
+<a href=https://www.freedesktop.org/wiki/Software/xdg-user-dirs>xdg-user-dirs</a>.</p><h3 id=cache><code>~/.cache/</code><a class=anchor href=#cache>#</a></h3><p>Persistent user cache data.
 User programs may place non-essential data in this directory.
 Flushing this directory should have no effect on operation of programs,
 except for increased runtimes necessary to rebuild these caches.
 If an application finds <code>$XDG_CACHE_HOME</code> set,
-it should use the directory specified in it instead of this directory.</p><h3 id=config><code>~/.config/</code>
-<a class=anchor href=#config>#</a></h3><p>Application configuration.
+it should use the directory specified in it instead of this directory.</p><h3 id=config><code>~/.config/</code><a class=anchor href=#config>#</a></h3><p>Application configuration.
 When a new user is created, this directory will be empty or not exist at all.
 Applications should fall back to defaults
 should their configuration in this directory be missing.
 If an application finds <code>$XDG_CONFIG_HOME</code> set,
-it should use the directory specified in it instead of this directory.</p><h3 id=localbin><code>~/.local/bin/</code>
-<a class=anchor href=#localbin>#</a></h3><p>Executables that shall appear in the user&rsquo;s <code>$PATH</code> search path.
+it should use the directory specified in it instead of this directory.</p><h3 id=localbin><code>~/.local/bin/</code><a class=anchor href=#localbin>#</a></h3><p>Executables that shall appear in the user&rsquo;s <code>$PATH</code> search path.
 It is recommended not to place executables in this directory
 that are not useful for invocation from a shell;
 these should be placed in a subdirectory of <code>~/.local/lib/</code> instead.
 Care should be taken when placing architecture-dependent binaries in this place,
 which might be problematic if the home directory is shared
-between multiple hosts with different architectures.</p><h3 id=locallib><code>~/.local/lib/</code>
-<a class=anchor href=#locallib>#</a></h3><p>Static, private vendor data that is compatible with all architectures.</p><h3 id=locallibarch-id><code>~/.local/lib/&lt;arch-id>/</code>
-<a class=anchor href=#locallibarch-id>#</a></h3><p>Location for placing public dynamic libraries.
+between multiple hosts with different architectures.</p><h3 id=locallib><code>~/.local/lib/</code><a class=anchor href=#locallib>#</a></h3><p>Static, private vendor data that is compatible with all architectures.</p><h3 id=locallibarch-id><code>~/.local/lib/&lt;arch-id>/</code><a class=anchor href=#locallibarch-id>#</a></h3><p>Location for placing public dynamic libraries.
 The architecture identifier to use is defined on
 <a href=https://wiki.debian.org/Multiarch/Tuples>Multiarch Architecture Specifiers (Tuples)</a>
-list.</p><h3 id=localshare><code>~/.local/share/</code>
-<a class=anchor href=#localshare>#</a></h3><p>Resources shared between multiple packages, such as fonts or artwork.
+list.</p><h3 id=localshare><code>~/.local/share/</code><a class=anchor href=#localshare>#</a></h3><p>Resources shared between multiple packages, such as fonts or artwork.
 Usually, the precise location and format of files stored below this directory
 is subject to specifications that ensure interoperability.
 If an application finds <code>$XDG_DATA_HOME</code> set,
-it should use the directory specified in it instead of this directory.</p><h3 id=localstate><code>~/.local/state/</code>
-<a class=anchor href=#localstate>#</a></h3><p>Application state.
+it should use the directory specified in it instead of this directory.</p><h3 id=localstate><code>~/.local/state/</code><a class=anchor href=#localstate>#</a></h3><p>Application state.
 When a new user is created, this directory will be empty or not exist at all.
 Applications should fall back to defaults
 should their state in this directory be missing.
 If an application finds <code>$XDG_STATE_HOME</code> set,
-it should use the directory specified in it instead of this directory.</p><h2 id=write-access>Write Access
-<a class=anchor href=#write-access>#</a></h2><h3 id=unprivileged-write-access>Unprivileged Write Access
-<a class=anchor href=#unprivileged-write-access>#</a></h3><p>Unprivileged processes generally lack write access to most of the hierarchy.</p><p>The exceptions for normal users are <code>/tmp/</code>, <code>/var/tmp/</code>, <code>/dev/shm/</code>,
+it should use the directory specified in it instead of this directory.</p><h2 id=write-access>Write Access<a class=anchor href=#write-access>#</a></h2><h3 id=unprivileged-write-access>Unprivileged Write Access<a class=anchor href=#unprivileged-write-access>#</a></h3><p>Unprivileged processes generally lack write access to most of the hierarchy.</p><p>The exceptions for normal users are <code>/tmp/</code>, <code>/var/tmp/</code>, <code>/dev/shm/</code>,
 as well as the home directory <code>$HOME</code> (usually found below <code>/home/</code>)
 and the runtime directory <code>$XDG_RUNTIME_DIR</code> (found below <code>/run/user/</code>)
 of the user, which are all writable.</p><p>For unprivileged system processes,
@@ -440,8 +340,7 @@ all software that may be installed is known and does not require such functional
 See the discussion of <code>nosuid</code>/<code>nodev</code>/<code>noexec</code> in
 <a href=https://man7.org/linux/man-pages/man8/mount.8.html><code>mount(8)</code></a>
 and <code>PROT_EXEC</code> in
-<a href=https://man7.org/linux/man-pages/man2/mmap.2.html><code>mmap(2)</code></a>.</p><h3 id=lack-of-write-access-on-read-only-systems-and-during-system-recovery>Lack of Write Access on Read-Only Systems and during System Recovery
-<a class=anchor href=#lack-of-write-access-on-read-only-systems-and-during-system-recovery>#</a></h3><p>As noted above, some systems operate with
+<a href=https://man7.org/linux/man-pages/man2/mmap.2.html><code>mmap(2)</code></a>.</p><h3 id=lack-of-write-access-on-read-only-systems-and-during-system-recovery>Lack of Write Access on Read-Only Systems and during System Recovery<a class=anchor href=#lack-of-write-access-on-read-only-systems-and-during-system-recovery>#</a></h3><p>As noted above, some systems operate with
 the <code>/usr</code> and <code>/etc</code> hierarchies mounted read-only,
 possibly only allowing write access during package upgrades.
 Other part of the hierarchy are generally mounted read-write
@@ -456,46 +355,31 @@ or failure to create a custom log file under <code>/var/log</code>
 does not prevent the application from running.</p><p>The <code>/run/</code> directory is available since the earliest boot
 and is always writable.
 It should be used for any runtime data and sockets,
-so that write access to e.g. <code>/etc</code> or <code>/var</code> is not needed.</p><h2 id=node-types>Node Types
-<a class=anchor href=#node-types>#</a></h2><p>Unix file systems support different types of file nodes,
+so that write access to e.g. <code>/etc</code> or <code>/var</code> is not needed.</p><h2 id=node-types>Node Types<a class=anchor href=#node-types>#</a></h2><p>Unix file systems support different types of file nodes,
 including regular files, directories, symlinks, character and block device nodes,
 sockets and FIFOs.</p><p>It is strongly recommended that <code>/dev/</code> is
 the only location below which device nodes shall be placed.
 Similarly, <code>/run/</code> shall be the only location to place sockets and FIFOs.
 Regular files, directories and symlinks may be used in all directories.</p><p>Applications should expect that a security policy
-might be enforced on a system that enforces these rules.</p><h2 id=system-packages>System Packages
-<a class=anchor href=#system-packages>#</a></h2><p>Developers of system packages should follow strict rules
+might be enforced on a system that enforces these rules.</p><h2 id=system-packages>System Packages<a class=anchor href=#system-packages>#</a></h2><p>Developers of system packages should follow strict rules
 when placing their files in the file system.
 The following table lists recommended locations for
-specific types of files supplied by the vendor.</p><h3 id=system-package-vendor-files-locations>System package vendor files locations
-<a class=anchor href=#system-package-vendor-files-locations>#</a></h3><table><thead><tr><th>Directory</th><th>Purpose</th></tr></thead><tbody><tr><td><code>/usr/bin/</code></td><td>Package executables that shall appear in the <code>$PATH</code> executable search path, compiled for any of the supported architectures compatible with the operating system. It is not recommended to place internal binaries or binaries that are not commonly invoked from the shell in this directory, such as daemon binaries. As this directory is shared with most other packages of the system, special care should be taken to pick unique names for files placed here, that are unlikely to clash with other package&rsquo;s files.</td></tr><tr><td><code>/usr/lib/&lt;arch-id>/</code></td><td>Public shared libraries of the package. As above, be careful with using too generic names, and pick unique names for your libraries to place here to avoid name clashes.</td></tr><tr><td><code>/usr/lib/package/</code></td><td>Private static vendor resources of the package, including private binaries and libraries, or any other kind of read-only vendor data.</td></tr><tr><td><code>/usr/lib/&lt;arch-id>/package/</code></td><td>Private other vendor resources of the package that are architecture-specific and cannot be shared between architectures. Note that this generally does not include private executables since binaries of a specific architecture may be freely invoked from any other supported system architecture.</td></tr></tbody></table><p>Additional static vendor files with shared ownership
+specific types of files supplied by the vendor.</p><h3 id=system-package-vendor-files-locations>System package vendor files locations<a class=anchor href=#system-package-vendor-files-locations>#</a></h3><table><thead><tr><th>Directory</th><th>Purpose</th></tr></thead><tbody><tr><td><code>/usr/bin/</code></td><td>Package executables that shall appear in the <code>$PATH</code> executable search path, compiled for any of the supported architectures compatible with the operating system. It is not recommended to place internal binaries or binaries that are not commonly invoked from the shell in this directory, such as daemon binaries. As this directory is shared with most other packages of the system, special care should be taken to pick unique names for files placed here, that are unlikely to clash with other package&rsquo;s files.</td></tr><tr><td><code>/usr/lib/&lt;arch-id>/</code></td><td>Public shared libraries of the package. As above, be careful with using too generic names, and pick unique names for your libraries to place here to avoid name clashes.</td></tr><tr><td><code>/usr/lib/package/</code></td><td>Private static vendor resources of the package, including private binaries and libraries, or any other kind of read-only vendor data.</td></tr><tr><td><code>/usr/lib/&lt;arch-id>/package/</code></td><td>Private other vendor resources of the package that are architecture-specific and cannot be shared between architectures. Note that this generally does not include private executables since binaries of a specific architecture may be freely invoked from any other supported system architecture.</td></tr></tbody></table><p>Additional static vendor files with shared ownership
 may be installed in the <code>/usr/share/</code> hierarchy
-to the locations defined by the various relevant specifications.</p><h3 id=system-package-variable-files-locations>System package variable files locations
-<a class=anchor href=#system-package-variable-files-locations>#</a></h3><p>The following directories shall be used by the package for
-local configuration and files created during runtime:</p><table><thead><tr><th>Directory</th><th>Purpose</th></tr></thead><tbody><tr><td><code>/etc/package/</code></td><td>System-specific configuration for the package. It is recommended to default to safe fallbacks if this configuration is missing, if this is possible. Alternatively, a
-<a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> fragment may be used to copy or symlink the necessary files and directories from <code>/usr/share/factory/</code> during boot, via the <code>L</code> or <code>C</code> directives.</td></tr><tr><td><code>/run/package/</code></td><td>Runtime data for the package. Packages must be able to create the necessary subdirectories in this tree on their own, since the directory is flushed automatically on boot. Alternatively, a
-<a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> fragment may be used to create the necessary directories during boot, or the <code>RuntimeDirectory=</code> directive of service units may be used to create them at service startup (see
-<a href=https://www.freedesktop.org/software/systemd/man/systemd.unit.html><code>systemd.unit(5)</code></a> for details).</td></tr><tr><td><code>/run/log/package/</code></td><td>Runtime log data for the package. As above, the package needs to make sure to create this directory if necessary, as it will be flushed on every boot.</td></tr><tr><td><code>/var/cache/package/</code></td><td>Persistent cache data of the package. If this directory is flushed, the application should work correctly on next invocation, though possibly slowed down due to the need to rebuild any local cache files. The application must be capable of recreating this directory should it be missing and necessary. To create an empty directory, a
-<a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> fragment or the <code>CacheDirectory=</code> directive of service units (see
-<a href=https://www.freedesktop.org/software/systemd/man/systemd.unit.html><code>systemd.unit(5)</code></a>) may be used.</td></tr><tr><td><code>/var/lib/package/</code></td><td>Persistent private data of the package. This is the primary place to put persistent data that does not fall into the other categories listed. Packages should be able to create the necessary subdirectories in this tree on their own, since the directory might be missing on boot. To create an empty directory, a
-<a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> fragment or the <code>StateDirectory=</code> directive of service units (see
-<a href=https://www.freedesktop.org/software/systemd/man/systemd.unit.html><code>systemd.unit(5)</code></a>) may be used.</td></tr><tr><td><code>/var/log/package/</code></td><td>Persistent log data of the package. As above, the package should make sure to create this directory if necessary, possibly using
-<a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> or <code>LogsDirectory=</code> (see
-<a href=https://www.freedesktop.org/software/systemd/man/systemd.exec.html><code>systemd.exec(5)</code></a>), as it might be missing.</td></tr></tbody></table><h2 id=user-packages>User Packages
-<a class=anchor href=#user-packages>#</a></h2><p>Programs running in user context should follow strict rules
+to the locations defined by the various relevant specifications.</p><h3 id=system-package-variable-files-locations>System package variable files locations<a class=anchor href=#system-package-variable-files-locations>#</a></h3><p>The following directories shall be used by the package for
+local configuration and files created during runtime:</p><table><thead><tr><th>Directory</th><th>Purpose</th></tr></thead><tbody><tr><td><code>/etc/package/</code></td><td>System-specific configuration for the package. It is recommended to default to safe fallbacks if this configuration is missing, if this is possible. Alternatively, a<a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> fragment may be used to copy or symlink the necessary files and directories from <code>/usr/share/factory/</code> during boot, via the <code>L</code> or <code>C</code> directives.</td></tr><tr><td><code>/run/package/</code></td><td>Runtime data for the package. Packages must be able to create the necessary subdirectories in this tree on their own, since the directory is flushed automatically on boot. Alternatively, a <a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> fragment may be used to create the necessary directories during boot, or the <code>RuntimeDirectory=</code> directive of service units may be used to create them at service startup (see <a href=https://www.freedesktop.org/software/systemd/man/systemd.unit.html><code>systemd.unit(5)</code></a> for details).</td></tr><tr><td><code>/run/log/package/</code></td><td>Runtime log data for the package. As above, the package needs to make sure to create this directory if necessary, as it will be flushed on every boot.</td></tr><tr><td><code>/var/cache/package/</code></td><td>Persistent cache data of the package. If this directory is flushed, the application should work correctly on next invocation, though possibly slowed down due to the need to rebuild any local cache files. The application must be capable of recreating this directory should it be missing and necessary. To create an empty directory, a <a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> fragment or the <code>CacheDirectory=</code> directive of service units (see <a href=https://www.freedesktop.org/software/systemd/man/systemd.unit.html><code>systemd.unit(5)</code></a>) may be used.</td></tr><tr><td><code>/var/lib/package/</code></td><td>Persistent private data of the package. This is the primary place to put persistent data that does not fall into the other categories listed. Packages should be able to create the necessary subdirectories in this tree on their own, since the directory might be missing on boot. To create an empty directory, a <a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> fragment or the <code>StateDirectory=</code> directive of service units (see <a href=https://www.freedesktop.org/software/systemd/man/systemd.unit.html><code>systemd.unit(5)</code></a>) may be used.</td></tr><tr><td><code>/var/log/package/</code></td><td>Persistent log data of the package. As above, the package should make sure to create this directory if necessary, possibly using <a href=https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html><code>tmpfiles.d(5)</code></a> or <code>LogsDirectory=</code> (see <a href=https://www.freedesktop.org/software/systemd/man/systemd.exec.html><code>systemd.exec(5)</code></a>), as it might be missing.</td></tr></tbody></table><h2 id=user-packages>User Packages<a class=anchor href=#user-packages>#</a></h2><p>Programs running in user context should follow strict rules
 when placing their own files in the user&rsquo;s home directory.
 The following table lists recommended locations
 in the home directory for specific types of files supplied by the vendor
 if the application is installed in the home directory.
 (User applications installed system-wide are
-covered by the rules outlined above for vendor files.)</p><h3 id=vendor-package-file-locations-under-the-home-directory-of-the-user>Vendor package file locations under the home directory of the user
-<a class=anchor href=#vendor-package-file-locations-under-the-home-directory-of-the-user>#</a></h3><table><thead><tr><th>Directory</th><th>Purpose</th></tr></thead><tbody><tr><td><code>~/.local/bin/</code></td><td>Package executables that shall appear in the <code>$PATH</code> executable search path. It is not recommended to place internal executables or executables that are not commonly invoked from the shell in this directory, such as daemon executables. As this directory is shared with most other packages of the user, special care should be taken to pick unique names for files placed here, that are unlikely to clash with other package&rsquo;s files.</td></tr><tr><td><code>~/.local/lib/&lt;arch-id>/</code></td><td>Public shared libraries of the package. As above, be careful with using overly generic names, and pick unique names for your libraries to place here to avoid name clashes.</td></tr><tr><td><code>~/.local/lib/package/</code></td><td>Private, static vendor resources of the package, compatible with any architecture, or any other kind of read-only vendor data.</td></tr><tr><td><code>~/.local/lib/&lt;arch-id>/package/</code></td><td>Private other vendor resources of the package that are architecture-specific and cannot be shared between architectures.</td></tr></tbody></table><p>Additional static vendor files with shared ownership
+covered by the rules outlined above for vendor files.)</p><h3 id=vendor-package-file-locations-under-the-home-directory-of-the-user>Vendor package file locations under the home directory of the user<a class=anchor href=#vendor-package-file-locations-under-the-home-directory-of-the-user>#</a></h3><table><thead><tr><th>Directory</th><th>Purpose</th></tr></thead><tbody><tr><td><code>~/.local/bin/</code></td><td>Package executables that shall appear in the <code>$PATH</code> executable search path. It is not recommended to place internal executables or executables that are not commonly invoked from the shell in this directory, such as daemon executables. As this directory is shared with most other packages of the user, special care should be taken to pick unique names for files placed here, that are unlikely to clash with other package&rsquo;s files.</td></tr><tr><td><code>~/.local/lib/&lt;arch-id>/</code></td><td>Public shared libraries of the package. As above, be careful with using overly generic names, and pick unique names for your libraries to place here to avoid name clashes.</td></tr><tr><td><code>~/.local/lib/package/</code></td><td>Private, static vendor resources of the package, compatible with any architecture, or any other kind of read-only vendor data.</td></tr><tr><td><code>~/.local/lib/&lt;arch-id>/package/</code></td><td>Private other vendor resources of the package that are architecture-specific and cannot be shared between architectures.</td></tr></tbody></table><p>Additional static vendor files with shared ownership
 may be installed in the <code>~/.local/share/</code> hierarchy,
 mirroring the subdirectories specified in the section
-&ldquo;Vendor-supplied operating system resources&rdquo; above.</p><h3 id=user-package-variable-file-locations>User package variable file locations
-<a class=anchor href=#user-package-variable-file-locations>#</a></h3><p>The following directories shall be used by the package for
-per-user local configuration and files created during runtime:</p><table><thead><tr><th>Directory</th><th>Purpose</th></tr></thead><tbody><tr><td><code>~/.config/package/</code></td><td>User-specific configuration for the package. It is required to default to safe fallbacks if this configuration is missing.</td></tr><tr><td><code>$XDG_RUNTIME_DIR/package/</code></td><td>User runtime data for the package.</td></tr><tr><td><code>~/.cache/package/</code></td><td>Persistent cache data of the package. If this directory is flushed, the application should work correctly on next invocation, though possibly slowed down due to the need to rebuild any local cache files. The application must be capable of recreating this directory should it be missing and necessary.</td></tr><tr><td><code>~/.local/state/package/</code></td><td>Persistent state data of the package.</td></tr></tbody></table><h2 id=see-also>See Also
-<a class=anchor href=#see-also>#</a></h2><p>The
-<a href=https://www.freedesktop.org/software/systemd/man/systemd.html><code>systemd(1)</code></a>
-system and service manager implements and expects the layout described in this specification.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/uapi-group/specifications/edit/main/specs/linux_file_system_hierarchy.md target=_blank rel=noopener><img src=/specifications/svg/edit.svg class=book-icon alt=Edit>
-<span>Edit this page</span></a></div></div></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#description>Description</a></li><li><a href=#character-sets>Character Sets</a></li><li><a href=#general-structure>General Structure</a><ul><li><a href=#heading><code>/</code></a></li><li><a href=#boot><code>/boot/</code></a></li><li><a href=#efi><code>/efi/</code></a></li><li><a href=#etc><code>/etc/</code></a></li><li><a href=#home><code>/home/</code></a></li><li><a href=#opt-><code>/opt/</code> ⚠️</a></li><li><a href=#root><code>/root/</code></a></li><li><a href=#srv><code>/srv/</code></a></li><li><a href=#tmp><code>/tmp/</code></a></li></ul></li><li><a href=#runtime-data>Runtime Data</a><ul><li><a href=#run><code>/run/</code></a></li><li><a href=#runlog><code>/run/log/</code></a></li><li><a href=#runuser><code>/run/user/</code></a></li></ul></li><li><a href=#vendor-supplied-operating-system-resources>Vendor-supplied Operating System Resources</a><ul><li><a href=#usr><code>/usr/</code></a></li><li><a href=#usrbin><code>/usr/bin/</code></a></li><li><a href=#usrinclude><code>/usr/include/</code></a></li><li><a href=#libraries-system-programs-and-program-assets>Libraries, system programs, and program assets</a></li><li><a href=#usrshare><code>/usr/share/</code></a></li><li><a href=#usrsharedoc><code>/usr/share/doc/</code></a></li><li><a href=#usrsharefactoryetc><code>/usr/share/factory/etc/</code></a></li><li><a href=#usrsharefactoryvar><code>/usr/share/factory/var/</code></a></li></ul></li><li><a href=#persistent-variable-system-data>Persistent Variable System Data</a><ul><li><a href=#var><code>/var/</code></a></li><li><a href=#varcache><code>/var/cache/</code></a></li><li><a href=#varlib><code>/var/lib/</code></a></li><li><a href=#varlog><code>/var/log/</code></a></li><li><a href=#varopt-><code>/var/opt/</code> ⚠️</a></li><li><a href=#vartmp><code>/var/tmp/</code></a></li></ul></li><li><a href=#virtual-kernel-and-api-file-systems>Virtual Kernel and API File Systems</a><ul><li><a href=#dev><code>/dev/</code></a></li><li><a href=#devshm><code>/dev/shm/</code></a></li><li><a href=#proc><code>/proc/</code></a></li><li><a href=#procsys><code>/proc/sys/</code></a></li><li><a href=#sys><code>/sys/</code></a></li><li><a href=#sysfscgroup><code>/sys/fs/cgroup/</code></a></li></ul></li><li><a href=#compatibility-symlinks>Compatibility Symlinks</a><ul><li><a href=#bin-sbin-usrsbin><code>/bin/</code>; <code>/sbin/</code>; <code>/usr/sbin/</code></a></li><li><a href=#lib><code>/lib/</code></a></li><li><a href=#lib64><code>/lib64/</code></a></li><li><a href=#varrun><code>/var/run/</code></a></li></ul></li><li><a href=#home-directory>Home Directory</a><ul><li><a href=#cache><code>~/.cache/</code></a></li><li><a href=#config><code>~/.config/</code></a></li><li><a href=#localbin><code>~/.local/bin/</code></a></li><li><a href=#locallib><code>~/.local/lib/</code></a></li><li><a href=#locallibarch-id><code>~/.local/lib/&lt;arch-id>/</code></a></li><li><a href=#localshare><code>~/.local/share/</code></a></li><li><a href=#localstate><code>~/.local/state/</code></a></li></ul></li><li><a href=#write-access>Write Access</a><ul><li><a href=#unprivileged-write-access>Unprivileged Write Access</a></li><li><a href=#lack-of-write-access-on-read-only-systems-and-during-system-recovery>Lack of Write Access on Read-Only Systems and during System Recovery</a></li></ul></li><li><a href=#node-types>Node Types</a></li><li><a href=#system-packages>System Packages</a><ul><li><a href=#system-package-vendor-files-locations>System package vendor files locations</a></li><li><a href=#system-package-variable-files-locations>System package variable files locations</a></li></ul></li><li><a href=#user-packages>User Packages</a><ul><li><a href=#vendor-package-file-locations-under-the-home-directory-of-the-user>Vendor package file locations under the home directory of the user</a></li><li><a href=#user-package-variable-file-locations>User package variable file locations</a></li></ul></li><li><a href=#see-also>See Also</a></li></ul></nav></div></aside></main></body></html>
+&ldquo;Vendor-supplied operating system resources&rdquo; above.</p><h3 id=user-package-variable-file-locations>User package variable file locations<a class=anchor href=#user-package-variable-file-locations>#</a></h3><p>The following directories shall be used by the package for
+per-user local configuration and files created during runtime:</p><table><thead><tr><th>Directory</th><th>Purpose</th></tr></thead><tbody><tr><td><code>~/.config/package/</code></td><td>User-specific configuration for the package. It is required to default to safe fallbacks if this configuration is missing.</td></tr><tr><td><code>$XDG_RUNTIME_DIR/package/</code></td><td>User runtime data for the package.</td></tr><tr><td><code>~/.cache/package/</code></td><td>Persistent cache data of the package. If this directory is flushed, the application should work correctly on next invocation, though possibly slowed down due to the need to rebuild any local cache files. The application must be capable of recreating this directory should it be missing and necessary.</td></tr><tr><td><code>~/.local/state/package/</code></td><td>Persistent state data of the package.</td></tr></tbody></table><h2 id=see-also>See Also<a class=anchor href=#see-also>#</a></h2><p>The <a href=https://www.freedesktop.org/software/systemd/man/systemd.html><code>systemd(1)</code></a>
+system and service manager implements and expects the layout described in this specification.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div></div><div><a class="flex align-center" href=https://github.com/uapi-group/specifications/edit/main/specs/linux_file_system_hierarchy.md target=_blank rel="noopener edit"><img src=/specifications/icons/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div><div class="flex flex-wrap justify-between"><span><a href=/specifications/specs/package_metadata_for_executable_files/ class="flex align-center"><img src=/specifications/icons/backward.svg class=book-icon alt=Backward>
+<span>UAPI.8 Package Metadata for Executable Files</span>
+</a></span><span><a href=/specifications/specs/version_format_specification/ class="flex align-center"><span>UAPI.10 Version Format Specification</span>
+<img src=/specifications/icons/forward.svg class=book-icon alt=Forward></a></span></div><div class=book-comments></div><script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#description>Description</a></li><li><a href=#character-sets>Character Sets</a></li><li><a href=#general-structure>General Structure</a><ul><li><a href=#heading><code>/</code></a></li><li><a href=#boot><code>/boot/</code></a></li><li><a href=#efi><code>/efi/</code></a></li><li><a href=#etc><code>/etc/</code></a></li><li><a href=#home><code>/home/</code></a></li><li><a href=#opt-><code>/opt/</code> ⚠️</a></li><li><a href=#root><code>/root/</code></a></li><li><a href=#srv><code>/srv/</code></a></li><li><a href=#tmp><code>/tmp/</code></a></li></ul></li><li><a href=#runtime-data>Runtime Data</a><ul><li><a href=#run><code>/run/</code></a></li><li><a href=#runlog><code>/run/log/</code></a></li><li><a href=#runuser><code>/run/user/</code></a></li></ul></li><li><a href=#vendor-supplied-operating-system-resources>Vendor-supplied Operating System Resources</a><ul><li><a href=#usr><code>/usr/</code></a></li><li><a href=#usrbin><code>/usr/bin/</code></a></li><li><a href=#usrinclude><code>/usr/include/</code></a></li><li><a href=#libraries-system-programs-and-program-assets>Libraries, system programs, and program assets</a></li><li><a href=#usrshare><code>/usr/share/</code></a></li><li><a href=#usrsharedoc><code>/usr/share/doc/</code></a></li><li><a href=#usrsharefactoryetc><code>/usr/share/factory/etc/</code></a></li><li><a href=#usrsharefactoryvar><code>/usr/share/factory/var/</code></a></li></ul></li><li><a href=#persistent-variable-system-data>Persistent Variable System Data</a><ul><li><a href=#var><code>/var/</code></a></li><li><a href=#varcache><code>/var/cache/</code></a></li><li><a href=#varlib><code>/var/lib/</code></a></li><li><a href=#varlog><code>/var/log/</code></a></li><li><a href=#varopt-><code>/var/opt/</code> ⚠️</a></li><li><a href=#vartmp><code>/var/tmp/</code></a></li></ul></li><li><a href=#virtual-kernel-and-api-file-systems>Virtual Kernel and API File Systems</a><ul><li><a href=#dev><code>/dev/</code></a></li><li><a href=#devshm><code>/dev/shm/</code></a></li><li><a href=#proc><code>/proc/</code></a></li><li><a href=#procsys><code>/proc/sys/</code></a></li><li><a href=#sys><code>/sys/</code></a></li><li><a href=#sysfscgroup><code>/sys/fs/cgroup/</code></a></li></ul></li><li><a href=#compatibility-symlinks>Compatibility Symlinks</a><ul><li><a href=#bin-sbin-usrsbin><code>/bin/</code>; <code>/sbin/</code>; <code>/usr/sbin/</code></a></li><li><a href=#lib><code>/lib/</code></a></li><li><a href=#lib64><code>/lib64/</code></a></li><li><a href=#varrun><code>/var/run/</code></a></li></ul></li><li><a href=#home-directory>Home Directory</a><ul><li><a href=#cache><code>~/.cache/</code></a></li><li><a href=#config><code>~/.config/</code></a></li><li><a href=#localbin><code>~/.local/bin/</code></a></li><li><a href=#locallib><code>~/.local/lib/</code></a></li><li><a href=#locallibarch-id><code>~/.local/lib/&lt;arch-id>/</code></a></li><li><a href=#localshare><code>~/.local/share/</code></a></li><li><a href=#localstate><code>~/.local/state/</code></a></li></ul></li><li><a href=#write-access>Write Access</a><ul><li><a href=#unprivileged-write-access>Unprivileged Write Access</a></li><li><a href=#lack-of-write-access-on-read-only-systems-and-during-system-recovery>Lack of Write Access on Read-Only Systems and during System Recovery</a></li></ul></li><li><a href=#node-types>Node Types</a></li><li><a href=#system-packages>System Packages</a><ul><li><a href=#system-package-vendor-files-locations>System package vendor files locations</a></li><li><a href=#system-package-variable-files-locations>System package variable files locations</a></li></ul></li><li><a href=#user-packages>User Packages</a><ul><li><a href=#vendor-package-file-locations-under-the-home-directory-of-the-user>Vendor package file locations under the home directory of the user</a></li><li><a href=#user-package-variable-file-locations>User package variable file locations</a></li></ul></li><li><a href=#see-also>See Also</a></li></ul></nav></div></aside></main></body></html>

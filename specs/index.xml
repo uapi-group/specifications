@@ -1,8 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Specs on UAPI Group Specifications</title><link>https://uapi-group.org/specifications/specs/</link><description>Recent content in Specs on UAPI Group Specifications</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://uapi-group.org/specifications/specs/index.xml" rel="self" type="application/rss+xml"/><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to 
- &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item><item><title>UAPI.1 Boot Loader Specification</title><link>https://uapi-group.org/specifications/specs/boot_loader_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/boot_loader_specification/</guid><description>&lt;h1 id="uapi1-the-boot-loader-specification">
- UAPI.1 The Boot Loader Specification
- &lt;a class="anchor" href="#uapi1-the-boot-loader-specification">#&lt;/a>
-&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Specifications on UAPI Group Specifications</title><link>https://uapi-group.org/specifications/specs/</link><description>Recent content in Specifications on UAPI Group Specifications</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://uapi-group.org/specifications/specs/index.xml" rel="self" type="application/rss+xml"/><item><title>UAPI.1 Boot Loader Specification</title><link>https://uapi-group.org/specifications/specs/boot_loader_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/boot_loader_specification/</guid><description>&lt;h1 id="uapi1-the-boot-loader-specification">UAPI.1 The Boot Loader Specification&lt;a class="anchor" href="#uapi1-the-boot-loader-specification">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -25,105 +21,7 @@ contain drop-in files, making multi-boot scenarios easy to support. Boot menu
 entries are defined via two simple formats that can be understood by different
 boot loader implementations, operating systems, and userspace programs. The
 same scheme can be used to prepare OS media for cases where the firmware
-includes a boot loader.&lt;/p></description></item><item><title>UAPI.10 Version Format Specification</title><link>https://uapi-group.org/specifications/specs/version_format_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/version_format_specification/</guid><description>&lt;h1 id="uapi10-version-format-specification">
- UAPI.10 Version Format Specification
- &lt;a class="anchor" href="#uapi10-version-format-specification">#&lt;/a>
-&lt;/h1>
-&lt;table>
- &lt;thead>
- &lt;tr>
- &lt;th>Version&lt;/th>
- &lt;th>Changes&lt;/th>
- &lt;/tr>
- &lt;/thead>
- &lt;tbody>
- &lt;tr>
- &lt;td>1.0&lt;/td>
- &lt;td>Initial Release&lt;/td>
- &lt;/tr>
- &lt;/tbody>
-&lt;/table>
-&lt;p>This specification defines the format of version strings and their ordering.
-Various documents that are part of the 
- &lt;a href="https://uapi-group.org/specifications">uapi-group specification suite&lt;/a>,
-as well as other projects like 
- &lt;a href="https://systemd.io">systemd&lt;/a>,
-rely on this specification to have
-a sort order for strings that include version components,
-and use it for various purposes,
-such as choosing the default boot entry in the 
- &lt;a href="https://uapi-group.org/specifications/specs/boot_loader_specification/">Boot Loader Specification&lt;/a>.&lt;/p>
-&lt;h2 id="version-format">
- Version Format
- &lt;a class="anchor" href="#version-format">#&lt;/a>
-&lt;/h2>
-&lt;p>The version string is a sequence of zero or more characters.&lt;/p></description></item><item><title>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</title><link>https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/</guid><description>&lt;h1 id="uapi11-file-hierarchy-for-the-verification-of-os-artifacts-voa">
- UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)
- &lt;a class="anchor" href="#uapi11-file-hierarchy-for-the-verification-of-os-artifacts-voa">#&lt;/a>
-&lt;/h1>
-&lt;table>
- &lt;thead>
- &lt;tr>
- &lt;th>Version&lt;/th>
- &lt;th>Changes&lt;/th>
- &lt;/tr>
- &lt;/thead>
- &lt;tbody>
- &lt;tr>
- &lt;td>0.1&lt;/td>
- &lt;td>Work in progress&lt;/td>
- &lt;/tr>
- &lt;/tbody>
-&lt;/table>
-&lt;h2 id="motivation">
- Motivation
- &lt;a class="anchor" href="#motivation">#&lt;/a>
-&lt;/h2>
-&lt;p>Cryptographic validation of artifacts with the help of digital signatures is a use-case of most Linux distributions.
-Different cryptographic technologies exist and can be used for this purpose.
-Currently, OpenPGP and X.509 are widely adopted.&lt;/p>
-&lt;p>As of this writing, no technology-agnostic, standardized location for the distribution of cryptograpic material that serves as verifier for digital signatures exists.
-This leaves consumers to either do guesswork, or rely on proprietary, stateful or technology-specific keystore formats and per-application locations.&lt;/p></description></item><item><title>UAPI.12 dlopen() Metadata for ELF Files</title><link>https://uapi-group.org/specifications/specs/elf_dlopen_metadata/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/elf_dlopen_metadata/</guid><description>&lt;h1 id="uapi12-dlopen-metadata-for-elf-files">
- UAPI.12 &lt;code>dlopen()&lt;/code> Metadata for ELF Files
- &lt;a class="anchor" href="#uapi12-dlopen-metadata-for-elf-files">#&lt;/a>
-&lt;/h1>
-&lt;table>
- &lt;thead>
- &lt;tr>
- &lt;th>Version&lt;/th>
- &lt;th>Changes&lt;/th>
- &lt;/tr>
- &lt;/thead>
- &lt;tbody>
- &lt;tr>
- &lt;td>1.0&lt;/td>
- &lt;td>Initial Release&lt;/td>
- &lt;/tr>
- &lt;/tbody>
-&lt;/table>
-&lt;h2 id="target-audience">
- Target Audience
- &lt;a class="anchor" href="#target-audience">#&lt;/a>
-&lt;/h2>
-&lt;p>The target audience for this specification is:&lt;/p>
-&lt;ul>
-&lt;li>Developers working on userspace subsystems that create ELF binaries that dynamically load libraries&lt;/li>
-&lt;li>Developers working on userspace subsystems that package ELF binaries that dynamically load libraries&lt;/li>
-&lt;/ul>
-&lt;h2 id="motivation">
- Motivation
- &lt;a class="anchor" href="#motivation">#&lt;/a>
-&lt;/h2>
-&lt;p>Using &lt;code>dlopen()&lt;/code> to load optional dependencies brings several advantages: programs can gracefully downgrade
-a feature when a library is not available, and the shared library is only loaded into the process (and its
-ELF constructors are run) only when the requested feature is actually used. But it also has some drawbacks,
-and the main one is that it is harder to track a program&amp;rsquo;s dependencies, since unlike build-time dynamic
-linking there will not be a mention in the ELF metadata. This specification aims to solve this problem by
-providing a standardized specification for a custom ELF note that can be used to list &lt;code>dlopen()&lt;/code>
-dependencies.&lt;/p></description></item><item><title>UAPI.2 Discoverable Partitions Specification</title><link>https://uapi-group.org/specifications/specs/discoverable_partitions_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/discoverable_partitions_specification/</guid><description>&lt;h1 id="uapi2-the-discoverable-partitions-specification-dps">
- UAPI.2 The Discoverable Partitions Specification (DPS)
- &lt;a class="anchor" href="#uapi2-the-discoverable-partitions-specification-dps">#&lt;/a>
-&lt;/h1>
+includes a boot loader.&lt;/p></description></item><item><title>UAPI.2 Discoverable Partitions Specification</title><link>https://uapi-group.org/specifications/specs/discoverable_partitions_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/discoverable_partitions_specification/</guid><description>&lt;h1 id="uapi2-the-discoverable-partitions-specification-dps">UAPI.2 The Discoverable Partitions Specification (DPS)&lt;a class="anchor" href="#uapi2-the-discoverable-partitions-specification-dps">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -146,10 +44,7 @@ enable automatic discovery of partitions and their intended mountpoints.
 Traditionally Linux has made little use of partition types, mostly just
 defining one UUID for file system/data partitions and another one for swap
 partitions. With this specification, we introduce additional partition types
-for specific uses. This has many benefits:&lt;/p></description></item><item><title>UAPI.3 Discoverable Disk Image</title><link>https://uapi-group.org/specifications/specs/discoverable_disk_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/discoverable_disk_image/</guid><description>&lt;h1 id="uapi3-discoverable-disk-image-ddi">
- UAPI.3 Discoverable Disk Image (DDI)
- &lt;a class="anchor" href="#uapi3-discoverable-disk-image-ddi">#&lt;/a>
-&lt;/h1>
+for specific uses. This has many benefits:&lt;/p></description></item><item><title>UAPI.3 Discoverable Disk Image</title><link>https://uapi-group.org/specifications/specs/discoverable_disk_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/discoverable_disk_image/</guid><description>&lt;h1 id="uapi3-discoverable-disk-image-ddi">UAPI.3 Discoverable Disk Image (DDI)&lt;a class="anchor" href="#uapi3-discoverable-disk-image-ddi">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -164,15 +59,11 @@ for specific uses. This has many benefits:&lt;/p></description></item><item><tit
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;p>DDIs (Discoverable Disk Images) are self-describing file system images that follow the DPS (
- &lt;a href="https://uapi-group.org/specifications/specs/discoverable_partitions_specification/">Discoverable
+&lt;p>DDIs (Discoverable Disk Images) are self-describing file system images that follow the DPS (&lt;a href="https://uapi-group.org/specifications/specs/discoverable_partitions_specification/">Discoverable
 Partitions Specification&lt;/a>), wrapped in a GPT partition table, that
 may contain root (or &lt;code>/usr/&lt;/code>) filesystems for bootable OS images, system extensions, configuration
 extensions, portable services, containers and more, and shall be protected by signed &lt;code>dm-verity&lt;/code> all combined
-into one. They are designed to be composable and stackable, and provide security by default.&lt;/p></description></item><item><title>UAPI.4 Extension Images</title><link>https://uapi-group.org/specifications/specs/extension_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/extension_image/</guid><description>&lt;h1 id="uapi4-extension-images">
- UAPI.4 Extension Images
- &lt;a class="anchor" href="#uapi4-extension-images">#&lt;/a>
-&lt;/h1>
+into one. They are designed to be composable and stackable, and provide security by default.&lt;/p></description></item><item><title>UAPI.4 Extension Images</title><link>https://uapi-group.org/specifications/specs/extension_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/extension_image/</guid><description>&lt;h1 id="uapi4-extension-images">UAPI.4 Extension Images&lt;a class="anchor" href="#uapi4-extension-images">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -187,15 +78,11 @@ into one. They are designed to be composable and stackable, and provide security
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;p>Extension Images are DDIs (
- &lt;a href="https://uapi-group.org/specifications/specs/discoverable_disk_image/">Discoverable Disk Images&lt;/a>) that are
+&lt;p>Extension Images are DDIs (&lt;a href="https://uapi-group.org/specifications/specs/discoverable_disk_image/">Discoverable Disk Images&lt;/a>) that are
 built to extend a base system via an overlay. A base system or a root DDI can be extended by several extension
 DDIs via, usually, a read-only OverlayFS. The defining characteristic of an Extension Image is that it contains
 an &lt;code>extension-release.&amp;lt;IMAGE&amp;gt;&lt;/code> file that identifies itself and the base system or root DDI it applies to,
-and must not contain an &lt;code>os-release&lt;/code> file.&lt;/p></description></item><item><title>UAPI.5 Unified Kernel Image</title><link>https://uapi-group.org/specifications/specs/unified_kernel_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/unified_kernel_image/</guid><description>&lt;h1 id="uapi5-unified-kernel-image-uki">
- UAPI.5 Unified Kernel Image (UKI)
- &lt;a class="anchor" href="#uapi5-unified-kernel-image-uki">#&lt;/a>
-&lt;/h1>
+and must not contain an &lt;code>os-release&lt;/code> file.&lt;/p></description></item><item><title>UAPI.5 Unified Kernel Image</title><link>https://uapi-group.org/specifications/specs/unified_kernel_image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/unified_kernel_image/</guid><description>&lt;h1 id="uapi5-unified-kernel-image-uki">UAPI.5 Unified Kernel Image (UKI)&lt;a class="anchor" href="#uapi5-unified-kernel-image-uki">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -216,10 +103,7 @@ This file can either be directly invoked by the UEFI firmware
 (which is useful in particular in some cloud/Confidential Computing environments)
 or through a boot loader
 (which is generally useful to allow multiple kernel versions with interactive or
-automatic selection of version to boot into).&lt;/p></description></item><item><title>UAPI.6 Configuration Files Specification</title><link>https://uapi-group.org/specifications/specs/configuration_files_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/configuration_files_specification/</guid><description>&lt;h1 id="uapi6-configuration-files-specification">
- UAPI.6 Configuration Files Specification
- &lt;a class="anchor" href="#uapi6-configuration-files-specification">#&lt;/a>
-&lt;/h1>
+automatic selection of version to boot into).&lt;/p></description></item><item><title>UAPI.6 Configuration Files Specification</title><link>https://uapi-group.org/specifications/specs/configuration_files_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/configuration_files_specification/</guid><description>&lt;h1 id="uapi6-configuration-files-specification">UAPI.6 Configuration Files Specification&lt;a class="anchor" href="#uapi6-configuration-files-specification">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -234,10 +118,7 @@ automatic selection of version to boot into).&lt;/p></description></item><item><
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;h2 id="introduction">
- Introduction
- &lt;a class="anchor" href="#introduction">#&lt;/a>
-&lt;/h2>
+&lt;h2 id="introduction">Introduction&lt;a class="anchor" href="#introduction">#&lt;/a>&lt;/h2>
 &lt;p>Various specifications attempt to define configuration files and file formats. This
 specification establishes where these files should be looked for, in which
 order, and how precedence, masking, extensions and overrides work.&lt;/p>
@@ -245,10 +126,7 @@ order, and how precedence, masking, extensions and overrides work.&lt;/p>
 hermetic-usr pattern, where all vendor files are shipped in the vendor tree itself
 (&lt;code>/usr/&lt;/code>), including configuration files with system defaults, while allowing local
 or vendor overrides without modifying the original files, for easier management. This is
-especially beneficial for image-based deployments, where the vendor tree is read-only.&lt;/p></description></item><item><title>UAPI.7 Linux TPM PCR Registry</title><link>https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/</guid><description>&lt;h1 id="-uapi7-linux-tpm-pcr-registry-">
- 🔏 UAPI.7 Linux TPM PCR Registry 🗒️
- &lt;a class="anchor" href="#-uapi7-linux-tpm-pcr-registry-">#&lt;/a>
-&lt;/h1>
+especially beneficial for image-based deployments, where the vendor tree is read-only.&lt;/p></description></item><item><title>UAPI.7 Linux TPM PCR Registry</title><link>https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/linux_tpm_pcr_registry/</guid><description>&lt;h1 id="-uapi7-linux-tpm-pcr-registry-">🔏 UAPI.7 Linux TPM PCR Registry 🗒️&lt;a class="anchor" href="#-uapi7-linux-tpm-pcr-registry-">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -265,14 +143,12 @@ especially beneficial for image-based deployments, where the vendor tree is read
 &lt;/table>
 &lt;p>&lt;em>TPM PCRs are a scarce resource, there are only 24 of them in typical standards compliant TPMs.
 According to the
-
- &lt;a href="https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/">TCG PC Client Specific Platform Firmware Profile Specification | Trusted Computing Group&lt;/a>
+&lt;a href="https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/">TCG PC Client Specific Platform Firmware Profile Specification | Trusted Computing Group&lt;/a>
 the OS can make use of PCRs 8…15.
 This document lists which component is using which PCR on a Linux platform
-in order to minimize conflicts.&lt;/em>&lt;/p></description></item><item><title>UAPI.8 Package Metadata for Executable Files</title><link>https://uapi-group.org/specifications/specs/package_metadata_for_executable_files/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/package_metadata_for_executable_files/</guid><description>&lt;h1 id="uapi8-package-metadata-for-executable-files">
- UAPI.8 Package Metadata for Executable Files
- &lt;a class="anchor" href="#uapi8-package-metadata-for-executable-files">#&lt;/a>
-&lt;/h1>
+in order to minimize conflicts.&lt;/em>&lt;/p>
+&lt;p>PCRs owned by the firmware, i.e. PCRs 0–7 are described here just for convenience.
+The authoriative description is in the TCG document.&lt;/p></description></item><item><title>UAPI.8 Package Metadata for Executable Files</title><link>https://uapi-group.org/specifications/specs/package_metadata_for_executable_files/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/package_metadata_for_executable_files/</guid><description>&lt;h1 id="uapi8-package-metadata-for-executable-files">UAPI.8 Package Metadata for Executable Files&lt;a class="anchor" href="#uapi8-package-metadata-for-executable-files">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -287,29 +163,19 @@ in order to minimize conflicts.&lt;/em>&lt;/p></description></item><item><title>
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;h2 id="target-audience">
- Target Audience
- &lt;a class="anchor" href="#target-audience">#&lt;/a>
-&lt;/h2>
+&lt;h2 id="target-audience">Target Audience&lt;a class="anchor" href="#target-audience">#&lt;/a>&lt;/h2>
 &lt;p>The target audience for this specification is:&lt;/p>
 &lt;ul>
 &lt;li>Developers working on userspace subsystems that create or manipulate ELF or PE/COFF binaries&lt;/li>
 &lt;li>Developers working on userspace subsystems that parse core files&lt;/li>
 &lt;/ul>
-&lt;h2 id="motivation">
- Motivation
- &lt;a class="anchor" href="#motivation">#&lt;/a>
-&lt;/h2>
+&lt;h2 id="motivation">Motivation&lt;a class="anchor" href="#motivation">#&lt;/a>&lt;/h2>
 &lt;p>ELF binaries get stamped with a unique, build-time generated hex string identifier called &lt;code>build-id&lt;/code>,
-
- &lt;a href="https://fedoraproject.org/wiki/Releases/FeatureBuildId">which gets embedded as an ELF note called &lt;code>.note.gnu.build-id&lt;/code>&lt;/a>.
+&lt;a href="https://fedoraproject.org/wiki/Releases/FeatureBuildId">which gets embedded as an ELF note called &lt;code>.note.gnu.build-id&lt;/code>&lt;/a>.
 In most cases, this allows a stripped binary to be associated with its debugging information.
 It is used, for example, to dynamically fetch DWARF symbols from a debuginfo server, or
 to query the local package manager and find out the package metadata or, again, the DWARF
-symbols or program sources.&lt;/p></description></item><item><title>UAPI.9 Linux File System Hierarchy</title><link>https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/</guid><description>&lt;h1 id="uapi9-linux-file-system-hierarchy">
- UAPI.9 Linux File System Hierarchy
- &lt;a class="anchor" href="#uapi9-linux-file-system-hierarchy">#&lt;/a>
-&lt;/h1>
+symbols or program sources.&lt;/p></description></item><item><title>UAPI.9 Linux File System Hierarchy</title><link>https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/linux_file_system_hierarchy/</guid><description>&lt;h1 id="uapi9-linux-file-system-hierarchy">UAPI.9 Linux File System Hierarchy&lt;a class="anchor" href="#uapi9-linux-file-system-hierarchy">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -324,26 +190,90 @@ symbols or program sources.&lt;/p></description></item><item><title>UAPI.9 Linux
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;h2 id="description">
- Description
- &lt;a class="anchor" href="#description">#&lt;/a>
-&lt;/h2>
+&lt;h2 id="description">Description&lt;a class="anchor" href="#description">#&lt;/a>&lt;/h2>
 &lt;p>This page describes the layout of a modern Linux system.
 This hierarchy is an evolution of the historical UNIX layout,
 and includes concepts described in the
-
- &lt;a href="http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html">File System Hierarchy&lt;/a>
+&lt;a href="http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html">File System Hierarchy&lt;/a>
 specification and
-
- &lt;a href="https://man7.org/linux/man-pages/man7/hier.7.html">&lt;code>hier(7)&lt;/code>&lt;/a> man page,
+&lt;a href="https://man7.org/linux/man-pages/man7/hier.7.html">&lt;code>hier(7)&lt;/code>&lt;/a> man page,
 and various extensions documented in the
-
- &lt;a href="https://specifications.freedesktop.org/basedir/latest/">XDG Base Directory Specification&lt;/a>
-and 
- &lt;a href="https://www.freedesktop.org/wiki/Software/xdg-user-dirs">XDG User Directories&lt;/a>.&lt;/p>
+&lt;a href="https://specifications.freedesktop.org/basedir/latest/">XDG Base Directory Specification&lt;/a>
+and &lt;a href="https://www.freedesktop.org/wiki/Software/xdg-user-dirs">XDG User Directories&lt;/a>.&lt;/p>
 &lt;p>In some areas this document is stricter than those older documents.
 In particular it makes additional restrictions and recommendations
 to separate vendor defaults and local configuration, and also
 static installed files, persistent data, and ephemeral runtime files.
 In other areas it is simpler,
-with the vendor files using a single hierarchy under &lt;code>/usr&lt;/code>.&lt;/p></description></item></channel></rss>
+with the vendor files using a single hierarchy under &lt;code>/usr&lt;/code>.&lt;/p></description></item><item><title>UAPI.10 Version Format Specification</title><link>https://uapi-group.org/specifications/specs/version_format_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/version_format_specification/</guid><description>&lt;h1 id="uapi10-version-format-specification">UAPI.10 Version Format Specification&lt;a class="anchor" href="#uapi10-version-format-specification">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>1.0&lt;/td>
+ &lt;td>Initial Release&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>This specification defines the format of version strings and their ordering.
+Various documents that are part of the &lt;a href="https://uapi-group.org/specifications">uapi-group specification suite&lt;/a>,
+as well as other projects like &lt;a href="https://systemd.io">systemd&lt;/a>,
+rely on this specification to have
+a sort order for strings that include version components,
+and use it for various purposes,
+such as choosing the default boot entry in the &lt;a href="https://uapi-group.org/specifications/specs/boot_loader_specification/">Boot Loader Specification&lt;/a>.&lt;/p>
+&lt;h2 id="version-format">Version Format&lt;a class="anchor" href="#version-format">#&lt;/a>&lt;/h2>
+&lt;p>The version string is a sequence of zero or more characters.&lt;/p></description></item><item><title>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</title><link>https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/</guid><description>&lt;h1 id="uapi11-file-hierarchy-for-the-verification-of-os-artifacts-voa">UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)&lt;a class="anchor" href="#uapi11-file-hierarchy-for-the-verification-of-os-artifacts-voa">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>0.1&lt;/td>
+ &lt;td>Work in progress&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="motivation">Motivation&lt;a class="anchor" href="#motivation">#&lt;/a>&lt;/h2>
+&lt;p>Cryptographic validation of artifacts with the help of digital signatures is a use-case of most Linux distributions.
+Different cryptographic technologies exist and can be used for this purpose.
+Currently, OpenPGP and X.509 are widely adopted.&lt;/p>
+&lt;p>As of this writing, no technology-agnostic, standardized location for the distribution of cryptograpic material that serves as verifier for digital signatures exists.
+This leaves consumers to either do guesswork, or rely on proprietary, stateful or technology-specific keystore formats and per-application locations.&lt;/p></description></item><item><title>UAPI.12 dlopen() Metadata for ELF Files</title><link>https://uapi-group.org/specifications/specs/elf_dlopen_metadata/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/elf_dlopen_metadata/</guid><description>&lt;h1 id="uapi12-dlopen-metadata-for-elf-files">UAPI.12 &lt;code>dlopen()&lt;/code> Metadata for ELF Files&lt;a class="anchor" href="#uapi12-dlopen-metadata-for-elf-files">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>1.0&lt;/td>
+ &lt;td>Initial Release&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="target-audience">Target Audience&lt;a class="anchor" href="#target-audience">#&lt;/a>&lt;/h2>
+&lt;p>The target audience for this specification is:&lt;/p>
+&lt;ul>
+&lt;li>Developers working on userspace subsystems that create ELF binaries that dynamically load libraries&lt;/li>
+&lt;li>Developers working on userspace subsystems that package ELF binaries that dynamically load libraries&lt;/li>
+&lt;/ul>
+&lt;h2 id="motivation">Motivation&lt;a class="anchor" href="#motivation">#&lt;/a>&lt;/h2>
+&lt;p>Using &lt;code>dlopen()&lt;/code> to load optional dependencies brings several advantages: programs can gracefully downgrade
+a feature when a library is not available, and the shared library is only loaded into the process (and its
+ELF constructors are run) only when the requested feature is actually used. But it also has some drawbacks,
+and the main one is that it is harder to track a program&amp;rsquo;s dependencies, since unlike build-time dynamic
+linking there will not be a mention in the ELF metadata. This specification aims to solve this problem by
+providing a standardized specification for a custom ELF note that can be used to list &lt;code>dlopen()&lt;/code>
+dependencies.&lt;/p></description></item><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item></channel></rss>
