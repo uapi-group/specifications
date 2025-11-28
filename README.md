@@ -5,6 +5,8 @@ BookToC: false
 
 # UAPI Group Specifications
 
+The following specifications have been accepted by the UAPI group:
+
 * [UAPI.1 Boot Loader Specification](specs/boot_loader_specification.md):
   Defines a set  of file formats and naming conventions to allow distribution independent boot loader menus supportable by multiple bootloaders.
   ([canonical online location](https://uapi-group.org/specifications/specs/boot_loader_specification/))
