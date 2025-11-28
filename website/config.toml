@@ -5,15 +5,9 @@ theme = "hugo-book"
 
 [[menu.before]]
   name = "⬅️  Back to top"
-  url = "https://uapi-group.org/"
+  url = "/.."
   weight = 1
-[[menu.before]]
-  name = "⸻"
-  weight = 2
 
-[[menu.after]]
-  name = "⸻"
-  weight = 10
 [[menu.after]]
   name = "Collaborate on Github"
   url = "https://github.com/uapi-group/specifications"
@@ -27,11 +21,15 @@ theme = "hugo-book"
   BookSection = '*'
   BookRepo = 'https://github.com/uapi-group/specifications'
   BookCommitPath = 'commit'
-  BookEditPath = 'edit/main'
+  BookEditLink = '{{ .Site.Params.BookRepo }}/edit/main/{{ .Path }}'
   BookDateFormat = 'Jan 2, 2006'
   BookIndexPage = 'README.md'
+  BookTheme = 'auto'
 
 [modules]
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
   [[module.mounts]]
     source = '../README.md'
     target = 'content/_index.md'

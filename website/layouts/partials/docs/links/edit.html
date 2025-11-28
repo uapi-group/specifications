@@ -1,0 +1,5 @@
+{{- return (partial "docs/text/template" (dict "Template" .Site.Params.BookEditLink "Context" (dict
+"Site" .Site
+"Page" .Page
+"Path" (strings.TrimPrefix hugo.WorkingDir ( replace .Page.File.Path "_index.md" .Site.Params.BookIndexPage))
+)) | urls.JoinPath) -}}

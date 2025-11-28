@@ -2,6 +2,10 @@
 title: UAPI.7 Linux TPM PCR Registry
 version: 1.0
 SPDX-License-Identifier: CC0-1.0
+weight: 7
+aliases:
+- /UAPI.7
+- /7
 ---
 
 # 🔏 UAPI.7 Linux TPM PCR Registry 🗒️

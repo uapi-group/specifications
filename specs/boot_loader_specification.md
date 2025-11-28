@@ -4,6 +4,10 @@ category: Booting
 layout: default
 version: 1.0
 SPDX-License-Identifier: CC-BY-4.0
+weight: 1
+aliases:
+- /UAPI.1
+- /1
 ---
 
 # UAPI.1 The Boot Loader Specification

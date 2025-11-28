@@ -1,0 +1,11 @@
+.book-menu nav>ul:first-of-type>li:last-child::after {
+  content: "⸻";
+  display: inline-block;
+  margin: 0.5em 0;
+}
+
+.book-menu nav>ul:last-of-type>li:last-child::before {
+  content: "⸻";
+  display: inline-block;
+  margin: 0.5em 0;
+}

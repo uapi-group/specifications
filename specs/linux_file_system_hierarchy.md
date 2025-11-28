@@ -4,6 +4,10 @@ category: Concepts
 layout: default
 version: 0.1
 SPDX-License-Identifier: CC-BY-4.0
+weight: 9
+aliases:
+- /UAPI.9
+- /9
 ---
 
 # UAPI.9 Linux File System Hierarchy
