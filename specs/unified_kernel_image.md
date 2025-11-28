@@ -1,5 +1,5 @@
 ---
-title: UAPI.5 Unified Kernel Image
+title: UAPI.5 Unified Kernel Images
 category: Concepts
 layout: default
 version: 1.0
@@ -9,7 +9,7 @@ aliases:
 - /UAPI.5
 - /5
 ---
-# UAPI.5 Unified Kernel Image (UKI)
+# UAPI.5 Unified Kernel Images (UKI)
 
 | Version | Changes |
 |---------|---------|

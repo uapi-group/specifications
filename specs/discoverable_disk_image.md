@@ -1,5 +1,5 @@
 ---
-title: UAPI.3 Discoverable Disk Image
+title: UAPI.3 Discoverable Disk Images
 category: Concepts
 layout: default
 version: 1.0
@@ -9,7 +9,7 @@ aliases:
 - /UAPI.3
 - /3
 ---
-# UAPI.3 Discoverable Disk Image (DDI)
+# UAPI.3 Discoverable Disk Images (DDI)
 
 | Version | Changes |
 |---------|---------|
