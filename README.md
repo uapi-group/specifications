@@ -11,13 +11,13 @@ BookToC: false
 * [UAPI.2 Discoverable Partitions Specification](specs/discoverable_partitions_specification.md):
   Discusses GUID UUIDs for auto-discovery of partition semantics and mount points.
   ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_partitions_specification/))
-* [UAPI.3 Discoverable Disk Image](specs/discoverable_disk_image.md):
+* [UAPI.3 Discoverable Disk Images](specs/discoverable_disk_image.md):
   Describes the Discoverable Disk Image format for self-describing system images.
   ([canonical online location](https://uapi-group.org/specifications/specs/discoverable_disk_image/))
-* [UAPI.4 Extension Image](specs/extension_image.md):
+* [UAPI.4 Extension Images](specs/extension_image.md):
   Describes the use of Discoverable Disk Images to create extensions to a base image.
   ([canonical online location](https://uapi-group.org/specifications/specs/extension_image/))
-* [UAPI.5 Unified Kernel Image](specs/unified_kernel_image.md):
+* [UAPI.5 Unified Kernel Images](specs/unified_kernel_image.md):
   Describes the use of UEFI PE binaries to provide a Unified Kernel Image containing the kernel, initrd, command line, and other components.
   ([canonical online location](https://uapi-group.org/specifications/specs/unified_kernel_image/))
 * [UAPI.6 Configuration Files Specification](specs/configuration_files_specification.md):
