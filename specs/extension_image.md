@@ -43,7 +43,7 @@ sysext images extend `/usr/` (OS vendor tree) and/or `/opt/` (third-party vendor
 confext images extend `/etc`. They must contain a `/etc/extension-release.d/extension-release.<IMAGE>` file
 to identify them.
 
-<h2 id="image-content">Image Content</h2>
+## Image Content
 Extension Images should be additive, and not override content present in the base image or other DDIs.
 However, there currently is no safe and efficient way to detect collisions and to enforce content uniqueness
 across the stack of images.
