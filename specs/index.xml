@@ -300,4 +300,20 @@ timebase, arch counter&lt;/em>) which runs at a nominally constant frequency of
 typically between 1GHz and 4GHz. In practice, the frequency of the underlying
 hardware counter will vary with environmental conditions, with a tolerance of
 the order of ±50PPM (parts per million). It is this variance which must constantly be corrected by
-synchronising against an external clock.&lt;/p></description></item><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item></channel></rss>
+synchronising against an external clock.&lt;/p></description></item><item><title>UAPI.14 VMGenID</title><link>https://uapi-group.org/specifications/specs/vmgenid/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/vmgenid/</guid><description>&lt;h1 id="uapi14-vmgenid-virtual-machine-generation-id">UAPI.14 VMGenID: Virtual Machine Generation ID&lt;a class="anchor" href="#uapi14-vmgenid-virtual-machine-generation-id">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>1.0&lt;/td>
+ &lt;td>Initial Release&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>Virtual machine operations that restore a VM to an earlier point in time (such as applying snapshots, restoring from backup, cloning, or failover scenarios) can cause serious problems for applications that depend on unique identifiers or cryptographic entropy. The Virtual Machine Generation ID (VMGenID) device provides a mechanism for guest software to detect when such operations have occurred.&lt;/p>
+&lt;p>The VMGenID is a 128-bit cryptographically random identifier that changes whenever a virtual machine is cloned or restored to an earlier state. This allows applications to detect such events and take appropriate protective measures, such as reseeding random number generators, regenerating unique identifiers, or invalidating cached state.&lt;/p></description></item><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item></channel></rss>
