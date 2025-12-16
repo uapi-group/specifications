@@ -45,6 +45,9 @@ The following specifications have been accepted by the UAPI group:
 * [UAPI.12 dlopen() Metadata for ELF Files](specs/elf_dlopen_metadata.md):
   Describes the format and mechanism to include dynamically loaded libraries metadata in ELF binaries.
   ([canonical online location](https://uapi-group.org/specifications/specs/elf_dlopen_metadata/))
+* [UAPI.13 Efficient time synchronisation for virtual machines](specs/vmclock.md):
+  Describes the format and mechanism to synchronize the guest clock.
+  ([canonical online location](https://uapi-group.org/specifications/specs/vmclock/))
 
 ## Work in Progress
 
