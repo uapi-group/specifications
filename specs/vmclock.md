@@ -134,7 +134,7 @@ complete, as described below.
 | 0x50 | `uint64_t time_frac_sec` | Fractional part of reference time, in units of second / 2⁶⁴. |
 | 0x58 | `uint64_t time_esterror_nanosec` | Estimated ± error of the time given in `time_sec` + `time_frac_sec`, in nanoseconds |
 | 0x60 | `uint64_t time_maxerror_nanosec` | Maximum ± error of the time given in `time_sec` + `time_frac_sec`, in nanoseconds |
-| 0x64 | `uint64_t vm_generation_count` | A change in this field indicates that the guest has been loaded from a snapshot. In addition to handling a disruption in time (which will also be signalled through the `disruption_marker` field), a guest may wish to discard UUIDs, reset network connections or reseed entropy, etc. |
+| 0x64 | `uint64_t vm_generation_count` | A change in this field indicates that the guest has been cloned or loaded from a snapshot (see below). |
 | 0x68 | ... | The size of the memory region containing this structure is given in the `size` field, which will typically be a full 4KiB page. New fields may be added here, advertised by newly-defined bits in the `flags` field, without changing the `version` field. |
 
 ### Feature Flags (0x18)
@@ -194,6 +194,28 @@ The value of this field shall be valid for the point in time referenced by the
 | 0x03 | `VMCLOCK_LEAP_POS` | A positive leap second is currently occurring (set during the 23:59:60 second) |
 | 0x04 | `VMCLOCK_LEAP_POST_POS` | A positive leap second occurred at the end of the previous month |
 | 0x05 | `VMCLOCK_LEAP_POST_NEG` | A negative leap second occurred at the end of the previous month |
+
+### VM Generation Count (0x64)
+
+This field indicates that the guest has been cloned or loaded from a snapshot. The operating system may wish to regenerate unique identifiers, reset network connections or reseed entropy, etc.
+
+The conditions under which this counter changes are identical to those of the [VMGenID device](vmgenid.md). The `vm_generation_count` changes whenever the VM is restored to an earlier or non-unique state:
+
+  - Snapshot restoration
+  - Backup recovery
+  - VM cloning/copying/import
+  - Disaster recovery failover
+
+The `vm_generation_count` remains constant during normal VM operations:
+
+  - Pause/resume
+  - Shutdown/restart/reboot
+  - Host reboot or upgrade
+  - Live migration or lossless online failover
+
+The `disruption_marker` and `vm_generation_count` fields indicate two orthogonal, but sometimes correlated, types of event. It is generally likely that the `disruption_marker` would also be changed when the `vm_generation_count` changes, but not necessarily vice versa.
+
+It is possible that a VM could be cloned (forked) while running on the same host, such that the precision of the hardware counter is not lost, but the uniqueness is. That would be the rare case where the `vm_generation_count` would be changed but not the `disruption_marker`.
 
 ## Calculating time
 
