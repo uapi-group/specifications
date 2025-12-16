@@ -276,4 +276,28 @@ ELF constructors are run) only when the requested feature is actually used. But 
 and the main one is that it is harder to track a program&amp;rsquo;s dependencies, since unlike build-time dynamic
 linking there will not be a mention in the ELF metadata. This specification aims to solve this problem by
 providing a standardized specification for a custom ELF note that can be used to list &lt;code>dlopen()&lt;/code>
-dependencies.&lt;/p></description></item><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item></channel></rss>
+dependencies.&lt;/p></description></item><item><title>UAPI.13 VMClock</title><link>https://uapi-group.org/specifications/specs/vmclock/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/vmclock/</guid><description>&lt;h1 id="uapi13-vmclock-efficient-time-synchronisation-for-virtual-machines">UAPI.13 VMClock: Efficient time synchronisation for virtual machines&lt;a class="anchor" href="#uapi13-vmclock-efficient-time-synchronisation-for-virtual-machines">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>1.0&lt;/td>
+ &lt;td>Initial Release&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>The requirements for accurate synchronisation of application clocks against
+real wallclock time are becoming ever more demanding. Increasingly cloud
+providers are exposing precision clock devices to virtual machines to allow the
+guest operating systems to synchronise their clocks.&lt;/p>
+&lt;p>Time on modern systems is typically derived from a CPU-internal counter (&lt;em>TSC,
+timebase, arch counter&lt;/em>) which runs at a nominally constant frequency of
+typically between 1GHz and 4GHz. In practice, the frequency of the underlying
+hardware counter will vary with environmental conditions, with a tolerance of
+the order of ±50PPM (parts per million). It is this variance which must constantly be corrected by
+synchronising against an external clock.&lt;/p></description></item><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item></channel></rss>
