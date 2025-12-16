@@ -48,6 +48,9 @@ The following specifications have been accepted by the UAPI group:
 * [UAPI.13 Efficient time synchronisation for virtual machines](specs/vmclock.md):
   Describes the format and mechanism to synchronize the guest clock.
   ([canonical online location](https://uapi-group.org/specifications/specs/vmclock/))
+* [UAPI.14 Virtual Machine Generation ID](specs/vmgenid.md):
+  Describes the mechanism for detecting virtual machine rollback events.
+  ([canonical online location](https://uapi-group.org/specifications/specs/vmgenid/))
 
 ## Work in Progress
 
@@ -90,6 +93,8 @@ This section clarifies on terms and abbreviations used in specs and other docume
 - [*sysext*](specs/extension_image.md) – System Extension Image
   (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
 - [*UKI*](specs/unified_kernel_image.md) - Unified Kernel Images (UEFI boot stub + kernel + initrd + more)
+- [*VMClock*](specs/vmclock.md) – Virtual Machine Clock (efficient time synchronisation for virtual machines)
+- [*VMGenID*](specs/vmgenid.md) – Virtual Machine Generation ID (mechanism for detecting VM rollback events)
 - [*VOA*](specs/file_hierarchy_for_the_verification_of_os_artifacts.md) – Verification of OS Artifacts
 
 ## Participate
