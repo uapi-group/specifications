@@ -280,7 +280,7 @@ To expose VMClock to the operating system via ACPI, the firmware or hypervisor m
 
 ## Discovery via Device Tree
 
-Similar to the ACPI binding above, the BIOS or hypervisor must place the
+Similar to the ACPI binding above, the firmware or hypervisor must place the
 `vmclock_abi` structure in an otherwise unused region of physical memory and
 advertise its presence to the operating system. The Device Tree binding for the
 `amazon,vmclock` node is as follows:
