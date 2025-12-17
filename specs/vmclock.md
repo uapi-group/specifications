@@ -10,7 +10,7 @@ aliases:
 - /13
 ---
 
-# UAPI.13 VMClock: Efficient time synchronisation for virtual machines
+# UAPI.13 VMClock: Efficient Time Synchronisation for Virtual Machines
 
 | Version | Changes |
 |---------|---------|
@@ -60,7 +60,7 @@ clock should be considered inaccurate until it has been resynchronised from
 scratch. Failure to do so can lead to data corruption, in cases where database
 coherency depends on accurately timestamped transactions.
 
-## The VMclock device
+## The VMClock device
 
 The VMClock device resolves the above issues by allowing the hypervisor to
 synchronise the hardware clock against external time, and simply present the
