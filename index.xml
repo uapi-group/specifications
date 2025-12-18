@@ -316,4 +316,24 @@ synchronising against an external clock.&lt;/p></description></item><item><title
  &lt;/tbody>
 &lt;/table>
 &lt;p>Virtual machine operations that restore a VM to an earlier point in time (such as applying snapshots, restoring from backup, cloning, or failover scenarios) can cause serious problems for applications that depend on unique identifiers or cryptographic entropy. The Virtual Machine Generation ID (VMGenID) device provides a mechanism for guest software to detect when such operations have occurred.&lt;/p>
-&lt;p>The VMGenID is a 128-bit cryptographically random identifier that changes whenever a virtual machine is cloned or restored to an earlier state. This allows applications to detect such events and take appropriate protective measures, such as reseeding random number generators, regenerating unique identifiers, or invalidating cached state.&lt;/p></description></item><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item></channel></rss>
+&lt;p>The VMGenID is a 128-bit cryptographically random identifier that changes whenever a virtual machine is cloned or restored to an earlier state. This allows applications to detect such events and take appropriate protective measures, such as reseeding random number generators, regenerating unique identifiers, or invalidating cached state.&lt;/p></description></item><item><title>UAPI.15 OSC 3008: Hierarchical Context Signalling</title><link>https://uapi-group.org/specifications/specs/osc_context/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/osc_context/</guid><description>&lt;h1 id="uapi15-osc-3008-hierarchical-context-signalling">UAPI.15 OSC 3008: Hierarchical Context Signalling&lt;a class="anchor" href="#uapi15-osc-3008-hierarchical-context-signalling">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>1.0&lt;/td>
+ &lt;td>Initial release&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>A terminal connects a user with programs. Control of the program side of
+terminals is typically passed around to various different components while the
+user is active: a shell might pass control to a process it invokes. If that
+process is systemd&amp;rsquo;s &lt;code>run0&lt;/code> then primary control is passed to the privileged session of
+the target user. If &lt;code>systemd-nspawn&lt;/code> is then invoked to start a container, primary
+control is passed to that container, and so on.&lt;/p></description></item><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item></channel></rss>
