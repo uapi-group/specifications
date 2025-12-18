@@ -51,6 +51,9 @@ The following specifications have been accepted by the UAPI group:
 * [UAPI.14 Virtual Machine Generation ID](specs/vmgenid.md):
   Describes the mechanism for detecting virtual machine rollback events.
   ([canonical online location](https://uapi-group.org/specifications/specs/vmgenid/))
+* [UAPI.15 OSC 3008: Hierarchical Context Signalling](specs/osc_context.md):
+  Defines a mechanism for terminal emulators to follow the context hierarchy of what's on screen.
+  ([canonical online location](https://uapi-group.org/specifications/specs/osc_context/))
 
 ## Work in Progress
 
