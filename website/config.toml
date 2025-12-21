@@ -2,6 +2,7 @@ baseURL = "https://uapi-group.org/specifications"
 languageCode = "en-us"
 title = "UAPI Group Specifications"
 theme = "hugo-book"
+copyright = 'Licensed under [CC-BY-4.0](https://spdx.org/licenses/CC-BY-4.0.html)'
 
 [[menu.before]]
   name = "⬅️  Back to top"
