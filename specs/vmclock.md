@@ -100,42 +100,194 @@ complete, as described below.
 
 ### Structure Fields
 
-| Offset | Field | Description |
-|--------|-------|-------------|
-| 0x00 | `uint32_t magic` | Magic value `0x4b4c4356` ("VCLK") |
-| 0x04 | `uint32_t size` | Size of region containing this structure (typically a full page at the granularity at which the hypervisor maps memory to the guest) |
-| 0x08 | `uint16_t version` | This standard defines version 1. Since the `flags` field allows for extensions to the data structure without breaking backward compatibility, it is not anticipated that the `version` field will ever need to change. |
-| 0x0a | `uint8_t counter_id` | The hardware counter used as the basis for clock readings. The values of this field correspond to the `VIRTIO_RTC_COUNTER_xxx` values: |
-|       |       | • `0x00`: `VMCLOCK_COUNTER_ARM_VCNT`: The Arm architectural timer (virtual) |
-|       |       | • `0x01`: `VMCLOCK_COUNTER_X86_TSC`: The x86 Time Stamp Counter |
-|       |       | • `0xFF`: `VMCLOCK_COUNTER_INVALID`: No precision clock is advertised |
-| 0x0b | `uint8_t time_type` | Indicates the type of clock exposed through this interface. The values of this field correspond to the `VIRTIO_RTC_CLOCK_xxx` values, except that smearing of clocks is not supported as it is antithetical to precision: |
-|       |       | • `0x00`: `VMCLOCK_TIME_UTC` *(Not recommended)* |
-|       |       | • `0x01`: `VMCLOCK_TIME_TAI` |
-|       |       | • `0x02`: `VMCLOCK_MONOTONIC` |
-|       |       | For UTC and TAI, the calculation results in a number of seconds since midnight on 1970-01-01. A monotonic clock has no defined epoch. Since UTC has leap seconds and a given numbered second may occur more than once, its use is **NOT RECOMMENDED** in VMClock. Implementations should advertise TAI, with a correct UTC offset. |
-| 0x0c | `uint32_t seq_count` | This field is used to provide a sequence-based read/write lock for the non-constant fields which follow. To perform an update, the device will: |
-|       |       | • Increment this field to an odd value (with the low bit set). |
-|       |       | • Change other fields as appropriate. |
-|       |       | • Increment this field again to an even value. |
-| 0x10 | `uint64_t disruption_marker` | This field is changed each time there may be a disruption to the hardware counter referenced by `counter_id`, for example through live migration to a new hypervisor host. |
-| 0x18 | `uint64_t flags` | Feature flags (see below) |
-| 0x20 | `uint16_t pad` | Unused |
-| 0x22 | `uint8_t clock_status` | Synchronisation status of the clock (see below) |
-| 0x23 | `uint8_t leap_second_smearing_hint` | Smearing hint for guest OS (see below) |
-| 0x24 | `int16_t tai_offset_sec` | Signed offset from TAI to UTC at the reference time specified in `time_sec` and `time_frac_sec`, in seconds. Valid if the corresponding bit in the flags field is set. Implementations SHOULD populate this field; the value at time of writing is 37. |
-| 0x26 | `uint8_t leap_indicator` | Indicates the presence and direction of a leap second occurring in the near future or recent past (see below) |
-| 0x27 | `uint8_t counter_period_shift` | Additional shift applied to all the `counter_period*_frac_sec` fixed-point fields. |
-| 0x28 | `uint64_t counter_value` | Value of the hardware counter at the time represented by `time_sec` + `time_frac_sec`. |
-| 0x30 | `uint64_t counter_period_frac_sec` | Period of a single counter tick, in units of 1 >> (64 + `counter_period_shift`) |
-| 0x38 | `uint64_t counter_period_esterror_rate_frac_sec` | Estimated ± error of `counter_period_frac_sec` in the same units. |
-| 0x40 | `uint64_t counter_period_maxerror_rate_frac_sec` | Maximum ± error of `counter_period_frac_sec` in the same units. |
-| 0x48 | `uint64_t time_sec` | Reference time point, seconds since epoch defined by `time_type` field. |
-| 0x50 | `uint64_t time_frac_sec` | Fractional part of reference time, in units of second / 2⁶⁴. |
-| 0x58 | `uint64_t time_esterror_nanosec` | Estimated ± error of the time given in `time_sec` + `time_frac_sec`, in nanoseconds |
-| 0x60 | `uint64_t time_maxerror_nanosec` | Maximum ± error of the time given in `time_sec` + `time_frac_sec`, in nanoseconds |
-| 0x64 | `uint64_t vm_generation_count` | A change in this field indicates that the guest has been cloned or loaded from a snapshot (see below). |
-| 0x68 | ... | The size of the memory region containing this structure is given in the `size` field, which will typically be a full 4KiB page. New fields may be added here, advertised by newly-defined bits in the `flags` field, without changing the `version` field. |
+<table>
+  <thead>
+    <tr>
+      <th>Offset</th>
+      <th>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0x00</td>
+      <td><code>uint32_t magic</code></td>
+      <td>Magic value <code>0x4b4c4356</code> (“VCLK”)</td>
+    </tr>
+    <tr>
+      <td>0x04</td>
+      <td><code>uint32_t size</code></td>
+      <td>Size of region containing this structure (typically a full page at
+        the granularity at which the hypervisor maps memory to the guest)</td>
+    </tr>
+    <tr>
+      <td>0x08</td>
+      <td><code>uint16_t version</code></td>
+      <td>This standard defines version 1. Since the <code>flags</code> field
+        allows for extensions to the data structure without breaking backward
+        compatibility, it is not anticipated that the <code>version</code> field
+        will ever need to change.</td>
+    </tr>
+    <tr>
+      <td>0x0a</td>
+      <td><code>uint8_t counter_id</code></td>
+      <td>The hardware counter used as the basis for clock readings. The
+        values of this field correspond to the
+        <code>VIRTIO_RTC_COUNTER_xxx</code> values:
+        <ul>
+          <li><code>0x00</code>: <code>VMCLOCK_COUNTER_ARM_VCNT</code>: The Arm
+            architectural timer (virtual)</li>
+          <li><code>0x01</code>: <code>VMCLOCK_COUNTER_X86_TSC</code>: The x86
+            Time Stamp Counter</li>
+          <li><code>0xFF</code>: <code>VMCLOCK_COUNTER_INVALID</code>: No
+            precision clock is advertised</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>0x0b</td>
+      <td><code>uint8_t time_type</code></td>
+      <td>Indicates the type of clock exposed through this interface. The
+        values of this field correspond to the <code>VIRTIO_RTC_CLOCK_xxx</code>
+        values, except that smearing of clocks is not supported as it is
+        antithetical to precision:
+        <ul>
+          <li><code>0x00</code>: <code>VMCLOCK_TIME_UTC</code> <em>(Not
+              recommended)</em></li>
+          <li><code>0x01</code>: <code>VMCLOCK_TIME_TAI</code></li>
+          <li><code>0x02</code>: <code>VMCLOCK_MONOTONIC</code></li>
+        </ul>
+        For UTC and TAI, the calculation results in a number of seconds
+        since midnight on 1970-01-01. A monotonic clock has no defined epoch.
+        Since UTC has leap seconds and a given numbered second may occur more
+        than once, its use is <strong>NOT RECOMMENDED</strong> in VMClock.
+        Implementations should advertise TAI, with a correct UTC offset.
+      </td>
+    </tr>
+    <tr>
+      <td>0x0c</td>
+      <td><code>uint32_t seq_count</code></td>
+      <td>This field is used to provide a sequence-based read/write lock for
+        the non-constant fields which follow. To perform an update, the device
+        will:
+        <ul>
+          <li>Increment this field to an odd value (with the low bit set)</li>
+          <li>Change other fields as appropriate.</li>
+          <li>Increment this field again to an even value.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>0x10</td>
+      <td><code>uint64_t disruption_marker</code></td>
+      <td>This field is changed each time there may be a disruption to the
+        hardware counter referenced by <code>counter_id</code>, for example
+        through live migration to a new hypervisor host.</td>
+    </tr>
+    <tr>
+      <td>0x18</td>
+      <td><code>uint64_t flags</code></td>
+      <td>Feature flags (see below)</td>
+    </tr>
+    <tr>
+      <td>0x20</td>
+      <td><code>uint16_t pad</code></td>
+      <td>Unused</td>
+    </tr>
+    <tr>
+      <td>0x22</td>
+      <td><code>uint8_t clock_status</code></td>
+      <td>Synchronisation status of the clock (see below)</td>
+    </tr>
+    <tr>
+      <td>0x23</td>
+      <td><code>uint8_t leap_second_smearing_hint</code></td>
+      <td>Smearing hint for guest OS (see below)</td>
+    </tr>
+    <tr>
+      <td>0x24</td>
+      <td><code>int16_t tai_offset_sec</code></td>
+      <td>Signed offset from TAI to UTC at the reference time specified in
+        <code>time_sec</code> and <code>time_frac_sec</code>, in seconds. Valid
+        if the corresponding bit in the flags field is set. Implementations
+        SHOULD populate this field; the value at time of writing is 37.</td>
+    </tr>
+    <tr>
+      <td>0x26</td>
+      <td><code>uint8_t leap_indicator</code></td>
+      <td>Indicates the presence and direction of a leap second occurring in
+        the near future or recent past (see below)</td>
+    </tr>
+    <tr>
+      <td>0x27</td>
+      <td><code>uint8_t counter_period_shift</code></td>
+      <td>Additional shift applied to all the
+        <code>counter_period*_frac_sec</code> fixed-point fields.</td>
+    </tr>
+    <tr>
+      <td>0x28</td>
+      <td><code>uint64_t counter_value</code></td>
+      <td>Value of the hardware counter at the time represented by
+        <code>time_sec</code> + <code>time_frac_sec</code>.</td>
+    </tr>
+    <tr>
+      <td>0x30</td>
+      <td><code>uint64_t counter_period_frac_sec</code></td>
+      <td>Period of a single counter tick, in units of 1 &gt;&gt; (64 +
+        <code>counter_period_shift</code>)</td>
+    </tr>
+    <tr>
+      <td>0x38</td>
+      <td><code>uint64_t counter_period_esterror_rate_frac_sec</code></td>
+      <td>Estimated ± error of <code>counter_period_frac_sec</code> in the
+        same units.</td>
+    </tr>
+    <tr>
+      <td>0x40</td>
+      <td><code>uint64_t counter_period_maxerror_rate_frac_sec</code></td>
+      <td>Maximum ± error of <code>counter_period_frac_sec</code> in the same
+        units.</td>
+    </tr>
+    <tr>
+      <td>0x48</td>
+      <td><code>uint64_t time_sec</code></td>
+      <td>Reference time point, seconds since epoch defined by
+        <code>time_type</code> field.</td>
+    </tr>
+    <tr>
+      <td>0x50</td>
+      <td><code>uint64_t time_frac_sec</code></td>
+      <td>Fractional part of reference time, in units of second / 2⁶⁴.</td>
+    </tr>
+    <tr>
+      <td>0x58</td>
+      <td><code>uint64_t time_esterror_nanosec</code></td>
+      <td>Estimated ± error of the time given in <code>time_sec</code> +
+        <code>time_frac_sec</code>, in nanoseconds</td>
+    </tr>
+    <tr>
+      <td>0x60</td>
+      <td><code>uint64_t time_maxerror_nanosec</code></td>
+      <td>Maximum ± error of the time given in <code>time_sec</code> +
+        <code>time_frac_sec</code>, in nanoseconds</td>
+    </tr>
+    <tr>
+      <td>0x64</td>
+      <td><code>uint64_t vm_generation_count</code></td>
+      <td>A change in this field indicates that the guest has been cloned or
+        loaded from a snapshot (see below).</td>
+    </tr>
+    <tr>
+      <td>0x68</td>
+      <td>…</td>
+      <td>The size of the memory region containing this structure is given in
+        the <code>size</code> field, which will typically be a full 4KiB page.
+        New fields may be added here, advertised by newly-defined bits in the
+        <code>flags</code> field, without changing the <code>version</code>
+        field.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Feature Flags (0x18)
 
