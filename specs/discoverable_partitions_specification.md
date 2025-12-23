@@ -11,8 +11,8 @@ aliases:
 ---
 # UAPI.2 The Discoverable Partitions Specification (DPS)
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 _TL;DR: Let's automatically discover, mount and enable the root partition,

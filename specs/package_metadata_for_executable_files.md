@@ -12,8 +12,8 @@ aliases:
 
 # UAPI.8 Package Metadata for Executable Files
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 ## Target Audience

@@ -10,8 +10,8 @@ aliases:
 
 # 🔏 UAPI.7 Linux TPM PCR Registry 🗒️
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 _TPM PCRs are a scarce resource, there are only 24 of them in typical standards compliant TPMs.

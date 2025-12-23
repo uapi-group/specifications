@@ -12,8 +12,8 @@ aliases:
 
 # UAPI.1 The Boot Loader Specification
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 This document defines a set of file formats and naming conventions that allow

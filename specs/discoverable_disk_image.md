@@ -11,8 +11,8 @@ aliases:
 ---
 # UAPI.3 Discoverable Disk Images (DDI)
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 DDIs (Discoverable Disk Images) are self-describing file system images that follow the DPS ([Discoverable

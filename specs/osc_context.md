@@ -12,8 +12,8 @@ aliases:
 
 # UAPI.15 OSC 3008: Hierarchical Context Signalling
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial release |
 
 A terminal connects a user with programs. Control of the program side of
@@ -155,31 +155,31 @@ the start sequence. The sequence ends in ST.
 
 The following fields are currently defined for the start sequence:
 
-|  Field        | Context Types | Description                                                                                                 |
-|---------------|---------------|-------------------------------------------------------------------------------------------------------------|
-| `type=`       | *all*         | Declares the context type, one of the types described above                                                 |
-| `user=`       | *all*         | UNIX user name the process issuing the sequence runs as                                                     |
-| `hostname=`   | *all*         | UNIX host name of the system the process issuing the sequence runs on                                       |
-| `machineid=`  | *all*         | The machine ID (i.e. `/etc/machine-id`) of the system the process issuing the sequence runs on              |
-| `bootid=`     | *all*         | The boot ID (i.e. `/proc/sys/kernel/random/boot_id`) of the system the process issuing the sequence runs on |
-| `pid=`        | *all*         | The numeric PID of the process issuing the sequence, in decimal notation                                    |
-| `pidfdid=`    | *all*         | The 64bit inode number of the pidfd of the process issuing the sequence, in decimal notation                |
-| `comm=`       | *all*         | The process name (i.e. `/proc/$PID/comm`, `PR_GET_NAME`) of the process issuing the sequence                |
-| `cwd=`        | `shell`, `command` | The current working directory                                                                          |
-| `cmdline=`    | `command`     | The full command line of the invoked command                                                                |
-| `vm=`         | `vm`          | The name of the VM being invoked                                                                            |
-| `container=`  | `container`   | The name of the container being invoked                                                                     |
-| `targetuser=` | `elevate`, `chpriv`, `vm`, `container`, `remote`, `session` | Target UNIX user name                                         |
-| `targethost=` | `remote`      | Target UNIX, DNS host name, or IP address                                                                   |
-| `sessionid=`  | `session`     | New allocated session ID                                                                                    |
+| Field         | Context Types                                               | Description                                                                                                 |
+|---------------|-------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| `type=`       | *all*                                                       | Declares the context type, one of the types described above                                                 |
+| `user=`       | *all*                                                       | UNIX user name the process issuing the sequence runs as                                                     |
+| `hostname=`   | *all*                                                       | UNIX host name of the system the process issuing the sequence runs on                                       |
+| `machineid=`  | *all*                                                       | The machine ID (i.e. `/etc/machine-id`) of the system the process issuing the sequence runs on              |
+| `bootid=`     | *all*                                                       | The boot ID (i.e. `/proc/sys/kernel/random/boot_id`) of the system the process issuing the sequence runs on |
+| `pid=`        | *all*                                                       | The numeric PID of the process issuing the sequence, in decimal notation                                    |
+| `pidfdid=`    | *all*                                                       | The 64bit inode number of the pidfd of the process issuing the sequence, in decimal notation                |
+| `comm=`       | *all*                                                       | The process name (i.e. `/proc/$PID/comm`, `PR_GET_NAME`) of the process issuing the sequence                |
+| `cwd=`        | `shell`, `command`                                          | The current working directory                                                                               |
+| `cmdline=`    | `command`                                                   | The full command line of the invoked command                                                                |
+| `vm=`         | `vm`                                                        | The name of the VM being invoked                                                                            |
+| `container=`  | `container`                                                 | The name of the container being invoked                                                                     |
+| `targetuser=` | `elevate`, `chpriv`, `vm`, `container`, `remote`, `session` | Target UNIX user name                                                                                       |
+| `targethost=` | `remote`                                                    | Target UNIX, DNS host name, or IP address                                                                   |
+| `sessionid=`  | `session`                                                   | New allocated session ID                                                                                    |
 
 The following fields are currently defined for the end sequence:
 
-| Field         | Context Types | Description                                                                                                 |
-|---------------|---------------|-------------------------------------------------------------------------------------------------------------|
-| `exit=`       | `command`     | One of `success`, `failure`, `crash`, `interrupt`, indicating how the program terminated                    |
-| `status=`     | `command`     | The command's numeric exit status, i.e. the 0…255 value a program returns                                   |
-| `signal=`     | `command`     | The termination signal of the command, if it died abnormally. A symbolic signal name. (`SIGKILL`, …)        |
+| Field     | Context Types | Description                                                                                          |
+|-----------|---------------|------------------------------------------------------------------------------------------------------|
+| `exit=`   | `command`     | One of `success`, `failure`, `crash`, `interrupt`, indicating how the program terminated             |
+| `status=` | `command`     | The command's numeric exit status, i.e. the 0…255 value a program returns                            |
+| `signal=` | `command`     | The termination signal of the command, if it died abnormally. A symbolic signal name. (`SIGKILL`, …) |
 
 All fields are optional, including the context type. However, it is generally
 recommended to always include the first 7 fields listed above, to make it easy

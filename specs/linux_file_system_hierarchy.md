@@ -12,8 +12,8 @@ aliases:
 
 # UAPI.9 Linux File System Hierarchy
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes          |
+|---------|------------------|
 | 0.1     | Work in progress |
 
 ## Description

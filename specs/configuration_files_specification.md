@@ -10,8 +10,8 @@ aliases:
 
 # UAPI.6 Configuration Files Specification
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 ## Introduction

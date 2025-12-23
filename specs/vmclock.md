@@ -12,8 +12,8 @@ aliases:
 
 # UAPI.13 VMClock: Efficient Time Synchronisation for Virtual Machines
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 The requirements for accurate synchronisation of application clocks against
@@ -139,17 +139,17 @@ complete, as described below.
 
 ### Feature Flags (0x18)
 
-| Bit | Flag | Description |
-|-----|------|-------------|
-| 0 | `VMCLOCK_FLAG_TAI_OFFSET_VALID` | Indicates that the `tai_offset` field below contains a correct value. All implementations SHOULD set this bit. |
-| 1 | `VMCLOCK_FLAG_DISRUPTION_SOON` | Indicates that a clock disruption event (e.g. live migration) is expected to happen in the next day or so. |
-| 2 | `VMCLOCK_FLAG_DISRUPTION_IMMINENT` | Indicates that a clock disruption event is expected to happen within the next hour or so. |
-| 3 | `VMCLOCK_FLAG_PERIOD_ESTERROR_VALID` | Indicates that `counter_period_esterror_rate_frac_sec` contains valid data. |
-| 4 | `VMCLOCK_FLAG_PERIOD_MAXERROR_VALID` | Indicates that `counter_period_maxerror_rate_frac_sec` contains valid data. |
-| 5 | `VMCLOCK_FLAG_TIME_ESTERROR_VALID` | Indicates that `time_esterror_nanosec` contains valid data. |
-| 6 | `VMCLOCK_FLAG_TIME_MAXERROR_VALID` | Indicates that `time_maxerror_nanosec` contains valid data. |
-| 7 | `VMCLOCK_FLAG_VM_GEN_COUNTER_PRESENT` | Indicates that the `vm_generation_counter` field is present. |
-| 8 | `VMCLOCK_FLAG_NOTIFICATION_PRESENT` | Indicates that the VMClock device will send an interrupt or ACPI notification every time it updates `seq_count` to a new even value. |
+| Bit | Flag                                  | Description                                                                                                                          |
+|-----|---------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| 0   | `VMCLOCK_FLAG_TAI_OFFSET_VALID`       | Indicates that the `tai_offset` field below contains a correct value. All implementations SHOULD set this bit.                       |
+| 1   | `VMCLOCK_FLAG_DISRUPTION_SOON`        | Indicates that a clock disruption event (e.g. live migration) is expected to happen in the next day or so.                           |
+| 2   | `VMCLOCK_FLAG_DISRUPTION_IMMINENT`    | Indicates that a clock disruption event is expected to happen within the next hour or so.                                            |
+| 3   | `VMCLOCK_FLAG_PERIOD_ESTERROR_VALID`  | Indicates that `counter_period_esterror_rate_frac_sec` contains valid data.                                                          |
+| 4   | `VMCLOCK_FLAG_PERIOD_MAXERROR_VALID`  | Indicates that `counter_period_maxerror_rate_frac_sec` contains valid data.                                                          |
+| 5   | `VMCLOCK_FLAG_TIME_ESTERROR_VALID`    | Indicates that `time_esterror_nanosec` contains valid data.                                                                          |
+| 6   | `VMCLOCK_FLAG_TIME_MAXERROR_VALID`    | Indicates that `time_maxerror_nanosec` contains valid data.                                                                          |
+| 7   | `VMCLOCK_FLAG_VM_GEN_COUNTER_PRESENT` | Indicates that the `vm_generation_counter` field is present.                                                                         |
+| 8   | `VMCLOCK_FLAG_NOTIFICATION_PRESENT`   | Indicates that the VMClock device will send an interrupt or ACPI notification every time it updates `seq_count` to a new even value. |
 
 Unknown flags set by the device can safely be ignored. If a change in behaviour
 is required by a future version of this specification, it would come with a new
@@ -158,13 +158,13 @@ compatibility with existing users.
 
 ### Clock Status (0x22)
 
-| Value | Status | Description |
-|-------|--------|-------------|
-| 0x00 | `VMCLOCK_STATUS_UNKNOWN` | The clock is in an indeterminate state. Clock parameters in the VMClock structure are not valid and should not be relied upon. |
-| 0x01 | `VMCLOCK_STATUS_INITIALIZING` | The clock is being initialized and is not yet synchronized. Clock parameters in the VMClock structure are not valid and should not be relied upon. |
-| 0x02 | `VMCLOCK_STATUS_SYNCHRONIZED` | The clock is synchronized. Clock parameters in the VMClock structure are expected to be correct and may be relied upon. |
-| 0x03 | `VMCLOCK_STATUS_FREERUNNING` | The clock has transitioned away from being synchronized and is in a free-running state. Clock parameters in the VMClock structure are expected to be valid and may be relied upon. |
-| 0x04 | `VMCLOCK_STATUS_UNRELIABLE` | The clock is considered broken. Clock parameters in the VMClock structure should not be relied upon. |
+| Value | Status                        | Description                                                                                                                                                                        |
+|-------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 0x00  | `VMCLOCK_STATUS_UNKNOWN`      | The clock is in an indeterminate state. Clock parameters in the VMClock structure are not valid and should not be relied upon.                                                     |
+| 0x01  | `VMCLOCK_STATUS_INITIALIZING` | The clock is being initialized and is not yet synchronized. Clock parameters in the VMClock structure are not valid and should not be relied upon.                                 |
+| 0x02  | `VMCLOCK_STATUS_SYNCHRONIZED` | The clock is synchronized. Clock parameters in the VMClock structure are expected to be correct and may be relied upon.                                                            |
+| 0x03  | `VMCLOCK_STATUS_FREERUNNING`  | The clock has transitioned away from being synchronized and is in a free-running state. Clock parameters in the VMClock structure are expected to be valid and may be relied upon. |
+| 0x04  | `VMCLOCK_STATUS_UNRELIABLE`   | The clock is considered broken. Clock parameters in the VMClock structure should not be relied upon.                                                                               |
 
 ### Leap Second Smearing Hint (0x23)
 
@@ -175,25 +175,25 @@ such that if the guest OS wants to provide its users with an alternative clock
 which does not follow UTC, it may do so in a fashion consistent with the other
 systems in the nearby environment.
 
-| Value | Hint |
-|-------|------|
-| 0x00 | `VMCLOCK_SMEARING_STRICT` |
-| 0x01 | `VMCLOCK_SMEARING_NOON_LINEAR` |
-| 0x02 | `VMCLOCK_SMEARING_UTC_SLS` |
+| Value | Hint                           |
+|-------|--------------------------------|
+| 0x00  | `VMCLOCK_SMEARING_STRICT`      |
+| 0x01  | `VMCLOCK_SMEARING_NOON_LINEAR` |
+| 0x02  | `VMCLOCK_SMEARING_UTC_SLS`     |
 
 ### Leap Indicator (0x26)
 
 The value of this field shall be valid for the point in time referenced by the
 `time_sec` and `time_frac_sec` fields.
 
-| Value | Indicator | Description |
-|-------|-----------|-------------|
-| 0x00 | `VMCLOCK_LEAP_NONE` | No known nearby leap second |
-| 0x01 | `VMCLOCK_LEAP_PRE_POS` | A positive leap second will occur at the end of the present month |
-| 0x02 | `VMCLOCK_LEAP_PRE_NEG` | A negative leap second will occur at the end of the present month |
-| 0x03 | `VMCLOCK_LEAP_POS` | A positive leap second is currently occurring (set during the 23:59:60 second) |
-| 0x04 | `VMCLOCK_LEAP_POST_POS` | A positive leap second occurred at the end of the previous month |
-| 0x05 | `VMCLOCK_LEAP_POST_NEG` | A negative leap second occurred at the end of the previous month |
+| Value | Indicator               | Description                                                                    |
+|-------|-------------------------|--------------------------------------------------------------------------------|
+| 0x00  | `VMCLOCK_LEAP_NONE`     | No known nearby leap second                                                    |
+| 0x01  | `VMCLOCK_LEAP_PRE_POS`  | A positive leap second will occur at the end of the present month              |
+| 0x02  | `VMCLOCK_LEAP_PRE_NEG`  | A negative leap second will occur at the end of the present month              |
+| 0x03  | `VMCLOCK_LEAP_POS`      | A positive leap second is currently occurring (set during the 23:59:60 second) |
+| 0x04  | `VMCLOCK_LEAP_POST_POS` | A positive leap second occurred at the end of the previous month               |
+| 0x05  | `VMCLOCK_LEAP_POST_NEG` | A negative leap second occurred at the end of the previous month               |
 
 ### VM Generation Count (0x64)
 
