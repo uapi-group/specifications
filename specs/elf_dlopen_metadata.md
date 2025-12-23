@@ -12,8 +12,8 @@ aliases:
 
 # UAPI.12 `dlopen()` Metadata for ELF Files
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 ## Target Audience

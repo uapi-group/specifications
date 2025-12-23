@@ -10,8 +10,8 @@ aliases:
 
 # 🔏 UAPI.7 Linux TPM PCR Registry 🗒️
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 _TPM PCRs are a scarce resource, there are only 24 of them in typical standards compliant TPMs.
@@ -73,12 +73,12 @@ In both cases it is important that data measured into the PCRs is carefully chos
 
 <table style="width:100%; display:block; table-layout:fixed;">
   <tr>
-   <th><p style="text-align: right"><strong>PCR#</strong></p></th>
-   <th><strong>Used by</strong></th>
-   <th><strong>From Location</strong></th>
-   <th><strong>Measured Objects</strong></th>
-   <th><strong>Log</strong></th>
-   <th><strong>Use Reported By</strong></th>
+   <th><p style="text-align: right">PCR#</p></th>
+   <th>Used by</th>
+   <th>From Location</th>
+   <th>Measured Objects</th>
+   <th>Log</th>
+   <th>Use Reported By</th>
   </tr>
 
   <tr>

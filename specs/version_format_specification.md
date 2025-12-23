@@ -11,8 +11,8 @@ aliases:
 
 # UAPI.10 Version Format Specification
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 This specification defines the format of version strings and their ordering.

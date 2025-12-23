@@ -12,8 +12,8 @@ aliases:
 
 # UAPI.14 VMGenID: Virtual Machine Generation ID
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 Virtual machine operations that restore a VM to an earlier point in time (such as applying snapshots, restoring from backup, cloning, or failover scenarios) can cause serious problems for applications that depend on unique identifiers or cryptographic entropy. The Virtual Machine Generation ID (VMGenID) device provides a mechanism for guest software to detect when such operations have occurred.
@@ -26,10 +26,10 @@ The hypervisor provides 16 bytes in shared memory containing the generation ID. 
 
 ### Structure Fields
 
-| Offset | Field | Description |
-|--------|-------|-------------|
-| 0x00 | `uint64_t generation_id_low` | Lower 64 bits of the 128-bit generation ID |
-| 0x08 | `uint64_t generation_id_high` | Upper 64 bits of the 128-bit generation ID |
+| Offset | Field                         | Description                                |
+|--------|-------------------------------|--------------------------------------------|
+| 0x00   | `uint64_t generation_id_low`  | Lower 64 bits of the 128-bit generation ID |
+| 0x08   | `uint64_t generation_id_high` | Upper 64 bits of the 128-bit generation ID |
 
 The generation ID is a 128-bit cryptographically random value that is unique across all VM instances and time. All 128 bits are random; it is *not* a Version 4 UUID.
 

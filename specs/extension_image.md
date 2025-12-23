@@ -11,8 +11,8 @@ aliases:
 ---
 # UAPI.4 Extension Images
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 Extension Images are DDIs ([Discoverable Disk Images](discoverable_disk_image.md)) that are
@@ -207,39 +207,39 @@ incompatible host from loading it.
 
 Valid values:
 
-|Architecture|
-|------------|
-|x86|
-|x86-64|
-|alpha|
-|arc|
-|arc-be|
-|arm|
-|arm-be|
-|arm64|
-|arm64-be|
-|cris|
-|ia64|
-|loongarch64|
-|m68k|
-|mips|
-|mips-le|
-|mips64|
-|mips64-le|
-|parisc|
-|parisc64|
-|ppc|
-|ppc-le|
-|ppc64|
-|ppc64-le|
-|riscv32|
-|riscv64|
-|s390|
-|s390x|
-|sh|
-|sh64|
-|sparc64|
-|sparc|
-|tilegx|
-|native|
-|any|
+| Architecture |
+|--------------|
+| x86          |
+| x86-64       |
+| alpha        |
+| arc          |
+| arc-be       |
+| arm          |
+| arm-be       |
+| arm64        |
+| arm64-be     |
+| cris         |
+| ia64         |
+| loongarch64  |
+| m68k         |
+| mips         |
+| mips-le      |
+| mips64       |
+| mips64-le    |
+| parisc       |
+| parisc64     |
+| ppc          |
+| ppc-le       |
+| ppc64        |
+| ppc64-le     |
+| riscv32      |
+| riscv64      |
+| s390         |
+| s390x        |
+| sh           |
+| sh64         |
+| sparc64      |
+| sparc        |
+| tilegx       |
+| native       |
+| any          |

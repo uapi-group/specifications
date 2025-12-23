@@ -11,8 +11,8 @@ aliases:
 ---
 # UAPI.5 Unified Kernel Images (UKI)
 
-| Version | Changes |
-|---------|---------|
+| Version | Changes         |
+|---------|-----------------|
 | 1.0     | Initial Release |
 
 A Unified Kernel Image (UKI) is a combination of an UEFI boot stub program,

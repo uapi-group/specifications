@@ -95,7 +95,7 @@ This section clarifies on terms and abbreviations used in specs and other docume
 - [*DPS*](specs/discoverable_partitions_specification.md) - Discovery Partition Specification
 - [*sysext*](specs/extension_image.md) – System Extension Image
   (type of DDI that is overlayed on top of `/usr/` and `/opt/` via overlayfs and can extend the underlying OS vendor resources in a composable, immutable fashion)
-- [*UKI*](specs/unified_kernel_image.md) - Unified Kernel Images (UEFI boot stub + kernel + initrd + more)
+- [*UKI*](specs/unified_kernel_image.md) – Unified Kernel Images (UEFI boot stub + kernel + initrd + more)
 - [*VMClock*](specs/vmclock.md) – Virtual Machine Clock (efficient time synchronisation for virtual machines)
 - [*VMGenID*](specs/vmgenid.md) – Virtual Machine Generation ID (mechanism for detecting VM rollback events)
 - [*VOA*](specs/file_hierarchy_for_the_verification_of_os_artifacts.md) – Verification of OS Artifacts
