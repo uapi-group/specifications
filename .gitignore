@@ -1,3 +1,4 @@
 website/public
 website/.hugo_build.lock
 website/resources/_gen
+public/
