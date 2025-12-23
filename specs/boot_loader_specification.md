@@ -281,12 +281,17 @@ The following keys are recognized:
 
   Example: `linux /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/linux`
 
-* `initrd` specifies the initrd to use when executing the kernel (`cpio` image).
-  The value is a path relative to the root of the file system
-  containing the boot entry snippet itself.
+* `initrd` specifies an initrd to use when executing the kernel (`cpio` image).
+  The value is a path
+  relative to the root of the file system containing the boot entry snippet itself.
   This key may appear more than once,
   in which case all specified images are used,
   in the order they are listed.
+
+  To increase robustness,
+  an implementation *should* split the path at whitespace
+  and treat each part as a separate path.
+  A warning *should* be emitted in that case.
 
   Example:
 
