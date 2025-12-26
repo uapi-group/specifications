@@ -337,10 +337,18 @@ The following keys are recognized:
 
   Example: `devicetree 6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.armv7hl/tegra20-paz00.dtb`
 
+* `devicetree-dir` refers to a directory with binary device tree files.
+  Bootloader should pick a device tree file compatible with the system.
+  The way, in which bootloader chooses the correct file is out of scope
+  for this specification. This key is optional and must be ignored if
+  the `devicetree` key exists.
+
+  Example: `devicetree-dir 6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.armv7hl/`
+
 * `devicetree-overlay` refers to a list of device tree overlays that should be
   applied by the boot loader. Multiple overlays are separated by spaces and
   applied in the same order as they are listed. This key is optional but
-  depends on the `devicetree` key.
+  depends on either `devicetree` key or `devicetree-dir` key.
 
   Example: `devicetree-overlay /6a9857a393724b7a981ebb5b8495b9ea/overlays/overlay_A.dtbo /6a9857a393724b7a981ebb5b8495b9ea/overlays/overlay_B.dtbo`
 
@@ -385,8 +393,9 @@ i.e. it is a good idea that both images shipped as UEFI PE images and those
 which are not don't make unnecessary assumption on the underlying firmware,
 i.e. don't hard depend on legacy BIOS calls or UEFI boot services.
 
-When Type #1 boot loader menu entry snippets refer to other files (for `linux`,
-`initrd`, `efi`, `devicetree`, and `devicetree-overlay`), those files must be
+When Type #1 boot loader menu entry snippets refer to other files or directories
+(for `linux`, `initrd`, `efi`, `devicetree`, `devicetree-dir` and
+`devicetree-overlay`), those files must be
 located on the same partition, and the paths must be absolute paths relative to
 the root of that file system. The naming of those files can be chosen by the
 installer. A recommended scheme is described in the next section. Paths should
