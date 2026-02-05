@@ -207,6 +207,11 @@ For details about the version format see the
 [Version Format Specification](version_format_specification.md). The underscore
 character (`_`) must be used to separate the version from the name of the image.
 
+For operating systems which update partitions in two or more stages, names prefixed
+with `PRT#` or `PND#` are reserved for indicating that a partition is partially
+updated or is pending being swapped into use. Tools other than the updater
+operating on such partitions should typically ignore them.
+
 ## Partition Attribute Flags
 
 This specification defines three GPT partition attribute flags that may be set
