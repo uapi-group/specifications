@@ -246,7 +246,7 @@ TYPEENUM     = "service" / "session" / "shell" / "command" / "vm" / "container" 
 TYPE         = "type=" TYPEENUM
 USER         = "user=" 1*255SAFE
 HOSTNAME     = "hostname=" 1*255SAFE
-MACHINEID    = "machineid=" 1D128
+MACHINEID    = "machineid=" ID128
 BOOTID       = "bootid=" ID128
 PID          = "pid=" UINT64
 PIDFDID      = "pidfdid=" UINT64
