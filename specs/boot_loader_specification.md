@@ -361,6 +361,16 @@ The following keys are recognized:
 
   Example: `profile 1`
 
+* `extra` refers to additional resources to pass to the invoked kernel. This takes a path relative to the
+  root of the file system containing the snippet itself, referring to a regular file. The file name must be
+  suffixed with a recognized suffix which indicates the type of additional resource. Currently, recognized
+  suffixes are `.confext.raw` (for systemd-style configuration extension DDIs), `.sysext.raw` (for
+  systemd-style system extenion configuration extension DDIs) and `.cred` (for systemd-style encrypted system
+  credential files). In future additional suffixes will be defined and implementations must gracefully handle
+  unrecognized suffixes. This key may appear multiple times.
+
+  Example: `extra /6a9857a393724b7a981ebb5b8495b9ea/somedata.cred`
+
 Each boot loader menu entry drop-in snippet must include at least a `linux` or an `efi`
 key. Here is an example for a complete drop-in file:
 
@@ -373,6 +383,8 @@ key. Here is an example for a complete drop-in file:
     architecture x64
     linux        /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/linux
     initrd       /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/initrd
+    extra        /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/somedata.cred
+    extra        /6a9857a393724b7a981ebb5b8495b9ea/3.8.0-2.fc19.x86_64/somethingelse.cred
 
 On EFI systems all Linux kernel images *should* be EFI PE images, or in case of the `uki` or `uki-url` key
 *must* be EFI PE images conforming to the [UKI Specification](unified_kernel_image.md). In order to increase
