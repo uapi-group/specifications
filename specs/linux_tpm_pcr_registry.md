@@ -154,6 +154,15 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrphase-initrd 🚀</code></td>
+   <td>Userspace</td>
+   <td>leave-initrd barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td class=number><p style="text-align: right"><strong>8</strong></p></td>
    <td class=grub><code>grub 🍲</code></td>
    <td>UEFI Boot Component</td>
@@ -294,6 +303,8 @@ PCR 5 changes when partitions are added, modified, or removed.
 
 PCR 7 changes when UEFI SecureBoot mode is enabled/disabled, or firmware certificates (PK, KEK, db, dbx, …) are updated.
 The shim project will measure most of its (non-MOK) certificates and SBAT data into this PCR.
+[systemd-pcrphase-initrd.service](https://www.freedesktop.org/software/systemd/man/systemd-pcrphase-initrd.service.html)
+extends PCR 7 with a leave-initrd barrier when leaving the initrd (no enter-initrd), so PCR 7 differs between initrd and main OS.
 
 PCR 11 and 15 as shown in the list above are used by multiple components of systemd.
 These are not conflicting uses;
