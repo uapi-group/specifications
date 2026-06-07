@@ -67,10 +67,11 @@ UKIs consist of the following resources:
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the key pair described below.
 * Optionally, the public part of a public-private key pair in PEM format used to sign the expected PCR 11 value of the image, in the `.pcrpkey` section.
+* Optionally, one or more firmware images, each in a separate `.efifw` section. Each is an opaque binary blob that can be used as UEFI firmware on the next reset. If multiple `.efifw` sections exist then one of them is selected according to the matching hardware.
 
 Note that all of the sections defined above are singletons:
 they may appear at most once,
-except for the `.dtbauto` section which may appear multiple times.
+except for the `.dtbauto` and `.efifw` sections which may each appear multiple times.
 
 Only the `.linux` section is required for the image to be considered a Unified *Kernel* Image.
 
@@ -143,7 +144,7 @@ the measurements are interleaved: section name followed by section
 data, followed by the next section name and its section data, and so
 on.
 
-If multiple `.dtbauto` sections are present, only the one that is actually in use shall be measured.
+If multiple `.dtbauto` or `.efifw` sections are present, only the one that is actually in use shall be measured.
 
 ## JSON Format for `.pcrsig`
 The format is a single JSON object, encoded as a zero-terminated `UTF-8` string. Each name in the object
@@ -205,7 +206,7 @@ can appear multiple times in a single PE file and both acts as a separator betwe
 same UKI, and carries meta-information about the profile it is introducing. All regular UKI PE sections
 listed above may appear multiple times in multi-profile UKIs, but only once before the first `.profile` PE
 section, once between each subsequent pair of `.profile` sections, and once after the last `.profile` (except
-for `.dtbauto`, which is allowed to be defined multiple times anyway, see above). Each `.profile` section
+for `.dtbauto` and `.efifw`, which are allowed to be defined multiple times anyway, see above). Each `.profile` section
 introduces and defines a profile, which are numbered from zero, and typically denoted with an `@` character
 before the profile number, i.e. `@0`, `@1`, `@2`, … The sections listed in the PE binary before the first
 `.profile` section make up a special profile called the *base profile*.
