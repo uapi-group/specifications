@@ -144,7 +144,7 @@ the measurements are interleaved: section name followed by section
 data, followed by the next section name and its section data, and so
 on.
 
-If multiple `.dtbauto` sections are present, only the one that is actually in use shall be measured.
+If multiple `.dtbauto` sections are present, only the one that is actually used shall be measured.
 
 ## JSON Format for `.pcrsig`
 The format is a single JSON object, encoded as a zero-terminated `UTF-8` string. Each name in the object
@@ -205,11 +205,14 @@ Multi-profile UKIs extend regular UKIs by introducing an additional PE section w
 can appear multiple times in a single PE file and both acts as a separator between multiple profiles of the
 same UKI, and carries meta-information about the profile it is introducing. All regular UKI PE sections
 listed above may appear multiple times in multi-profile UKIs, but only once before the first `.profile` PE
-section, once between each subsequent pair of `.profile` sections, and once after the last `.profile` (except
-for `.dtbauto`, which is allowed to be defined multiple times anyway, see above). Each `.profile` section
-introduces and defines a profile, which are numbered from zero, and typically denoted with an `@` character
-before the profile number, i.e. `@0`, `@1`, `@2`, … The sections listed in the PE binary before the first
-`.profile` section make up a special profile called the *base profile*.
+section, once between each subsequent pair of `.profile` sections, and once after the last `.profile`
+(except for `.dtbauto` and `.efifw`, which are allowed to be defined multiple times anyway, see above).
+Each `.profile` section introduces and defines a profile.
+Profiles are numbered from zero,
+and typically denoted with an `@` character before the profile number,
+i.e. `@0`, `@1`, `@2`, …
+The sections listed in the PE binary before the first `.profile` section
+make up a special profile called the *base profile*.
 
 When a multi-profile UKI is invoked, the EFI stub code will make sure to load the PE sections matching the
 selected profile. A profile is (optionally) selected by prefixing the EFI stub's invocation parameters
