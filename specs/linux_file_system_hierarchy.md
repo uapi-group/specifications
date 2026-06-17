@@ -231,7 +231,9 @@ or in a subdirectory.
 Using a subdirectory is recommended if the package installs multiple files.
 It is also necessary if multiple versions of the same headers shall be coinstallable.
 The subdirectory may be named after the package or project providing it.
-Packages may place architecture-dependent header files and directories in a
+
+If the multiarch layout is used,
+packages may place architecture-dependent header files and directories in a
 `/usr/include/<arch-id>/` subdirectory,
 following the identifiers defined on the
 [Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
@@ -250,16 +252,14 @@ The corresponding library or libraries shall be placed in `$libdir`, see below.
 ### Libraries, system programs, and program assets
 
 This section describes the directories used to store shared libraries,
-internal binaries or other programs that are not regularly invoked from a shell
+internal binaries and other programs that are not regularly invoked from a shell
 (and thus should not be placed in the directories in `$PATH`),
-and other static files that are part of program installations.
+as well as other static files that are part of program installations.
 
 There are two main schemes for shared libraries.
 On "multiarch" systems,
-multiple different architecture and ABI variants can be installed in parallel.
-Each variant uses a hierarchy of files under a directory named using the
-[Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
-list.
+multiple different architecture and ABI variants can be installed in parallel,
+using subdirectories for different architectures.
 On "multilib" systems,
 a simpler scheme is used that only supports 32-bit and 64-bit variants of the same architecture.
 
@@ -270,39 +270,56 @@ Note that many locations described in this section
 are under shared ownership,
 with multiple different packages installing and consuming resources
 on equal footing without any obvious primary owner,
-and are subject to specifications that ensure interoperability.
+and are subject to further specifications to ensure interoperability.
 
-#### `/usr/lib/`
+#### Multiarch systems
 
-Static, private vendor data that is compatible with all architectures
-(though not necessarily architecture-independent).
-Note that this includes
-internal binaries or other programs that are not regularly invoked from a shell.
-Such binaries may be for any architecture supported by the system.
-
-In the multilib scheme,
-32-bit libraries are placed directly in this directory.
-In the multiarch scheme,
-libraries should not be placed directly in this directory,
-but in `$libdir` (see below), instead.
-
-#### `/usr/lib/<arch-id>/`
-
-Location for dynamic libraries, also called `$libdir`.
+The "multiarch" layout is used primarily by the Debian family of distributions.
+In this layout, shared libraries are stored in subdirectories of `/usr/lib/`,
+with files for architecture `<arch-id>` in a hierarchy under the directory `/usr/lib/<arch-id>/`.
+This allows files for multiple architectures to be installed in parallel.
 The architecture identifier to use is defined on the
 [Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
 list.
-Those directories are used on multiarch systems.
 
-On multilib systems,
-`/usr/lib/` and `/usr/lib64/` are used instead,
-and one of them is `$libdir`.
+##### `/usr/lib/`
 
-This directory can be used for architecture-dependent package-specific data too.
+The top-level `/usr/lib/` directory contains
+architecture-independent files,
+and internal binaries and other programs that are not regularly invoked from a shell
+compiled for the the primary architecture of the system.
 
-The primary architecture of the system (`$libdir`) may be queried with:
+##### `/usr/lib/<arch-id>/`
+
+A hierarchy of directories containing shared libraries for architecture `<arch-id>`
+and other architecture-dependent files.
+
+#### Multilib systems
+
+The "multilib" layout is used by most other distributions,
+in particular all that are RPM-based.
+This layout supports parallel installation of 32-bit and 64-bit variants of the same architecture.
+
+##### `/usr/lib/`
+
+This directory contains architecture-independent files,
+internal binaries and other programs that are not regularly invoked from a shell,
+and shared libraries for the 32-bit architecture.
+
+##### `/usr/lib64/`
+
+This directory contains shared libraries for the 64-bit architecture.
+It can be used for architecture-dependent package-specific data too.
+
+#### The directory for shared libraries for the primary architecture
+
+The directory for shared libraries for the primary architecture is called `$libdir`
+and may be queried with:
 
     systemd-path system-library-arch
+
+On multiarch systems this will point to one of the `/usr/lib/<arch-id>` directories,
+and either `/usr/lib/` or `/usr/lib64/` on multilib systems.
 
 #### `/usr/libexec/` ⚠️
 
@@ -554,16 +571,15 @@ Care should be taken when placing architecture-dependent binaries in this place,
 which might be problematic if the home directory is shared
 between multiple hosts with different architectures.
 
-### `~/.local/lib/`
+### User's libraries, system programs, and program assets
 
-Static, private vendor data that is compatible with all architectures.
-
-### `~/.local/lib/<arch-id>/`
-
-Location for placing public dynamic libraries.
-The architecture identifier to use is defined on
-[Multiarch Architecture Specifiers (Tuples)](https://wiki.debian.org/Multiarch/Tuples)
-list.
+A private set of directories that mirrors
+the directories described for the system in
+[Libraries, system programs, and program assets](#libraries-system-programs-and-program-assets)
+is defined for the user under `~/.local/`:
+`~/.local/lib/` analoguous to `/usr/lib/`,
+`~/.local/lib/<arch-id>` analoguous to `/usr/lib/<arch-id>`,
+`~/.local/lib32/` and `~/.local/lib64/` analoguous to `/usr/lib32/` and `/usr/lib64/`.
 
 ### `~/.local/share/`
 
@@ -669,13 +685,14 @@ specific types of files supplied by the vendor.
 | Directory                     | Purpose |
 |-------------------------------|---------|
 | `/usr/bin/`                   | Package executables that shall appear in the `$PATH` executable search path, compiled for any of the supported architectures compatible with the operating system. It is not recommended to place internal binaries or binaries that are not commonly invoked from the shell in this directory, such as daemon binaries. As this directory is shared with most other packages of the system, special care should be taken to pick unique names for files placed here, that are unlikely to clash with other package's files. |
-| `/usr/lib/<arch-id>/`         | Public shared libraries of the package. As above, be careful with using too generic names, and pick unique names for your libraries to place here to avoid name clashes. |
-| `/usr/lib/package/`           | Private static vendor resources of the package, including private binaries and libraries, or any other kind of read-only vendor data. |
-| `/usr/lib/<arch-id>/package/` | Private other vendor resources of the package that are architecture-specific and cannot be shared between architectures. Note that this generally does not include private executables since binaries of a specific architecture may be freely invoked from any other supported system architecture. |
+| `$libdir` and other directories described in [Libraries, system programs, and program assets](#libraries-system-programs-and-program-assets) | Public shared libraries of the package. As above, be careful with using too generic names, and pick unique names for your libraries to place here to avoid name clashes. |
+| `/usr/lib/<package>/`           | Program assets of the package, including shared libraries and plugins,
+internal binaries and other programs that are not regularly invoked from a shell, and any other kind of read-only vendor data. |
+| `~/.local/lib/<arch-id>/<package>` `~/.local/lib32/<package>` `~/.local/lib64/<package>` | Per-package program assets that are architecture-specific. Note that this generally does not include executables since binaries of a specific architecture may be freely invoked from any other supported system architecture. The specific directory to use should be selected based on the system layout as described in [Libraries, system programs, and program assets](#libraries-system-programs-and-program-assets).|
 
-Additional static vendor files with shared ownership
+Additional architecture-independent files
 may be installed in the `/usr/share/` hierarchy
-to the locations defined by the various relevant specifications.
+in the locations defined by the various relevant specifications.
 
 ### System package variable files locations
 
