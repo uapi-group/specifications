@@ -303,12 +303,23 @@ This layout supports parallel installation of 32-bit and 64-bit variants of the 
 
 This directory contains architecture-independent files,
 internal binaries and other programs that are not regularly invoked from a shell,
-and shared libraries for the 32-bit architecture.
+and shared libraries for either the 32-bit or 64-bit architecture.
 
-##### `/usr/lib64/`
+##### `/usr/lib64/` or `/usr/lib32/`
 
-This directory contains shared libraries for the 64-bit architecture.
-It can be used for architecture-dependent package-specific data too.
+This directory contains shared libraries for the other architecture.
+
+Either directory can be used for architecture-dependent package-specific data too.
+
+###### `/usr/lib64/`
+
+If `/usr/lib/` contains files for the 32-bit architecture,
+`/usr/lib64/` may exist and contain files for the 64-bit architecture
+
+###### `/usr/lib32/`
+
+If `/usr/lib/` contains files for the 64-bit architecture,
+`/usr/lib32/` may exist and contain files for the 32-bit architecture.
 
 #### The directory for shared libraries for the primary architecture
 
