@@ -514,17 +514,18 @@ correctly find their binaries.
 
 ### `/lib/`
 
-This compatibility symlink points to `/usr/lib/`,
-ensuring that programs referencing this legacy path
-correctly find their resources.
+A symlink required for the correct execution of binaries specifying
+the dynamic loader with a path starting with `/lib/`.
+This symlink points to `/usr/lib/`.
 
 ### `/lib64/`
 
-On some architecture ABIs, this compatibility symlink points to `$libdir`,
-ensuring that binaries referencing this legacy path
-correctly find their dynamic loader.
-This symlink only exists on architectures whose ABI
-places the dynamic loader in this path.
+A symlink required for the correct execution of binaries specifying
+the dynamic loader with a path starting with `/lib64/`.
+The directory to which it points varies between multiarch and multilib installations
+and even between different distributions using the multilib layout.
+This symlink may not exist on architectures whose ABI
+does not place the dynamic loader in this path.
 
 ### `/var/run/`
 
