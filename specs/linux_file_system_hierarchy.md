@@ -264,7 +264,6 @@ On "multilib" systems,
 a simpler scheme is used that only supports 32-bit and 64-bit variants of the same architecture.
 
 Both schemes are widely used, and distributions typically choose one or the other.
-Multiarch is the recommended approach, especially for new systems.
 
 Note that many locations described in this section
 are under shared ownership,
