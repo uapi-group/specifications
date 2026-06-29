@@ -91,11 +91,29 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td class=number><p style="text-align: right"><strong>1</strong></p></td>
    <td class=firmware><code>Firmware 💻</code></td>
    <td>UEFI Boot Component</td>
    <td>Core system firmware data/host platform configuration; typically contains serial and model numbers</td>
    <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -109,6 +127,15 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td class=number><p style="text-align: right"><strong>3</strong></p></td>
    <td class=firmware><code>Firmware 💻</code></td>
    <td>UEFI Boot Component</td>
@@ -118,11 +145,29 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td class=number><p style="text-align: right"><strong>4</strong></p></td>
    <td class=firmware><code>Firmware 💻</code></td>
    <td>UEFI Boot Component</td>
    <td>Boot loader and additional drivers; binaries and extensions loaded by the boot loader</td>
    <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -145,11 +190,38 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
+   <td class=number><p style="text-align: right"><strong>6</strong></p></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td class=number><p style="text-align: right"><strong>7</strong></p></td>
    <td class=firmware><code>Firmware 💻</code></td>
    <td>UEFI Boot Component</td>
    <td>SecureBoot state</td>
    <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -199,6 +271,15 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td class=number><p style="text-align: right"><strong>10</strong></p></td>
    <td class=ima><code>IMA 📐</code></td>
    <td>Kernel</td>
@@ -235,6 +316,15 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td class=number><p style="text-align: right"><strong>13</strong></p></td>
    <td class=systemd><code>systemd-stub 🚀</code></td>
    <td>UEFI Stub</td>
@@ -244,11 +334,29 @@ In both cases it is important that data measured into the PCRs is carefully chos
   </tr>
 
   <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
    <td class=number><p style="text-align: right"><strong>14</strong></p></td>
    <td class=shim><code>shim 🔑</code></td>
    <td>UEFI Boot Component</td>
    <td>“MOK” certificates and hashes</td>
    <td>UEFI TPM event log</td>
+   <td>n/a</td>
+  </tr>
+
+  <tr>
+   <td class=number></td>
+   <td class=systemd><code>systemd-pcrosseparator.service 🚀</code></td>
+   <td>Userspace</td>
+   <td><code>os-separator</code> barrier when leaving initrd</td>
+   <td><code>/run/log/systemd/tpm2-measure.log</code></td>
    <td>n/a</td>
   </tr>
 
@@ -294,6 +402,9 @@ PCR 5 changes when partitions are added, modified, or removed.
 
 PCR 7 changes when UEFI SecureBoot mode is enabled/disabled, or firmware certificates (PK, KEK, db, dbx, …) are updated.
 The shim project will measure most of its (non-MOK) certificates and SBAT data into this PCR.
+[systemd-pcrosseparator.service](https://www.freedesktop.org/software/systemd/man/systemd-pcrosseparator.service.html)
+extends PCRs 0–7, 9, 12–14 with the literal word `os-separator` as a barrier when leaving the initrd,
+so the PCRs differ between the initrd and the main OS.
 
 PCR 11 and 15 as shown in the list above are used by multiple components of systemd.
 These are not conflicting uses;
