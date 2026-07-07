@@ -78,6 +78,10 @@ Section: `.note.package`<br/>
 Owner: `FDO` (FreeDesktop.org)<br/>
 Value: a single JSON object encoded as a NUL-terminated UTF-8 string
 
+Note section is specified in the [Tool Interface Standard (TIS) Executable and Linking Format (ELF) Specification version 1.2](https://refspecs.linuxfoundation.org/elf/elf.pdf).
+
+Linkers may merge multiple note sections; see [Guidance on parsing ELF sections](#guidance-on-parsing-elf-sections) below.
+
 ### PE/COFF section
 
 The metadata will be embedded in a single, allocated, NUL-padded,
@@ -246,3 +250,37 @@ $  coredumpctl info
 ```
 
 (This is just a simulation. `ls` is not prone to crashing with a segmentation violation.)
+
+## Guidance on parsing ELF sections
+
+When ELF linkers encounter an identical section name across multiple input files, the sections are concatenated in the order they appear, padded and aligned. This merging is standard linker behavior and is generally not under the control of the tool that emits the note. See the [binutils ld](https://sourceware.org/binutils/docs/ld/SECTIONS.html) documentation as well as [LLVM lld](https://releases.llvm.org/22.1.0/tools/lld/docs/ELF/linker_script.html#linker-script-implementation-notes-and-policy), which describe the same behavior.
+
+This means the following output is also valid package metadata:
+
+```
+$ readelf --notes dumb-init
+
+Displaying notes found in: .note.gnu.property
+  Owner                Data size 	Description
+  GNU                  0x00000040	NT_GNU_PROPERTY_TYPE_0
+      Properties: x86 feature: IBT, SHSTK
+	x86 ISA needed: x86-64-baseline, x86-64-v2
+	x86 feature used: x86, x87, XMM, YMM, ZMM, FXSR, XSAVE, XSAVEC, MASK
+	x86 ISA used: x86-64-baseline, x86-64-v2, x86-64-v3, x86-64-v4
+
+Displaying notes found in: .note.ABI-tag
+  Owner                Data size 	Description
+  GNU                  0x00000010	NT_GNU_ABI_TAG (ABI version tag)
+    OS: Linux, ABI: 4.9.0
+
+Displaying notes found in: .note.package
+  Owner                Data size 	Description
+  FDO                  0x00000060	FDO_PACKAGING_METADATA
+    Packaging Metadata: {"type":"apk","os":"wolfi","name":"dumb-init","version":"1.2.5-r12","architecture":"x86_64"}
+  FDO                  0x0000008a	FDO_PACKAGING_METADATA
+    Packaging Metadata: {"type":"apk","os":"wolfi","name":"glibc","version":"2.43-r11","architecture":"x86_64","appCpe":"cpe:2.3:a:gnu:glibc:2.43:*:*:*:*:*:*:*"}
+```
+
+When parsing an ELF section, one must iterate over one or more Note structures, and each one will contain a single JSON object. This is the same parsing procedure already established for [`.note.dlopen`](elf_dlopen_metadata.md) metadata: in both cases a parser must handle multiple notes produced by linking, and must not assume that only a single note is present.
+
+Semantically it means that this binary is likely statically linked, and uses source code and binary objects from multiple packages. For the purposes of Software Composition Analysis (SCA), Software Bill of Materials (SBOM), and vulnerability matching the above metadata indicates that both components must be enumerated as present. Alternative and supplementary information may be used to establish hierarchical relationships. For example, if package manager metadata is available and suggests that this file is owned by a binary package dumb-init, one can conclude that glibc is a sub-component.
