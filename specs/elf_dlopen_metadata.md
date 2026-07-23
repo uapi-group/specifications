@@ -205,7 +205,7 @@ Recommends: libbpf.so.1()(64bit)
 
 ## Guidance on parsing ELF sections
 
-When ELF linkers encounter an identical section name across multiple input files, the sections are concatenated in the order they appear, padded and aligned. This merging is standard linker behavior and is generally not under the control of the tool that emits the note. See the [binutils ld](https://sourceware.org/binutils/docs/ld/SECTIONS.html) documentation as well as [LLVM lld](https://releases.llvm.org/22.1.0/tools/lld/docs/ELF/linker_script.html#linker-script-implementation-notes-and-policy), which describe the same behavior.
+When ELF linkers encounter an identical section name across multiple input files, the sections are concatenated in the order they appear, padded and aligned to 4 bytes. This merging is standard linker behavior and is generally not under the control of the tool that emits the note. See the [binutils ld](https://sourceware.org/binutils/docs/ld/SECTIONS.html) documentation as well as [LLVM lld](https://releases.llvm.org/22.1.0/tools/lld/docs/ELF/linker_script.html#linker-script-implementation-notes-and-policy), which describe the same behavior.
 
 This means the following output is also valid Dlopen metadata:
 
