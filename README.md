@@ -57,6 +57,9 @@ The following specifications have been accepted by the UAPI group:
 * [UAPI.16 File Manifest](specs/file_manifest.md):
   Defines a JSON-SEQ based manifest format describing collections of files and GPT partitions, including hashes, signatures and remote sources.
   ([canonical online location](https://uapi-group.org/specifications/specs/file_manifest/))
+* [UAPI.17 OSC 2811: Terminal Size Change Notification](specs/osc_winsize.md):
+  Defines a mechanism for terminal applications to subscribe to terminal dimension change notifications, in-band.
+  ([canonical online location](https://uapi-group.org/specifications/specs/osc_winsize/))
 * [UAPI.18 CLI Introspection Specification](specs/cli_introspection.md) (experimental draft):
   Defines a JSON schema for a machine-readable equivalent of a program's `--help` output,
   usable for checking option availability and generating documentation or shell completions.
