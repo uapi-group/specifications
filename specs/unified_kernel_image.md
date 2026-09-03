@@ -72,6 +72,7 @@ Please add any new components at the bottom of the list and NEVER reorder anythi
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the key pair described below.
 * Optionally, the public part of a public-private key pair in PEM format used to sign the expected PCR 11 value of the image, in the `.pcrpkey` section.
+* Optionally, one or more X.509 certificates for kernel module signature verification, in the `.mokkeys` section. The section holds one or more `EFI_SIGNATURE_LIST` structures, each containing a single X.509 certificate with signature type `EFI_CERT_X509_GUID` and a zero owner GUID, concatenated together; it is written by the `--mokkeys=` option of [`ukify`](https://www.freedesktop.org/software/systemd/man/ukify.html), and, like the other sections listed here, measured into PCR 11. The stub may use it to make the certificates available to the kernel for module signature verification.
 
 This list specifies the canonical order of sections.
 Items will not be reordered and new sections will be added at the end only.
