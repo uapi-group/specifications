@@ -289,18 +289,16 @@ dependencies.&lt;/p></description></item><item><title>UAPI.13 VMClock</title><li
  &lt;td>1.0&lt;/td>
  &lt;td>Initial Release&lt;/td>
  &lt;/tr>
+ &lt;tr>
+ &lt;td>1.1&lt;/td>
+ &lt;td>Fix vm_generation_counter offset and flag bit numbers; add missing VMCLOCK_FLAG_TIME_MONOTONIC; fix sign of tai_offset_sec example value; update references to published virtio-rtc standard&lt;/td>
+ &lt;/tr>
  &lt;/tbody>
 &lt;/table>
 &lt;p>The requirements for accurate synchronisation of application clocks against
 real wallclock time are becoming ever more demanding. Increasingly cloud
 providers are exposing precision clock devices to virtual machines to allow the
-guest operating systems to synchronise their clocks.&lt;/p>
-&lt;p>Time on modern systems is typically derived from a CPU-internal counter (&lt;em>TSC,
-timebase, arch counter&lt;/em>) which runs at a nominally constant frequency of
-typically between 1GHz and 4GHz. In practice, the frequency of the underlying
-hardware counter will vary with environmental conditions, with a tolerance of
-the order of ±50PPM (parts per million). It is this variance which must constantly be corrected by
-synchronising against an external clock.&lt;/p></description></item><item><title>UAPI.14 VMGenID</title><link>https://uapi-group.org/specifications/specs/vmgenid/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/vmgenid/</guid><description>&lt;h1 id="uapi14-vmgenid-virtual-machine-generation-id">UAPI.14 VMGenID: Virtual Machine Generation ID&lt;a class="anchor" href="#uapi14-vmgenid-virtual-machine-generation-id">#&lt;/a>&lt;/h1>
+guest operating systems to synchronise their clocks.&lt;/p></description></item><item><title>UAPI.14 VMGenID</title><link>https://uapi-group.org/specifications/specs/vmgenid/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/vmgenid/</guid><description>&lt;h1 id="uapi14-vmgenid-virtual-machine-generation-id">UAPI.14 VMGenID: Virtual Machine Generation ID&lt;a class="anchor" href="#uapi14-vmgenid-virtual-machine-generation-id">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
