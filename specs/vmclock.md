@@ -2,7 +2,7 @@
 title: UAPI.13 VMClock
 category: Concepts
 layout: default
-version: 1.0
+version: 1.1
 SPDX-License-Identifier: CC-BY-4.0
 weight: 13
 aliases:
@@ -15,6 +15,7 @@ aliases:
 | Version | Changes         |
 |---------|-----------------|
 | 1.0     | Initial Release |
+| 1.1     | Fix vm_generation_counter offset and flag bit numbers; add missing VMCLOCK_FLAG_TIME_MONOTONIC; fix sign of tai_offset_sec example value; update references to published virtio-rtc standard |
 
 The requirements for accurate synchronisation of application clocks against
 real wallclock time are becoming ever more demanding. Increasingly cloud
@@ -80,8 +81,9 @@ from the new hypervisor host.
 The hypervisor provides a structure in shared memory which is readable by the
 guest, and advertises it via either ACPI or device-tree devices as described
 below. Where possible, these fields and their values are aligned with the
-definitions in the [virtio-rtc](https://virtio-rtc) standard. As with virtio,
-all fields are stored in little-endian form.
+definitions in the [virtio-rtc](https://docs.oasis-open.org/virtio/virtio/v1.4/virtio-v1.4.html#x1-86300023)
+standard (Virtio 1.4, section 5.23 "RTC Device"). As with virtio, all fields
+are stored in little-endian form.
 
 The fields up to and including `time_type` are constant and shall not change
 during the lifetime of the device. The subsequent fields may be updated
@@ -155,7 +157,11 @@ complete, as described below.
           <li><code>0x00</code>: <code>VMCLOCK_TIME_UTC</code> <em>(Not
               recommended)</em></li>
           <li><code>0x01</code>: <code>VMCLOCK_TIME_TAI</code></li>
-          <li><code>0x02</code>: <code>VMCLOCK_MONOTONIC</code></li>
+          <li><code>0x02</code>: <code>VMCLOCK_TIME_MONOTONIC</code></li>
+          <li><code>0x03</code>: <code>VMCLOCK_TIME_INVALID_SMEARED</code>
+            <em>(Not supported)</em></li>
+          <li><code>0x04</code>: <code>VMCLOCK_TIME_INVALID_MAYBE_SMEARED</code>
+            <em>(Not supported)</em></li>
         </ul>
         For UTC and TAI, the calculation results in a number of seconds
         since midnight on 1970-01-01. A monotonic clock has no defined epoch.
@@ -208,9 +214,11 @@ complete, as described below.
       <td>0x24</td>
       <td><code>int16_t tai_offset_sec</code></td>
       <td>Signed offset from TAI to UTC at the reference time specified in
-        <code>time_sec</code> and <code>time_frac_sec</code>, in seconds. Valid
+        <code>time_sec</code> and <code>time_frac_sec</code>, in seconds:
+        UTC = TAI + <code>tai_offset_sec</code>. Note that this is the
+        <em>negative</em> of the commonly-quoted TAI − UTC offset; valid
         if the corresponding bit in the flags field is set. Implementations
-        SHOULD populate this field; the value at time of writing is 37.</td>
+        SHOULD populate this field; the value at time of writing is −37.</td>
     </tr>
     <tr>
       <td>0x26</td>
@@ -272,13 +280,13 @@ complete, as described below.
         <code>time_frac_sec</code>, in nanoseconds</td>
     </tr>
     <tr>
-      <td>0x64</td>
-      <td><code>uint64_t vm_generation_count</code></td>
+      <td>0x68</td>
+      <td><code>uint64_t vm_generation_counter</code></td>
       <td>A change in this field indicates that the guest has been cloned or
         loaded from a snapshot (see below).</td>
     </tr>
     <tr>
-      <td>0x68</td>
+      <td>0x70</td>
       <td>…</td>
       <td>The size of the memory region containing this structure is given in
         the <code>size</code> field, which will typically be a full 4KiB page.
@@ -300,8 +308,9 @@ complete, as described below.
 | 4   | `VMCLOCK_FLAG_PERIOD_MAXERROR_VALID`  | Indicates that `counter_period_maxerror_rate_frac_sec` contains valid data.                                                          |
 | 5   | `VMCLOCK_FLAG_TIME_ESTERROR_VALID`    | Indicates that `time_esterror_nanosec` contains valid data.                                                                          |
 | 6   | `VMCLOCK_FLAG_TIME_MAXERROR_VALID`    | Indicates that `time_maxerror_nanosec` contains valid data.                                                                          |
-| 7   | `VMCLOCK_FLAG_VM_GEN_COUNTER_PRESENT` | Indicates that the `vm_generation_counter` field is present.                                                                         |
-| 8   | `VMCLOCK_FLAG_NOTIFICATION_PRESENT`   | Indicates that the VMClock device will send an interrupt or ACPI notification every time it updates `seq_count` to a new even value. |
+| 7   | `VMCLOCK_FLAG_TIME_MONOTONIC`         | Indicates that the time given by this structure is monotonic; other than leap seconds, the time calculated according to this structure at any given moment shall never appear to be later than the time calculated via the structure at any *later* moment. |
+| 8   | `VMCLOCK_FLAG_VM_GEN_COUNTER_PRESENT` | Indicates that the `vm_generation_counter` field is present.                                                                         |
+| 9   | `VMCLOCK_FLAG_NOTIFICATION_PRESENT`   | Indicates that the VMClock device will send an interrupt or ACPI notification every time it updates `seq_count` to a new even value. |
 
 Unknown flags set by the device can safely be ignored. If a change in behaviour
 is required by a future version of this specification, it would come with a new
@@ -321,11 +330,19 @@ compatibility with existing users.
 ### Leap Second Smearing Hint (0x23)
 
 The time exposed through the VMClock device shall never be smeared. This field
-corresponds to the `subtype` field in virtio-rtc, which indicates a smearing
-method. In this case it merely provides a hint to the guest operating system,
-such that if the guest OS wants to provide its users with an alternative clock
-which does not follow UTC, it may do so in a fashion consistent with the other
-systems in the nearby environment.
+merely provides a hint to the guest operating system, such that if the guest
+OS wants to provide its users with an alternative clock which does not follow
+UTC, it may do so in a fashion consistent with the other systems in the nearby
+environment.
+
+Note that unlike the other enumerations in this structure, this field does
+not correspond to a field in virtio-rtc. In the published virtio-rtc standard
+a smeared clock is a distinct clock type, and its `leap_second_smearing`
+field describes the smearing of the clock actually being exposed — which for
+VMClock is never smeared. The `NOON_LINEAR` and `UTC_SLS` smearing variants
+do match the corresponding `VIRTIO_RTC_SMEAR_xxx` values, but value 0 differs:
+virtio-rtc defines it as `VIRTIO_RTC_SMEAR_UNSPECIFIED`, while for VMClock it
+hints that no smearing should be performed.
 
 | Value | Hint                           |
 |-------|--------------------------------|
@@ -347,27 +364,27 @@ The value of this field shall be valid for the point in time referenced by the
 | 0x04  | `VMCLOCK_LEAP_POST_POS` | A positive leap second occurred at the end of the previous month               |
 | 0x05  | `VMCLOCK_LEAP_POST_NEG` | A negative leap second occurred at the end of the previous month               |
 
-### VM Generation Count (0x64)
+### VM Generation Counter (0x68)
 
 This field indicates that the guest has been cloned or loaded from a snapshot. The operating system may wish to regenerate unique identifiers, reset network connections or reseed entropy, etc.
 
-The conditions under which this counter changes are identical to those of the [VMGenID device](vmgenid.md). The `vm_generation_count` changes whenever the VM is restored to an earlier or non-unique state:
+The conditions under which this counter changes are identical to those of the [VMGenID device](vmgenid.md). The `vm_generation_counter` changes whenever the VM is restored to an earlier or non-unique state:
 
   - Snapshot restoration
   - Backup recovery
   - VM cloning/copying/import
   - Disaster recovery failover
 
-The `vm_generation_count` remains constant during normal VM operations:
+The `vm_generation_counter` remains constant during normal VM operations:
 
   - Pause/resume
   - Shutdown/restart/reboot
   - Host reboot or upgrade
   - Live migration or lossless online failover
 
-The `disruption_marker` and `vm_generation_count` fields indicate two orthogonal, but sometimes correlated, types of event. It is generally likely that the `disruption_marker` would also be changed when the `vm_generation_count` changes, but not necessarily vice versa.
+The `disruption_marker` and `vm_generation_counter` fields indicate two orthogonal, but sometimes correlated, types of event. It is generally likely that the `disruption_marker` would also be changed when the `vm_generation_counter` changes, but not necessarily vice versa.
 
-It is possible that a VM could be cloned (forked) while running on the same host, such that the precision of the hardware counter is not lost, but the uniqueness is. That would be the rare case where the `vm_generation_count` would be changed but not the `disruption_marker`.
+It is possible that a VM could be cloned (forked) while running on the same host, such that the precision of the hardware counter is not lost, but the uniqueness is. That would be the rare case where the `vm_generation_counter` would be changed but not the `disruption_marker`.
 
 ## Calculating time
 
@@ -441,7 +458,7 @@ advertise its presence to the operating system. The Device Tree binding for the
 # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 %YAML 1.2
 ---
-$id: http://devicetree.org/schemas/clock/amazon,vmclock.yaml#
+$id: http://devicetree.org/schemas/ptp/amazon,vmclock.yaml#
 $schema: http://devicetree.org/meta-schemas/core.yaml#
 
 title: Virtual Machine Clock
@@ -452,8 +469,8 @@ maintainers:
 description:
   The vmclock device provides a precise clock source and allows for
   accurate timekeeping across live migration and snapshot/restore
-  operations. The full specification of the shared data structure
-  is available at https://david.woodhou.se/VMClock.pdf
+  operations. The full specification of the shared data structure is
+  available at https://uapi-group.org/specifications/specs/vmclock/
 
 properties:
   compatible:
