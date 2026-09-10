@@ -334,4 +334,29 @@ terminals is typically passed around to various different components while the
 user is active: a shell might pass control to a process it invokes. If that
 process is systemd&amp;rsquo;s &lt;code>run0&lt;/code> then primary control is passed to the privileged session of
 the target user. If &lt;code>systemd-nspawn&lt;/code> is then invoked to start a container, primary
-control is passed to that container, and so on.&lt;/p></description></item><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item></channel></rss>
+control is passed to that container, and so on.&lt;/p></description></item><item><title>UAPI.20 Varlink IPC</title><link>https://uapi-group.org/specifications/specs/varlink/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/varlink/</guid><description>&lt;h1 id="uapi20-varlink-ipc">UAPI.20 Varlink IPC&lt;a class="anchor" href="#uapi20-varlink-ipc">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>0.1&lt;/td>
+ &lt;td>Initial release&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>Varlink is an interface description format and IPC protocol that aims
+to make services accessible to both humans and machines in the
+simplest feasible way. A Varlink interface combines what the classic
+UNIX command line options, &lt;code>STDIN&lt;/code>/&lt;code>STDOUT&lt;/code>/&lt;code>STDERR&lt;/code> text formats, man
+pages and service metadata provide, and makes the equivalent available
+over a single file descriptor.&lt;/p>
+&lt;p>Varlink is plain-text, type-safe, discoverable, self-documenting,
+remotable, testable and easy to debug. It is accessible from any
+programming environment: clients do not require complex modules or
+libraries, existing JSON and local socket communication facilities are
+sufficient for basic operation.&lt;/p></description></item><item><title/><link>https://uapi-group.org/specifications/specs/sysext/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/sysext/</guid><description>&lt;p>This content has moved to &lt;a href="https://uapi-group.org/specifications/specs/extension_image/">Extension Images&lt;/a>&lt;/p></description></item></channel></rss>

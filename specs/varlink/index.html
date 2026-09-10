@@ -1,0 +1,783 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="UAPI.20 Varlink IPC# Version Changes 0.1 Initial release Varlink is an interface description format and IPC protocol that aims to make services accessible to both humans and machines in the simplest feasible way. A Varlink interface combines what the classic UNIX command line options, STDIN/STDOUT/STDERR text formats, man pages and service metadata provide, and makes the equivalent available over a single file descriptor.
+Varlink is plain-text, type-safe, discoverable, self-documenting, remotable, testable and easy to debug. It is accessible from any programming environment: clients do not require complex modules or libraries, existing JSON and local socket communication facilities are sufficient for basic operation.
+"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://uapi-group.org/specifications/specs/varlink/"><meta property="og:site_name" content="UAPI Group Specifications"><meta property="og:title" content="UAPI.20 Varlink IPC"><meta property="og:description" content="UAPI.20 Varlink IPC# Version Changes 0.1 Initial release Varlink is an interface description format and IPC protocol that aims to make services accessible to both humans and machines in the simplest feasible way. A Varlink interface combines what the classic UNIX command line options, STDIN/STDOUT/STDERR text formats, man pages and service metadata provide, and makes the equivalent available over a single file descriptor.
+Varlink is plain-text, type-safe, discoverable, self-documenting, remotable, testable and easy to debug. It is accessible from any programming environment: clients do not require complex modules or libraries, existing JSON and local socket communication facilities are sufficient for basic operation."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="specs"><meta itemprop=name content="UAPI.20 Varlink IPC"><meta itemprop=description content="UAPI.20 Varlink IPC# Version Changes 0.1 Initial release Varlink is an interface description format and IPC protocol that aims to make services accessible to both humans and machines in the simplest feasible way. A Varlink interface combines what the classic UNIX command line options, STDIN/STDOUT/STDERR text formats, man pages and service metadata provide, and makes the equivalent available over a single file descriptor.
+Varlink is plain-text, type-safe, discoverable, self-documenting, remotable, testable and easy to debug. It is accessible from any programming environment: clients do not require complex modules or libraries, existing JSON and local socket communication facilities are sufficient for basic operation."><meta itemprop=wordCount content="8076"><title>UAPI.20 Varlink IPC | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/varlink/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.f219ef05e1d59cf8afc5247bd61367fb97ef4a4a2b41d55d849e9960e678cf1f.js integrity="sha256-8hnvBeHVnPivxSR71hNn+5fvSkorQdVdhJ6ZYOZ4zx8=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/specifications/><span>UAPI Group Specifications</span></a></h2><div class="book-search hidden"><input id=book-search-input type=text placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li><a href=/>⬅️ Back to top</a></li></ul><ul><li><a>Specifications</a><ul><li><a href=/specifications/specs/boot_loader_specification/>UAPI.1 Boot Loader Specification</a></li><li><a href=/specifications/specs/discoverable_partitions_specification/>UAPI.2 Discoverable Partitions Specification</a></li><li><a href=/specifications/specs/discoverable_disk_image/>UAPI.3 Discoverable Disk Images</a></li><li><a href=/specifications/specs/extension_image/>UAPI.4 Extension Images</a></li><li><a href=/specifications/specs/unified_kernel_image/>UAPI.5 Unified Kernel Images</a></li><li><a href=/specifications/specs/configuration_files_specification/>UAPI.6 Configuration Files Specification</a></li><li><a href=/specifications/specs/linux_tpm_pcr_registry/>UAPI.7 Linux TPM PCR Registry</a></li><li><a href=/specifications/specs/package_metadata_for_executable_files/>UAPI.8 Package Metadata for Executable Files</a></li><li><a href=/specifications/specs/linux_file_system_hierarchy/>UAPI.9 Linux File System Hierarchy</a></li><li><a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format Specification</a></li><li><a href=/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</a></li><li><a href=/specifications/specs/elf_dlopen_metadata/>UAPI.12 dlopen() Metadata for ELF Files</a></li><li><a href=/specifications/specs/vmclock/>UAPI.13 VMClock</a></li><li><a href=/specifications/specs/vmgenid/>UAPI.14 VMGenID</a></li><li><a href=/specifications/specs/osc_context/>UAPI.15 OSC 3008: Hierarchical Context Signalling</a></li><li><a href=/specifications/specs/varlink/ class=active>UAPI.20 Varlink IPC</a></li></ul></li></ul><ul><li><a href=https://github.com/uapi-group/specifications target=_blank rel=noopener>Collaborate on Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class="book-header hidden"><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/icons/menu.svg class=book-icon alt=Menu></label><h3>UAPI.20 Varlink IPC</h3><label for=toc-control><img src=/specifications/icons/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class=hidden><nav id=TableOfContents><ul><li><a href=#design-principles>Design Principles</a></li><li><a href=#terminology>Terminology</a></li><li><a href=#interface-definition>Interface Definition</a><ul><li><a href=#example>Example</a></li><li><a href=#keywords>Keywords</a></li><li><a href=#names>Names</a></li><li><a href=#types>Types</a></li><li><a href=#methods>Methods</a></li><li><a href=#errors>Errors</a></li><li><a href=#documentation-comments>Documentation Comments</a></li><li><a href=#grammar>Grammar</a></li><li><a href=#parsing-expression-grammar>Parsing Expression Grammar</a></li><li><a href=#interface-evolution>Interface Evolution</a></li></ul></li><li><a href=#mapping-the-type-system-to-json>Mapping the Type System to JSON</a><ul><li><a href=#integers>Integers</a></li><li><a href=#floating-point-numbers>Floating Point Numbers</a></li><li><a href=#nullable-fields-and-absent-fields>Nullable Fields and Absent Fields</a></li><li><a href=#unknown-fields>Unknown Fields</a></li></ul></li><li><a href=#wire-protocol>Wire Protocol</a><ul><li><a href=#call>Call</a></li><li><a href=#reply>Reply</a></li><li><a href=#simple-method-call>Simple Method Call</a></li><li><a href=#oneway><code>oneway</code></a></li><li><a href=#more><code>more</code></a></li><li><a href=#upgrade><code>upgrade</code></a></li><li><a href=#errors-1>Errors</a></li><li><a href=#vendor-extensions>Vendor Extensions</a></li><li><a href=#connection-lifecycle>Connection Lifecycle</a></li></ul></li><li><a href=#the-orgvarlinkservice-interface>The <code>org.varlink.service</code> Interface</a><ul><li><a href=#methods-1>Methods</a></li><li><a href=#errors-2>Errors</a></li></ul></li><li><a href=#service-addresses>Service Addresses</a></li><li><a href=#socket-activation>Socket Activation</a></li><li><a href=#transport-af_unix-stream-sockets>Transport: <code>AF_UNIX</code> Stream Sockets</a><ul><li><a href=#framing>Framing</a></li><li><a href=#listening-sockets-and-access-control>Listening Sockets and Access Control</a></li><li><a href=#peer-authentication>Peer Authentication</a></li><li><a href=#authorization>Authorization</a></li><li><a href=#passing-file-descriptors>Passing File Descriptors</a></li><li><a href=#protocol-upgrade>Protocol Upgrade</a></li><li><a href=#recognizing-varlink-socket-inodes>Recognizing Varlink Socket Inodes</a></li></ul></li><li><a href=#transport-http>Transport: HTTP</a><ul><li><a href=#url-schema>URL Schema</a></li><li><a href=#simple-http-mode>Simple HTTP Mode</a></li><li><a href=#websocket-mode>WebSocket Mode</a></li><li><a href=#authentication-and-transport-security>Authentication and Transport Security</a></li></ul></li><li><a href=#references>References</a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=uapi20-varlink-ipc>UAPI.20 Varlink IPC<a class=anchor href=#uapi20-varlink-ipc>#</a></h1><table><thead><tr><th>Version</th><th>Changes</th></tr></thead><tbody><tr><td>0.1</td><td>Initial release</td></tr></tbody></table><p>Varlink is an interface description format and IPC protocol that aims
+to make services accessible to both humans and machines in the
+simplest feasible way. A Varlink interface combines what the classic
+UNIX command line options, <code>STDIN</code>/<code>STDOUT</code>/<code>STDERR</code> text formats, man
+pages and service metadata provide, and makes the equivalent available
+over a single file descriptor.</p><p>Varlink is plain-text, type-safe, discoverable, self-documenting,
+remotable, testable and easy to debug. It is accessible from any
+programming environment: clients do not require complex modules or
+libraries, existing JSON and local socket communication facilities are
+sufficient for basic operation.</p><p>This specification consolidates the protocol documentation originally
+published at <a href=https://varlink.org/>varlink.org</a>, and extends it with
+a definition of how the protocol is bound to specific transports:
+<code>AF_UNIX</code> stream sockets (including how such sockets are marked so
+that they can be recognized as Varlink sockets) and HTTP (in a simple
+request/response mode and in a WebSocket mode).</p><h2 id=design-principles>Design Principles<a class=anchor href=#design-principles>#</a></h2><ul><li><p><strong>Simplicity.</strong> Varlink aims to be as simple as possible. It is not
+specifically optimized for anything else but ease-of-use and
+maintainability.</p></li><li><p><strong>Discoverability.</strong> Varlink services describe themselves, with a
+machine-readable interface definition and human-readable
+documentation. The documentation is provided to clients as
+structured data on a well-known service interface.</p></li><li><p><strong>Remotability.</strong> It should be easy to forward, bridge and redirect
+Varlink interfaces over any connection-oriented transport. Varlink
+should minimize exposure to side-effects of local APIs. Interactions
+are designed to be simple messages on a network, not carrying direct
+references to locally stored file paths or needlessly relying on
+passing file descriptors.</p></li><li><p><strong>Focus.</strong> Varlink is the protocol and the definition of interfaces,
+but it does not define or provide any significant functionality
+itself.</p></li><li><p><strong>Errors.</strong> Varlink errors carry enough information to be consumed
+by machines and automated rules.</p></li></ul><p>Varlink uses direct connections, has no central message handling component,
+and is hence easily debugged, secured, isolated and tested. Everything is
+readable: Varlink uses plain text messages, has no magic numbers and no
+unnamed values, and is easily debuggable with tools such as <code>strace</code>, <code>netcat</code>
+or <code>jq</code>.</p><h2 id=terminology>Terminology<a class=anchor href=#terminology>#</a></h2><ul><li><p>An <strong>interface</strong> is a named collection of types, methods and errors,
+described in the Varlink interface definition language (see below).</p></li><li><p>A <strong>service</strong> is a program that implements one or more interfaces and
+accepts connections from clients.</p></li><li><p>A <strong>client</strong> is a program that connects to a service and invokes methods.</p></li><li><p>A <strong>connection</strong> is a bidirectional, ordered, reliable byte stream between a
+client and a service, established over a <em>transport</em>.</p></li><li><p>A <strong>message</strong> is a single JSON object exchanged over a connection, either a
+<em>call</em> (client to service) or a <em>reply</em> (service to client).</p></li></ul><p>The key words &ldquo;MUST&rdquo;, &ldquo;MUST NOT&rdquo;, &ldquo;REQUIRED&rdquo;, &ldquo;SHALL&rdquo;, &ldquo;SHALL NOT&rdquo;,
+&ldquo;SHOULD&rdquo;, &ldquo;SHOULD NOT&rdquo;, &ldquo;RECOMMENDED&rdquo;, &ldquo;NOT RECOMMENDED&rdquo;, &ldquo;MAY&rdquo;, and
+&ldquo;OPTIONAL&rdquo; in this document are to be interpreted as described in BCP
+14 <a href=https://www.rfc-editor.org/rfc/rfc2119>RFC 2119</a> <a href=https://www.rfc-editor.org/rfc/rfc8174>RFC
+8174</a> when, and only when,
+they appear in all capitals, as shown here.</p><h2 id=interface-definition>Interface Definition<a class=anchor href=#interface-definition>#</a></h2><p>A Varlink interface has a reverse-domain name and specifies which methods the
+interface implements. Each method has named and typed input and output
+parameters. Complex types can be aliased with the <code>type</code> keyword to allow
+reusing them and to make method signatures easier to read. The interface also
+specifies the errors that may be returned from its method calls.</p><p>Everything can be documented by adding a comment immediately before it.</p><p>Interface definition files are named after the interface they implement with
+the suffix <code>.varlink</code>, e.g. <code>org.example.ftl.varlink</code>.</p><h3 id=example>Example<a class=anchor href=#example>#</a></h3><pre tabindex=0><code># Interface to jump a spacecraft to another point in space.
+# The FTL Drive is the propulsion system to achieve
+# faster-than-light travel through space. A ship making a
+# properly calculated jump can arrive safely in planetary
+# orbit, or alongside other ships or spaceborne objects.
+interface org.example.ftl
+
+# The current state of the FTL drive and the amount of
+# fuel available to jump.
+type DriveCondition (
+  state: (idle, spooling, busy),
+  tylium_level: int
+)
+
+# Speed, trajectory and jump duration is calculated prior
+# to activating the FTL drive.
+type DriveConfiguration (
+  speed: int,
+  trajectory: int,
+  duration: int
+)
+
+# The galactic coordinates use the Sun as the origin.
+# Galactic longitude is measured with primary direction
+# from the Sun to the center of the galaxy in the galactic
+# plane, while the galactic latitude measures the angle
+# of the object above the galactic plane.
+type Coordinate (
+  longitude: float,
+  latitude: float,
+  distance: int
+)
+
+# Monitor the drive. The method will reply with an update
+# whenever the drive&#39;s state changes
+method Monitor() -&gt; (condition: DriveCondition)
+
+# Calculate the drive&#39;s jump parameters from the current
+# position to the target position in the galaxy
+method CalculateConfiguration(
+  current: Coordinate,
+  target: Coordinate
+) -&gt; (configuration: DriveConfiguration)
+
+# Jump to the calculated point in space
+method Jump(configuration: DriveConfiguration) -&gt; ()
+
+# There is not enough tylium to jump with the given
+# parameters
+error NotEnoughEnergy ()
+
+# The supplied parameters are outside the supported range
+error ParameterOutOfRange (field: string)</code></pre><h3 id=keywords>Keywords<a class=anchor href=#keywords>#</a></h3><table><thead><tr><th>Keyword</th><th>Description</th></tr></thead><tbody><tr><td><code>interface</code></td><td>The name of the interface in reverse-domain name notation. It MUST be the first keyword in the description.</td></tr><tr><td><code>type</code></td><td>A custom type: the definition of an object/record/structure, or of an enumeration.</td></tr><tr><td><code>method</code></td><td>A method with input and output parameter objects.</td></tr><tr><td><code>error</code></td><td>The name of an error, and an optional data object describing the error.</td></tr></tbody></table><p>Types, methods and error names MUST be unique identifiers within an interface
+definition; they share the same namespace. They are referenced by their
+fully-qualified reverse-domain name. The method <code>GetInfo()</code> in the interface
+<code>org.example.test</code> is called <code>org.example.test.GetInfo</code>.</p><h3 id=names>Names<a class=anchor href=#names>#</a></h3><ul><li><p><strong>Interface names</strong> use reverse-domain notation. They consist of at least
+two dot-separated components. Each component starts with a letter (or, for
+all but the first component, a digit), and continues with letters, digits
+and non-leading, non-trailing hyphens. See the grammar below for the exact
+syntax.</p></li><li><p><strong>Type, method and error names</strong> start with an uppercase ASCII letter and
+continue with ASCII letters and digits.</p></li><li><p><strong>Field names</strong> (of structures and enumerations, and of method parameters)
+start with an ASCII letter and continue with ASCII letters and digits. An
+underscore (<code>_</code>) may appear between two such characters, but not at the
+beginning or the end of the name, and not doubled.</p></li></ul><h3 id=types>Types<a class=anchor href=#types>#</a></h3><p>With <code>type</code> a structure of fields (an object) or an enumeration can be
+defined. Following the <code>type</code> keyword the type name has to be specified.
+Enclosed in <code>()</code> the declaration of the various fields follows. Field
+declarations specify a field name followed by a colon and a type. Fields are
+separated by commas.</p><pre tabindex=0><code>type MyType (
+   example_bool: bool,
+   example_int: int,
+   example_float: float,
+   example_string: string,
+   example_object: object,
+   example_any: any,
+   example_enum: (one, two, three),
+   example_struct: (first: int, second: string),
+   example_array: []string,
+   example_dictionary: [string]string,
+   example_stringset: [string](),
+   example_nullable: ?string,
+   example_nullable_array_struct: ?[](first: int, second: string),
+   example_other_type: MyOtherType
+)</code></pre><table><thead><tr><th>Type</th><th>Keyword</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td>Boolean</td><td><code>bool</code></td><td><code>true</code> or <code>false</code></td><td><code>flag: bool</code></td></tr><tr><td>Integer</td><td><code>int</code></td><td>Signed integer, implementation-specific size, usually 64-bit</td><td><code>whole: int</code></td></tr><tr><td>Floating Point</td><td><code>float</code></td><td>Implementation-specific size, usually IEEE 754 double</td><td><code>half: float</code></td></tr><tr><td>String</td><td><code>string</code></td><td>Unicode text</td><td><code>name: string</code></td></tr><tr><td>Object</td><td><code>()</code></td><td>Structure of named, typed fields, separated by comma</td><td><code>(first: int, second: string)</code></td></tr><tr><td>Enum</td><td><code>()</code></td><td>List of names without types, separated by comma</td><td><code>(this, that, other)</code></td></tr><tr><td>Map/Dictionary</td><td><code>[string]</code></td><td>Map of values of one type, keyed by unique strings</td><td><code>[string]int</code></td></tr><tr><td>Array</td><td><code>[]</code></td><td>Ordered list of values of one type</td><td><code>[]int</code></td></tr><tr><td>Nullable</td><td><code>?</code></td><td>Nullable type (&ldquo;maybe&rdquo;)</td><td><code>?string</code></td></tr><tr><td>Foreign Object</td><td><code>object</code></td><td>Foreign, untyped/raw JSON object</td><td><code>payload: object</code></td></tr><tr><td>Any</td><td><code>any</code></td><td>Any value: Boolean, Integer, Floating Point, String, (Foreign) Object, Enum, Map/Dictionary, Array, but not Nullable</td><td><code>value: any</code></td></tr></tbody></table><p>A <em>set of strings</em> can be expressed as a map with an empty structure as value
+type, i.e. <code>[string]()</code>.</p><p>Structures and enumerations may be declared anonymously inline (as in the
+example above), or given a name via <code>type</code> and referenced by that name.</p><h3 id=methods>Methods<a class=anchor href=#methods>#</a></h3><p>Method names start with an uppercase character and continue with alphanumeric
+characters. A method specifies an input and an output parameter object:</p><pre tabindex=0><code>method Add(a: int, b: int) -&gt; (sum: int)
+method Foo(a: int, b: MyType) -&gt; (bar: MyOtherType, baz: float, more: (i: int, f: float, s: string))</code></pre><p>Both the input and the output parameter list may be empty, expressed as <code>()</code>.</p><h3 id=errors>Errors<a class=anchor href=#errors>#</a></h3><p>Error names start with an uppercase character and continue with
+alphanumeric characters, and optionally carry parameters describing
+the error. The error is identified by its fully-qualified
+name. Varlink calls SHOULD only return well-defined errors specified
+in the interface description (or in the <code>org.varlink.service</code>
+interface, see below).</p><pre tabindex=0><code>error UnknownAction(action: string, more_data: DetailedError)</code></pre><h3 id=documentation-comments>Documentation Comments<a class=anchor href=#documentation-comments>#</a></h3><p>All whitespace (space, <code>\t</code>, <code>\r</code>, or <code>\n</code>) is ignored, except inside
+comments, which are started with <code>#</code> and extend to the end of the line, and
+except that the interface name and each member declaration MUST be followed
+by a line break (see the grammar below).</p><p>Comments that start on a new line and are immediately followed by
+<code>interface</code>, <code>method</code>, <code>type</code> or <code>error</code> are documentation for that following
+declaration. These comments may span multiple lines. Comments immediately
+preceding a field declaration inside a structure, enumeration or parameter
+list are documentation for that field.</p><p>A single space following the <code>#</code> character is conventionally used as
+separator and is not part of the documentation text.</p><p>Because Varlink interfaces are retrieved as plain text at runtime (see
+<code>org.varlink.service.GetInterfaceDescription</code> below), the documentation
+comments are transmitted to clients together with the interface definition,
+and thus available for introspection and for generating user-visible help.</p><h3 id=grammar>Grammar<a class=anchor href=#grammar>#</a></h3><pre tabindex=0><code>interface
+        &#34;interface&#34; interface_name members
+
+members
+        member
+        member members
+
+member
+        type_alias
+        method
+        error
+
+type_alias
+        &#34;type&#34; name struct
+        &#34;type&#34; name enum
+
+method
+        &#34;method&#34; name struct &#34;-&gt;&#34; struct
+
+error
+        &#34;error&#34; name struct
+
+type
+        element_type
+        &#34;[]&#34; type
+        &#34;[string]&#34; type
+        &#34;?&#34; element_type
+        &#34;?&#34; &#34;[]&#34; type
+        &#34;?&#34; &#34;[string]&#34; type
+
+element_type
+        struct
+        enum
+        name
+        &#34;bool&#34;
+        &#34;int&#34;
+        &#34;float&#34;
+        &#34;string&#34;
+        &#34;object&#34;
+        &#34;any&#34;
+
+struct
+        &#34;(&#34; struct_fields &#34;)&#34;
+        &#34;(&#34; &#34;)&#34;
+
+struct_fields
+        struct_field
+        struct_field &#34;,&#34; struct_fields
+
+struct_field
+        field_name &#34;:&#34; type
+
+enum
+        &#34;(&#34; enum_fields &#34;)&#34;
+
+enum_fields
+        field_name
+        field_name &#34;,&#34; enum_fields
+
+interface_name
+        [A-Za-z]([-]*[A-Za-z0-9])*(\.[A-Za-z0-9]([-]*[A-Za-z0-9])*)+
+
+name
+        [A-Z][A-Za-z0-9]*
+
+field_name
+        [A-Za-z](_?[A-Za-z0-9])*</code></pre><h3 id=parsing-expression-grammar>Parsing Expression Grammar<a class=anchor href=#parsing-expression-grammar>#</a></h3><p>The following is the same grammar expressed as a Parsing Expression Grammar
+(PEG), including whitespace and comment handling:</p><pre tabindex=0><code>whitespace /* Modeled after ECMA-262, 5th ed., 7.2. \v\f removed */
+    = [ \t\u{00A0}\u{FEFF}\u{1680}\u{180E}\u{2000}-\u{200A}\u{202F}\u{205F}\u{3000}]
+
+eol_r /* Modeled after ECMA-262, 5th ed., 7.3. */
+  = &#34;\n&#34;
+  / &#34;\r\n&#34;
+  / &#34;\r&#34;
+  / &#34;\u{2028}&#34;
+  / &#34;\u{2029}&#34;
+
+comment
+    = &#34;#&#34; [^\n\r\u{2028}\u{2029}]* eol_r
+
+eol
+    = whitespace* eol_r
+    / comment
+
+_
+    = whitespace / comment / eol_r
+
+field_name
+    = [A-Za-z](&#39;_&#39;?[A-Za-z0-9])*
+
+name
+    = [A-Z][A-Za-z0-9]*
+
+interface_name
+    = [A-Za-z]([-]* [A-Za-z0-9])* ( &#39;.&#39; [A-Za-z0-9]([-]*[A-Za-z0-9])* )+
+
+dict
+    = &#34;[string]&#34;
+
+array
+    = &#34;[]&#34;
+
+maybe
+    = &#34;?&#34;
+
+element_type
+    = &#34;bool&#34;
+    / &#34;int&#34;
+    / &#34;float&#34;
+    / &#34;string&#34;
+    / &#34;object&#34;
+    / &#34;any&#34;
+    / name
+    / venum
+    / vstruct
+
+type
+    = element_type
+    / maybe element_type
+    / array type
+    / dict type
+    / maybe array type
+    / maybe dict type
+
+venum
+    = &#39;(&#39; ( _* field_name ** &#39;,&#39; ) _* &#39;)&#39;
+
+argument
+    = _* field_name _* &#39;:&#39; _* type
+
+vstruct
+    = &#39;(&#39; ( argument ** &#39;,&#39; ) _* &#39;)&#39;
+
+vtypedef
+    = &#34;type&#34; _+ name _* vstruct
+    / &#34;type&#34; _+ name _* venum
+
+error
+    = &#34;error&#34; _+ name _* vstruct
+
+method
+    = &#34;method&#34; _+ name _* vstruct _* &#34;-&gt;&#34; _* vstruct
+
+member
+    = _* m:method
+    / _* t:vtypedef
+    / _* e:error
+
+interface
+    = _* &#34;interface&#34; _+ interface_name eol ( member ++ eol ) _*</code></pre><h3 id=interface-evolution>Interface Evolution<a class=anchor href=#interface-evolution>#</a></h3><p>Varlink interfaces do not have a version number, they only have a feature set
+described in detail by the interface definition, which is part of the wire
+protocol. Clients can fully introspect a service and figure out which features
+the interface supports; this is more expressive than any simple numbering
+scheme.</p><p>Varlink does not use positional parameters or fixed-size objects in its
+interface definition or on the wire: all parameters are identified by their
+name and can be extended later. Interfaces SHOULD be extended in a backwards
+compatible way:</p><ul><li><p>New fields SHOULD be added as nullable (<code>?</code>) fields, both in structures and
+in method input/output parameters. The result of a method, when passed
+parameters without the new optional fields, SHOULD be the same as in older
+versions. The expected behavior for omitted fields SHOULD be documented.</p></li><li><p>New methods, types and errors may be added. New enumeration values may be
+added to enumerations used in method input parameters; adding values to
+enumerations that appear in replies is only backwards compatible if clients
+are prepared to handle unknown values, which SHOULD be documented.</p></li><li><p>Removing or incompatibly changing fields, types, errors, enumeration values
+or methods is not backwards compatible and SHOULD be avoided. If an
+interface must be changed incompatibly, it SHOULD be released under a new
+name, commonly by adding a number to the interface name, e.g.
+<code>org.example.interface2</code>.</p></li></ul><p>Services SHOULD refuse unrecognized fields in method calls with an
+<code>org.varlink.service.InvalidParameter</code> error sent back to the client.</p><p>Clients SHOULD ignore fields in replies they do not understand, so that
+services can extend their output.</p><h2 id=mapping-the-type-system-to-json>Mapping the Type System to JSON<a class=anchor href=#mapping-the-type-system-to-json>#</a></h2><p>Varlink values are encoded as JSON (<a href=https://www.rfc-editor.org/rfc/rfc8259>RFC 8259</a>).
+The mapping is as follows:</p><table><thead><tr><th>Varlink type</th><th>JSON encoding</th></tr></thead><tbody><tr><td><code>bool</code></td><td>JSON <code>true</code> or <code>false</code></td></tr><tr><td><code>int</code></td><td>JSON number without fractional part or exponent</td></tr><tr><td><code>float</code></td><td>JSON number</td></tr><tr><td><code>string</code></td><td>JSON string</td></tr><tr><td>structure</td><td>JSON object; each field a name/value pair</td></tr><tr><td>enumeration</td><td>JSON string containing the enumeration value&rsquo;s name</td></tr><tr><td><code>[string]T</code></td><td>JSON object; each map element a name/value pair</td></tr><tr><td><code>[]T</code></td><td>JSON array</td></tr><tr><td><code>?T</code></td><td>Either the encoding of <code>T</code>, or JSON <code>null</code>, or the field is absent (see below)</td></tr><tr><td><code>object</code></td><td>Any JSON object</td></tr><tr><td><code>any</code></td><td>Any JSON value: <code>true</code>, <code>false</code>, numbers, strings, object, array, but not <code>null</code></td></tr></tbody></table><h3 id=integers>Integers<a class=anchor href=#integers>#</a></h3><p>Like JSON, Varlink is intentionally underspecified regarding integer
+sizes and does not distinguish signed and unsigned integer
+types. Implementations SHOULD support signed integers, and return an
+error if they cannot handle a received number.</p><p>Implementations SHOULD support at least the range of signed 64-bit
+integers, i.e. −2⁶³ … 2⁶³−1, when generating and parsing
+messages. Support for the unsigned 64-bit integer range is RECOMMENDED
+(i.e. supporting the combined signed/unsigned integer range of −2⁶³ …
+2⁶⁴−1). Interfaces that need to transport values outside of this
+range, or environments that cannot represent this range natively
+(e.g. JavaScript&rsquo;s IEEE 754 <code>Number</code>) MAY choose to transport such
+values encoded as <code>string</code> instead. Implementations MAY be lenient and
+accept a JSON string containing a formatted decimal integer where an
+<code>int</code> is expected.</p><h3 id=floating-point-numbers>Floating Point Numbers<a class=anchor href=#floating-point-numbers>#</a></h3><p>Floating point numbers SHOULD be treated as IEEE 754 double precision (64-bit)
+values. Note that JSON cannot represent the special values NaN, +Inf and −Inf,
+hence these MUST NOT be generated. Interfaces that need to transport such
+values SHOULD encode them differently, e.g. as <code>string</code>, or as a nullable
+<code>float</code> with the special values mapped to <code>null</code>.</p><h3 id=nullable-fields-and-absent-fields>Nullable Fields and Absent Fields<a class=anchor href=#nullable-fields-and-absent-fields>#</a></h3><p>For a nullable field (<code>?T</code>), the following two encodings MUST be treated as
+equivalent by receivers: the field being absent from the enclosing JSON
+object, and the field being present with the value <code>null</code>. Note that for
+fields of type <code>?[]T</code> or <code>?[string]T</code> an empty array or object respectively is
+<em>not</em> equivalent to <code>null</code>: an empty collection is a valid non-null value.</p><p>Senders MAY omit fields whose value is <code>null</code> rather than encoding them
+explicitly.</p><p>A <code>null</code> value (or an absent field) generally means &ldquo;use the default&rdquo;
+or &ldquo;does not apply&rdquo;, where the meaning of &ldquo;default&rdquo; is specific to the
+interface and SHOULD be documented.</p><p>Non-nullable fields must be present, and must not be <code>null</code>.</p><h3 id=unknown-fields>Unknown Fields<a class=anchor href=#unknown-fields>#</a></h3><p>A service SHOULD reject method call parameters containing fields that are not
+declared in the interface with the <code>org.varlink.service.InvalidParameter</code>
+error, and SHOULD equally reject values that do not match the declared types.
+Clients SHOULD ignore undeclared fields in replies (see &ldquo;Interface Evolution&rdquo;
+above).</p><h2 id=wire-protocol>Wire Protocol<a class=anchor href=#wire-protocol>#</a></h2><p>All messages are encoded as JSON objects. Over stream transports, each
+message is terminated with a single <code>NUL</code> byte (<code>0x00</code>). Conceptually the
+<code>NUL</code> byte belongs to the transport, not to the Varlink message: if Varlink
+messages are encapsulated in a transport that provides its own framing, such
+as HTTP, that transport&rsquo;s framing is used instead (see below). Since a valid
+JSON document never contains a raw <code>NUL</code> byte (inside strings it has to be
+escaped as <code>\u0000</code>), the terminator is unambiguous.</p><p>Messages MUST be encoded in UTF-8.</p><p>A service responds to requests in the same order that they are received —
+messages are never multiplexed, and there are no sequence numbers in calls and
+replies. However, multiple requests can be queued on a connection to enable
+pipelining. This simplifies and minimizes the amount of state clients need to
+track. Complex interfaces can use multiple connections at the same time.</p><p>The common case is a simple method call with a single reply. To support
+monitoring calls, subscriptions, chunked data and streaming, calls may carry
+instructions for the server to not reply, or to reply multiple times to a
+single method call.</p><h3 id=call>Call<a class=anchor href=#call>#</a></h3><p>Call and reply messages are objects with properties, conceptually similar to
+HTTP headers. The <code>parameters</code> member is the payload.</p><p>A call is defined as:</p><pre tabindex=0><code>(
+  method: string,
+  parameters: ?object,
+  oneway: ?bool,
+  more: ?bool,
+  upgrade: ?bool
+)</code></pre><table><thead><tr><th>Member</th><th>Description</th></tr></thead><tbody><tr><td><code>method</code></td><td>The fully-qualified method name, i.e. <em>interface</em>.<em>method</em>. REQUIRED.</td></tr><tr><td><code>parameters</code></td><td>The input parameters, an object matching the method&rsquo;s input parameter declaration.</td></tr><tr><td><code>oneway</code></td><td>Instructs the server to suppress its reply. See below.</td></tr><tr><td><code>more</code></td><td>Requests possibly multiple replies to the same call. See below.</td></tr><tr><td><code>upgrade</code></td><td>Requests the connection to be taken over by a custom protocol/payload. See below.</td></tr></tbody></table><p>At most one of <code>oneway</code>, <code>more</code> and <code>upgrade</code> may be set to <code>true</code> in a single
+call. A server MUST reject calls that set more than one of them, or that set
+any of them to a non-boolean value, by closing the connection (there is no
+well-defined way to reply to such a call).</p><p>The <code>parameters</code> member is optional: if the method takes no input parameters,
+or all of them are nullable and shall be omitted, the member may be absent,
+<code>null</code> or <code>{}</code>. All three encodings MUST be treated as equivalent by servers.
+Senders SHOULD omit the member rather than sending <code>null</code> or <code>{}</code>.</p><h3 id=reply>Reply<a class=anchor href=#reply>#</a></h3><p>A reply is defined as:</p><pre tabindex=0><code>(
+  parameters: ?object,
+  continues: ?bool,
+  error: ?string
+)</code></pre><table><thead><tr><th>Member</th><th>Description</th></tr></thead><tbody><tr><td><code>parameters</code></td><td>The output parameters of the reply, or the parameters of the error.</td></tr><tr><td><code>continues</code></td><td>Instructs the client to expect further replies to the same call. Only valid if the call requested it with <code>more</code>.</td></tr><tr><td><code>error</code></td><td>The fully-qualified reverse-domain error name. Its presence indicates that the method call has failed.</td></tr></tbody></table><p>As for calls, an absent <code>parameters</code> member, <code>null</code>, and <code>{}</code> MUST be treated
+as equivalent by clients, and servers SHOULD omit the member when there are no
+parameters to transmit.</p><p><code>continues</code> MUST NOT be set in an error reply: an error reply always
+terminates the call it belongs to.</p><h3 id=simple-method-call>Simple Method Call<a class=anchor href=#simple-method-call>#</a></h3><p>Requests specify the fully-qualified <code>method</code> that should be called, along
+with its input parameters:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;method&#34;</span>: <span style=color:#e6db74>&#34;org.example.ftl.CalculateConfiguration&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;parameters&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;current&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;longitude&#34;</span>: <span style=color:#ae81ff>27.13</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;latitude&#34;</span>: <span style=color:#ae81ff>-12.4</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;distance&#34;</span>: <span style=color:#ae81ff>48732498234</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;target&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;longitude&#34;</span>: <span style=color:#ae81ff>-48.7</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;latitude&#34;</span>: <span style=color:#ae81ff>12.9</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;distance&#34;</span>: <span style=color:#ae81ff>354667658787</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>A service replies with an object that contains the output <code>parameters</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;parameters&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;configuration&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;speed&#34;</span>: <span style=color:#ae81ff>32434234</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;trajectory&#34;</span>: <span style=color:#ae81ff>686787</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;duration&#34;</span>: <span style=color:#ae81ff>13256445</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>Errors contain the fully-qualified error name and optional <code>parameters</code> as
+specified and documented in the Varlink interface file:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;error&#34;</span>: <span style=color:#e6db74>&#34;org.example.ftl.ParameterOutOfRange&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;parameters&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;field&#34;</span>: <span style=color:#e6db74>&#34;current.distance&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><h3 id=oneway><code>oneway</code><a class=anchor href=#oneway>#</a></h3><p>Setting <code>oneway</code> to <code>true</code> in a call instructs the server to not send any
+reply, neither a success reply nor an error. The server MUST adhere to the
+instruction, to allow clients to associate the next reply with the next call
+issued without <code>oneway</code>.</p><p>This is useful when many messages are sent as part of one transaction, and
+only one single reply is needed to confirm the transaction. It might also be
+useful for non-critical data such as a debugging interface, to minimize
+round-trip handling. Note that the client will not learn about any failure of
+a <code>oneway</code> call, including invocation of a non-existent method.</p><p>Because of the strict ordering requirement of the protocol, all servers MUST
+implement <code>oneway</code>, even if none of their methods have a specific use for it.</p><h3 id=more><code>more</code><a class=anchor href=#more>#</a></h3><p>Setting <code>more</code> to <code>true</code> in a call requests possibly multiple replies to the
+same call. Support for <code>more</code> is optional on the server side and per method:</p><ul><li><p>If the server does not support <code>more</code> for the method, it replies with a
+single reply without <code>continues</code>, i.e. the call behaves like a simple method
+call and the connection is free to be used for the next call.</p></li><li><p>If the server does support it, it sends zero or more replies with
+<code>continues</code> set to <code>true</code>, followed by exactly one final reply without
+<code>continues</code> (or with it set to <code>false</code>), or by an error reply. While replies
+with <code>continues</code> are being sent, the connection is busy: the server MUST NOT
+process further calls on the connection until the final reply has been sent.
+(Clients may still enqueue further calls, in the sense of pipelining.)</p></li><li><p>A client which is no longer interested in the replies from the server
+simply closes the connection.</p></li></ul><p>Servers MUST NOT set <code>continues</code> in replies to calls that did not set <code>more</code>.</p><p>Some methods only make sense with <code>more</code> set (for instance, methods that
+enumerate an unbounded set of objects, one reply per object). Servers SHOULD
+reply with the <code>org.varlink.service.ExpectedMore</code> error if such methods are
+called without <code>more</code>.</p><p>Varlink connections can thus be turned into monitor connections, which are
+soft-negotiated between the client and the service. To avoid race conditions
+between the reading of the current state and subscribing to updates, a typical
+Varlink monitor method call first returns the current state and then sends
+changes in subsequent replies to the same request on the same connection.</p><p>The IDL definition of a method that supports <code>more</code> MUST carry the combination
+of all possible replies as reply message definition, and MUST set <code>?</code> on all
+fields that may be absent in at least one valid reply of the series.</p><h3 id=upgrade><code>upgrade</code><a class=anchor href=#upgrade>#</a></h3><p>Setting <code>upgrade</code> to <code>true</code> in a call requests the connection to be taken over
+by a custom protocol/payload. The server confirms the upgrade by sending a
+single reply message (which may carry parameters). After this reply the
+connection is no longer controlled by Varlink, and both sides may exchange
+arbitrary data on it. To speak the Varlink protocol to the service again, the
+client needs to open a new connection.</p><p>If the server replies with an error, the connection remains a Varlink
+connection.</p><p>Servers MUST make sure that they do not consume any bytes from the connection
+beyond the <code>NUL</code> byte terminating the <code>upgrade</code> call before confirming the
+upgrade, since any such bytes belong to the upgraded protocol. Clients
+likewise MUST NOT consume bytes beyond the terminator of the confirming reply.
+Clients SHOULD NOT send any data belonging to the upgraded protocol before
+having received the confirmation.</p><p>This mechanism is useful for transferring larger amounts of data, or foreign
+data that is not reasonably encoded in JSON. It is conceptually similar to
+the WebSocket upgrade in HTTP.</p><p>A server SHOULD reply with the <code>org.varlink.service.ExpectedUpgrade</code>
+error to a call of a method that requires the flag but did not set it.</p><h3 id=errors-1>Errors<a class=anchor href=#errors-1>#</a></h3><p>Varlink errors are interface-specific and identified by a fully-qualified
+string. There are no error numbers and no mandatory human-readable messages.
+If required, interfaces MAY add a <code>message</code> field to the error parameters
+which contains human readable text. The primary focus of Varlink errors is
+machine consumption: in most cases a carefully chosen descriptive CamelCase
+error name sufficiently describes the error to humans as well.</p><p>Errors of the interface a method belongs to, and the generic errors defined in
+<code>org.varlink.service</code> (see below) may be returned by any method.</p><h3 id=vendor-extensions>Vendor Extensions<a class=anchor href=#vendor-extensions>#</a></h3><p>The message headers (i.e. the members of call and reply objects besides
+<code>parameters</code>) MAY be extended by vendors if needed. Added members MUST be
+nested in an object named after the vendor in reverse-domain notation, e.g.
+<code>"org.example": { … }</code>. Such names always contain at least one <code>.</code>
+character, which distinguishes them from the members defined by this
+specification. Vendors MUST NOT add unprefixed keys or keys with an
+<code>X-</code>-style prefix, since they may clash with other vendors or future Varlink
+protocol specifications.</p><p>Implementations MUST reject messages with unknown unprefixed members by
+closing the connection, and SHOULD ignore vendor extension objects they do
+not understand.</p><h3 id=connection-lifecycle>Connection Lifecycle<a class=anchor href=#connection-lifecycle>#</a></h3><p>A connection is established by the client. Either side may close the
+connection at any time. When a client closes a connection while a call is
+being processed, the server SHOULD abort the operation if possible, and MUST
+discard any pending replies.</p><p>Servers MUST close connections on which they receive malformed messages
+(invalid JSON, non-object top-level values, missing <code>method</code>, unknown
+unprefixed header fields, non-boolean flags), since there is no well-defined
+reply for such messages.</p><p>Servers MAY enforce limits on message sizes and on the number of concurrent
+connections, and SHOULD close connections that exceed them.</p><h2 id=the-orgvarlinkservice-interface>The <code>org.varlink.service</code> Interface<a class=anchor href=#the-orgvarlinkservice-interface>#</a></h2><p>Every Varlink service SHOULD implement the <code>org.varlink.service</code>
+interface. It allows clients to retrieve a description of all the
+interfaces a service implements, and information which describes the
+service implementation. The errors defined in this interface are
+generic errors that may be returned by any method of any interface.</p><pre tabindex=0><code># The Varlink Service Interface should be provided by every varlink service.
+# It describes the service and the interfaces it implements.
+interface org.varlink.service
+
+# Get a list of all the interfaces a service provides and information
+# about the implementation.
+method GetInfo() -&gt; (
+  vendor: string,
+  product: string,
+  version: string,
+  url: string,
+  interfaces: []string
+)
+
+# Get the description of an interface that is implemented by this service.
+method GetInterfaceDescription(interface: string) -&gt; (description: string)
+
+# The requested interface was not found.
+error InterfaceNotFound (interface: string)
+
+# The requested method was not found
+error MethodNotFound (method: string)
+
+# The interface defines the requested method, but the service does not
+# implement it.
+error MethodNotImplemented (method: string)
+
+# One of the passed parameters is invalid.
+error InvalidParameter (parameter: string)
+
+# Client is denied access
+error PermissionDenied ()
+
+# Method is expected to be called with &#39;more&#39; set to true, but wasn&#39;t
+error ExpectedMore ()
+
+# Method is expected to be called with &#39;upgrade&#39; set to true, but wasn&#39;t
+error ExpectedUpgrade ()</code></pre><h3 id=methods-1>Methods<a class=anchor href=#methods-1>#</a></h3><ul><li><p><code>GetInfo()</code> returns information about the service implementation
+(<code>vendor</code>, <code>product</code>, <code>version</code>, <code>url</code>), and the list of interfaces it
+implements in <code>interfaces</code>. The list MUST include <code>org.varlink.service</code>
+itself.</p></li><li><p><code>GetInterfaceDescription(interface)</code> returns the interface definition of
+one interface, in the interface definition language described above,
+including all documentation comments, as a single string. If the requested
+interface is not implemented, <code>InterfaceNotFound</code> is returned.</p></li></ul><p>Example service information:</p><table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody><tr><td><code>vendor</code></td><td><code>Fedora</code></td></tr><tr><td><code>product</code></td><td><code>Workstation</code></td></tr><tr><td><code>version</code></td><td><code>27</code></td></tr><tr><td><code>url</code></td><td><code>https://getfedora.org/en/workstation/</code></td></tr></tbody></table><table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody><tr><td><code>vendor</code></td><td><code>Jon Doe</code></td></tr><tr><td><code>product</code></td><td><code>Fidget Service</code></td></tr><tr><td><code>version</code></td><td><code>0.2</code></td></tr><tr><td><code>url</code></td><td><code>https://example.com/jon/fidget</code></td></tr></tbody></table><h3 id=errors-2>Errors<a class=anchor href=#errors-2>#</a></h3><table><thead><tr><th>Error</th><th>Meaning</th></tr></thead><tbody><tr><td><code>InterfaceNotFound</code></td><td>A method was called on an interface the service does not implement. <code>interface</code> names it.</td></tr><tr><td><code>MethodNotFound</code></td><td>A method was called that the (known) interface does not define. <code>method</code> names it.</td></tr><tr><td><code>MethodNotImplemented</code></td><td>The interface defines the method, but this service does not implement it. <code>method</code> names it.</td></tr><tr><td><code>InvalidParameter</code></td><td>One of the passed parameters is invalid (missing, wrong type, unknown, or out of range). <code>parameter</code> names it.</td></tr><tr><td><code>PermissionDenied</code></td><td>The client is denied access to the method or resource.</td></tr><tr><td><code>ExpectedMore</code></td><td>The method has to be called with the <code>more</code> flag set, but was not.</td></tr><tr><td><code>ExpectedUpgrade</code></td><td>The method has to be called with the <code>upgrade</code> flag set, but was not.</td></tr></tbody></table><p>The <code>ExpectedUpgrade</code> error is an addition to the original <code>org.varlink.service</code>
+interface as published on varlink.org, mirroring <code>ExpectedMore</code>.</p><h2 id=service-addresses>Service Addresses<a class=anchor href=#service-addresses>#</a></h2><p>Varlink services are accessible through addresses, typically
+referencing an entrypoint network socket address. They are expressed in
+URI-like notation. All properties after a <code>;</code> character SHOULD be
+ignored by implementations that do not understand them, to allow
+future extensions.</p><table><thead><tr><th>Type</th><th>Example</th><th>Comment</th></tr></thead><tbody><tr><td>UNIX socket</td><td><code>unix:/run/org.example.ftl</code></td><td>Path of an <code>AF_UNIX</code> socket inode in the file system</td></tr><tr><td>UNIX abstract namespace socket</td><td><code>unix:@org.example.ftl</code></td><td>Linux abstract socket namespace</td></tr><tr><td>TCP (with hostname)</td><td><code>tcp:localhost:12345</code></td><td>Hostname and port</td></tr><tr><td>TCP (with IPv4 address)</td><td><code>tcp:127.0.0.1:12345</code></td><td>IPv4 address and port</td></tr><tr><td>TCP (with IPv6 address)</td><td><code>tcp:[::1]:12345</code></td><td>IPv6 address and port</td></tr></tbody></table><p>Support for UNIX sockets as transport is RECOMMENDED, support for TCP is OPTIONAL.</p><p>Transports beyond these (such as HTTP, see below) may define their own address
+schemes.</p><h2 id=socket-activation>Socket Activation<a class=anchor href=#socket-activation>#</a></h2><p>A listening or connection socket MAY be passed to a Varlink service
+program at startup, following the <a href=https://systemd.io/>systemd</a>
+socket activation protocol (see
+<a href=https://www.freedesktop.org/software/systemd/man/latest/sd_listen_fds.html><code>sd_listen_fds(3)</code></a>):</p><table><thead><tr><th>Environment variable</th><th>Example</th><th>Comment</th></tr></thead><tbody><tr><td><code>LISTEN_FDS</code></td><td><code>LISTEN_FDS=2</code></td><td>Number of file descriptors passed to the service, starting at file descriptor 3. If more than one file descriptor is passed, <code>LISTEN_FDNAMES</code> identifies the Varlink file descriptor.</td></tr><tr><td><code>LISTEN_PID</code></td><td><code>LISTEN_PID=4711</code></td><td>The process ID of the started service. If this does not match the PID of the receiving service, the variables MUST be ignored.</td></tr><tr><td><code>LISTEN_PIDFDID</code></td><td><code>LISTEN_PIDFDID=6783345</code></td><td>The inode number of the pidfd referring to the process of the started service (specific to modern Linux). If set and this does not match the pidfd inode ID of the receiving service, the variables MUST be ignored.</td></tr><tr><td><code>LISTEN_FDNAMES</code></td><td><code>LISTEN_FDNAMES=other:varlink</code></td><td>A colon separated list of names of the passed file descriptors. The Varlink listening socket MUST be named <code>varlink</code>.</td></tr></tbody></table><p>Because Varlink is strictly point-to-point and there is no buffering
+component involved, services can implement exit-on-idle in a race-free manner:
+when there is no background task running and no clients connected, the
+service can close the listening socket and exit; the service activator queues
+incoming connections and starts the service again as needed.</p><p>All sockets passed in via socket activation SHOULD be of type
+<code>SOCK_STREAM</code>, and either be a listening socket (i.e. a socket
+<code>listen()</code> has been called on) or an established connection socket (i.e. a socket
+<code>connect()</code> has been invoked on or a socket acquired via <code>accept()</code>
+or <code>socketpair()</code> or equivalent calls).</p><h2 id=transport-af_unix-stream-sockets>Transport: <code>AF_UNIX</code> Stream Sockets<a class=anchor href=#transport-af_unix-stream-sockets>#</a></h2><p>The primary transport for Varlink on Linux is <code>AF_UNIX</code> sockets of type
+<code>SOCK_STREAM</code>. This section specifies how the protocol is bound to this
+transport.</p><h3 id=framing>Framing<a class=anchor href=#framing>#</a></h3><p>Each Varlink message is written to the socket as its UTF-8 encoded JSON text,
+followed by a single <code>NUL</code> byte. Implementations MUST NOT assume that a single
+<code>read()</code> returns exactly one message: messages may be split across multiple
+reads and multiple messages may be returned by a single read. Implementations
+MUST hence buffer and search for the <code>NUL</code> terminator.</p><p>Implementations SHOULD NOT emit whitespace (including newlines) outside of
+JSON strings, but MUST accept it, in accordance with the JSON grammar.</p><h3 id=listening-sockets-and-access-control>Listening Sockets and Access Control<a class=anchor href=#listening-sockets-and-access-control>#</a></h3><p>Services SHOULD listen on a socket bound to a path in the file system, which
+is the <em>entrypoint</em> clients connect to. Sockets in the Linux abstract namespace
+(<code>unix:@…</code>) MAY be used, but note that they do not offer file-system based
+access control, and hence are not recommended.</p><p>The most commonly used method to restrict access to a service is to rely on
+the permissions of the socket inode in the file system: <code>connect()</code> on an
+<code>AF_UNIX</code> socket is subject to a write access check on the socket inode. It is
+RECOMMENDED to grant read access on the socket inode even when write access is
+restricted (e.g. a mode of <code>0644</code> rather than <code>0600</code>), since this allows
+unprivileged clients to read the extended attributes identifying the socket as
+a Varlink socket (see below) without granting them the ability to connect.</p><h3 id=peer-authentication>Peer Authentication<a class=anchor href=#peer-authentication>#</a></h3><p>Services which need more fine-grained access control than the
+file-system permissions of the entrypoint socket inode SHOULD check
+the credentials of the connecting peer and decide per call whether to
+act on behalf of the client. On Linux, the following facilities
+exist:</p><ul><li><p><code>SO_PEERCRED</code> (via <code>getsockopt(2)</code>) returns the UID, GID and PID of the peer
+process at the time of <code>connect()</code>, resp. <code>listen()</code>. This is the
+RECOMMENDED mechanism: it is available for every connection without
+cooperation of the client, and cannot be spoofed.</p></li><li><p><code>SO_PEERPIDFD</code> (available since Linux 6.5) returns a pidfd referring to the
+peer process at the time of connection. Services that need to act on the
+peer <em>process</em> (rather than just its UID) SHOULD use this instead of the PID
+from <code>SO_PEERCRED</code>, since the PID may be recycled.</p></li></ul><p>The peer credentials are properties of the connection, not of individual
+messages. Services MAY acquire them once when a connection is accepted.</p><p>Note that the credentials identify the process that established the
+connection, which is not necessarily the process that sends the
+messages if the socket is passed on to other processes. Services that
+consider this a concern SHOULD document that their sockets are not to
+be shared. Also note that when a connection has been bridged (e.g. via
+the HTTP transport below), the credentials identify the bridge, not
+the original client.</p><h3 id=authorization>Authorization<a class=anchor href=#authorization>#</a></h3><p>Beyond the mechanisms above, services MAY require interactive or policy-based
+authorization for individual method calls (e.g. via <code>polkit</code>). Services that
+require interactive authorization but are unable to perform it in the
+context of the current call SHOULD indicate this with a dedicated error.</p><h3 id=passing-file-descriptors>Passing File Descriptors<a class=anchor href=#passing-file-descriptors>#</a></h3><p><code>AF_UNIX</code> sockets allow passing file descriptors between processes via
+<code>SCM_RIGHTS</code> ancillary messages. The Varlink protocol itself is intentionally
+free of such transport-specific side channels: it is one of its design goals
+to be remotable and encapsulatable in other protocols, and file descriptors
+cannot be forwarded across such encapsulations. Interfaces SHOULD hence
+implement their functionality purely in-band, i.e. via JSON-encoded
+parameters, wherever that is feasible. For example, rather than pointing a
+service to a file local to the client, the contents of the file SHOULD be
+transmitted.</p><p>Interfaces MAY nevertheless make use of file descriptor passing where a purely
+in-band implementation is not possible, or would be unreasonably inefficient
+or insecure. Typical cases are the transfer of large amounts of data via
+pipes or memory-file descriptors, handing over kernel objects that cannot be
+expressed in JSON (sockets, pidfds, mount file descriptors, TTYs), or
+delegating access to a resource without disclosing its location. In such
+cases the following rules apply:</p><ul><li><p>File descriptors are passed in <code>SCM_RIGHTS</code> ancillary messages
+attached to the <code>sendmsg(2)</code> call that transmits the Varlink message
+they belong to. They are logically associated with that message,
+and referenced from its parameters by their index (starting at 0) in
+the ancillary data of the message. An interface SHOULD document
+which of its methods send and receive file descriptors, and which
+parameter fields carry indices referencing them.</p></li><li><p>The file descriptors MUST be sent with the first byte of the message they
+belong to. Receivers MUST associate the file descriptors received with a
+chunk of data with the message that chunk begins, and MUST NOT accept file
+descriptors that arrive with a chunk that does not start a new message.</p></li><li><p>Receiving file descriptors is opt-in. Services MUST NOT accept file
+descriptors on connections unless they implement an interface that makes
+use of them, and SHOULD turn off reception of file descriptors on the
+listening socket (via the <code>SO_PASSRIGHTS</code> socket option, available since
+Linux 6.16, where available) otherwise, so that unwanted file descriptors
+are not queued. Clients likewise MUST NOT accept file descriptors unless
+they invoke a method that returns them.</p></li><li><p>Methods that consume file descriptors MUST be robust against receiving a
+different number of file descriptors than expected, and SHOULD reply with
+<code>org.varlink.service.InvalidParameter</code> in that case.</p></li><li><p>Interfaces using file descriptor passing SHOULD document what
+happens when they are used over a transport that does not support it
+(typically: the relevant methods fail with a suitable
+error). Bridges encapsulating the <code>AF_UNIX</code> transport in another one
+SHOULD refuse or drop file descriptors and MUST NOT silently forward
+messages whose parameters reference file descriptors that were not
+forwarded.</p></li></ul><h3 id=protocol-upgrade>Protocol Upgrade<a class=anchor href=#protocol-upgrade>#</a></h3><p>After an <code>upgrade</code> call has been confirmed (see above), both sides of the
+<code>AF_UNIX</code> connection continue using the same socket for the upgraded
+protocol. The upgraded protocol may make use of file descriptor passing and
+other socket features, subject to the same opt-in rules as above.</p><h3 id=recognizing-varlink-socket-inodes>Recognizing Varlink Socket Inodes<a class=anchor href=#recognizing-varlink-socket-inodes>#</a></h3><p>On kernels that support extended attributes on socket inodes (available since
+Linux 7.0), implementations SHOULD tag the <code>AF_UNIX</code> socket inodes they create
+and manage with the <code>user.varlink</code> extended attribute. The attribute records
+the <em>role</em> the socket plays in the Varlink communication, allowing other
+processes to discover and classify Varlink sockets, e.g. to enumerate all
+Varlink services available on a system, or to tell Varlink connections apart
+from other <code>AF_UNIX</code> connections when inspecting a process.</p><p>Four distinct roles, i.e. attribute values, are defined:</p><table><thead><tr><th>Value</th><th>Meaning</th></tr></thead><tbody><tr><td><code>client</code></td><td>Set on the connecting end of a connection, i.e. a socket created via <code>socket()</code> + <code>connect()</code>. Only for inodes on the anonymous socket file system (<code>sockfs</code>).</td></tr><tr><td><code>server</code></td><td>Set on the serving end of a connection, i.e. a socket obtained via <code>accept()</code> on a listening socket. Only for inodes on the anonymous socket file system (<code>sockfs</code>).</td></tr><tr><td><code>listen</code></td><td>Set on a listening socket, i.e. a socket created via <code>socket()</code> + <code>listen()</code>. Only for inodes on the anonymous socket file system (<code>sockfs</code>).</td></tr><tr><td><code>entrypoint</code></td><td>Set on the entrypoint socket inode, i.e. the socket node bound into the regular file system that clients connect to. Unlike the other three, this attribute lives on a real file-system inode (not on <code>sockfs</code>) and is hence visible to any process that can resolve the socket path and has read access to it.</td></tr></tbody></table><p>Note that a path-bound listening socket thus carries two distinct
+attributes: <code>listen</code> on the <code>sockfs</code> inode (visible e.g. via
+<code>/proc/PID/fd/</code>), and <code>entrypoint</code> on the file-system inode (visible
+via the socket&rsquo;s path as encoded in the <code>.sun_path</code> field of <code>struct sockaddr_un</code>).</p><p>The attribute SHOULD be set by the code that creates the respective socket,
+i.e. the client for <code>client</code>, and the service for <code>listen</code>, <code>server</code> and
+<code>entrypoint</code>. Service managers that create listening sockets on behalf of
+services (socket activation) SHOULD set <code>listen</code> and <code>entrypoint</code> (and, when
+accepting connections on behalf of the service, <code>server</code>) themselves.</p><p>Setting the attribute SHOULD be treated as best-effort: failure to set
+it (e.g. because the kernel or file system does not support it)
+SHOULD NOT be considered an error. Consumers of the attribute MUST
+tolerate its absence.</p><p>Consumers SHOULD NOT treat a socket inode as a Varlink socket merely because
+some <code>user.varlink</code> attribute is set; the value SHOULD match one of the roles
+above. Unknown values SHOULD be ignored, to allow the definition of further
+roles in the future. Also note that the attribute is informational: since
+<code>user.*</code> extended attributes can be set by any process with write access to
+the inode, its presence is not a security guarantee, and a socket without
+the attribute may still implement Varlink.</p><p>In combination with the access mode recommendation above (i.e. <code>0644</code> rather
+than <code>0600</code> for sockets that shall not be world-accessible), this allows
+unprivileged processes to enumerate the Varlink services on a system even if
+they cannot connect to them.</p><p>For socket-activated Varlink services managed by a service manager,
+the extended attributes SHOULD be set by the service manager when
+allocating them, and not be delayed until the service they are
+associated with ultimately gets activated.</p><h2 id=transport-http>Transport: HTTP<a class=anchor href=#transport-http>#</a></h2><p>Varlink can be encapsulated in HTTP, in order to make services
+available remotely, in particular to environments where the <code>AF_UNIX</code>
+transport is not available, such as web browsers or hosts of virtual
+machines. This section specifies such an encapsulation. It is
+typically implemented by a bridge that accepts HTTP connections and
+forwards the calls to local services over their <code>AF_UNIX</code> sockets, but
+MAY also be implemented directly by a service.</p><p>Two modes are defined: a <em>simple HTTP mode</em> in which each HTTP request
+maps to one Varlink method call, and a <em>WebSocket mode</em> in which the
+Varlink wire protocol is tunneled verbatim.</p><p>The bridge serves a set of Varlink services, each identified by their
+name.</p><h3 id=url-schema>URL Schema<a class=anchor href=#url-schema>#</a></h3><p>All URLs defined here shall be understood relative to a base URL used
+as service address.</p><table><thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead><tbody><tr><td><code>POST</code></td><td><code>…/call/{method}</code></td><td>Invoke a method. The service is derived from the interface prefix of the method name, or given via <code>?service=</code>.</td></tr><tr><td><code>POST</code></td><td><code>…/call/{service}/{method}</code></td><td>Invoke a method on an explicitly given service.</td></tr><tr><td><code>GET</code></td><td><code>…/services</code></td><td>List the available services.</td></tr><tr><td><code>GET</code></td><td><code>…/services/{service}</code></td><td>Service information of one service (as returned by <code>org.varlink.service.GetInfo</code>).</td></tr><tr><td><code>GET</code></td><td><code>…/services/{service}/{interface}</code></td><td>Method names of one interface implemented by a service.</td></tr><tr><td><code>GET</code></td><td><code>…/ws/services/{service}</code></td><td>WebSocket endpoint tunneling the Varlink wire protocol to a service.</td></tr><tr><td><code>GET</code></td><td><code>…/health</code></td><td>Health check, returns <code>200 OK</code> if the bridge is operational.</td></tr></tbody></table><p>(The <code>…</code> prefix in the table above shall be replaced by the base URL.)</p><p>All request and response bodies in the simple mode are JSON documents
+with the <code>application/json</code> media type, unless streaming mode is used,
+in which case <code>application/json-seq</code> is used. Every request MUST be
+made with an <code>Accept: application/json</code> header, except if a streaming
+reply is expected, in which case <code>Accept: application/json-seq</code>
+should be sent. A <code>charset=</code> parameter SHOULD not be added.</p><h3 id=simple-http-mode>Simple HTTP Mode<a class=anchor href=#simple-http-mode>#</a></h3><p>In simple HTTP mode a method is invoked by a <code>POST</code> request to
+<code>…/call/{method}</code> or <code>…/call/{service}/{method}</code>, where <code>{method}</code> is the
+fully-qualified method name. The request body is a JSON object containing the
+method&rsquo;s input parameters — i.e. the value of the <code>parameters</code> member of a
+Varlink call, <em>not</em> the call object itself. An empty object <code>{}</code> is sent if
+there are no parameters. Bridges SHOULD accept an empty request body as
+equivalent.</p><p>For <code>…/call/{method}</code>, the service is derived from the method name
+extracting the interface, i.e. by stripping the last component,
+e.g. <code>io.systemd.Hostname.Describe</code> is invoked on the service
+<code>io.systemd.Hostname</code>. The <code>?service=</code> query parameter overrides this
+for cross-interface calls, e.g. to call <code>org.varlink.service.GetInfo</code>
+on the <code>io.systemd.Hostname</code> service. The <code>…/call/{service}/{method}</code>
+form makes the service explicit.</p><p>The bridge issues the call over a Varlink connection to the service (the
+connection MAY be reused for subsequent requests, subject to the ordering
+rules of the protocol) and maps the reply to the HTTP response as follows:</p><ul><li><p><strong>Success.</strong> Status <code>200 OK</code>, with the reply&rsquo;s output parameters as JSON
+body — again the value of the <code>parameters</code> member rather than the reply
+object, i.e. the reply is <em>unwrapped</em>. An absent <code>parameters</code> member is
+returned as <code>{}</code>.</p></li><li><p><strong>Varlink error.</strong> A reply carrying an <code>error</code> member is mapped to an HTTP
+status code, with a JSON body of the form
+<code>{"error": "&lt;fully-qualified error name>", "parameters": {…}}</code>:</p><table><thead><tr><th>Varlink error</th><th>HTTP status</th></tr></thead><tbody><tr><td><code>org.varlink.service.InvalidParameter</code></td><td><code>400 Bad Request</code></td></tr><tr><td><code>org.varlink.service.ExpectedMore</code></td><td><code>400 Bad Request</code></td></tr><tr><td><code>org.varlink.service.ExpectedUpgrade</code></td><td><code>400 Bad Request</code></td></tr><tr><td><code>org.varlink.service.InterfaceNotFound</code></td><td><code>404 Not Found</code></td></tr><tr><td><code>org.varlink.service.MethodNotFound</code></td><td><code>404 Not Found</code></td></tr><tr><td><code>org.varlink.service.MethodNotImplemented</code></td><td><code>501 Not Implemented</code></td></tr><tr><td><code>org.varlink.service.PermissionDenied</code></td><td><code>403 Forbidden</code></td></tr><tr><td>Any other error</td><td><code>500 Internal Server Error</code></td></tr></tbody></table></li><li><p><strong>Transport failure.</strong> If the bridge cannot connect to the service&rsquo;s
+socket, or the connection fails while the call is in progress,
+status <code>502 Bad Gateway</code> is returned. Malformed requests (invalid
+JSON body, unknown service) yield <code>400 Bad Request</code> or <code>404 Not Found</code> as appropriate. Requests that fail authentication yield <code>401 Unauthorized</code>.</p><p>In these cases, the body is a JSON object of the form
+<code>{"message": "&lt;human readable message>"}</code>.</p></li></ul><p>Note that HTTP status codes only carry the broad classification; clients
+SHOULD consult the <code>error</code> member of the body for the actual error name.</p><p>Example:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ curl -s -X POST https://host:1031/waldo/call/io.systemd.Hostname.Describe <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -H &#34;Content-Type: application/json&#34; -d &#39;{}&#39;
+</span></span><span style=display:flex><span>{&#34;Hostname&#34;:&#34;myhost&#34;,&#34;StaticHostname&#34;:&#34;myhost&#34;,…}
+</span></span></code></pre></div><p>(The base URL is <code>https://host:1031/waldo/</code> in this example.)</p><h4 id=streaming-replies>Streaming Replies<a class=anchor href=#streaming-replies>#</a></h4><p>Methods that reply multiple times (i.e. use the <code>more</code> flag) are invoked in
+simple mode by sending the request header <code>Accept: application/json-seq</code>. The
+bridge then sets <code>more</code> on the Varlink call and streams the replies to the
+client as a JSON text sequence
+(<a href=https://www.rfc-editor.org/rfc/rfc7464>RFC 7464</a>), with the response media
+type <code>application/json-seq</code>. Each record consists of a Record Separator
+character (<code>0x1E</code>), followed by the JSON text, followed by a Line Feed
+(<code>0x0A</code>).</p><p>Each successful reply is encoded as one record containing its output
+parameters (unwrapped, as above). The <code>continues</code> flag is not transmitted: the
+sequence ends after the final reply, i.e. when the HTTP response body ends.
+An error reply terminates the sequence with a record of the form
+<code>{"error": "&lt;fully-qualified error name>", "parameters": {…}}</code>; a transport
+failure during streaming terminates it with a record of the form
+<code>{"error": "&lt;message>"}</code>. Since the HTTP status line has already been sent
+when such an error occurs, the status is <code>200 OK</code> regardless.</p><p>The interface definition at this time carries no indication whether a
+method supports or requires <code>more</code>, hence the bridge cannot determine
+this up front. If a method that requires <code>more</code> is invoked without the
+<code>application/json-seq</code> accept header, the service&rsquo;s <code>ExpectedMore</code>
+error is passed through as <code>400 Bad Request</code>.</p><p>Example:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ curl -s -H <span style=color:#e6db74>&#34;Accept: application/json-seq&#34;</span> -H <span style=color:#e6db74>&#34;Content-Type: application/json&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    https://host:1031/waldo/call/io.systemd.UserDatabase.GetUserRecord \
+</span></span><span style=display:flex><span>    -d &#39;{&#34;service&#34;:&#34;io.systemd.Multiplexer&#34;}&#39; | jq --seq
+</span></span></code></pre></div><h4 id=limitations>Limitations<a class=anchor href=#limitations>#</a></h4><p>Simple HTTP mode maps one HTTP request to one Varlink call. It
+therefore provides no way to issue <code>oneway</code> calls, to upgrade the
+connection with the <code>upgrade</code> flag or to pipeline multiple calls on
+one Varlink connection. Clients that need these features should use
+WebSocket mode.</p><h4 id=introspection>Introspection<a class=anchor href=#introspection>#</a></h4><ul><li><p><code>GET …/services</code> returns <code>{"services": ["&lt;name>", …]}</code>, the list of service
+names available via the bridge.</p></li><li><p><code>GET …/services/{service}</code> returns the output parameters of
+<code>org.varlink.service.GetInfo</code> as invoked on that service, i.e. an object with
+the <code>vendor</code>, <code>product</code>, <code>version</code>, <code>url</code> and <code>interfaces</code> members.</p></li><li><p><code>GET …/services/{service}/{interface}</code> returns
+<code>{"methods": ["&lt;method>", …]}</code>, the unqualified names of the methods of
+that interface as declared in the interface definition retrieved via
+<code>org.varlink.service.GetInterfaceDescription</code>.</p></li></ul><h3 id=websocket-mode>WebSocket Mode<a class=anchor href=#websocket-mode>#</a></h3><p>In WebSocket mode the client performs an HTTP upgrade to the WebSocket
+protocol (<a href=https://www.rfc-editor.org/rfc/rfc6455>RFC 6455</a>, <a href=https://www.rfc-editor.org/rfc/rfc8441>RFC
+8441</a>, <a href=https://www.rfc-editor.org/rfc/rfc9220>RFC
+9220</a>) on
+<code>…/ws/services/{service}</code>. On success the bridge connects to the
+service&rsquo;s socket, and from then on acts as a transparent byte bridge
+between the WebSocket and the Varlink connection, in both
+directions. The client speaks the raw Varlink wire protocol, exactly
+as it would over an <code>AF_UNIX</code> socket: JSON call objects terminated by
+<code>NUL</code>, receiving JSON reply objects terminated by <code>NUL</code>. The full
+protocol is available, including <code>oneway</code>, <code>more</code> and <code>upgrade</code>, as
+well as pipelining.</p><p>Framing rules:</p><ul><li><p>Data from the client to the service is taken from WebSocket binary frames.
+Text frames MUST also be accepted, and treated identically. The bridge MUST
+NOT assume that one frame contains exactly one message: frames are
+concatenated into the byte stream as they are received.</p></li><li><p>Data from the service to the client is sent in WebSocket binary frames. The
+bridge SHOULD send each Varlink message, <em>including</em> its terminating <code>NUL</code>
+byte, as one frame, i.e. re-frame the byte stream at message boundaries.
+Clients MUST nevertheless not rely on this, and MUST reassemble messages
+based on the <code>NUL</code> terminator only.</p></li><li><p>Once an <code>upgrade</code> call has been detected on the connection and confirmed by
+the service, the bridge MUST stop re-framing and forward bytes in both
+directions verbatim, in frames of arbitrary size, since it can no longer
+make any assumptions about the payload.</p></li><li><p>Ping and Pong control frames are handled at the WebSocket layer and never
+forwarded. When either side closes its connection, the bridge closes the
+other one; a WebSocket Close frame is answered with the closing handshake.</p></li><li><p>If the bridge cannot connect to the service&rsquo;s socket, the HTTP
+upgrade request fails with <code>502 Bad Gateway</code>, and no WebSocket
+connection is established.</p></li></ul><p>Since neither WebSockets nor HTTP can carry file descriptors, methods relying
+on file descriptor passing are not available in this mode; the <code>SO_PASSRIGHTS</code>
+rules above apply to the bridge&rsquo;s <code>AF_UNIX</code> connection, which MUST NOT accept
+file descriptors from the service.</p><p>Example, using a generic WebSocket client:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ printf <span style=color:#e6db74>&#39;{&#34;method&#34;:&#34;io.systemd.Hostname.Describe&#34;}\0&#39;</span> | <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    websocat --binary wss://host:1031/waldo/ws/services/io.systemd.Hostname | tr -d &#39;\0&#39; | jq
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  &#34;parameters&#34;: {
+</span></span><span style=display:flex><span>    &#34;Hostname&#34;: &#34;myhost&#34;,
+</span></span><span style=display:flex><span>    …
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>WebSocket mode makes the bridge usable as a <em>fully-featured</em> Varlink
+bridge: a local Varlink client can connect to a helper program that
+establishes the WebSocket and relays the byte stream, so that remote
+services appear like local ones. Address URIs of the form
+<code>ws://host:port/something/ws/services/{service}</code> and
+<code>wss://host:port/something/ws/services/{service}</code> (and <code>http://</code>/<code>https://</code> with
+the same path, implying the WebSocket upgrade) may be used to refer to
+such remote services.</p><h3 id=authentication-and-transport-security>Authentication and Transport Security<a class=anchor href=#authentication-and-transport-security>#</a></h3><p>A Varlink HTTP bridge typically exposes privileged services over the network.
+Deployments SHOULD hence use TLS (i.e. <code>https://</code>/<code>wss://</code>) and SHOULD
+authenticate clients, unless the network is trusted by construction. One
+mechanism is currently defined:</p><ul><li><strong>Mutual TLS.</strong> The bridge is configured with a CA certificate, and requires
+clients to present a certificate signed by it. Without a configured server
+certificate the bridge MAY generate a self-signed one, in which case clients
+SHOULD pin the server&rsquo;s public key on first contact (in the manner of SSH
+<code>known_hosts</code>), and refuse connections if it later changes.</li></ul><p>Authentication happens at the HTTP layer, on the bridge. The Varlink services
+behind the bridge see the bridge&rsquo;s peer credentials (see the <code>AF_UNIX</code>
+transport section), not the remote client&rsquo;s. Any per-client authorization the
+services implement based on peer credentials therefore applies to the bridge,
+and the bridge&rsquo;s own authorization policy has to be relied on instead.</p><h2 id=references>References<a class=anchor href=#references>#</a></h2><ul><li><a href=https://varlink.org/>Varlink</a>, the original project documentation:
+<a href=https://varlink.org/Interface-Definition>Interface Definition</a>,
+<a href=https://varlink.org/Method-Call>Method Call</a>,
+<a href=https://varlink.org/Service>Service</a>,
+<a href=https://varlink.org/Ideals>Ideals</a>,
+<a href=https://varlink.org/FAQ>FAQ</a></li><li><a href=https://www.freedesktop.org/software/systemd/man/latest/sd-varlink.html>systemd <code>sd-varlink(3)</code></a>,
+a Varlink implementation for C, and
+<a href=https://www.freedesktop.org/software/systemd/man/latest/varlinkctl.html><code>varlinkctl(1)</code></a>,
+a command line tool for introspecting and invoking Varlink services</li><li><a href=https://github.com/systemd/varlink-http-bridge>varlink-http-bridge</a>,
+systemd&rsquo;s Varlink HTTP bridge</li><li><a href=https://www.rfc-editor.org/rfc/rfc8259>RFC 8259</a>, The JavaScript Object
+Notation (JSON) Data Interchange Format</li><li><a href=https://www.rfc-editor.org/rfc/rfc7464>RFC 7464</a>, JavaScript Object
+Notation (JSON) Text Sequences</li><li><a href=https://www.rfc-editor.org/rfc/rfc6455>RFC 6455</a>, The WebSocket Protocol</li><li><a href=https://www.rfc-editor.org/rfc/rfc8441>RFC 8441</a>, Bootstrapping WebSockets with HTTP/2</li><li><a href=https://www.rfc-editor.org/rfc/rfc9220>RFC 9220</a>, Bootstrapping WebSockets with HTTP/3</li><li><a href=https://man7.org/linux/man-pages/man7/unix.7.html><code>unix(7)</code></a>, documenting
+<code>SO_PEERCRED</code>, <code>SO_PEERPIDFD</code> and <code>SO_PASSRIGHTS</code></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div></div><div><a class="flex align-center" href=https://github.com/uapi-group/specifications/edit/main/specs/varlink.md target=_blank rel="noopener edit"><img src=/specifications/icons/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div><div class="flex flex-wrap justify-between"><span><a href=/specifications/specs/osc_context/ class="flex align-center"><img src=/specifications/icons/backward.svg class=book-icon alt=Backward>
+<span>UAPI.15 OSC 3008: Hierarchical Context Signalling</span>
+</a></span><span></span></div><div class=book-comments></div><div class="book-copyright flex justify-center"><small>UAPI Group Specifications - Licensed under <a href=https://spdx.org/licenses/CC-BY-4.0.html>CC-BY-4.0</a></small></div><script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#design-principles>Design Principles</a></li><li><a href=#terminology>Terminology</a></li><li><a href=#interface-definition>Interface Definition</a><ul><li><a href=#example>Example</a></li><li><a href=#keywords>Keywords</a></li><li><a href=#names>Names</a></li><li><a href=#types>Types</a></li><li><a href=#methods>Methods</a></li><li><a href=#errors>Errors</a></li><li><a href=#documentation-comments>Documentation Comments</a></li><li><a href=#grammar>Grammar</a></li><li><a href=#parsing-expression-grammar>Parsing Expression Grammar</a></li><li><a href=#interface-evolution>Interface Evolution</a></li></ul></li><li><a href=#mapping-the-type-system-to-json>Mapping the Type System to JSON</a><ul><li><a href=#integers>Integers</a></li><li><a href=#floating-point-numbers>Floating Point Numbers</a></li><li><a href=#nullable-fields-and-absent-fields>Nullable Fields and Absent Fields</a></li><li><a href=#unknown-fields>Unknown Fields</a></li></ul></li><li><a href=#wire-protocol>Wire Protocol</a><ul><li><a href=#call>Call</a></li><li><a href=#reply>Reply</a></li><li><a href=#simple-method-call>Simple Method Call</a></li><li><a href=#oneway><code>oneway</code></a></li><li><a href=#more><code>more</code></a></li><li><a href=#upgrade><code>upgrade</code></a></li><li><a href=#errors-1>Errors</a></li><li><a href=#vendor-extensions>Vendor Extensions</a></li><li><a href=#connection-lifecycle>Connection Lifecycle</a></li></ul></li><li><a href=#the-orgvarlinkservice-interface>The <code>org.varlink.service</code> Interface</a><ul><li><a href=#methods-1>Methods</a></li><li><a href=#errors-2>Errors</a></li></ul></li><li><a href=#service-addresses>Service Addresses</a></li><li><a href=#socket-activation>Socket Activation</a></li><li><a href=#transport-af_unix-stream-sockets>Transport: <code>AF_UNIX</code> Stream Sockets</a><ul><li><a href=#framing>Framing</a></li><li><a href=#listening-sockets-and-access-control>Listening Sockets and Access Control</a></li><li><a href=#peer-authentication>Peer Authentication</a></li><li><a href=#authorization>Authorization</a></li><li><a href=#passing-file-descriptors>Passing File Descriptors</a></li><li><a href=#protocol-upgrade>Protocol Upgrade</a></li><li><a href=#recognizing-varlink-socket-inodes>Recognizing Varlink Socket Inodes</a></li></ul></li><li><a href=#transport-http>Transport: HTTP</a><ul><li><a href=#url-schema>URL Schema</a></li><li><a href=#simple-http-mode>Simple HTTP Mode</a></li><li><a href=#websocket-mode>WebSocket Mode</a></li><li><a href=#authentication-and-transport-security>Authentication and Transport Security</a></li></ul></li><li><a href=#references>References</a></li></ul></nav></div></aside></main></body></html>
