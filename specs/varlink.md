@@ -1081,7 +1081,7 @@ processes to discover and classify Varlink sockets, e.g. to enumerate all
 Varlink services available on a system, or to tell Varlink connections apart
 from other `AF_UNIX` connections when inspecting a process.
 
-Four distinct roles, i.e. attribute values, are defined:
+Four distinct roles, i.e. attribute values (ASCII strings, not null-terminated), are defined:
 
 | Value        | Meaning                                                                                          |
 |--------------|--------------------------------------------------------------------------------------------------|
