@@ -1159,12 +1159,13 @@ as service address.
 
 (The `…` prefix in the table above shall be replaced by the base URL.)
 
-All request and response bodies in the simple mode are JSON documents
-with the `application/json` media type, unless streaming mode is used,
-in which case `application/json-seq` is used. Every request MUST be
-made with an `Accept: application/json` header, except if a streaming
-reply is expected, in which case `Accept: application/json-seq`
-should be sent. A `charset=` parameter SHOULD not be added.
+All request bodies in the simple mode are JSON documents with the
+`application/json` media type. Response bodies use the `application/json`
+media type unless streaming mode is used, in which case
+`application/json-seq` is used.
+Clients SHOULD include exactly one of `Accept: application/json` or
+`Accept: application/json-seq` in their requests.
+The `Accept` header SHOULD NOT include MIME type parameters.
 
 ### Simple HTTP Mode
 
@@ -1225,7 +1226,7 @@ Example:
 
 ```console
 $ curl -s -X POST https://host:1031/waldo/call/io.systemd.Hostname.Describe \
-    -H "Content-Type: application/json" -d '{}'
+    --json '{}'
 {"Hostname":"myhost","StaticHostname":"myhost",…}
 ```
 
@@ -1233,9 +1234,10 @@ $ curl -s -X POST https://host:1031/waldo/call/io.systemd.Hostname.Describe \
 
 #### Streaming Replies
 
-Methods that reply multiple times (i.e. use the `more` flag) are invoked in
-simple mode by sending the request header `Accept: application/json-seq`. The
-bridge then sets `more` on the Varlink call and streams the replies to the
+Methods that reply multiple times (i.e. use the `more` flag) send their
+response bodies with the `application/json-seq` content type, which must be
+negotiated with the `Accept: application/json-seq` request header.
+The bridge then sets `more` on the Varlink call and streams the replies to the
 client as a JSON text sequence
 ([RFC 7464](https://www.rfc-editor.org/rfc/rfc7464)), with the response media
 type `application/json-seq`. Each record consists of a Record Separator
@@ -1260,9 +1262,9 @@ error is passed through as `400 Bad Request`.
 Example:
 
 ```console
-$ curl -s -H "Accept: application/json-seq" -H "Content-Type: application/json" \
+$ curl -s -H "Accept: application/json-seq" \
     https://host:1031/waldo/call/io.systemd.UserDatabase.GetUserRecord \
-    -d '{"service":"io.systemd.Multiplexer"}' | jq --seq
+    --json '{"service":"io.systemd.Multiplexer"}' | jq --seq
 ```
 
 #### Limitations
