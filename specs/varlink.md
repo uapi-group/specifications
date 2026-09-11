@@ -1176,6 +1176,10 @@ Varlink call, *not* the call object itself. An empty object `{}` is sent if
 there are no parameters. Bridges SHOULD accept an empty request body as
 equivalent.
 
+The `oneway` option is translated into the `?oneway=` query parameter.
+A client SHOULD only include the `?oneway=` query parameter when it is set to
+`true`.
+
 For `…/call/{method}`, the service is derived from the method name
 extracting the interface, i.e. by stripping the last component,
 e.g. `io.systemd.Hostname.Describe` is invoked on the service
@@ -1187,6 +1191,9 @@ form makes the service explicit.
 The bridge issues the call over a Varlink connection to the service (the
 connection MAY be reused for subsequent requests, subject to the ordering
 rules of the protocol) and maps the reply to the HTTP response as follows:
+
+* **Oneway Response.** Status `204 No Content`, with an empty message body.
+  This HTTP response is only sent in response to a `oneway` request.
 
 * **Success.** Status `200 OK`, with the reply's output parameters as JSON
   body — again the value of the `parameters` member rather than the reply
@@ -1267,11 +1274,10 @@ $ curl -s -H "Accept: application/json-seq" -H "Content-Type: application/json" 
 
 #### Limitations
 
-Simple HTTP mode maps one HTTP request to one Varlink call. It
-therefore provides no way to issue `oneway` calls, to upgrade the
-connection with the `upgrade` flag or to pipeline multiple calls on
-one Varlink connection. Clients that need these features should use
-WebSocket mode.
+Simple HTTP mode maps one HTTP request to one Varlink call. It therefore
+provides no way to upgrade the connection with the `upgrade` flag or to
+pipeline multiple calls on one Varlink connection. Clients that need these
+features should use WebSocket mode.
 
 #### Introspection
 
