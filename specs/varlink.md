@@ -1125,6 +1125,30 @@ the extended attributes SHOULD be set by the service manager when
 allocating them, and not be delayed until the service they are
 associated with ultimately gets activated.
 
+### Service Registry Directory
+
+To allow clients to discover the well-known, public Varlink services
+available on a system without having to enumerate all socket inodes of
+the system, services SHOULD bind their entrypoint socket inode inside
+the `/run/varlink/registry/` directory, or place a symlink to it there.
+
+Entries in this directory SHOULD be named after the Varlink interface
+the service implements, e.g. `/run/varlink/registry/org.example.ftl`
+for a service implementing the `org.example.ftl` interface. A service
+implementing multiple well-known interfaces SHOULD be registered under
+each of them.
+
+Inodes in this directory that neither qualify as socket inodes nor as
+symlinks to them SHOULD be ignored, to allow future extensions of the
+registry.
+
+The registry complements the `user.varlink` extended attribute
+described above: the attribute identifies Varlink sockets wherever
+they are located, while the registry provides a well-known place to
+look for public services. Services MAY bind their entrypoint socket
+outside of the registry, hence clients MUST NOT assume the registry
+lists all Varlink services available on the system.
+
 ## Transport: HTTP
 
 Varlink can be encapsulated in HTTP, in order to make services
