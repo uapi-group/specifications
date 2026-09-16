@@ -75,6 +75,10 @@ Strings shall not contain any control characters or use `\uXXX` escaping.
 Reference implementations of [packaging tools for `.deb` and `.rpm`](https://github.com/systemd/package-notes)
 are available, and provide macros/helpers to parse the note when building packages and adding dependencies.
 
+Note section is specified in the [Tool Interface Standard (TIS) Executable and Linking Format (ELF) Specification version 1.2](https://refspecs.linuxfoundation.org/elf/elf.pdf).
+
+Linkers may merge multiple note sections; see [Guidance on parsing ELF sections](#guidance-on-parsing-elf-sections) below.
+
 ## Well-known keys
 
 The metadata format is intentionally extensible, so that upstreams and later revisions of this spec can add
@@ -198,3 +202,75 @@ $ dlopen-notes --rpm-requires archive --rpm-recommends bpf  /usr/lib64/systemd/l
 Requires: libarchive.so.13()(64bit)
 Recommends: libbpf.so.1()(64bit)
 ```
+
+## Guidance on parsing ELF sections
+
+When ELF linkers encounter an identical section name across multiple input files, the sections are concatenated in the order they appear, padded and aligned to 4 bytes. This merging is standard linker behavior and is generally not under the control of the tool that emits the note. See the [binutils ld](https://sourceware.org/binutils/docs/ld/SECTIONS.html) documentation as well as [LLVM lld](https://releases.llvm.org/22.1.0/tools/lld/docs/ELF/linker_script.html#linker-script-implementation-notes-and-policy), which describe the same behavior.
+
+This means the following output is also valid Dlopen metadata:
+
+```
+$ readelf --notes libsystemd-shared-257.so
+
+Displaying notes found in: .note.gnu.property
+  Owner                Data size 	Description
+  GNU                  0x00000010	NT_GNU_PROPERTY_TYPE_0
+      Properties: x86 feature: IBT, SHSTK
+
+Displaying notes found in: .note.gnu.build-id
+  Owner                Data size 	Description
+  GNU                  0x00000014	NT_GNU_BUILD_ID (unique build ID bitstring)
+    Build ID: e0395d902781730eee399b8af2b1256804e24e64
+
+Displaying notes found in: .note.package
+  Owner                Data size 	Description
+  FDO                  0x00000064	FDO_PACKAGING_METADATA
+    Packaging Metadata: {"type":"deb","os":"ubuntu","name":"systemd","version":"257.9-0ubuntu2.5","architecture":"amd64"}
+
+Displaying notes found in: .note.dlopen
+  Owner                Data size 	Description
+  FDO                  0x0000008e	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"bpf","description":"Support firewalling and sandboxing with BPF","priority":"suggested","soname":["libbpf.so.1","libbpf.so.0"]}]
+  FDO                  0x0000009e	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"cryptsetup","description":"Support for disk encryption, integrity, and authentication","priority":"suggested","soname":["libcryptsetup.so.12"]}]
+  FDO                  0x0000009a	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"dw","description":"Support for backtrace and ELF package metadata decoding from core files","priority":"suggested","soname":["libdw.so.1"]}]
+  FDO                  0x0000009c	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"elf","description":"Support for backtraces and reading ELF package metadata from core files","priority":"suggested","soname":["libelf.so.1"]}]
+  FDO                  0x00000080	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"idn","description":"Support for internationalized domain names","priority":"suggested","soname":["libidn2.so.0"]}]
+  FDO                  0x00000085	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"archive","description":"Support for decompressing archive files","priority":"suggested","soname":["libarchive.so.13"]}]
+  FDO                  0x00000088	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"fido2","description":"Support fido2 for encryption and authentication","priority":"suggested","soname":["libfido2.so.1"]}]
+  FDO                  0x0000007b	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"kmod","description":"Support for loading kernel modules","priority":"recommended","soname":["libkmod.so.2"]}]
+  FDO                  0x00000084	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"pwquality","description":"Support for password quality checks","priority":"suggested","soname":["libpwquality.so.1"]}]
+  FDO                  0x0000007a	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"pcre2","description":"Support for regular expressions","priority":"suggested","soname":["libpcre2-8.so.0"]}]
+  FDO                  0x0000007f	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"p11-kit","description":"Support for PKCS11 hardware tokens","priority":"suggested","soname":["libp11-kit.so.0"]}]
+  FDO                  0x00000091	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"qrencode","description":"Support for generating QR codes","priority":"suggested","soname":["libqrencode.so.4","libqrencode.so.3"]}]
+  FDO                  0x0000006a	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"tpm","description":"Support for TPM","priority":"suggested","soname":["libtss2-esys.so.0"]}]
+  FDO                  0x00000068	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"tpm","description":"Support for TPM","priority":"suggested","soname":["libtss2-rc.so.0"]}]
+  FDO                  0x00000068	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"tpm","description":"Support for TPM","priority":"suggested","soname":["libtss2-mu.so.0"]}]
+  FDO                  0x00000089	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"ip4tc","description":"Support for firewall rules with iptables backend","priority":"suggested","soname":["libip4tc.so.2"]}]
+  FDO                  0x0000008d	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"lzma","description":"Support lzma compression in journal and coredump files","priority":"suggested","soname":["liblzma.so.5"]}]
+  FDO                  0x0000008a	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"lz4","description":"Support lz4 compression in journal and coredump files","priority":"suggested","soname":["liblz4.so.1"]}]
+  FDO                  0x0000008f	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"zstd","description":"Support zstd compression in journal and coredump files","priority":"recommended","soname":["libzstd.so.1"]}]
+  FDO                  0x00000080	FDO_DLOPEN_METADATA
+    Dlopen Metadata: [{"feature":"gcrypt","description":"Support for journald forward-sealing","priority":"suggested","soname":["libgcrypt.so.20"]}]
+```
+
+When parsing an ELF section, one must iterate over one or more Note structures, and each one will contain an array of JSON objects.
+
+The meaning of multiple notes is the same as a single long array of JSON objects in a single note. This is the long-standing behavior of this specification, which has always permitted either one note per dependency or a single note listing multiple dependencies.
