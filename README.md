@@ -54,6 +54,9 @@ The following specifications have been accepted by the UAPI group:
 * [UAPI.15 OSC 3008: Hierarchical Context Signalling](specs/osc_context.md):
   Defines a mechanism for terminal emulators to follow the context hierarchy of what's on screen.
   ([canonical online location](https://uapi-group.org/specifications/specs/osc_context/))
+* [UAPI.16 File Manifest](specs/file_manifest.md):
+  Defines a JSON-SEQ based manifest format describing collections of files and GPT partitions, including hashes, signatures and remote sources.
+  ([canonical online location](https://uapi-group.org/specifications/specs/file_manifest/))
 * [UAPI.20 Varlink IPC](specs/varlink.md):
   Describes the Varlink interface definition language and IPC protocol, and its application to AF_UNIX sockets and HTTP.
   ([canonical online location](https://uapi-group.org/specifications/specs/varlink/))
