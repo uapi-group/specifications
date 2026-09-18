@@ -348,6 +348,12 @@ the option this is a value for.
 If multiple of `value`, `dynamic` and `missing` are defined,
 `missing` has the highest precedence, followed by `value` and `dynamic`.
 
+## Extensions
+
+Vendors may add additional attributes to the objects described in this specification,
+but they ust be prefixed with `x-vendorname.`,
+e.g. a vendor `foo` wanting to add an attribute `bar` would use the attribute name `x-foo.bar`.
+
 ## Example
 
 This is an example for a description for `systemd-id128`, with the help output
