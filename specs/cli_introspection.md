@@ -467,7 +467,7 @@ The resulting CLI introspection JSON would be.
             "--json"
           ],
           "argument": "required",
-          "value_name": "FORMAT",
+          "valueName": "FORMAT",
           "sections": [
             "Options"
           ],
@@ -532,7 +532,7 @@ The resulting CLI introspection JSON would be.
             "-a",
             "--app-specific"
           ],
-          "value_name": "ID",
+          "valueName": "ID",
           "argument": "required",
           "sections": [
             "Options"
@@ -562,7 +562,7 @@ The resulting CLI introspection JSON would be.
           "name": [
             "machine-id"
           ],
-          "value_name": "COMMAND",
+          "valueName": "COMMAND",
           "sections": [
             "Commands"
           ],
@@ -573,7 +573,7 @@ The resulting CLI introspection JSON would be.
           "name": [
             "boot-id"
           ],
-          "value_name": "COMMAND",
+          "valueName": "COMMAND",
           "sections": [
             "Commands"
           ],
@@ -584,7 +584,7 @@ The resulting CLI introspection JSON would be.
           "name": [
             "invocation-id"
           ],
-          "value_name": "COMMAND",
+          "valueName": "COMMAND",
           "sections": [
             "Commands"
           ],
@@ -595,7 +595,7 @@ The resulting CLI introspection JSON would be.
           "name": [
             "var-partition-uuid"
           ],
-          "value_name": "COMMAND",
+          "valueName": "COMMAND",
           "sections": [
             "Commands"
           ],
@@ -606,7 +606,7 @@ The resulting CLI introspection JSON would be.
           "name": [
             "show"
           ],
-          "value_name": "COMMAND",
+          "valueName": "COMMAND",
           "sections": [
             "Commands"
           ],
@@ -615,7 +615,7 @@ The resulting CLI introspection JSON would be.
               "type": "argument",
               "name": "name_or_uuid",
               "argument": "optional"
-              "value_name": "NAME|UUID"
+              "valueName": "NAME|UUID"
             }
           ],
           "help": "Print one or more UUIDs"
@@ -625,7 +625,7 @@ The resulting CLI introspection JSON would be.
           "name": [
             "help"
           ],
-          "value_name": "COMMAND",
+          "valueName": "COMMAND",
           "sections": [
             "Commands"
           ],
