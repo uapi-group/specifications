@@ -102,6 +102,7 @@ The command object is recursively defined as follows.
   "postscript": ["paragraph1", "paragraph2", …],
   "help": "short help",
   "arguments": [<option|argument|command>, …],
+  "valueName": "",
   "documentation": ["doc1", …],
   "project": "myproject",
   "isDeprecated": false
@@ -149,6 +150,10 @@ The depth of this object,
 since command objects in this array may themselves define command objects in
 their `arguments`,
 may not exceed 15.
+
+`valueName` is a string shown to users to identify the argument,
+e.g. in usage information.
+It is only useful for subcommands or verbs inside a parent `arguments` array.
 
 `documentation` is an array of string values describing URIs referencing
 documentation for this command, see `man:uri(7)`for a description of valid URIs.
@@ -245,6 +250,7 @@ Option objects describe optional arguments.
   "names": ["-h","--help"],
   "argument": "no",
   "help": "Show this help",
+  "valueName": "",
   "sections": [""],
   "values": [<value object>],
   "isDeprecated": false
@@ -284,6 +290,9 @@ passed an argument,
 and an argument of whose `argument` value is `optional` may be omitted.
 
 `help` is a string that defines the help text of the option.
+
+`valueName` is a string shown to users to identify the argument of an option,
+e.g. in usage information.
 
 `sections` is an array of string that defines sections in which this option should
 be shown.
