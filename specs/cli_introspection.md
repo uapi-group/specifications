@@ -151,10 +151,9 @@ their `arguments`,
 may not exceed 15.
 
 `documentation` is an array of string values describing URIs referencing
-documentation for this command,
-see `man:uri(7)`for a description of valid URIs.
-Preferably the URIs should be URLs starting with `https://` or `man:` as these are widely
-supported in modern terminals.
+documentation for this command, see `man:uri(7)`for a description of valid URIs.
+Preferably the URIs should be URLs starting with `https://` or `man:` as these
+are widely supported in modern terminals.
 
 `project` is a string describing what this command belongs to.
 This may the package that installed it or the project that produced it.
