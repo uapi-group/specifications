@@ -46,7 +46,7 @@ The schema is defined as
 ```
 
 where `mediaType` is the fixed string
-`application/vnd.uapi-group.cli-introspection-0` and `commands` is a non-empty
+`application/vnd.uapi-group.cli-introspection` and `commands` is a non-empty
 JSON array of *command objects*.
 
 Further additions to this specification will only be additive and non-backward
@@ -107,8 +107,8 @@ The command object is recursively defined as follows.
 }
 ```
 
-All keys except `type` and `names` are optional and are treated as empty string
-or empty array when missing.
+All keys except `type` and `names` are optional and are treated as empty or
+false when missing.
 
 `type` is the fixed string `command` and signals that this is a command object,
 describing either a top-level command or verb.
@@ -127,7 +127,9 @@ program.
 
 `abstract` and `postscript` define arrays of strings that are shown respectively
 before and after the description of options in the program's help output.
-Each element of the array represents a paragraph of text.
+Each element of the array represents a paragraph of text
+as a single unbroken line,
+breaking lines for display purposes should be left to consumers.
 Both are meant for standalone help output, e.g. for the top-level help output of
 a program or specific help output of a verb in cases where they have their own
 help output.
@@ -153,7 +155,8 @@ supported in modern terminals.
 `project` is a string describing what this command belongs to.
 This may the package that installed it or the project that produced it.
 
-`isDeprecated` is a boolean describing whether the command has been
+`isDeprecated` is a boolean describing whether the command has been deprecated
+and its use should be avoided.
 
 ### Argument objects
 
@@ -163,8 +166,8 @@ Argument objects describe positional arguments that are not verbs.
 {
   "type": "argument"
   "name": "filename",
-  "value_name": "FILE",
-  "help": "Show this help",
+  "valueName": "FILE",
+  "help": "filename to operate on",
   "sections": ["Arguments"],
   "values": [<value object>],
   "isDeprecated": false
@@ -172,7 +175,7 @@ Argument objects describe positional arguments that are not verbs.
 ```
 
 All keys except `type`, `name` and `argument` are optional and are treated as
-empty when missing.
+empty or false when missing.
 
 `type` is the fixed string `argument` and signals that this is an argument object,
 describing a positional argument.
@@ -190,7 +193,7 @@ while an argument of whose `argument` value is `optional_argument` may be omitte
 
 `sections` is an array of string that defines sections in which this option should
 be shown.
-This is only for display-purposes.
+This is only for display purposes.
 
 `values` is an array of *value objects* describing the values this option may
 take.
@@ -217,7 +220,7 @@ Option objects describe optional arguments.
 ```
 
 All keys except `type`, `names` and `argument` are optional and are treated as
-empty when missing.
+empty or false when missing.
 
 `type` is the fixed string `option` and signals that this is an option object,
 describing an optional argument.
@@ -230,9 +233,10 @@ but not both for the same object,
 i.e. an option object may not have names both with and without dashes.
 Options prefixed with a single dash (`-`) are called short options and options
 prefixed with two dashes (`--`) are called long options.
-Short options are usually followed by a single character,
+Short options are usually just a single character after the dash,
 whereas long options can be a longer string.
 Short options may be followed by multiple characters,
+in essence being a long option prefixed with a single dash,
 but this is discouraged.
 
 `argument` defines the argument type, which is one of the strings:
@@ -249,7 +253,7 @@ and an argument of whose `argument` value is `optional_argument` may be omitted.
 
 `sections` is an array of string that defines sections in which this option should
 be shown.
-This is only for display-purposes.
+This is only for display purposes.
 
 `values` is an array of *value objects* describing the values this option may
 take.
@@ -349,11 +353,11 @@ Options:
 See the systemd-id128.1 man page for details.
 ```
 
-The resulting CLI introspection JSON would be
+The resulting CLI introspection JSON would be.
 
 ```json
 {
-  "mediaType": "application/vnd.io.systemd.cli-introspection-0",
+  "mediaType": "application/vnd.io.systemd.cli-introspection",
   "commands": [
     {
       "type": "command",
@@ -370,39 +374,7 @@ The resulting CLI introspection JSON would be
         "-SELINUX",
         "+APPARMOR",
         "-IMA",
-        "+IPE",
-        "+SMACK",
-        "+SECCOMP",
-        "+GCRYPT",
-        "+GNUTLS",
-        "+OPENSSL",
-        "+ACL",
-        "+BLKID",
-        "+CURL",
-        "+ELFUTILS",
-        "+FIDO2",
-        "+IDN2",
-        "+KMOD",
-        "+LIBCRYPTSETUP",
-        "+LIBCRYPTSETUP",
-        "PLUGINS",
-        "+LIBFDISK",
-        "+PCRE2",
-        "+PWQUALITY",
-        "+P11KIT",
-        "+QRENCODE",
-        "+TPM2",
-        "+BZIP2",
-        "+LZ4",
-        "+XZ",
-        "+ZLIB",
-        "+ZSTD",
-        "+BPF",
-        "FRAMEWORK",
-        "+BTF",
-        "+XKBCOMMON",
-        "+UTMP",
-        "+LIBARCHIVE"
+        "…"
       ],
       "documentation": [
         "https://www.freedesktop.org/software/systemd/man/latest/systemd-id128.html",
@@ -635,3 +607,7 @@ The resulting CLI introspection JSON would be
   ]
 }
 ```
+
+The `features` array has been shortened for length, since the internal are not
+of interest here, so `"…"` is meant as valid JSON placeholder above
+and not as an implementation guideline.
