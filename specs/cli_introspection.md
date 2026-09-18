@@ -206,6 +206,7 @@ when missing or `optional` for the `argument` field.
 describing a positional argument.
 
 `names` is a non-empty string defining the name of the argument.
+This name is a handle for internal identification purposes.
 
 `argument` defines the argument type, which is one of the strings:
 -`required`, or
@@ -213,6 +214,9 @@ describing a positional argument.
 An argument object whose `argument` value is `required` must be
 passed an argument,
 while an argument of whose `argument` value is `optional` may be omitted.
+
+`valueName` is a string shown to users to identify the argument,
+e.g. in usage information.
 
 `help` is a string that defines the help text of the argument.
 
