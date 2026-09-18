@@ -158,6 +158,30 @@ This may the package that installed it or the project that produced it.
 `isDeprecated` is a boolean describing whether the command has been deprecated
 and its use should be avoided.
 
+#### `help` vs `abstract` and `postscript`
+
+Both `help` as well as `abstract` and `postscript` define output that is
+considered help or usage information.
+
+They differ in their type,
+`help` is a single string, `abstract` and `postscript` are arrays of strings,
+due to their intended usage.
+
+`help` is meant for short, single line help, for overviews, e.g. in command listings,
+whereas `abstract` and `postscript` are meant for longer texts in full help output.
+
+`Command` objects should define at least either of `help` or `abstract`,
+but can use all three for different dislay purposes,
+decided by the consumer.
+
+In the example below the top-level command defines only `abstract` and `postscript`,
+while the subcommands only define `help`,
+but subcommands could define `abstract` and `postscript` for usage with their own
+full help output,
+separate from their parent command,
+and the top-level command could define `help`,
+e.g. for single line usage information.
+
 ### Argument objects
 
 Argument objects describe positional arguments that are not verbs.
