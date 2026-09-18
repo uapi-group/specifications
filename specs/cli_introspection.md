@@ -103,6 +103,7 @@ The command object is recursively defined as follows.
   "help": "short help",
   "arguments": [<option|argument|command>, …],
   "valueName": "",
+  "synopsis": [],
   "documentation": ["doc1", …],
   "project": "myproject",
   "isDeprecated": false
@@ -154,6 +155,12 @@ may not exceed 15.
 `valueName` is a string shown to users to identify the argument,
 e.g. in usage information.
 It is only useful for subcommands or verbs inside a parent `arguments` array.
+
+`synopsis` is an array that,
+if defined,
+must be equal to the synopsis or usage string derived from the command and the `arguments` array.
+It's use is for convenience so that clients do not need to parse the full arguments
+array to construct the usage string.
 
 `documentation` is an array of string values describing URIs referencing
 documentation for this command, see `man:uri(7)`for a description of valid URIs.
@@ -434,6 +441,11 @@ The resulting CLI introspection JSON would be.
       ],
       "postscript": [
         "See the systemd-id128(1) man page for details."
+      ],
+      "synopsis": [
+          "systemd-id128",
+          "[OPTIONS...]",
+          "COMMAND"
       ],
       "arguments": [
         {
