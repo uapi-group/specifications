@@ -190,6 +190,7 @@ Argument objects describe positional arguments that are not verbs.
 {
   "type": "argument"
   "name": "filename",
+  "argument": "required"
   "valueName": "FILE",
   "help": "filename to operate on",
   "sections": ["Arguments"],
