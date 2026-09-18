@@ -199,8 +199,8 @@ Argument objects describe positional arguments that are not verbs.
 }
 ```
 
-All keys except `type`, `name` and `argument` are optional and are treated as
-empty or false when missing.
+All keys except `type` and `name` are optional and are treated as empty or false
+when missing or `optional` for the `argument` field.
 
 `type` is the fixed string `argument` and signals that this is an argument object,
 describing a positional argument.
@@ -244,8 +244,8 @@ Option objects describe optional arguments.
 }
 ```
 
-All keys except `type`, `names` and `argument` are optional and are treated as
-empty or false when missing.
+All keys except `type` and `names` are optional and are treated as empty or
+false when missing or `optional` for the `argument` field.
 
 `type` is the fixed string `option` and signals that this is an option object,
 describing an optional argument.
