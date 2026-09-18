@@ -208,11 +208,11 @@ describing a positional argument.
 `names` is a non-empty string defining the name of the argument.
 
 `argument` defines the argument type, which is one of the strings:
--`required_argument`, or
--`optional_argument`.
-An argument object whose `argument` value is `required_argument` must be
+-`required`, or
+-`optional`.
+An argument object whose `argument` value is `required` must be
 passed an argument,
-while an argument of whose `argument` value is `optional_argument` may be omitted.
+while an argument of whose `argument` value is `optional` may be omitted.
 
 `help` is a string that defines the help text of the argument.
 
@@ -236,7 +236,7 @@ Option objects describe optional arguments.
 {
   "type": "option"
   "names": ["-h","--help"],
-  "argument": "no_argument",
+  "argument": "no",
   "help": "Show this help",
   "sections": [""],
   "values": [<value object>],
@@ -265,14 +265,14 @@ in essence being a long option prefixed with a single dash,
 but this is discouraged.
 
 `argument` defines the argument type, which is one of the strings:
--`no_argument`,
--`required_argument`, or
--`optional_argument`.
-An argument object whose `argument` value is `no_argument` cannot be passed an
+-`no`,
+-`required`, or
+-`optional`.
+An argument object whose `argument` value is `no` cannot be passed an
 argument,
-an argument object whose `argument` value is `required_argument` must be
+an argument object whose `argument` value is `required` must be
 passed an argument,
-and an argument of whose `argument` value is `optional_argument` may be omitted.
+and an argument of whose `argument` value is `optional` may be omitted.
 
 `help` is a string that defines the help text of the option.
 
@@ -418,7 +418,7 @@ The resulting CLI introspection JSON would be.
             "-h",
             "--help"
           ],
-          "argument": "no_argument",
+          "argument": "no",
           "sections": [
             "Options"
           ],
@@ -429,7 +429,7 @@ The resulting CLI introspection JSON would be.
           "names": [
             "--version"
           ],
-          "argument": "no_argument",
+          "argument": "no",
           "sections": [
             "Options"
           ],
@@ -440,7 +440,7 @@ The resulting CLI introspection JSON would be.
           "names": [
             "--no-pager"
           ],
-          "argument": "no_argument",
+          "argument": "no",
           "sections": [
             "Options"
           ],
@@ -451,7 +451,7 @@ The resulting CLI introspection JSON would be.
           "names": [
             "--no-legend"
           ],
-          "argument": "no_argument",
+          "argument": "no",
           "sections": [
             "Options"
           ],
@@ -462,7 +462,7 @@ The resulting CLI introspection JSON would be.
           "names": [
             "--json"
           ],
-          "argument": "required_argument",
+          "argument": "required",
           "value_name": "FORMAT",
           "sections": [
             "Options"
@@ -492,7 +492,7 @@ The resulting CLI introspection JSON would be.
           "names": [
             "-j"
           ],
-          "argument": "no_argument",
+          "argument": "no",
           "sections": [
             "Options"
           ],
@@ -504,7 +504,7 @@ The resulting CLI introspection JSON would be.
             "-p",
             "--pretty"
           ],
-          "argument": "no_argument",
+          "argument": "no",
           "sections": [
             "Options"
           ],
@@ -516,7 +516,7 @@ The resulting CLI introspection JSON would be.
             "-P",
             "--value"
           ],
-          "argument": "no_argument",
+          "argument": "no",
           "sections": [
             "Options"
           ],
@@ -529,7 +529,7 @@ The resulting CLI introspection JSON would be.
             "--app-specific"
           ],
           "value_name": "ID",
-          "argument": "required_argument",
+          "argument": "required",
           "sections": [
             "Options"
           ],
@@ -610,7 +610,7 @@ The resulting CLI introspection JSON would be.
             {
               "type": "argument",
               "name": "name_or_uuid",
-              "argument": "optional_argument"
+              "argument": "optional"
               "value_name": "NAME|UUID"
             }
           ],
