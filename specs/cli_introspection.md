@@ -302,7 +302,7 @@ either to a positional argument or an optional argument.
   "type": "value",
   "value": "myname",
   "help": "help text",
-  "default": true,
+  "isDefault": true,
   "isDeprecated": false
 }
 ```
@@ -342,7 +342,7 @@ description.
 
 `help` is a string describing the help text that should be shown for the value.
 
-`default` is a boolean describing whether this value is the default value for
+`isDefault` is a boolean describing whether this value is the isDefault value for
 the option this is a value for.
 
 If multiple of `value`, `dynamic` and `missing` are defined,
@@ -487,7 +487,7 @@ The resulting CLI introspection JSON would be.
               "type": "value",
               "value": "off",
               "help": "no JSON output",
-              "default": true
+              "isDefault": true
             }
           ]
         },
