@@ -93,13 +93,14 @@ The command object is recursively defined as follows.
 
 ```json
 {
-  "type": "command"
+  "type": "command",
+  "id": "name1",
   "names" : ["name1", "name2", …],
   "version": ["myversion"],
   "features": ["feature1", "feature2", …]
   "abstract": ["paragraph1", "paragraph2", …],
   "postscript": ["paragraph1", "paragraph2", …],
-  "help": "short help"
+  "help": "short help",
   "arguments": [<option|argument|command>, …],
   "documentation": ["doc1", …],
   "project": "myproject",
@@ -107,11 +108,14 @@ The command object is recursively defined as follows.
 }
 ```
 
-All keys except `type` and `names` are optional and are treated as empty or
+All keys except `type`, `id` and `names` are optional and are treated as empty or
 false when missing.
 
 `type` is the fixed string `command` and signals that this is a command object,
 describing either a top-level command or verb.
+
+`id` is a non-empty string defining the internal handle for the command object.
+The first element of the `names` array should be used.
 
 `names` is a non-empty array of string names for that command.
 The first element of that array is the primary name of that command.
@@ -149,7 +153,7 @@ may not exceed 15.
 `documentation` is an array of string values describing URIs referencing
 documentation for this command,
 see `man:uri(7)`for a description of valid URIs.
-Preferably the URIs should be URLs starting with `https://` as these are widely
+Preferably the URIs should be URLs starting with `https://` or `man:` as these are widely
 supported in modern terminals.
 
 `project` is a string describing what this command belongs to.
@@ -189,7 +193,7 @@ Argument objects describe positional arguments that are not verbs.
 ```json
 {
   "type": "argument"
-  "name": "filename",
+  "id": "filename",
   "argument": "required"
   "valueName": "FILE",
   "help": "filename to operate on",
@@ -199,14 +203,13 @@ Argument objects describe positional arguments that are not verbs.
 }
 ```
 
-All keys except `type` and `name` are optional and are treated as empty or false
+All keys except `type` and `id` are optional and are treated as empty or false
 when missing or `optional` for the `argument` field.
 
 `type` is the fixed string `argument` and signals that this is an argument object,
 describing a positional argument.
 
-`names` is a non-empty string defining the name of the argument.
-This name is a handle for internal identification purposes.
+`id` is a non-empty string defining the internal handle for the argument object.
 
 `argument` defines the argument type, which is one of the strings:
 -`required`, or
@@ -239,6 +242,7 @@ Option objects describe optional arguments.
 ```json
 {
   "type": "option"
+  "id": "help",
   "names": ["-h","--help"],
   "argument": "no",
   "help": "Show this help",
@@ -248,11 +252,13 @@ Option objects describe optional arguments.
 }
 ```
 
-All keys except `type` and `names` are optional and are treated as empty or
+All keys except `type`, `id` and `names` are optional and are treated as empty or
 false when missing or `optional` for the `argument` field.
 
 `type` is the fixed string `option` and signals that this is an option object,
 describing an optional argument.
+
+`id` is a non-empty string defining the internal handle for the option object.
 
 `names` is a non-empty array of strings defining the name of an option.
 Names starting with dashes define options and names not starting with dashes
