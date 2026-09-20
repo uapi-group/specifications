@@ -52,40 +52,39 @@ JSON array of *command objects*.
 Further additions to this specification will only be additive and non-backward
 compatible changes may only be introduced by defining a new `mediaType`.
 
-The `commands` array defines the actual CLI and a single binary can define
-arbitrarily many CLIs,
+The `commands` array defines the actual command line interface.
+A single binary can define arbitrarily many commands,
 but must define at least one.
-Defining multiple CLIs is relevant for multicall binaries that behave
-differently depending on with what name they are called,
+Defining multiple commands in a single program is relevant for multicall programs
+that behave differently depending on the name with which name they are called,
 e.g the basename of `argv[0]`,
-`program_invocation_short_name` in the GNU system
-context,
-or in the context of scripting languages the name under which they are imported
+`program_invocation_short_name` in the GNU system context,
+or the name under which they are imported in case of scripting languages.
 
 ### Nomenclature
 
-A *CLI* is the textual interface that a program presents to a user.
-It consists of the program being called under a name followed by units that are
-separated by whitespace,
-these units are called *arguments*.
+A **command** is the interface the program presents to a user
+when called under a specific name.
 
-Arguments may be single words or multiple words that may be escaped in some
-way in the case that they contain whitespace themselves,
-that is not meant to separate them from other arguments.
+The items in the argument array
+(`argv` in [execve(2)](https://man7.org/linux/man-pages/man2/execve.2.html))
+after the program name are called **arguments**.
 
-Arguments describe the inputs to a program on the CLI.
-There are two types of arguments *positional arguments* and *optional arguments*.
+The arguments may contain whitespace, quotes, and other characters that are special to the shell.
+How the command typed by the user is split by the shell,
+or more generally how the argument array is constructed in other cases,
+is outside of the scope of this specification,
+which only deals with the argument array as it is received by the program.
 
-Positional arguments have a fixed position in relation to each other and to
-optional arguments.
+This specification divides the arguments into two categories:
+- **positional arguments** are identified by their position in relation to other arugments,
+- **options** are specified with an explicit name
+  and are primarily interpreted independently of their position.
 
-A special kind of positional argument is one that describes a command of its own.
-These will be called *verbs*,
-but are also known as subcommands.
+A **verb** is a type of a positional argument that describes a command of its own.
+Verbs are also known as subcommands.
 
-Optional arguments are also called options,
-which they will be called here for conciseness,
-as well as switches.
+Options are also known as "switches".
 
 ### Command objects
 
@@ -110,8 +109,8 @@ The command object is recursively defined as follows.
 }
 ```
 
-All keys except `type`, `id` and `names` are optional and are treated as empty or
-false when missing.
+All keys except `type`, `id`, and `names` are optional
+and are treated as empty or false when missing.
 
 `type` is the fixed string `command` and signals that this is a command object,
 describing either a top-level command or verb.
@@ -124,33 +123,29 @@ The first element of that array is the primary name of that command.
 Further names can be added as aliases,
 e.g. for backward compatibility.
 
-`version` is a an array describing the version of the program.
-The strings in this array should be compatible with the UAPI.10 Version Format
-Specification-compatible.
+`version` is a an array of strings describing the version of the program.
+The strings in this array should be compatible with the
+[UAPI.10 Version Format Specification](https://uapi-group.org/specifications/specs/version_format_specification/).
 
-`features` defines an array of strings that define builtin-in features of this
-program.
+`features` defines an array of strings that define
+builtin-in features of this program.
 
 `abstract` and `postscript` define arrays of strings that are shown respectively
 before and after the description of options in the program's help output.
 Each element of the array represents a paragraph of text
-as a single unbroken line,
-breaking lines for display purposes should be left to consumers.
-Both are meant for standalone help output, e.g. for the top-level help output of
-a program or specific help output of a verb in cases where they have their own
-help output.
+as a single unbroken line.
+Breaking lines for display purposes should be done during display.
+Both are meant for standalone help output,
+e.g. for the top-level help output of a program
+or specific help output of a verb in cases where they have their own help output.
 
-`help` defines the help text of the command. This is useful for single-line
-usage information as well as for short descriptions of verbs in the list of
-options.
+`help` defines the help text of the command.
+It is useful for single-line usage information
+as well as for short descriptions of verbs in the list of options.
 
-`arguments` defines a CLI's positional and optional arguments and are described
-below.
+`arguments` array defines a commands's positional arguments and options
+in the form described below.
 It consists of *option objects*, *argument objects*, and *command  objects*.
-The depth of this object,
-since command objects in this array may themselves define command objects in
-their `arguments`,
-may not exceed 15.
 
 `valueName` is a string shown to users to identify the argument,
 e.g. in usage information.
@@ -167,26 +162,25 @@ documentation for this command, see `man:uri(7)`for a description of valid URIs.
 Preferably the URIs should be URLs starting with `https://` or `man:` as these
 are widely supported in modern terminals.
 
-`project` is a string describing what this command belongs to.
+`project` is a string describing what this program belongs to.
 This may the package that installed it or the project that produced it.
 
 `isDeprecated` is a boolean describing whether the command has been deprecated
 and its use should be avoided.
 
-#### `help` vs `abstract` and `postscript`
+#### `help` vs. `abstract` and `postscript`
 
 Both `help` as well as `abstract` and `postscript` define output that is
 considered help or usage information.
 
-They differ in their type,
-`help` is a single string, `abstract` and `postscript` are arrays of strings,
-due to their intended usage.
+They differ in their type due to their intended usage:
+`help` is a single string, `abstract` and `postscript` are arrays of strings.
 
 `help` is meant for short, single line help, for overviews, e.g. in command listings,
 whereas `abstract` and `postscript` are meant for longer texts in full help output.
 
-`Command` objects should define at least either of `help` or `abstract`,
-but can use all three for different dislay purposes,
+`Command` objects should define at least either `help` or `abstract`,
+but can use all three for different display purposes,
 decided by the consumer.
 
 In the example below the top-level command defines only `abstract` and `postscript`,
@@ -205,57 +199,51 @@ Argument objects describe positional arguments that are not verbs.
 {
   "type": "argument"
   "id": "filename",
-  "argument": "required"
   "valueName": "FILE",
   "help": "filename to operate on",
   "sections": ["Arguments"],
   "values": [<value object>],
+  "isRequired": false,
   "isDeprecated": false
 }
 ```
 
 All keys except `type` and `id` are optional and are treated as empty or false
-when missing or `optional` for the `argument` field.
+when missing.
 
-`type` is the fixed string `argument` and signals that this is an argument object,
-describing a positional argument.
+`type` is the fixed string `argument` and signals that this is an argument object.
 
 `id` is a non-empty string defining the internal handle for the argument object.
-
-`argument` defines the argument type, which is one of the strings:
--`required`, or
--`optional`.
-An argument object whose `argument` value is `required` must be
-passed an argument,
-while an argument of whose `argument` value is `optional` may be omitted.
 
 `valueName` is a string shown to users to identify the argument,
 e.g. in usage information.
 
 `help` is a string that defines the help text of the argument.
 
-`sections` is an array of string that defines sections in which this option should
-be shown.
-This is only for display purposes.
+`sections` is an array of strings that defines sections in which this option should
+be shown when the help output is split into sections.
+It is intended mostly for display purposes.
 
-`values` is an array of *value objects* describing the values this option may
-take.
+`values` is an array of *value objects* describing the values this option may take.
 An empty array describes an argument that is a single arbitrary word with no
 further documented semantic.
 Value objects are described in a section below.
 
-`isDeprecated` is a boolean describing whether this option has been deprecated.
+`isRequires` specifies whether this positional argument
+must be present in the command line.
+
+`isDeprecated` is a boolean describing whether this argument has been deprecated.
 
 ### Option Objects
 
-Option objects describe optional arguments.
+Option objects describe options.
 
 ```json
 {
   "type": "option"
   "id": "help",
   "names": ["-h","--help"],
-  "argument": "no",
+  "value": "required|optional|no",
   "help": "Show this help",
   "valueName": "",
   "sections": [""],
@@ -264,49 +252,55 @@ Option objects describe optional arguments.
 }
 ```
 
-All keys except `type`, `id` and `names` are optional and are treated as empty or
-false when missing or `optional` for the `argument` field.
+All keys except `type`, `id`, `names`, and `argument` are optional
+and are treated as empty or false when missing.
 
 `type` is the fixed string `option` and signals that this is an option object,
-describing an optional argument.
+describing an optional argument. This field must be present.
 
 `id` is a non-empty string defining the internal handle for the option object.
 
 `names` is a non-empty array of strings defining the name of an option.
-Names starting with dashes define options and names not starting with dashes
-define positional arguments.
-An option object may define only options or arguments,
-but not both for the same object,
-i.e. an option object may not have names both with and without dashes.
-Options prefixed with a single dash (`-`) are called short options and options
-prefixed with two dashes (`--`) are called long options.
-Short options are usually just a single character after the dash,
-whereas long options can be a longer string.
-Short options may be followed by multiple characters,
-in essence being a long option prefixed with a single dash,
-but this is discouraged.
+This field must be present and at least one name must be specified.
+The names in the array **must** all either start with a dash,
+in which case the option object describes an option,
+**or** they **must** all *not* start with a dash,
+in which case the option object describes a positional argument.
 
-`argument` defines the argument type, which is one of the strings:
+When an option is specified by a name that starts with a single dash (`-`),
+it is called a "short option",
+and when it is specified by a name that starts with a double dash (`--`),
+it is called a "long option".
+Short option names are usually just a single character after the dash,
+whereas long option names **should** be a longer string.
+Multi-character short option names are discouraged.
+
+Commands that have single-character short options
+usually allow multiple short options to be specified together after a single dash.
+The last of those options **may** take a value,
+but the earlier ones **may not**,
+since it would be impossible to distinguish the value from the other options.
+
+`value` defines whether the option takes a value, and may be one of the strings:
 -`no`,
 -`required`, or
 -`optional`.
-An argument object whose `argument` value is `no` cannot be passed an
-argument,
-an argument object whose `argument` value is `required` must be
-passed an argument,
-and an argument of whose `argument` value is `optional` may be omitted.
+When `required`, the option must be followed by a value.
+When `optional`, the option may be followed by a value.
+// TODO: describe how to the presence or not of a value is figured out.
+When `no`, the option takes no value.
 
 `help` is a string that defines the help text of the option.
 
 `valueName` is a string shown to users to identify the argument of an option,
 e.g. in usage information.
+// TODO: describe allowed chacters, more relaxed than an option name.
 
-`sections` is an array of string that defines sections in which this option should
-be shown.
-This is only for display purposes.
+`sections` is an array of strings that defines sections
+in which this option should be shown.
+This is primarily intended for display purposes.
 
-`values` is an array of *value objects* describing the values this option may
-take.
+`values` is an array of *value objects* describing the values this option may take.
 An empty array describes an argument that is a single arbitrary word with no
 further documented semantic.
 Value objects are described in a section below.
@@ -315,8 +309,7 @@ Value objects are described in a section below.
 
 ### Value objects
 
-Value objects describe a value that is passed as an argument,
-either to a positional argument or an optional argument.
+Value objects describe values passed as positional arguments or with an option.
 
 ```json
 {
@@ -331,8 +324,7 @@ either to a positional argument or an optional argument.
 All keys except `type` and one of `value`, `category`, `dynamic` or `missing`
 are optional and are treated as empty string or false when missing.
 
-`type` is the fixed string `value` and signals that this is a value object,
-describing an argument value.
+`type` is the fixed string `value` and signals that this is a value object.
 
 `value` is a string describing a possible static value.
 
@@ -358,16 +350,23 @@ otherwise an empty string will be passed as first and only argument.
 The standard output stream of the command defines the values,
 one per line.
 
-`missing` is a boolean signalling that some values are missing from the
-description.
+`missing` is a boolean signaling that some values are missing from the description.
 
 `help` is a string describing the help text that should be shown for the value.
 
-`isDefault` is a boolean describing whether this value is the isDefault value for
+`isDefault` is a boolean describing whether this value is the default value for
 the option this is a value for.
 
 If multiple of `value`, `dynamic` and `missing` are defined,
 `missing` has the highest precedence, followed by `value` and `dynamic`.
+
+## Limits
+
+The maximum allowed level of nesting in the JSON structure is 31.
+A `command` object may contain other `command` objects in its `arguments` array,
+so those may be nested at most 15 times.
+Programs producing **must not** emit JSON structures that exceed this limit,
+and consumers **should** ignore or refuse to use such outputs.
 
 ## Extensions
 
@@ -409,8 +408,7 @@ Options:
 See the systemd-id128.1 man page for details.
 ```
 
-The resulting CLI introspection JSON would be.
-
+The resulting program introspection JSON would be:
 ```json
 {
   "mediaType": "application/vnd.io.systemd.cli-introspection",
