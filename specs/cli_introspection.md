@@ -162,7 +162,7 @@ documentation for this command, see `man:uri(7)`for a description of valid URIs.
 Preferably the URIs should be URLs starting with `https://` or `man:` as these
 are widely supported in modern terminals.
 
-`project` is a string describing what this program belongs to.
+`project` is a string describing what this command belongs to.
 This may the package that installed it or the project that produced it.
 
 `isDeprecated` is a boolean describing whether the command has been deprecated
@@ -255,17 +255,13 @@ Option objects describe options.
 All keys except `type`, `id`, `names`, and `argument` are optional
 and are treated as empty or false when missing.
 
-`type` is the fixed string `option` and signals that this is an option object,
-describing an optional argument. This field must be present.
+`type` is the fixed string `option` and signals that this is an option object.
 
 `id` is a non-empty string defining the internal handle for the option object.
 
 `names` is a non-empty array of strings defining the name of an option.
 This field must be present and at least one name must be specified.
-The names in the array **must** all either start with a dash,
-in which case the option object describes an option,
-**or** they **must** all *not* start with a dash,
-in which case the option object describes a positional argument.
+The names in the array **must** all start with a dash.
 
 When an option is specified by a name that starts with a single dash (`-`),
 it is called a "short option",
@@ -322,7 +318,7 @@ Value objects describe values passed as positional arguments or with an option.
 ```
 
 All keys except `type` and one of `value`, `category`, `dynamic` or `missing`
-are optional and are treated as empty string or false when missing.
+are optional and are treated as empty string, false, or "no" when missing.
 
 `type` is the fixed string `value` and signals that this is a value object.
 
