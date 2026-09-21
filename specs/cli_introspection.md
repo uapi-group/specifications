@@ -77,14 +77,14 @@ is outside of the scope of this specification,
 which only deals with the argument array as it is received by the program.
 
 This specification divides the arguments into two categories:
-- **positional arguments** are identified by their position in relation to other arugments,
-- **options** are specified with an explicit name
+1. **positional arguments**, that are identified by their position in relation to other arguments, and
+2. **options**, that are specified by an explicit name
   and are primarily interpreted independently of their position.
 
 A **verb** is a type of a positional argument that describes a command of its own.
 Verbs are also known as subcommands.
 
-Options are also known as "switches".
+Options are also known as "switches" and "optional arguments"
 
 ### Command objects
 
@@ -143,7 +143,7 @@ or specific help output of a verb in cases where they have their own help output
 It is useful for single-line usage information
 as well as for short descriptions of verbs in the list of options.
 
-`arguments` array defines a commands's positional arguments and options
+`arguments` is an array defining a commands's positional arguments and options
 in the form described below.
 It consists of *option objects*, *argument objects*, and *command  objects*.
 
@@ -229,7 +229,7 @@ An empty array describes an argument that is a single arbitrary word with no
 further documented semantic.
 Value objects are described in a section below.
 
-`isRequires` specifies whether this positional argument
+`isRequired` specifies whether this positional argument
 must be present in the command line.
 
 `isDeprecated` is a boolean describing whether this argument has been deprecated.
