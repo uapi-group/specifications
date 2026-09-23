@@ -46,7 +46,7 @@ The schema is defined as
 ```
 
 where `mediaType` is the fixed string
-`application/vnd.uapi-group.cli-introspection` and `commands` is a non-empty
+"`application/vnd.uapi-group.cli-introspection`" and `commands` is a non-empty
 JSON array of *command objects*.
 
 Further additions to this specification will only be additive and non-backward
@@ -112,7 +112,7 @@ The command object is recursively defined as follows.
 All keys except `type`, `id`, and `names` are optional
 and are treated as empty or false when missing.
 
-`type` is the fixed string `command` and signals that this is a command object,
+`type` is the fixed string "`command`" and signals that this is a command object,
 describing either a top-level command or verb.
 
 `id` is a non-empty string defining the internal handle for the command object.
@@ -211,7 +211,7 @@ Argument objects describe positional arguments that are not verbs.
 All keys except `type` and `id` are optional and are treated as empty or false
 when missing.
 
-`type` is the fixed string `argument` and signals that this is an argument object.
+`type` is the fixed string "`argument`" and signals that this is an argument object.
 
 `id` is a non-empty string defining the internal handle for the argument object.
 
@@ -252,10 +252,10 @@ Option objects describe options.
 }
 ```
 
-All keys except `type`, `id`, `names`, and `argument` are optional
-and are treated as empty or false when missing.
+All keys except `type`, `id`, and `names` are optional
+and are treated as empty, false, or "no" (for "value") when missing.
 
-`type` is the fixed string `option` and signals that this is an option object.
+`type` is the fixed string "`option`" and signals that this is an option object.
 
 `id` is a non-empty string defining the internal handle for the option object.
 
@@ -278,13 +278,13 @@ but the earlier ones **may not**,
 since it would be impossible to distinguish the value from the other options.
 
 `value` defines whether the option takes a value, and may be one of the strings:
--`no`,
--`required`, or
--`optional`.
-When `required`, the option must be followed by a value.
-When `optional`, the option may be followed by a value.
+-"`yes`",
+-"`no`", or
+-"`optional`".
+When "`yes`", the option must be followed by a value.
+When "`optional`", the option may be followed by a value.
 // TODO: describe how to the presence or not of a value is figured out.
-When `no`, the option takes no value.
+When "`no`", the option takes no value.
 
 `help` is a string that defines the help text of the option.
 
@@ -318,9 +318,9 @@ Value objects describe values passed as positional arguments or with an option.
 ```
 
 All keys except `type` and one of `value`, `category`, `dynamic` or `missing`
-are optional and are treated as empty string, false, or "no" when missing.
+are optional and are treated as empty string, or false when missing.
 
-`type` is the fixed string `value` and signals that this is a value object.
+`type` is the fixed string "`value`" and signals that this is a value object.
 
 `value` is a string describing a possible static value.
 
@@ -492,7 +492,7 @@ The resulting program introspection JSON would be:
           "names": [
             "--json"
           ],
-          "argument": "required",
+          "value": "required",
           "valueName": "FORMAT",
           "sections": [
             "Options"
