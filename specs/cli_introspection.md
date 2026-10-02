@@ -259,6 +259,8 @@ Option objects describe options.
   "values": [<value object>],
   "isDeprecated": false,
   "reapeatable": 0,
+  "conflicts": "",
+  "requires": "",
 }
 ```
 
@@ -318,6 +320,12 @@ Value objects are described in a section below.
 option can be repated.
 A value of 0 indictaes that the option can only be used once.
 Use -1 for arbitrary amount of repetitions.
+
+`conflicts` is a string describing a glob of `id`s that conflict with this option.
+An empty string means that this option does not conflict with anything.
+
+`conflicts` is a string describing a glob of `id`s that are required together with this option.
+An empty string means that this option does not requite any other option.
 
 ### Value objects
 
