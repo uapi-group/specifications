@@ -152,11 +152,12 @@ e.g. in usage information.
 It is only useful for subcommands or verbs inside a parent `arguments` array.
 It defaults to `COMMAND`.
 
-`synopsis` is an array that,
-if defined,
-must be equal to the synopsis or usage string derived from the command and the `arguments` array.
+`synopsis` is an array of arrays of strings that,
+defines synopsis or usage string of the command.
+If not defined it can be dervied from the `arguments` array of the command.
 It's use is for convenience so that clients do not need to parse the full arguments
-array to construct the usage string.
+array to construct the usage string,
+or if there are multiple usage strings that should highlight different usages.
 
 `documentation` is an array of string values describing URIs referencing
 documentation for this command, see `man:uri(7)`for a description of valid URIs.
