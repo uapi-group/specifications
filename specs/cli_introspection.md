@@ -214,7 +214,7 @@ Argument objects describe positional arguments that are not verbs.
 All keys except `type` and `id` are optional and are treated as empty, false, or
 zero when missing.
 
-`type` is the fixed string "`argument`" and signals that this is an argument object.
+`type` is the fixed string `"argument"` and signals that this is an argument object.
 
 `id` is a non-empty string defining the internal handle for the argument object.
 
@@ -243,7 +243,6 @@ option can be repated.
 A value of 0 indictaes that the argument can only be used once.
 Use -1 for arbitrary amount of repetitions.
 
-
 ### Option Objects
 
 Option objects describe options.
@@ -266,7 +265,7 @@ Option objects describe options.
 All keys except `type`, `id`, and `names` are optional
 and are treated as empty, false, zero, or "no" (for "value") when missing.
 
-`type` is the fixed string "`option`" and signals that this is an option object.
+`type` is the fixed string `"option"` and signals that this is an option object.
 
 `id` is a non-empty string defining the internal handle for the option object.
 
@@ -338,7 +337,7 @@ Value objects describe values passed as positional arguments or with an option.
 All keys except `type` and one of `value`, `category`, `dynamic` or `missing`
 are optional and are treated as empty string, or false when missing.
 
-`type` is the fixed string "`value`" and signals that this is a value object.
+`type` is the fixed string `"value"` and signals that this is a value object.
 
 `value` is a string describing a possible static value.
 
