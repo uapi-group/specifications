@@ -404,6 +404,35 @@ The keys `type`, `id` and `match` are non-optional.
 in the same argument array with smaller index than the object that is referencing them,
 that should be repeated.
 
+### Separators
+
+Separators are objects that describe that parsing of options should end.
+Commonly the string `--` is used to signify this in command line interfaces.
+
+```json
+{
+  "type": "separator",
+  "id": "sepopt",
+  "valueName": "--",
+  "continueWith": ""
+}
+```
+
+The keys `type` and `id` are non-optional.
+`valueName` defaults to `"--"`
+and `cotinueWith` defaults to the empty string.
+
+`type` is the fixed string `"separator"` and signals that this is an separator object.
+
+`id` is a non-empty string defining the internal handle for the option object.
+
+`valueName` is a string that represents the separator.
+It defaults to `"--"`,
+which is a commonly used representation for this.
+
+`continueWith` is a string that if set to a non-empty value describes
+a different program whose command line introspection should be used for subsequent arguments.
+
 ## Limits
 
 The maximum allowed level of nesting in the JSON structure is 31.
