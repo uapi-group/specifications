@@ -206,12 +206,13 @@ Argument objects describe positional arguments that are not verbs.
   "sections": ["Arguments"],
   "values": [<value object>],
   "isRequired": false,
-  "isDeprecated": false
+  "isDeprecated": false,
+  "repeatable": 0,
 }
 ```
 
-All keys except `type` and `id` are optional and are treated as empty or false
-when missing.
+All keys except `type` and `id` are optional and are treated as empty, false, or
+zero when missing.
 
 `type` is the fixed string "`argument`" and signals that this is an argument object.
 
@@ -237,6 +238,12 @@ must be present in the command line.
 
 `isDeprecated` is a boolean describing whether this argument has been deprecated.
 
+`repeatable` is an integer describing how many times after a first use the
+option can be repated.
+A value of 0 indictaes that the argument can only be used once.
+Use -1 for arbitrary amount of repetitions.
+
+
 ### Option Objects
 
 Option objects describe options.
@@ -251,12 +258,13 @@ Option objects describe options.
   "valueName": "OPTION",
   "sections": [""],
   "values": [<value object>],
-  "isDeprecated": false
+  "isDeprecated": false,
+  "reapeatable": 0,
 }
 ```
 
 All keys except `type`, `id`, and `names` are optional
-and are treated as empty, false, or "no" (for "value") when missing.
+and are treated as empty, false, zero, or "no" (for "value") when missing.
 
 `type` is the fixed string "`option`" and signals that this is an option object.
 
@@ -306,6 +314,11 @@ further documented semantic.
 Value objects are described in a section below.
 
 `isDeprecated` is a boolean describing whether this option has been deprecated.
+
+`repeatable` is an integer describing how many times after a first use the
+option can be repated.
+A value of 0 indictaes that the option can only be used once.
+Use -1 for arbitrary amount of repetitions.
 
 ### Value objects
 
