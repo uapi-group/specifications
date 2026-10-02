@@ -381,6 +381,29 @@ the option this is a value for.
 If multiple of `value`, `dynamic` and `missing` are defined,
 `missing` has the highest precedence, followed by `value` and `dynamic`.
 
+### References
+
+Reference objects describe repetitions of previous options and arguments in
+the arguments array.
+
+```json
+{
+  "type": "reference",
+  "id": "endref"
+  "match": "opt.*"
+}
+```
+
+The keys `type`, `id` and `match` are non-optional.
+
+`type` is the fixed string `"reference"` and signals that this is an reference object.
+
+`id` is a non-empty string defining the internal handle for the option object.
+
+`match` is a string describing a glob of `id` fields for other objects
+in the same argument array with smaller index than the object that is referencing them,
+that should be repeated.
+
 ## Limits
 
 The maximum allowed level of nesting in the JSON structure is 31.
