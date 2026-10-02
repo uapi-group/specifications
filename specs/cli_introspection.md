@@ -101,7 +101,7 @@ The command object is recursively defined as follows.
   "postscript": ["paragraph1", "paragraph2", …],
   "help": "short help",
   "arguments": [<option|argument|command>, …],
-  "valueName": "",
+  "valueName": "COMMAND",
   "synopsis": [],
   "documentation": ["doc1", …],
   "project": "myproject",
@@ -150,6 +150,7 @@ It consists of *option objects*, *argument objects*, and *command  objects*.
 `valueName` is a string shown to users to identify the argument,
 e.g. in usage information.
 It is only useful for subcommands or verbs inside a parent `arguments` array.
+It defaults to `COMMAND`.
 
 `synopsis` is an array that,
 if defined,
@@ -217,6 +218,7 @@ when missing.
 
 `valueName` is a string shown to users to identify the argument,
 e.g. in usage information.
+It defaults to `ARGUMENT`.
 
 `help` is a string that defines the help text of the argument.
 
@@ -245,7 +247,7 @@ Option objects describe options.
   "names": ["-h","--help"],
   "value": "required|optional|no",
   "help": "Show this help",
-  "valueName": "",
+  "valueName": "OPTION",
   "sections": [""],
   "values": [<value object>],
   "isDeprecated": false
@@ -288,8 +290,9 @@ When "`no`", the option takes no value.
 
 `help` is a string that defines the help text of the option.
 
-`valueName` is a string shown to users to identify the argument of an option,
+`valueName` is a string shown to users to identify the option,
 e.g. in usage information.
+It defaults to `OPTION`.
 // TODO: describe allowed chacters, more relaxed than an option name.
 
 `sections` is an array of strings that defines sections
@@ -311,6 +314,7 @@ Value objects describe values passed as positional arguments or with an option.
 {
   "type": "value",
   "value": "myname",
+  "valueName": "MYVAL",
   "help": "help text",
   "isDefault": true,
   "isDeprecated": false
@@ -324,6 +328,9 @@ are optional and are treated as empty string, or false when missing.
 
 `value` is a string describing a possible static value.
 
+`valueName` is a string shown to users to identify the value,
+e.g. in usage information.
+
 `category` is a string describing a category of values:
 - `path`, any filesystem path,
 - `file`, a filesystem path to a regular file,
@@ -334,7 +341,9 @@ are optional and are treated as empty string, or false when missing.
 - `username`, a user's name,
 - `groupname`, a group's name,
 - `hostname`, a hosts' name, and
-- `unit`, a systemd unit's name.
+- `unit`, a systemd unit's name,
+- `uuid`, a UUID,
+- `any`, any string.
 
 `dynamic` is a non-empty string describing a commands,
 that can be called to generate multiple values.
@@ -412,7 +421,7 @@ The resulting program introspection JSON would be:
     {
       "type": "command",
       "names": [
-        "systemd-128"
+        "systemd-id128"
       ],
       "version": [
         "262",
@@ -502,16 +511,19 @@ The resulting program introspection JSON would be:
             {
               "type": "value",
               "value": "short",
+              "valueName": "FORMAT",
               "help": "the shortest possible output without any redundant whitespace or line breaks"
             },
             {
               "type": "value",
               "value": "pretty",
+              "valueName": "FORMAT",
               "help": "a pretty version of the same"
             },
             {
               "type": "value",
               "value": "off",
+              "valueName": "FORMAT",
               "help": "no JSON output",
               "isDefault": true
             }
@@ -558,12 +570,19 @@ The resulting program introspection JSON would be:
             "-a",
             "--app-specific"
           ],
-          "valueName": "ID",
           "argument": "required",
           "sections": [
             "Options"
           ],
-          "help": "Generate app-specific IDs"
+          "help": "Generate app-specific IDs",
+          "values": [
+              {
+                  "type": "value",
+                  "category": "uuid"
+                  "valueName": "ID",
+                  "help": "An application-specific UUID"
+              }
+          ]
         },
         {
           "type": "option",
@@ -639,9 +658,24 @@ The resulting program introspection JSON would be:
           "arguments": [
             {
               "type": "argument",
-              "name": "name_or_uuid",
+              "id": "show.arg",
               "argument": "optional"
-              "valueName": "NAME|UUID"
+              "values": [
+                  {
+                      "type": "value",
+                      "id": "show.arg.name",
+                      "category": "any",
+                      "valueName": "NAME",
+                      "help": "A DPS name"
+                  },
+                  {
+                      "type": "value",
+                      "id": "show.arg.uuid",
+                      "category": "any",
+                      "valueName": "UUID",
+                      "help": "A DPS partition type UUID"
+                  }
+              ]
             }
           ],
           "help": "Print one or more UUIDs"
