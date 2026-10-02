@@ -95,7 +95,7 @@ The command object is recursively defined as follows.
   "type": "command",
   "id": "name1",
   "names" : ["name1", "name2", …],
-  "version": ["myversion"],
+  "versions": ["myversion"],
   "features": ["feature1", "feature2", …]
   "abstract": ["paragraph1", "paragraph2", …],
   "postscript": ["paragraph1", "paragraph2", …],
@@ -123,7 +123,7 @@ The first element of that array is the primary name of that command.
 Further names can be added as aliases,
 e.g. for backward compatibility.
 
-`version` is a an array of strings describing the version of the program.
+`versions` is a an array of strings describing the version of the program.
 The strings in this array should be compatible with the
 [UAPI.10 Version Format Specification](https://uapi-group.org/specifications/specs/version_format_specification/).
 
