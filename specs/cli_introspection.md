@@ -357,8 +357,9 @@ e.g. in usage information.
 - `unit`, a systemd unit's name,
 - `uuid`, a UUID,
 - `any`, any string.
+The empty string is to be handled as `any` and leaves the completion open to the shell.
 
-`dynamic` is a non-empty string describing a commands,
+`dynamic` is a string describing a command,
 that can be called to generate multiple values.
 This is relevant for the dynamic generation of completion candidates during
 command line completion.
@@ -367,6 +368,8 @@ if any,
 otherwise an empty string will be passed as first and only argument.
 The standard output stream of the command defines the values,
 one per line.
+An empty string for this key means that values cannot be generated dynamically
+for this object.
 
 `missing` is a boolean signaling that some values are missing from the description.
 
