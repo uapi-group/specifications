@@ -393,6 +393,11 @@ Vendors may add additional attributes to the objects described in this specifica
 but they ust be prefixed with `x-vendorname.`,
 e.g. a vendor `foo` wanting to add an attribute `bar` would use the attribute name `x-foo.bar`.
 
+## Well-known option for command line introspection
+
+A command supporting this specification should use `--introspect-cli` to output
+its introspection information.
+
 ## Example
 
 This is an example for a description for `systemd-id128`, with the help output
