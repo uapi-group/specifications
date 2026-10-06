@@ -122,6 +122,9 @@ should be appended to the regular initrds passed to the kernel.
 PE Addons may include sections of multiple types (e.g. both a `.cmdline` and a `.dtb` section), in which case
 all of them should be applied.
 
+If both the invoked UKI and a given PE Addon both have `.uname` sections, the Addon will be rejected if they do not match exactly.
+As with UKIs, Addons can define an `.sbat` section that may cause the Addon to be rejected [as per the policy of the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md).
+
 Just like UKIs PE Addons should have the `Subystem` field of the *optional* PE header set to 0x0A.
 
 The PE header's `Machine` field should be set to the local CPU type for the target machine of the Addon. When
