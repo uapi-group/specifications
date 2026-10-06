@@ -365,8 +365,10 @@ The following keys are recognized:
   root of the file system containing the snippet itself, referring to a regular file. The file name must be
   suffixed with a recognized suffix which indicates the type of additional resource. Currently, recognized
   suffixes are `.confext.raw` (for systemd-style configuration extension DDIs), `.sysext.raw` (for
-  systemd-style system extenion configuration extension DDIs) and `.cred` (for systemd-style encrypted system
-  credential files). In future additional suffixes will be defined and implementations must gracefully handle
+  systemd-style system extenion configuration extension DDIs), `.cred` (for systemd-style encrypted system
+  credential files) and `.addon.efi` (for PE addons, see the section `PE Addons` in
+  [the UKI Specification](unified_kernel_image.md); only applicable when `uki` or `uki-url` is set).
+  In the future, additional suffixes will be defined and implementations must gracefully handle
   unrecognized suffixes. This key may appear multiple times.
 
   Example: `extra /6a9857a393724b7a981ebb5b8495b9ea/somedata.cred`
