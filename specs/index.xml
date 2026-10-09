@@ -334,7 +334,31 @@ terminals is typically passed around to various different components while the
 user is active: a shell might pass control to a process it invokes. If that
 process is systemd&amp;rsquo;s &lt;code>run0&lt;/code> then primary control is passed to the privileged session of
 the target user. If &lt;code>systemd-nspawn&lt;/code> is then invoked to start a container, primary
-control is passed to that container, and so on.&lt;/p></description></item><item><title>UAPI.20 Varlink IPC</title><link>https://uapi-group.org/specifications/specs/varlink/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/varlink/</guid><description>&lt;h1 id="uapi20-varlink-ipc">UAPI.20 Varlink IPC&lt;a class="anchor" href="#uapi20-varlink-ipc">#&lt;/a>&lt;/h1>
+control is passed to that container, and so on.&lt;/p></description></item><item><title>UAPI.19 Linux TPM 2.0 NV Index Registry</title><link>https://uapi-group.org/specifications/specs/linux_tpm_nvindex_registry/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/linux_tpm_nvindex_registry/</guid><description>&lt;h1 id="-uapi19-linux-tpm-20-nv-index-registry-">🔏 UAPI.19 Linux TPM 2.0 NV Index Registry 🗒️&lt;a class="anchor" href="#-uapi19-linux-tpm-20-nv-index-registry-">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>0.1&lt;/td>
+ &lt;td>Initial Release&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>The Trusted Computing Group (TCG) maintains a &lt;a href="https://trustedcomputinggroup.org/resource/registry/">Registry of Reserved
+TPM 2.0 Handles and
+Localities&lt;/a>
+which assigns TPM 2.0 NV index ranges (among other things, see section
+2.2) to organizations (by convention only!). They have assigned the NV
+index range &lt;strong>0x01D10200-0x01D105FF&lt;/strong> (i.e. 1024 indexes) to the Linux
+community.&lt;/p>
+&lt;p>This registry tracks assignments of subranges of this NV index range
+to various interested Linux projects. Currently, the following
+subranges are assigned:&lt;/p></description></item><item><title>UAPI.20 Varlink IPC</title><link>https://uapi-group.org/specifications/specs/varlink/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/varlink/</guid><description>&lt;h1 id="uapi20-varlink-ipc">UAPI.20 Varlink IPC&lt;a class="anchor" href="#uapi20-varlink-ipc">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>
