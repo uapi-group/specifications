@@ -1187,9 +1187,8 @@ All request bodies in the simple mode are JSON documents with the
 `application/json` media type. Response bodies use the `application/json`
 media type unless streaming mode is used, in which case
 `application/json-seq` is used.
-Clients SHOULD include exactly one of `Accept: application/json` or
-`Accept: application/json-seq` in their requests.
-The `Accept` header SHOULD NOT include MIME type parameters.
+Clients SHOULD include `application/json` or `application/json-seq` in
+their requests' `Accept` header based on the expected response type.
 
 ### Simple HTTP Mode
 
@@ -1258,15 +1257,14 @@ $ curl -s -X POST https://host:1031/waldo/call/io.systemd.Hostname.Describe \
 
 #### Streaming Replies
 
-Methods that reply multiple times (i.e. use the `more` flag) send their
-response bodies with the `application/json-seq` content type, which must be
-negotiated with the `Accept: application/json-seq` request header.
-The bridge then sets `more` on the Varlink call and streams the replies to the
-client as a JSON text sequence
-([RFC 7464](https://www.rfc-editor.org/rfc/rfc7464)), with the response media
-type `application/json-seq`. Each record consists of a Record Separator
-character (`0x1E`), followed by the JSON text, followed by a Line Feed
-(`0x0A`).
+Clients call methods that reply multiple times (i.e. use the `more` flag) by
+including the `?more=true` query parameter in requests. The bridge then sets
+`more` on the Varlink call and streams the replies to the client as a JSON text
+sequence ([RFC 7464](https://www.rfc-editor.org/rfc/rfc7464)), with the
+response media type `application/json-seq`. Each record consists of a Record
+Separator character (`0x1E`), followed by the JSON text, followed by a Line
+Feed (`0x0A`). Clients SHOULD set the `Accept: application/json-seq` header
+when making these requests.
 
 Each successful reply is encoded as one record containing its output
 parameters (unwrapped, as above). The `continues` flag is not transmitted: the
@@ -1280,23 +1278,23 @@ when such an error occurs, the status is `200 OK` regardless.
 The interface definition at this time carries no indication whether a
 method supports or requires `more`, hence the bridge cannot determine
 this up front. If a method that requires `more` is invoked without the
-`application/json-seq` accept header, the service's `ExpectedMore`
-error is passed through as `400 Bad Request`.
+`?more=true` query parameter, the service's `ExpectedMore` error is passed
+through as `400 Bad Request`.
 
 Example:
 
 ```console
 $ curl -s -H "Accept: application/json-seq" \
-    https://host:1031/waldo/call/io.systemd.UserDatabase.GetUserRecord \
+    https://host:1031/waldo/call/io.systemd.UserDatabase.GetUserRecord?more=true \
     --json '{"service":"io.systemd.Multiplexer"}' | jq --seq
 ```
 
 #### Limitations
 
 Simple HTTP mode maps one HTTP request to one Varlink call. It
-therefore provides no way to issue `oneway` calls, to upgrade the
+currently provides no way to issue `oneway` calls, to upgrade the
 connection with the `upgrade` flag or to pipeline multiple calls on
-one Varlink connection. Clients that need these features should use
+one Varlink connection. Clients that need these features can use
 WebSocket mode.
 
 #### Introspection
