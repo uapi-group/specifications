@@ -1,5 +1,5 @@
 ---
-title: UAPI.19 Linux TPM 2.0 NV Index Registry
+title: UAPI.19 Linux TPM NV Index Registry
 category: Concepts
 layout: default
 version: 0.1
@@ -9,7 +9,7 @@ aliases:
 - /UAPI.19
 - /19
 ---
-# 🔏 UAPI.19 Linux TPM 2.0 NV Index Registry 🗒️
+# 🔏 UAPI.19 Linux TPM NV Index Registry 🗒️
 
 | Version | Changes         |
 |---------|-----------------|
