@@ -27,10 +27,10 @@ This registry tracks assignments of subranges of this NV index range
 to various interested Linux projects. Currently, the following
 subranges are assigned:
 
-| Subrange              |  # | Project | Reference                                                               |
-|-----------------------|----|---------|-------------------------------------------------------------------------|
-| 0x01D10200-0x01D10224 | 37 | systemd | [TPM2_NVINDEX_ASSIGNMENTS](https://systemd.io/TPM2_NVINDEX_ASSIGNMENTS) |
-| 0x01D10225-0x01D10225 |  1 | Linux   | Used to distinguish between kernel and userland TPM usage               |
+| Subrange              |  # | Project | Reference                                                                          |
+|-----------------------|----|---------|------------------------------------------------------------------------------------|
+| 0x01D10200-0x01D10224 | 37 | systemd | [TPM NV Index Assignments by systemd](https://systemd.io/TPM2_NVINDEX_ASSIGNMENTS) |
+| 0x01D10225-0x01D10225 |  1 | Linux   | Used to distinguish between kernel and userland TPM usage                          |
 
 If you maintain a Linux Open Source project and would like to have
 a subrange delegated to your project, please file a suitable [Pull
