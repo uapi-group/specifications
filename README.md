@@ -54,6 +54,9 @@ The following specifications have been accepted by the UAPI group:
 * [UAPI.15 OSC 3008: Hierarchical Context Signalling](specs/osc_context.md):
   Defines a mechanism for terminal emulators to follow the context hierarchy of what's on screen.
   ([canonical online location](https://uapi-group.org/specifications/specs/osc_context/))
+* [UAPI.17 OSC 2811: Terminal Size Change Notification](specs/osc_winsize.md):
+  Defines a mechanism for terminal applications to subscribe to terminal dimension change notifications, in-band.
+  ([canonical online location](https://uapi-group.org/specifications/specs/osc_winsize/))
 * [UAPI.19 Linux TPM 2.0 NV Index Registry](specs/linux_tpm_nvindex_registry.md):
   A registry of TPM 2.0 NV index subranges delegated to Linux projects.
   ([canonical online location](https://uapi-group.org/specifications/specs/linux_tpm_nvindex_registry/))
