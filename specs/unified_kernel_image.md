@@ -72,7 +72,7 @@ Please add any new components at the bottom of the list and NEVER reorder anythi
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the key pair described below.
 * Optionally, the public part of a public-private key pair in PEM format used to sign the expected PCR 11 value of the image, in the `.pcrpkey` section.
-* Optionally, one or more compiled Devicetree overlays, each in a separate `.dtbo` section.
+* Optionally, a compiled Devicetree overlays in the `.dtbo` section.
 
 This list specifies the canonical order of sections.
 Items will not be reordered and new sections will be added at the end only.
@@ -80,7 +80,7 @@ This is required for predicatable PCR measurements.
 
 Note that all of the sections defined above are singletons:
 they may appear at most once,
-except for the `.dtbauto`, `.efifw` and `.dtbo` sections which may appear multiple times.
+except for the `.dtbauto` and `.efifw` sections which may appear multiple times.
 
 Only the `.linux` section is required for the image to be considered a Unified *Kernel* Image.
 
