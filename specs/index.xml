@@ -21,7 +21,30 @@ contain drop-in files, making multi-boot scenarios easy to support. Boot menu
 entries are defined via two simple formats that can be understood by different
 boot loader implementations, operating systems, and userspace programs. The
 same scheme can be used to prepare OS media for cases where the firmware
-includes a boot loader.&lt;/p></description></item><item><title>UAPI.2 Discoverable Partitions Specification</title><link>https://uapi-group.org/specifications/specs/discoverable_partitions_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/discoverable_partitions_specification/</guid><description>&lt;h1 id="uapi2-the-discoverable-partitions-specification-dps">UAPI.2 The Discoverable Partitions Specification (DPS)&lt;a class="anchor" href="#uapi2-the-discoverable-partitions-specification-dps">#&lt;/a>&lt;/h1>
+includes a boot loader.&lt;/p></description></item><item><title>UAPI.X CLI-Introspection Specification [DRAFT]</title><link>https://uapi-group.org/specifications/specs/cli_introspection/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/cli_introspection/</guid><description>&lt;h1 id="uapix-the-cli-introspection-specification">UAPI.X The CLI-Introspection Specification&lt;a class="anchor" href="#uapix-the-cli-introspection-specification">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>0.0&lt;/td>
+ &lt;td>WIP&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>This document defines a JSON schema defining a machine-readable equivalent of
+what programs commonly output when they are called with the &lt;code>--help&lt;/code> or an
+equivalent option.&lt;/p>
+&lt;p>[!WARNING]
+This specification is still in draft state.&lt;/p>
+&lt;p>This output can be used,
+among other things,
+to check whether a program has a given option
+or to automatically generate documentation or command-line completion for different shells.&lt;/p></description></item><item><title>UAPI.2 Discoverable Partitions Specification</title><link>https://uapi-group.org/specifications/specs/discoverable_partitions_specification/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/discoverable_partitions_specification/</guid><description>&lt;h1 id="uapi2-the-discoverable-partitions-specification-dps">UAPI.2 The Discoverable Partitions Specification (DPS)&lt;a class="anchor" href="#uapi2-the-discoverable-partitions-specification-dps">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>

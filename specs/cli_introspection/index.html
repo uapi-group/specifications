@@ -1,0 +1,526 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="UAPI.X The CLI-Introspection Specification# Version Changes 0.0 WIP This document defines a JSON schema defining a machine-readable equivalent of what programs commonly output when they are called with the --help or an equivalent option.
+[!WARNING] This specification is still in draft state.
+This output can be used, among other things, to check whether a program has a given option or to automatically generate documentation or command-line completion for different shells.
+"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://uapi-group.org/specifications/specs/cli_introspection/"><meta property="og:site_name" content="UAPI Group Specifications"><meta property="og:title" content="UAPI.X CLI-Introspection Specification [DRAFT]"><meta property="og:description" content="UAPI.X The CLI-Introspection Specification# Version Changes 0.0 WIP This document defines a JSON schema defining a machine-readable equivalent of what programs commonly output when they are called with the --help or an equivalent option.
+[!WARNING] This specification is still in draft state.
+This output can be used, among other things, to check whether a program has a given option or to automatically generate documentation or command-line completion for different shells."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="specs"><meta itemprop=name content="UAPI.X CLI-Introspection Specification [DRAFT]"><meta itemprop=description content="UAPI.X The CLI-Introspection Specification# Version Changes 0.0 WIP This document defines a JSON schema defining a machine-readable equivalent of what programs commonly output when they are called with the --help or an equivalent option.
+[!WARNING] This specification is still in draft state.
+This output can be used, among other things, to check whether a program has a given option or to automatically generate documentation or command-line completion for different shells."><meta itemprop=wordCount content="3113"><title>UAPI.X CLI-Introspection Specification [DRAFT] | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/cli_introspection/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.07bf8ce6e315e3ece66e23c1a2de39493515b6615e29c3795b93b29eac209f04.js integrity="sha256-B7+M5uMV4+zmbiPBot45STUVtmFeKcN5W5OynqwgnwQ=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/specifications/><span>UAPI Group Specifications</span></a></h2><div class="book-search hidden"><input id=book-search-input type=text placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li><a href=/>⬅️ Back to top</a></li></ul><ul><li><a>Specifications</a><ul><li><a href=/specifications/specs/boot_loader_specification/>UAPI.1 Boot Loader Specification</a></li><li><a href=/specifications/specs/cli_introspection/ class=active>UAPI.X CLI-Introspection Specification [DRAFT]</a></li><li><a href=/specifications/specs/discoverable_partitions_specification/>UAPI.2 Discoverable Partitions Specification</a></li><li><a href=/specifications/specs/discoverable_disk_image/>UAPI.3 Discoverable Disk Images</a></li><li><a href=/specifications/specs/extension_image/>UAPI.4 Extension Images</a></li><li><a href=/specifications/specs/unified_kernel_image/>UAPI.5 Unified Kernel Images</a></li><li><a href=/specifications/specs/configuration_files_specification/>UAPI.6 Configuration Files Specification</a></li><li><a href=/specifications/specs/linux_tpm_pcr_registry/>UAPI.7 Linux TPM PCR Registry</a></li><li><a href=/specifications/specs/package_metadata_for_executable_files/>UAPI.8 Package Metadata for Executable Files</a></li><li><a href=/specifications/specs/linux_file_system_hierarchy/>UAPI.9 Linux File System Hierarchy</a></li><li><a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format Specification</a></li><li><a href=/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</a></li><li><a href=/specifications/specs/elf_dlopen_metadata/>UAPI.12 dlopen() Metadata for ELF Files</a></li><li><a href=/specifications/specs/vmclock/>UAPI.13 VMClock</a></li><li><a href=/specifications/specs/vmgenid/>UAPI.14 VMGenID</a></li><li><a href=/specifications/specs/osc_context/>UAPI.15 OSC 3008: Hierarchical Context Signalling</a></li><li><a href=/specifications/specs/linux_tpm_nvindex_registry/>UAPI.19 Linux TPM NV Index Registry</a></li><li><a href=/specifications/specs/varlink/>UAPI.20 Varlink IPC</a></li></ul></li></ul><ul><li><a href=https://github.com/uapi-group/specifications target=_blank rel=noopener>Collaborate on Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class="book-header hidden"><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/icons/menu.svg class=book-icon alt=Menu></label><h3>UAPI.X CLI-Introspection Specification [DRAFT]</h3><label for=toc-control><img src=/specifications/icons/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class=hidden><nav id=TableOfContents><ul><li><a href=#target-audience>Target Audience</a></li><li><a href=#the-schema>The Schema</a><ul><li><a href=#nomenclature>Nomenclature</a></li><li><a href=#command-objects>Command objects</a></li><li><a href=#argument-objects>Argument objects</a></li><li><a href=#option-objects>Option Objects</a></li><li><a href=#value-objects>Value objects</a></li><li><a href=#separators>Separators</a></li></ul></li><li><a href=#limits>Limits</a></li><li><a href=#extensions>Extensions</a></li><li><a href=#well-known-option-for-command-line-introspection>Well-known option for command line introspection</a></li><li><a href=#example>Example</a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=uapix-the-cli-introspection-specification>UAPI.X The CLI-Introspection Specification<a class=anchor href=#uapix-the-cli-introspection-specification>#</a></h1><table><thead><tr><th>Version</th><th>Changes</th></tr></thead><tbody><tr><td>0.0</td><td>WIP</td></tr></tbody></table><p>This document defines a JSON schema defining a machine-readable equivalent of
+what programs commonly output when they are called with the <code>--help</code> or an
+equivalent option.</p><p>[!WARNING]
+This specification is still in draft state.</p><p>This output can be used,
+among other things,
+to check whether a program has a given option
+or to automatically generate documentation or command-line completion for different shells.</p><h2 id=target-audience>Target Audience<a class=anchor href=#target-audience>#</a></h2><p>The target audience for this specification are:</p><ul><li>People writing runnable programs that have command-line interfaces,</li><li>authors of tab-completion helpers, and</li><li>people interested in self-documenting interfaces and automatic testing of documentation.</li></ul><h2 id=the-schema>The Schema<a class=anchor href=#the-schema>#</a></h2><p>The schema is defined as</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi-group.cli-introspection&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;commands&#34;</span>: [<span style=color:#960050;background-color:#1e0010>&lt;command</span> <span style=color:#960050;background-color:#1e0010>object&gt;</span>, <span style=color:#960050;background-color:#1e0010>…</span>]
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>where <code>mediaType</code> is the fixed string
+&ldquo;<code>application/vnd.uapi-group.cli-introspection</code>&rdquo; and <code>commands</code> is a non-empty
+JSON array of <em>command objects</em>.</p><p>Further additions to this specification will only be additive and non-backward
+compatible changes may only be introduced by defining a new <code>mediaType</code>.</p><p>The <code>commands</code> array defines the actual command line interface.
+A single binary can define arbitrarily many commands,
+but must define at least one.
+Defining multiple commands in a single program is relevant for multicall programs
+that behave differently depending on the name with which name they are called,
+e.g the basename of <code>argv[0]</code>,
+<code>program_invocation_short_name</code> in the GNU system context,
+or the name under which they are imported in case of scripting languages.</p><h3 id=nomenclature>Nomenclature<a class=anchor href=#nomenclature>#</a></h3><p>A <strong>command</strong> is the interface the program presents to a user
+when called under a specific name.</p><p>The items in the argument array
+(<code>argv</code> in <a href=https://man7.org/linux/man-pages/man2/execve.2.html>execve(2)</a>)
+after the program name are called <strong>arguments</strong>.</p><p>The arguments may contain whitespace, quotes, and other characters that are special to the shell.
+How the command typed by the user is split by the shell,
+or more generally how the argument array is constructed in other cases,
+is outside of the scope of this specification,
+which only deals with the argument array as it is received by the program.</p><p>This specification divides the arguments into two categories:</p><ol><li><strong>positional arguments</strong>, that are identified by their position in relation to other arguments, and</li><li><strong>options</strong>, that are specified by an explicit name
+and are primarily interpreted independently of their position.</li></ol><p>A <strong>verb</strong> is a type of a positional argument that describes a command of its own.
+Verbs are also known as subcommands.</p><p>Options are also known as &ldquo;switches&rdquo; and &ldquo;optional arguments&rdquo;</p><h3 id=command-objects>Command objects<a class=anchor href=#command-objects>#</a></h3><p>The command object is recursively defined as follows.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;command&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;name1&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;names&#34;</span> : [<span style=color:#e6db74>&#34;name1&#34;</span>, <span style=color:#e6db74>&#34;name2&#34;</span>, <span style=color:#960050;background-color:#1e0010>…</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;versions&#34;</span>: [<span style=color:#e6db74>&#34;myversion&#34;</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;features&#34;</span>: [<span style=color:#e6db74>&#34;feature1&#34;</span>, <span style=color:#e6db74>&#34;feature2&#34;</span>, <span style=color:#960050;background-color:#1e0010>…</span>]
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;abstract&#34;</span>: [<span style=color:#e6db74>&#34;paragraph1&#34;</span>, <span style=color:#e6db74>&#34;paragraph2&#34;</span>, <span style=color:#960050;background-color:#1e0010>…</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;postscript&#34;</span>: [<span style=color:#e6db74>&#34;paragraph1&#34;</span>, <span style=color:#e6db74>&#34;paragraph2&#34;</span>, <span style=color:#960050;background-color:#1e0010>…</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;short help&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;arguments&#34;</span>: [<span style=color:#960050;background-color:#1e0010>&lt;option|argument|command&gt;</span>, <span style=color:#960050;background-color:#1e0010>…</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;COMMAND&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;synopsis&#34;</span>: [],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;documentation&#34;</span>: [<span style=color:#e6db74>&#34;doc1&#34;</span>, <span style=color:#960050;background-color:#1e0010>…</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;project&#34;</span>: <span style=color:#e6db74>&#34;myproject&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isDeprecated&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isExperimental&#34;</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>All keys except <code>type</code>, <code>id</code>, and <code>names</code> are optional
+and are treated as empty or false when missing.</p><p><code>type</code> is the fixed string &ldquo;<code>command</code>&rdquo; and signals that this is a command object,
+describing either a top-level command or verb.</p><p><code>id</code> is a non-empty string defining the internal handle for the command object.
+The first element of the <code>names</code> array should be used.</p><p><code>names</code> is a non-empty array of string names for that command.
+The first element of that array is the primary name of that command.
+Further names can be added as aliases,
+e.g. for backward compatibility.</p><p><code>versions</code> is a an array of strings describing the version of the program.
+The strings in this array should be compatible with the
+<a href=https://uapi-group.org/specifications/specs/version_format_specification/>UAPI.10 Version Format Specification</a>.</p><p><code>features</code> defines an array of strings that define
+builtin-in features of this program.</p><p><code>abstract</code> and <code>postscript</code> define arrays of strings that are shown respectively
+before and after the description of options in the program&rsquo;s help output.
+Each element of the array represents a paragraph of text
+as a single unbroken line.
+Breaking lines for display purposes should be done during display.
+Both are meant for standalone help output,
+e.g. for the top-level help output of a program
+or specific help output of a verb in cases where they have their own help output.</p><p><code>help</code> defines the help text of the command.
+It is useful for single-line usage information
+as well as for short descriptions of verbs in the list of options.</p><p><code>arguments</code> is an array defining a commands&rsquo;s positional arguments and options
+in the form described below.
+It consists of <em>option objects</em>, <em>argument objects</em>, and <em>command objects</em>.</p><p><code>valueName</code> is a string shown to users to identify the argument,
+e.g. in usage information.
+It is only useful for subcommands or verbs inside a parent <code>arguments</code> array.
+It defaults to <code>COMMAND</code>.</p><p><code>synopsis</code> is an array of arrays of strings that,
+defines synopsis or usage string of the command.
+If not defined it can be dervied from the <code>arguments</code> array of the command.
+It&rsquo;s use is for convenience so that clients do not need to parse the full arguments
+array to construct the usage string,
+or if there are multiple usage strings that should highlight different usages.</p><p><code>documentation</code> is an array of string values describing URIs referencing
+documentation for this command, see <code>man:uri(7)</code>for a description of valid URIs.
+Preferably the URIs should be URLs starting with <code>https://</code> or <code>man:</code> as these
+are widely supported in modern terminals.</p><p><code>project</code> is a string describing what this command belongs to.
+This may the package that installed it or the project that produced it.</p><p><code>isDeprecated</code> is a boolean describing whether the command has been deprecated
+and its use should be avoided.</p><p><code>isExperimental</code> is a boolean describing whether the command is experimental.
+If true, the details of how the command operates may change in the future,
+or it may even be removed.</p><h4 id=help-vs-abstract-and-postscript><code>help</code> vs. <code>abstract</code> and <code>postscript</code><a class=anchor href=#help-vs-abstract-and-postscript>#</a></h4><p>Both <code>help</code> as well as <code>abstract</code> and <code>postscript</code> define output that is
+considered help or usage information.</p><p>They differ in their type due to their intended usage:
+<code>help</code> is a single string, <code>abstract</code> and <code>postscript</code> are arrays of strings.</p><p><code>help</code> is meant for short, single line help, for overviews, e.g. in command listings,
+whereas <code>abstract</code> and <code>postscript</code> are meant for longer texts in full help output.</p><p><code>Command</code> objects should define at least either <code>help</code> or <code>abstract</code>,
+but can use all three for different display purposes,
+decided by the consumer.</p><p>In the example below the top-level command defines only <code>abstract</code> and <code>postscript</code>,
+while the subcommands only define <code>help</code>,
+but subcommands could define <code>abstract</code> and <code>postscript</code> for usage with their own
+full help output,
+separate from their parent command,
+and the top-level command could define <code>help</code>,
+e.g. for single line usage information.</p><h3 id=argument-objects>Argument objects<a class=anchor href=#argument-objects>#</a></h3><p>Argument objects describe positional arguments that are not verbs.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;argument&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;filename&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;FILE&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;filename to operate on&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;sections&#34;</span>: [<span style=color:#e6db74>&#34;Arguments&#34;</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;values&#34;</span>: [<span style=color:#960050;background-color:#1e0010>&lt;value</span> <span style=color:#960050;background-color:#1e0010>object&gt;</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isRequired&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isDeprecated&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isExperimental&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;repeatable&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>All keys except <code>type</code> and <code>id</code> are optional
+and are treated as empty, false, or zero when missing.</p><p><code>type</code> is the fixed string <code>"argument"</code> and signals that this is an argument object.</p><p><code>id</code> is a non-empty string defining the internal handle for the argument object.</p><p><code>valueName</code> is a string shown to users to identify the argument,
+e.g. in usage information.
+It defaults to <code>ARGUMENT</code>.</p><p><code>help</code> is a string that defines the help text of the argument.</p><p><code>sections</code> is an array of strings that defines sections in which this option should
+be shown when the help output is split into sections.
+It is intended mostly for display purposes.</p><p><code>values</code> is an array of <em>value objects</em> describing the values this option may take.
+An empty array describes an argument that is a single arbitrary word with no
+further documented semantic.
+Value objects are described in a section below.</p><p><code>isRequired</code> specifies whether this positional argument
+must be present in the command line.</p><p><code>isDeprecated</code> and <code>isExperimental</code> are booleans describing whether this argument
+has been deprecated or is experimental, with similar meaning as for <em>command objects</em>.</p><p><code>repeatable</code> is an integer describing how many times after a first use the
+option can be repated.
+A value of 0 indictaes that the argument can only be used once.
+Use -1 for arbitrary amount of repetitions.</p><h3 id=option-objects>Option Objects<a class=anchor href=#option-objects>#</a></h3><p>Option objects describe options.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;help&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;names&#34;</span>: [<span style=color:#e6db74>&#34;-h&#34;</span>,<span style=color:#e6db74>&#34;--help&#34;</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;required|optional|no&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Show this help&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;OPTION&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;sections&#34;</span>: [<span style=color:#e6db74>&#34;&#34;</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;values&#34;</span>: [<span style=color:#960050;background-color:#1e0010>&lt;value</span> <span style=color:#960050;background-color:#1e0010>object&gt;</span>],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isDeprecated&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isExperimental&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;reapeatable&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;conflicts&#34;</span>: [],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;requires&#34;</span>: [],
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>All keys except <code>type</code>, <code>id</code>, and <code>names</code> are optional
+and are treated as empty, false, zero, or &ldquo;no&rdquo; (for &ldquo;value&rdquo;) when missing.</p><p><code>type</code> is the fixed string <code>"option"</code> and signals that this is an option object.</p><p><code>id</code> is a non-empty string defining the internal handle for the option object.</p><p><code>names</code> is a non-empty array of strings defining the name of an option.
+This field must be present and at least one name must be specified.
+The names in the array <strong>must</strong> all start with a dash.</p><p>When an option is specified by a name that starts with a single dash (<code>-</code>),
+it is called a &ldquo;short option&rdquo;,
+and when it is specified by a name that starts with a double dash (<code>--</code>),
+it is called a &ldquo;long option&rdquo;.
+Short option names are usually just a single character after the dash,
+whereas long option names <strong>should</strong> be a longer string.
+Multi-character short option names are discouraged.</p><p>Commands that have single-character short options
+usually allow multiple short options to be specified together after a single dash.
+The last of those options <strong>may</strong> take a value,
+but the earlier ones <strong>may not</strong>,
+since it would be impossible to distinguish the value from the other options.</p><p><code>value</code> defines whether the option takes a value, and may be one of the strings:
+-"<code>yes</code>",
+-"<code>no</code>", or
+-"<code>optional</code>".
+When &ldquo;<code>yes</code>&rdquo;, the option must be followed by a value.
+When &ldquo;<code>optional</code>&rdquo;, the option may be followed by a value.
+// TODO: describe how the presence or not of a value is figured out.
+When &ldquo;<code>no</code>&rdquo;, the option takes no value.</p><p><code>help</code> is a string that defines the help text of the option.</p><p><code>valueName</code> is a string shown to users to identify the option,
+e.g. in usage information.
+It defaults to <code>OPTION</code>.
+// TODO: describe allowed chacters, more relaxed than an option name.</p><p><code>sections</code> is an array of strings that defines sections
+in which this option should be shown.
+This is primarily intended for display purposes.</p><p><code>values</code> is an array of <em>value objects</em> describing the values this option may take.
+An empty array describes an argument that is a single arbitrary word with no
+further documented semantic.
+Value objects are described in a section below.</p><p><code>isDeprecated</code> and <code>isExperimental</code> are booleans describing whether this option
+has been deprecated or is experimental, with similar meaning as for <em>command objects</em>.</p><p><code>repeatable</code> is an integer describing how many times after a first use the
+option can be repated.
+A value of 0 indictaes that the option can only be used once.
+Use -1 for arbitrary amount of repetitions.</p><p><code>conflicts</code> is an array of strings describing globs of <code>id</code>s that conflict with this option.
+An empty array means that this option does not conflict with anything.</p><p><code>requires</code> is an array of string describing globs of <code>id</code>s
+that are required together with this option.
+An empty array means that this option does not require any other options.</p><h3 id=value-objects>Value objects<a class=anchor href=#value-objects>#</a></h3><p>Value objects describe values passed as positional arguments or with an option.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;value&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;myname&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;MYVAL&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;help text&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isDefault&#34;</span>: <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isDeprecated&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;isExperimental&#34;</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>All keys except <code>type</code> and one of <code>value</code>, <code>category</code>, <code>dynamic</code> or <code>missing</code>
+are optional and are treated as empty string, or false when missing.</p><p><code>type</code> is the fixed string <code>"value"</code> and signals that this is a value object.</p><p><code>value</code> is a string describing a possible static value.</p><p><code>valueName</code> is a string shown to users to identify the value,
+e.g. in usage information.</p><p><code>category</code> is a string describing a category of values:</p><ul><li><code>path</code>, any filesystem path,</li><li><code>file</code>, a filesystem path to a regular file,</li><li><code>dir</code>, a filesystem path to a directory,</li><li><code>pid</code>, a PID,</li><li><code>uid</code>, a numeric UID,</li><li><code>gid</code>, a numeric GID,</li><li><code>username</code>, a user&rsquo;s name,</li><li><code>groupname</code>, a group&rsquo;s name,</li><li><code>hostname</code>, a hosts&rsquo; name, and</li><li><code>unit</code>, a systemd unit&rsquo;s name,</li><li><code>uuid</code>, a UUID,</li><li><code>any</code>, any string.
+The empty string is to be handled as <code>any</code> and leaves the completion open to the shell.</li></ul><p><code>dynamic</code> is a string describing a command,
+that can be called to generate multiple values.
+This is relevant for the dynamic generation of completion candidates during
+command line completion.
+The current input for the argument,
+if any,
+otherwise an empty string will be passed as first and only argument.
+The standard output stream of the command defines the values,
+one per line.
+An empty string for this key means that values cannot be generated dynamically
+for this object.</p><p><code>missing</code> is a boolean signaling that some values are missing from the description.</p><p><code>help</code> is a string describing the help text that should be shown for the value.</p><p><code>isDefault</code> is a boolean describing whether this value is the default value for
+the option this is a value for.</p><p><code>isDeprecated</code> and <code>isExperimental</code> are booleans describing whether this value
+has been deprecated or is experimental, with similar meaning as for <em>command objects</em>.</p><p>If multiple of <code>value</code>, <code>dynamic</code> and <code>missing</code> are defined,
+<code>missing</code> has the highest precedence, followed by <code>value</code> and <code>dynamic</code>.</p><h3 id=separators>Separators<a class=anchor href=#separators>#</a></h3><p>Separators are objects that describe that parsing of options should end.
+Commonly the string <code>--</code> is used to signify this in command line interfaces.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;separator&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;sepopt&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;--&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;continueWith&#34;</span>: <span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>The keys <code>type</code> and <code>id</code> are non-optional.
+<code>valueName</code> defaults to <code>"--"</code>
+and <code>continueWith</code> defaults to the empty string.</p><p><code>type</code> is the fixed string <code>"separator"</code> and signals that this is an separator object.</p><p><code>id</code> is a non-empty string defining the internal handle for the option object.</p><p><code>valueName</code> is a string that represents the separator.
+It defaults to <code>"--"</code>,
+which is a commonly used representation for this.</p><p><code>continueWith</code> is a string that if set to a non-empty value describes
+a different program whose command line introspection should be used for subsequent arguments.</p><h2 id=limits>Limits<a class=anchor href=#limits>#</a></h2><p>The maximum allowed level of nesting in the JSON structure is 31.
+A <code>command</code> object may contain other <code>command</code> objects in its <code>arguments</code> array,
+so those may be nested at most 15 times.
+Programs producing <strong>must not</strong> emit JSON structures that exceed this limit,
+and consumers <strong>should</strong> ignore or refuse to use such outputs.</p><h2 id=extensions>Extensions<a class=anchor href=#extensions>#</a></h2><p>Vendors may add additional attributes to the objects described in this specification,
+but they ust be prefixed with <code>x-vendorname.</code>,
+e.g. a vendor <code>foo</code> wanting to add an attribute <code>bar</code> would use the attribute name <code>x-foo.bar</code>.</p><h2 id=well-known-option-for-command-line-introspection>Well-known option for command line introspection<a class=anchor href=#well-known-option-for-command-line-introspection>#</a></h2><p>A command supporting this specification should use <code>--introspect-cli</code> to output
+its introspection information.</p><h2 id=example>Example<a class=anchor href=#example>#</a></h2><p>This is an example for a description for <code>systemd-id128</code>, with the help output</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ systemd-id128 --help
+</span></span><span style=display:flex><span>&gt; systemd-id128 <span style=color:#f92672>[</span>OPTION…<span style=color:#f92672>]</span> COMMAND …
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>Generate and print 128-bit identifiers.
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>Commands:
+</span></span><span style=display:flex><span>  new                  Generate a new ID
+</span></span><span style=display:flex><span>  machine-id           Print the ID of current machine
+</span></span><span style=display:flex><span>  boot-id              Print the ID of current boot
+</span></span><span style=display:flex><span>  invocation-id        Print the ID of current invocation
+</span></span><span style=display:flex><span>  var-partition-uuid   Print the UUID for the /var/ partition
+</span></span><span style=display:flex><span>  show [NAME|UUID]     Print one or more UUIDs
+</span></span><span style=display:flex><span>  help                 Show this help
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>Options:
+</span></span><span style=display:flex><span>  -h --help            Show this help
+</span></span><span style=display:flex><span>     --version         Show package version
+</span></span><span style=display:flex><span>     --no-pager        Do not start a pager
+</span></span><span style=display:flex><span>     --no-legend       Do not show headers and footers
+</span></span><span style=display:flex><span>     --json=FORMAT     Output inspection data in JSON (takes one of pretty, short, off)
+</span></span><span style=display:flex><span>  -j                   Equivalent to --json=pretty (on TTY) or --json=short (otherwise)
+</span></span><span style=display:flex><span>  -p --pretty          Generate samples of program code
+</span></span><span style=display:flex><span>  -P --value           Only print the value
+</span></span><span style=display:flex><span>  -a --app-specific=ID Generate app-specific IDs
+</span></span><span style=display:flex><span>  -u --uuid            Output in UUID format
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>See the systemd-id128.1 man page for details.
+</span></span></code></pre></div><p>The resulting program introspection JSON would be:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;mediaType&#34;</span>: <span style=color:#e6db74>&#34;application/vnd.io.systemd.cli-introspection&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;commands&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;command&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;systemd-id128&#34;</span>
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;version&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;262&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;262~devel&#34;</span>
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;features&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;PAM&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;+AUDIT&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;-SELINUX&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;+APPARMOR&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;-IMA&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;…&#34;</span>
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;documentation&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;https://www.freedesktop.org/software/systemd/man/latest/systemd-id128.html&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;man:systemd-id128(1)&#34;</span>
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;abstract&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;Generate and print 128-bit identifiers.&#34;</span>
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;postscript&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;See the systemd-id128(1) man page for details.&#34;</span>
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;synopsis&#34;</span>: [
+</span></span><span style=display:flex><span>          <span style=color:#e6db74>&#34;systemd-id128&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#e6db74>&#34;[OPTIONS...]&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#e6db74>&#34;COMMAND&#34;</span>
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;arguments&#34;</span>: [
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-h&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;--help&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;argument&#34;</span>: <span style=color:#e6db74>&#34;no&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Show this help&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;--version&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;argument&#34;</span>: <span style=color:#e6db74>&#34;no&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Show package version&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;--no-pager&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;argument&#34;</span>: <span style=color:#e6db74>&#34;no&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Do not start a pager&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;--no-legend&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;argument&#34;</span>: <span style=color:#e6db74>&#34;no&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Do not show headers and footers&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;--json&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;required&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;FORMAT&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Output inspection data in JSON (takes one of pretty, short, off)&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;values&#34;</span>: [
+</span></span><span style=display:flex><span>            {
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;value&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;short&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;FORMAT&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;the shortest possible output without any redundant whitespace or line breaks&#34;</span>
+</span></span><span style=display:flex><span>            },
+</span></span><span style=display:flex><span>            {
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;value&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;pretty&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;FORMAT&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;a pretty version of the same&#34;</span>
+</span></span><span style=display:flex><span>            },
+</span></span><span style=display:flex><span>            {
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;value&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;off&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;FORMAT&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;no JSON output&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;isDefault&#34;</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>          ]
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-j&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;argument&#34;</span>: <span style=color:#e6db74>&#34;no&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Equivalent to --json=pretty (on TTY) or --json=short (otherwise)&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-p&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;--pretty&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;argument&#34;</span>: <span style=color:#e6db74>&#34;no&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Generate samples of program code&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-P&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;--value&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;argument&#34;</span>: <span style=color:#e6db74>&#34;no&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Only print the value&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-a&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;--app-specific&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;argument&#34;</span>: <span style=color:#e6db74>&#34;required&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Generate app-specific IDs&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;values&#34;</span>: [
+</span></span><span style=display:flex><span>              {
+</span></span><span style=display:flex><span>                  <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;value&#34;</span>,
+</span></span><span style=display:flex><span>                  <span style=color:#f92672>&#34;category&#34;</span>: <span style=color:#e6db74>&#34;uuid&#34;</span>
+</span></span><span style=display:flex><span>                  <span style=color:#e6db74>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;ID&#34;</span>,
+</span></span><span style=display:flex><span>                  <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;An application-specific UUID&#34;</span>
+</span></span><span style=display:flex><span>              }
+</span></span><span style=display:flex><span>          ]
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;option&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;names&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-u&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;--uuid&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Options&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Output in UUID format&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;command&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;new&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Generate a new ID&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;command&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;machine-id&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;COMMAND&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Commands&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Print the ID of current machine&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;command&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;boot-id&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;COMMAND&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Commands&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Print the ID of current boot&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;command&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;invocation-id&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;COMMAND&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Commands&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Print the ID of current invocation&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;command&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;var-partition-uuid&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;COMMAND&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Commands&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Print the UUID for the /var/ partition&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;command&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;show&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;COMMAND&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Commands&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;arguments&#34;</span>: [
+</span></span><span style=display:flex><span>            {
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;argument&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;show.arg&#34;</span>,
+</span></span><span style=display:flex><span>              <span style=color:#f92672>&#34;argument&#34;</span>: <span style=color:#e6db74>&#34;optional&#34;</span>
+</span></span><span style=display:flex><span>              <span style=color:#e6db74>&#34;values&#34;</span>: [
+</span></span><span style=display:flex><span>                  {
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;value&#34;</span>,
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;show.arg.name&#34;</span>,
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;category&#34;</span>: <span style=color:#e6db74>&#34;any&#34;</span>,
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;NAME&#34;</span>,
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;A DPS name&#34;</span>
+</span></span><span style=display:flex><span>                  },
+</span></span><span style=display:flex><span>                  {
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;value&#34;</span>,
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;show.arg.uuid&#34;</span>,
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;category&#34;</span>: <span style=color:#e6db74>&#34;any&#34;</span>,
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;UUID&#34;</span>,
+</span></span><span style=display:flex><span>                      <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;A DPS partition type UUID&#34;</span>
+</span></span><span style=display:flex><span>                  }
+</span></span><span style=display:flex><span>              ]
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Print one or more UUIDs&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;command&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;help&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;valueName&#34;</span>: <span style=color:#e6db74>&#34;COMMAND&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;sections&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Commands&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;help&#34;</span>: <span style=color:#e6db74>&#34;Show this help&#34;</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>The <code>features</code> array has been shortened for length, since the internal are not
+of interest here, so <code>"…"</code> is meant as valid JSON placeholder above
+and not as an implementation guideline.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div></div><div><a class="flex align-center" href=https://github.com/uapi-group/specifications/edit/main/specs/cli_introspection.md target=_blank rel="noopener edit"><img src=/specifications/icons/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div><div class="flex flex-wrap justify-between"><span><a href=/specifications/specs/boot_loader_specification/ class="flex align-center"><img src=/specifications/icons/backward.svg class=book-icon alt=Backward>
+<span>UAPI.1 Boot Loader Specification</span>
+</a></span><span><a href=/specifications/specs/discoverable_partitions_specification/ class="flex align-center"><span>UAPI.2 Discoverable Partitions Specification</span>
+<img src=/specifications/icons/forward.svg class=book-icon alt=Forward></a></span></div><div class=book-comments></div><div class="book-copyright flex justify-center"><small>UAPI Group Specifications - Licensed under <a href=https://spdx.org/licenses/CC-BY-4.0.html>CC-BY-4.0</a></small></div><script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#target-audience>Target Audience</a></li><li><a href=#the-schema>The Schema</a><ul><li><a href=#nomenclature>Nomenclature</a></li><li><a href=#command-objects>Command objects</a></li><li><a href=#argument-objects>Argument objects</a></li><li><a href=#option-objects>Option Objects</a></li><li><a href=#value-objects>Value objects</a></li><li><a href=#separators>Separators</a></li></ul></li><li><a href=#limits>Limits</a></li><li><a href=#extensions>Extensions</a></li><li><a href=#well-known-option-for-command-line-introspection>Well-known option for command line introspection</a></li><li><a href=#example>Example</a></li></ul></nav></div></aside></main></body></html>
