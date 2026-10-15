@@ -1,16 +1,16 @@
 ---
-title: UAPI.X CLI-Introspection Specification [DRAFT]
+title: UAPI.18 CLI-Introspection Specification [DRAFT]
 category: Interfaces
 layout: default
 version: 0.0
 SPDX-License-Identifier: CC-BY-4.0
-weight: 1
+weight: 18
 aliases:
 - /UAPI.18
 - /18
 ---
 
-# UAPI.X The CLI-Introspection Specification
+# UAPI.18 The CLI-Introspection Specification
 
 | Version | Changes |
 |---------|---------|
