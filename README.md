@@ -40,7 +40,7 @@ The following specifications have been accepted by the UAPI group:
   Defines semantics of version strings used in the other specifications listed here.
   ([canonical online location](https://uapi-group.org/specifications/specs/version_format_specification/))
 * [UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)](specs/file_hierarchy_for_the_verification_of_os_artifacts.md):
-  Describes the use of Discoverable Disk Images to create extensions to a base image.
+  Defines a technology-agnostic file hierarchy for storing and looking up signature verifiers (e.g. OpenPGP or X.509 certificates) used to validate OS artifacts.
   ([canonical online location](https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/))
 * [UAPI.12 dlopen() Metadata for ELF Files](specs/elf_dlopen_metadata.md):
   Describes the format and mechanism to include dynamically loaded libraries metadata in ELF binaries.
