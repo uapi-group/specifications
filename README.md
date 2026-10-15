@@ -40,7 +40,7 @@ The following specifications have been accepted by the UAPI group:
   Defines semantics of version strings used in the other specifications listed here.
   ([canonical online location](https://uapi-group.org/specifications/specs/version_format_specification/))
 * [UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)](specs/file_hierarchy_for_the_verification_of_os_artifacts.md):
-  Describes the use of Discoverable Disk Images to create extensions to a base image.
+  Defines a technology-agnostic file hierarchy for storing and looking up signature verifiers (e.g. OpenPGP or X.509 certificates) used to validate OS artifacts.
   ([canonical online location](https://uapi-group.org/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/))
 * [UAPI.12 dlopen() Metadata for ELF Files](specs/elf_dlopen_metadata.md):
   Describes the format and mechanism to include dynamically loaded libraries metadata in ELF binaries.
@@ -54,6 +54,10 @@ The following specifications have been accepted by the UAPI group:
 * [UAPI.15 OSC 3008: Hierarchical Context Signalling](specs/osc_context.md):
   Defines a mechanism for terminal emulators to follow the context hierarchy of what's on screen.
   ([canonical online location](https://uapi-group.org/specifications/specs/osc_context/))
+* [UAPI.18 CLI Introspection Specification](specs/cli_introspection.md) (experimental draft):
+  Defines a JSON schema for a machine-readable equivalent of a program's `--help` output,
+  usable for checking option availability and generating documentation or shell completions.
+  ([canonical online location](https://uapi-group.org/specifications/specs/cli_introspection/))
 * [UAPI.19 Linux TPM NV Index Registry](specs/linux_tpm_nvindex_registry.md):
   A registry of TPM 2.0 NV index subranges delegated to Linux projects.
   ([canonical online location](https://uapi-group.org/specifications/specs/linux_tpm_nvindex_registry/))
