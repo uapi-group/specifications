@@ -300,10 +300,10 @@ but the earlier ones **may not**,
 since it would be impossible to distinguish the value from the other options.
 
 `value` defines whether the option takes a value, and may be one of the strings:
--"`yes`",
--"`no`", or
--"`optional`".
-When "`yes`", the option must be followed by a value.
+-"`required`",
+-"`optional`", or
+-"`no`".
+When "`required`", the option must be followed by a value.
 When "`optional`", the option may be followed by a value.
 // TODO: describe how the presence or not of a value is figured out.
 When "`no`", the option takes no value.
@@ -329,7 +329,7 @@ has been deprecated or is experimental, with similar meaning as for *command obj
 
 `repeatable` is an integer describing how many times after a first use the
 option can be repated.
-A value of 0 indictaes that the option can only be used once.
+A value of 0 indicates that the option can only be used once.
 Use -1 for arbitrary amount of repetitions.
 
 `conflicts` is an array of strings describing globs of `id`s that conflict with this option.
