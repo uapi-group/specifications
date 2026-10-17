@@ -72,6 +72,7 @@ Please add any new components at the bottom of the list and NEVER reorder anythi
 * Optionally, a CSV file encoding the SBAT metadata for the image, in the `.sbat` section. The [SBAT format is defined by the Shim project](https://github.com/rhboot/shim/blob/main/SBAT.md), and used for UEFI revocation purposes.
 * Optionally, a JSON file encoding expected PCR 11 hash values seen from userspace once the UKI has booted up, along with signatures of these expected PCR 11 hash values, in the `.pcrsig` section. The signatures must also match the key pair described below.
 * Optionally, the public part of a public-private key pair in PEM format used to sign the expected PCR 11 value of the image, in the `.pcrpkey` section.
+* Optionally, a compiled Devicetree overlays in the `.dtbo` section.
 
 This list specifies the canonical order of sections.
 Items will not be reordered and new sections will be added at the end only.
@@ -109,15 +110,16 @@ PE Addons must contain at least one section of the following types:
 * `.cmdline`
 * `.dtb`
 * `.dtbauto`
+* `.dtbo`
 * `.ucode`
 * `.initrd`
 
 PE Addons should be sorted by their filename, and applied in this order. In case of `.cmdline` all command
 lines provided by addons are suffixed in this order to any command line included in the UKI. In case of
-`.dtb` and `.dtbauto` any such section included in the UKI shall be applied first, and those provided by add-ons should then
-by applied in order as a fix-up. In case of `.ucode` the contained `cpio` archives should be prefixed to the
-regular initrds passed to the kernel, in reverse order. In case of `.initrd` the contained `cpio` archives
-should be appended to the regular initrds passed to the kernel.
+`.dtb`, `.dtbauto` and `.dtbo` any such section included in the UKI shall be applied first, and those provided
+by add-ons should then by applied in order as a fix-up. In case of `.ucode` the contained `cpio` archives
+should be prefixed to the regular initrds passed to the kernel, in reverse order. In case of `.initrd`
+the contained `cpio` archives should be appended to the regular initrds passed to the kernel.
 
 PE Addons may include sections of multiple types (e.g. both a `.cmdline` and a `.dtb` section), in which case
 all of them should be applied.
