@@ -334,7 +334,35 @@ terminals is typically passed around to various different components while the
 user is active: a shell might pass control to a process it invokes. If that
 process is systemd&amp;rsquo;s &lt;code>run0&lt;/code> then primary control is passed to the privileged session of
 the target user. If &lt;code>systemd-nspawn&lt;/code> is then invoked to start a container, primary
-control is passed to that container, and so on.&lt;/p></description></item><item><title>UAPI.18 CLI-Introspection Specification [DRAFT]</title><link>https://uapi-group.org/specifications/specs/cli_introspection/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/cli_introspection/</guid><description>&lt;h1 id="uapi18-the-cli-introspection-specification">UAPI.18 The CLI-Introspection Specification&lt;a class="anchor" href="#uapi18-the-cli-introspection-specification">#&lt;/a>&lt;/h1>
+control is passed to that container, and so on.&lt;/p></description></item><item><title>UAPI.16 File Manifest</title><link>https://uapi-group.org/specifications/specs/file_manifest/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/file_manifest/</guid><description>&lt;h1 id="uapi16-file-manifest">UAPI.16 File Manifest&lt;a class="anchor" href="#uapi16-file-manifest">#&lt;/a>&lt;/h1>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Version&lt;/th>
+ &lt;th>Changes&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>0.1&lt;/td>
+ &lt;td>Initial Release&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>This document describes a textual file manifest format that describes
+a collection of resources (or &amp;ldquo;blobs&amp;rdquo;). These resources may
+potentially be acquired over the network or stored on a disk. In
+particular, it can represent the properties of files arranged in a
+&lt;a href="https://pubs.opengroup.org/onlinepubs/9799919799/">POSIX&lt;/a> file system
+tree as well as partitions in a
+&lt;a href="https://uefi.org/specs/UEFI/2.11/05_GUID_Partition_Table_Format.html">GPT&lt;/a>
+partition table.&lt;/p>
+&lt;p>This manifest file format is inspired by the traditional UNIX
+&lt;a href="https://www.gnu.org/software/coreutils/manual/html_node/sha2-utilities.html">&lt;code>SHA256SUMS&lt;/code>&lt;/a>
+and BSD
+&lt;a href="https://man.freebsd.org/cgi/man.cgi?query=mtree&amp;amp;sektion=5">&lt;code>mtree(5)&lt;/code>&lt;/a>
+file formats, but has various
+additional features, among them:&lt;/p></description></item><item><title>UAPI.18 CLI-Introspection Specification [DRAFT]</title><link>https://uapi-group.org/specifications/specs/cli_introspection/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://uapi-group.org/specifications/specs/cli_introspection/</guid><description>&lt;h1 id="uapi18-the-cli-introspection-specification">UAPI.18 The CLI-Introspection Specification&lt;a class="anchor" href="#uapi18-the-cli-introspection-specification">#&lt;/a>&lt;/h1>
 &lt;table>
  &lt;thead>
  &lt;tr>

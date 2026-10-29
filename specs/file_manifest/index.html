@@ -1,0 +1,627 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="UAPI.16 File Manifest# Version Changes 0.1 Initial Release This document describes a textual file manifest format that describes a collection of resources (or “blobs”). These resources may potentially be acquired over the network or stored on a disk. In particular, it can represent the properties of files arranged in a POSIX file system tree as well as partitions in a GPT partition table.
+This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:
+"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://uapi-group.org/specifications/specs/file_manifest/"><meta property="og:site_name" content="UAPI Group Specifications"><meta property="og:title" content="UAPI.16 File Manifest"><meta property="og:description" content="UAPI.16 File Manifest# Version Changes 0.1 Initial Release This document describes a textual file manifest format that describes a collection of resources (or “blobs”). These resources may potentially be acquired over the network or stored on a disk. In particular, it can represent the properties of files arranged in a POSIX file system tree as well as partitions in a GPT partition table.
+This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="specs"><meta itemprop=name content="UAPI.16 File Manifest"><meta itemprop=description content="UAPI.16 File Manifest# Version Changes 0.1 Initial Release This document describes a textual file manifest format that describes a collection of resources (or “blobs”). These resources may potentially be acquired over the network or stored on a disk. In particular, it can represent the properties of files arranged in a POSIX file system tree as well as partitions in a GPT partition table.
+This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta itemprop=wordCount content="6236"><title>UAPI.16 File Manifest | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/file_manifest/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.b5fef57725dea4aea37f4b846f7fc22621cc60d460227101f6efecd94c37cbb9.js integrity="sha256-tf71dyXepK6jf0uEb3/CJiHMYNRgInEB9u/s2Uw3y7k=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/specifications/><span>UAPI Group Specifications</span></a></h2><div class="book-search hidden"><input id=book-search-input type=text placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li><a href=/>⬅️ Back to top</a></li></ul><ul><li><a>Specifications</a><ul><li><a href=/specifications/specs/boot_loader_specification/>UAPI.1 Boot Loader Specification</a></li><li><a href=/specifications/specs/discoverable_partitions_specification/>UAPI.2 Discoverable Partitions Specification</a></li><li><a href=/specifications/specs/discoverable_disk_image/>UAPI.3 Discoverable Disk Images</a></li><li><a href=/specifications/specs/extension_image/>UAPI.4 Extension Images</a></li><li><a href=/specifications/specs/unified_kernel_image/>UAPI.5 Unified Kernel Images</a></li><li><a href=/specifications/specs/configuration_files_specification/>UAPI.6 Configuration Files Specification</a></li><li><a href=/specifications/specs/linux_tpm_pcr_registry/>UAPI.7 Linux TPM PCR Registry</a></li><li><a href=/specifications/specs/package_metadata_for_executable_files/>UAPI.8 Package Metadata for Executable Files</a></li><li><a href=/specifications/specs/linux_file_system_hierarchy/>UAPI.9 Linux File System Hierarchy</a></li><li><a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format Specification</a></li><li><a href=/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</a></li><li><a href=/specifications/specs/elf_dlopen_metadata/>UAPI.12 dlopen() Metadata for ELF Files</a></li><li><a href=/specifications/specs/vmclock/>UAPI.13 VMClock</a></li><li><a href=/specifications/specs/vmgenid/>UAPI.14 VMGenID</a></li><li><a href=/specifications/specs/osc_context/>UAPI.15 OSC 3008: Hierarchical Context Signalling</a></li><li><a href=/specifications/specs/file_manifest/ class=active>UAPI.16 File Manifest</a></li><li><a href=/specifications/specs/cli_introspection/>UAPI.18 CLI-Introspection Specification [DRAFT]</a></li><li><a href=/specifications/specs/linux_tpm_nvindex_registry/>UAPI.19 Linux TPM NV Index Registry</a></li><li><a href=/specifications/specs/varlink/>UAPI.20 Varlink IPC</a></li></ul></li></ul><ul><li><a href=https://github.com/uapi-group/specifications target=_blank rel=noopener>Collaborate on Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class="book-header hidden"><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/icons/menu.svg class=book-icon alt=Menu></label><h3>UAPI.16 File Manifest</h3><label for=toc-control><img src=/specifications/icons/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class=hidden><nav id=TableOfContents><ul><li><a href=#terminology>Terminology</a></li><li><a href=#manifest-file-name-and-media-type>Manifest File Name and Media Type</a></li><li><a href=#general-structure>General Structure</a></li><li><a href=#file-object>File Object</a><ul><li><a href=#fields>Fields</a></li></ul></li><li><a href=#extended-attribute-value-object>Extended Attribute Value Object</a><ul><li><a href=#fields-1>Fields</a></li></ul></li><li><a href=#out-of-scope>Out of Scope</a></li><li><a href=#contents-object>Contents Object</a><ul><li><a href=#fields-2>Fields</a></li></ul></li><li><a href=#signature-objects>Signature Objects</a><ul><li><a href=#fields-3>Fields</a></li></ul></li><li><a href=#trailer-objects>Trailer Objects</a><ul><li><a href=#fields-4>Fields</a></li></ul></li><li><a href=#compression>Compression</a></li><li><a href=#relationship-to-sha256sums>Relationship to SHA256SUMS</a></li><li><a href=#acquiring-a-file-remotely>Acquiring a File Remotely</a></li><li><a href=#contents-source-considerations>Contents Source Considerations</a></li><li><a href=#reproducibility>Reproducibility</a></li><li><a href=#extensibility>Extensibility</a></li><li><a href=#future-revisions>Future Revisions</a></li><li><a href=#example>Example</a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=uapi16-file-manifest>UAPI.16 File Manifest<a class=anchor href=#uapi16-file-manifest>#</a></h1><table><thead><tr><th>Version</th><th>Changes</th></tr></thead><tbody><tr><td>0.1</td><td>Initial Release</td></tr></tbody></table><p>This document describes a textual file manifest format that describes
+a collection of resources (or &ldquo;blobs&rdquo;). These resources may
+potentially be acquired over the network or stored on a disk. In
+particular, it can represent the properties of files arranged in a
+<a href=https://pubs.opengroup.org/onlinepubs/9799919799/>POSIX</a> file system
+tree as well as partitions in a
+<a href=https://uefi.org/specs/UEFI/2.11/05_GUID_Partition_Table_Format.html>GPT</a>
+partition table.</p><p>This manifest file format is inspired by the traditional UNIX
+<a href=https://www.gnu.org/software/coreutils/manual/html_node/sha2-utilities.html><code>SHA256SUMS</code></a>
+and BSD
+<a href="https://man.freebsd.org/cgi/man.cgi?query=mtree&amp;sektion=5"><code>mtree(5)</code></a>
+file formats, but has various
+additional features, among them:</p><ol><li><p>It allows referencing remote
+<a href=https://www.rfc-editor.org/rfc/rfc3986>URLs</a> as source for acquiring file
+contents.</p></li><li><p>It allows extracting data &ldquo;slices&rdquo; from data sources, via offset
+and range.</p></li><li><p>Various fields of additional per-file metadata may be defined,
+including various fields for GPT partition table metadata.</p></li><li><p>It&rsquo;s an extensible format permitting vendors and projects to add
+their own per-file and per-manifest fields.</p></li><li><p>It supports inline cryptographic signatures.</p></li></ol><p>This format is designed with tools such as
+<a href=https://github.com/systemd/mkosi><code>mkosi</code></a> and
+<a href=https://www.freedesktop.org/software/systemd/man/latest/systemd-sysupdate.html><code>systemd-sysupdate</code></a>
+in mind, but it&rsquo;s intended to be generally useful
+as a way to describe collections of files that may potentially be
+acquired over the network or from local storage, and verified
+cryptographically.</p><h2 id=terminology>Terminology<a class=anchor href=#terminology>#</a></h2><ul><li><p>A <em>file object</em> (or just <em>object</em> for short) describes a file in the file
+system hierarchy or a partition in a partition table: a contiguous,
+sized bytestream, along with various metadata fields.</p></li><li><p>A <em>manifest</em> is a sequence of file, signature and trailer objects.</p></li><li><p>A <em>root file object</em> (or <em>root directory object</em>) is the top level
+file object of which all others are direct or indirect children, in
+a tree structure.</p></li><li><p>A <em>signature object</em> carries cryptographic signature metadata that
+protects all file objects listed before it.</p></li><li><p>A <em>trailer object</em> is the last object in the manifest and indicates
+termination.</p></li></ul><p>The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”,
+“SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “NOT RECOMMENDED”, “MAY”, and
+“OPTIONAL” in this document are to be interpreted as described in
+<a href=https://www.rfc-editor.org/info/bcp14>BCP 14</a> <a href=https://www.rfc-editor.org/rfc/rfc2119>RFC
+2119</a> <a href=https://www.rfc-editor.org/rfc/rfc8174>RFC
+8174</a> when, and only when,
+they appear in all capitals, as shown here.</p><h2 id=manifest-file-name-and-media-type>Manifest File Name and Media Type<a class=anchor href=#manifest-file-name-and-media-type>#</a></h2><p>When stored in a file system directory – alongside the data files it
+references – the manifest file SHOULD be named <code>Uapi16Manifest</code>,
+possibly suffixed by a suffix indicating compression (see
+below). Otherwise the recommended file suffix is <code>.Uapi16Manifest</code>.</p><p>This file format is identified by the <a href=https://www.rfc-editor.org/rfc/rfc6838>media
+type</a> <code>application/vnd.uapi.16.manifest</code>.</p><h2 id=general-structure>General Structure<a class=anchor href=#general-structure>#</a></h2><p>The file is organized as an <a href=https://www.rfc-editor.org/rfc/rfc7464>RFC 7464
+JSON-SEQ</a> sequence of
+file, signature and trailer objects which are described below.</p><p>The first object in the sequence always describes the enveloping
+directory (or a GPT partition table header). This <em>root</em> file object
+MUST NOT have a <code>name</code> field set (which identifies it as the <em>root</em>
+file object), however, it MUST have a <code>mediaType</code> field set to
+<code>application/vnd.uapi.16.manifest</code> (which identifies the sequence as a
+UAPI.16 manifest).</p><p>File objects for directory entries <code>Uapi16Manifest</code> (or any filename
+with a prefix of <code>Uapi16Manifest.</code>), <code>.</code>, <code>..</code> or any path ending in
+<code>/.</code>, <code>/..</code> MUST NOT exist in the sequence.</p><p>When applied to a GPT partition table the first object MAY also
+describe fields in the overall GPT partition table header of the disk.</p><p>Within each directory files MAY appear in any order. However, files
+nested into subdirectories MUST be listed immediately following the
+file object of the subdirectory object. Even if ordering within
+directories is not mandated, it is definitely RECOMMENDED to sort
+the entries by one of the following orderings:</p><ol><li><p>Alphabetically</p></li><li><p>Via <a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format
+Specification</a> version ordering</p></li><li><p>Time-based ordering (i.e. appending new entries strictly at the end)</p></li></ol><p>Sorting entries ensures the manifests become reproducible as long as
+the same tool and sorting algorithm is used.</p><p>The <code>name</code> field of file objects MUST be uniquely assigned within a
+manifest file.</p><p>If the manifest encodes a GPT partition table, the <code>name</code> field MUST
+still be assigned for every file object, even if <code>gptLabel</code> is defined
+too. The former MUST still be unique within the manifest; the latter
+does not have to be.</p><p>For manifests covering a directory tree with nested directories – as
+opposed to a flat directory listing without file objects of type
+<code>dir</code> –, subdirectory listings MAY either be specified inline
+(typically preferable) or MAY be imported via a separate
+&ldquo;sub-manifest&rdquo; file covering just this subdirectory (and potential
+sub-subdirectories, …), by referencing the separate UAPI.16 manifest
+file in the <code>contents</code> field of the file object.</p><p>When sub-manifests are used, the directory they cover is described
+twice: by the <code>dir</code> file object in the outer (enveloping) manifest,
+and by the root file object of the inner sub-manifest. The inode
+attributes of this directory (i.e. fields such as <code>mode</code>, <code>uid</code>,
+<code>gid</code>, <code>userName</code>, <code>groupName</code>, <code>mTimeNSec</code>, <code>extendedAttributes</code>, but
+not fields referring to the sub-manifest itself, such as <code>name</code>,
+<code>size</code>, <code>contents</code> or <code>sha256</code>) SHOULD be listed in the outer
+manifest, and MAY also be listed in the inner manifest. If listed in
+both, they MUST NOT contradict each other. It is RECOMMENDED that the
+inode attributes declared in the outer manifest are a superset of
+those declared in the inner manifest.</p><p>Zero, one or more signature objects MAY be placed in the manifest
+after all file objects. They provide cryptographic protection for all
+file objects coming before. Signature objects are recognized by their
+<code>mediaType</code> field set to <code>application/vnd.uapi.16.signature</code>.</p><p>Finally, a single trailer object MUST be placed in the manifest, as
+the last object in the sequence. Trailer objects are recognized by their
+<code>mediaType</code> field set to <code>application/vnd.uapi.16.trailer</code>. Each
+sequence has exactly one trailer object. Any data coming after the
+trailer object is invalid, and MUST result in a parse failure.</p><pre tabindex=0><code>┌─────────────────────────────────────────────────────────┐
+│ Root file object    (application/vnd.uapi.16.manifest)  │
+├─────────────────────────────────────────────────────────┤
+│ File object #1                                          │
+│ File object #2                                          │
+│ File object #3                                          │
+│ File object …                                           │
+├─────────────────────────────────────────────────────────┤
+│ Signature object #1 (application/vnd.uapi.16.signature) │
+│ Signature object #2 (application/vnd.uapi.16.signature) │
+│ Signature object #3 (application/vnd.uapi.16.signature) │
+│ Signature object …                                      │
+├─────────────────────────────────────────────────────────┤
+│ Trailer object      (application/vnd.uapi.16.trailer)   │
+└─────────────────────────────────────────────────────────┘</code></pre><p>A manifest MUST consist of at least the root file object and the
+trailer object, the file and signature objects are optional.</p><p>Sizes, offsets and timestamps shall use non-negative integer
+<a href=https://www.rfc-editor.org/rfc/rfc8259>JSON</a> numbers, and MAY use
+values above 2⁵³. (This means – strictly speaking – the format cannot
+be processed losslessly by JSON parsers that exclusively use 64-bit
+floating point for JSON numbers, if there are any files of such
+excessive sizes. Since it&rsquo;s unlikely that files included in a UAPI.16
+manifest file are this large this should not be a practical
+limitation. A JSON implementation supporting unsigned 64-bit numbers
+is still RECOMMENDED.)</p><h2 id=file-object>File Object<a class=anchor href=#file-object>#</a></h2><p>This is an object that encodes information about an individual file,
+or about the root directory of the manifest.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;name&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.manifest&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;type&#34;</span> : <span style=color:#e6db74>&#34;reg&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;size&#34;</span> : <span style=color:#ae81ff>33</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;major&#34;</span> : <span style=color:#ae81ff>4711</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;minor&#34;</span> : <span style=color:#ae81ff>815</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;mode&#34;</span> : <span style=color:#ae81ff>123</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;uid&#34;</span> : <span style=color:#ae81ff>1000</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;userName&#34;</span> : <span style=color:#e6db74>&#34;lennart&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gid&#34;</span> : <span style=color:#ae81ff>1000</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;groupName&#34;</span> : <span style=color:#e6db74>&#34;lennart&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;mTimeNSec&#34;</span> : <span style=color:#ae81ff>1777615169123123123</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;inodeToken&#34;</span> : <span style=color:#ae81ff>4711</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;extendedAttributes&#34;</span> : { <span style=color:#f92672>&#34;user&#34;</span> : { <span style=color:#f92672>&#34;…&#34;</span> : { <span style=color:#f92672>&#34;text&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span> }, <span style=color:#f92672>&#34;…&#34;</span> : { <span style=color:#f92672>&#34;base64&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span> } } },
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gptLabel&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gptUuid&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gptTypeUuid&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gptDiskUuid&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gptFlags&#34;</span> : <span style=color:#ae81ff>4711</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gptFlagNoAuto&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gptFlagGrowFileSystem&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;readOnly&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;contents&#34;</span> : [{<span style=color:#960050;background-color:#1e0010>…</span>}, <span style=color:#960050;background-color:#1e0010>…</span>],
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;sha256&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;validSinceUSec&#34;</span> : <span style=color:#ae81ff>4711</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;validUntilUSec&#34;</span> : <span style=color:#ae81ff>4711</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;validity&#34;</span> : <span style=color:#e6db74>&#34;revoked&#34;</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><h3 id=fields>Fields<a class=anchor href=#fields>#</a></h3><p>All fields are generally optional (but might be REQUIRED for some
+objects under certain conditions, see below). If a field shall not be
+set it can either be set to <code>null</code> or simply be omitted in the JSON
+object (RECOMMENDED), both ways MUST be considered equivalent.</p><p>Unnecessary whitespace/line breaks SHOULD be omitted when formatting
+the JSON records. Fields within JSON objects SHOULD be sorted
+alphabetically by their field names.</p><p>If not otherwise indicated, fields are of type string.</p><p>The <code>mediaType</code> field is REQUIRED on the first file object in the
+sequence (i.e. the top-level root directory object), and MUST have the
+value <code>"application/vnd.uapi.16.manifest"</code>. It MAY also be set on
+other file objects in the sequence (to the same value), but this is
+NOT RECOMMENDED.</p><p>If <code>name</code> is not specified the file object stores information about
+the top-level root file object. This file object always comes first
+in the file object sequence. Or in other words, the root file object
+(the first object in the sequence) has <code>mediaType</code> but not <code>name</code>
+set, while all other file objects have <code>name</code> set.</p><p>The <code>name</code> MUST be a valid
+<a href=https://www.rfc-editor.org/rfc/rfc3629>UTF-8</a> POSIX path (i.e. using the slash <code>/</code>
+as component separator), MUST NOT contain control characters
+(<a href=https://www.rfc-editor.org/rfc/rfc20>ASCII</a> 0…31, 127) and MUST NOT contain &ldquo;<code>.</code>&rdquo;, &ldquo;<code>..</code>&rdquo; or empty strings as components
+of the path. It MUST NOT start or end with a slash. It MUST NOT have
+multiple slashes in immediate sequence (or in other words, the path
+must be normalized and relative). The name MUST NOT be identical to
+&ldquo;<code>Uapi16Manifest</code>&rdquo; or be prefixed with &ldquo;<code>Uapi16Manifest.</code>&rdquo; (it is
+however acceptable if these filenames appear as components of paths
+further down the tree). Files whose paths do not follow these rules
+cannot be encoded in manifest files defined by this
+specification. The <code>name</code> MUST be uniquely assigned within a
+manifest.</p><p>The <code>type</code> field encodes the inode type of the file object. It takes
+one of <code>reg</code>, <code>dir</code>, <code>lnk</code>, <code>fifo</code>, <code>chr</code>, <code>blk</code>, <code>sock</code> (these values
+follow low-level UNIX/Linux naming of these inode types). Other values
+MUST NOT be used. If not specified it defaults to <code>dir</code> for the first
+object in the sequence (i.e. the root file object) and <code>reg</code> for all
+others. Note that when using the manifest format to list partition
+contents each partition MUST be listed as a file of type <code>reg</code>.</p><p>The <code>size</code> (unsigned integer) field MAY be used in file objects of
+type <code>reg</code>, <code>lnk</code>, <code>dir</code> and encodes the size of the contents of the
+file, in bytes. It MUST NOT be used on file objects of other
+types. Specifically, for regular files this is the size as reported by
+the file system. In case of symlinks: this is the length of the
+symlink target string. In case of <code>dir</code> this is the size of a UAPI.16
+file manifest generated for the subdirectory (which only applies if
+the directory contents are not provided inline, but via a reference
+to a separate sub-manifest file, see above).</p><p>The <code>major</code> (unsigned integer) field MAY be used in file objects of
+type <code>blk</code> and <code>chr</code>, it encodes the major device number of the device
+node. It MUST NOT be used on objects of other types. Similarly,
+<code>minor</code> (same type and condition) encodes the minor device number.</p><p>The <code>mode</code> (unsigned integer) field encodes the UNIX access mode of
+the file object. It MAY be used in file objects of all inode types,
+except <code>lnk</code>, where it MUST NOT be used. Note that while UNIX access
+modes are typically written in octal, this one is encoded in a regular
+JSON number, i.e. decimal. The valid range is 0…4095 (i.e. <code>0o0000</code> to
+<code>0o7777</code>). Values outside this range MUST NOT be used.</p><p>The <code>uid</code> (unsigned integer) field is the numeric owning UNIX user ID of the
+file. Similarly, <code>gid</code> (same type) is the numeric owning UNIX group ID
+of the file. Both fields – if set – MUST be in the range 0…4294967294
+(i.e. 0…2³²-2). In particular, the values 4294967295 (i.e. 2³²-1, which
+is <code>(uid_t) -1</code>/<code>(gid_t) -1</code>, i.e. -1 as unsigned 32-bit integer) and
+18446744073709551615 (i.e. 2⁶⁴-1, i.e. -1 as unsigned 64-bit integer)
+MUST NOT be used, as these are commonly used as special &ldquo;invalid&rdquo; or
+&ldquo;unset&rdquo; markers.</p><p>The <code>userName</code> field is the owning UNIX user name of the file;
+similarly, <code>groupName</code> is the owning UNIX group name of the file. Both
+fields SHOULD contain a valid UNIX user name or group name,
+respectively. (Note that UNIX user/group
+name validity is not very well defined, hence it&rsquo;s recommended to
+liberally accept strings here, maybe with the exception of empty
+strings, fully numeric strings, and those containing control
+characters).</p><p>The <code>mTimeNSec</code> field (unsigned integer) is the UNIX file modification
+timestamp of the file object, in nanoseconds since the UNIX epoch (Jan
+1st, 1970).</p><p>The <code>inodeToken</code> field (unsigned integer) shall be a unique numeric
+identifier for any file that SHALL be hardlinked within the manifest
+tree. If unspecified or 0 the file is not subject to hardlinks,
+otherwise any pair of file objects that shall be hardlinks to the same
+inode SHALL carry the same <code>inodeToken</code> value. In order to ensure
+reproducibility <code>inodeToken</code> SHALL be assigned as a counter starting
+at 1 for the first file that shall be hardlinked, and increasing by 1
+for each subsequent file that shall be hardlinked but has not been
+hardlinked in the manifest so far. When sub-manifests are used,
+hardlinking between the upper and lower manifest is not supported –
+the <code>inodeToken</code> identifiers are specific to the manifest they are
+specified in. This field MUST NOT be used for file objects of type
+<code>dir</code>.</p><p>The <code>extendedAttributes</code> field (object) encodes extended attributes
+of the file object, i.e. additional name/value pairs attached to the
+inode (see for example Linux'
+<a href=https://man7.org/linux/man-pages/man7/xattr.7.html><code>xattr(7)</code></a>). It
+is an object whose keys are extended attribute namespace identifiers
+(without any separator character). Each value is another object (the
+<em>namespace object</em>), whose keys are the attribute names within that
+namespace, without the namespace prefix (e.g. on Linux, <code>foo</code> for the
+extended attribute <code>user.foo</code>). Each value of a namespace object is
+an <em>extended attribute value object</em>, described below.</p><p>Currently only the <code>user</code> extended attribute namespace is supported by this
+specification. It encodes unprivileged, freely definable extended attributes,
+such as those in the <code>user.</code> namespace on Linux. Additional namespaces (for
+example covering security labels or other privileged attributes, such as the
+<code>security.</code> and <code>trusted.</code> namespaces on Linux) may be defined in future
+revisions of this specification. Namespace identifiers not defined by this
+specification MUST NOT be used. When parsing, unrecognized namespace
+identifiers MUST be ignored (but SHOULD probably be logged about). Note that
+some operating systems expose other file metadata via the extended attribute
+interface (for example POSIX ACLs via the <code>system.posix_acl_access</code> and
+<code>system.posix_acl_default</code> extended attributes on Linux). Such metadata is
+expected to be encoded in separate, dedicated fields, not via this field.</p><p>Attribute names MUST be valid UTF-8, MUST NOT be empty and MUST NOT
+contain control characters (ASCII 0…31, 127). Extended attributes
+whose names do not follow these rules cannot be encoded in manifest
+files defined by this specification.</p><p>If a namespace object is present (and not <code>null</code>) it MUST list all
+extended attributes of that namespace of the file object, i.e. an
+empty namespace object indicates that the file object has no extended
+attributes in that namespace. If a namespace key is absent (or set to
+<code>null</code>) no information about the extended attributes of that
+namespace is conveyed.</p><p>All file objects sharing the same non-zero <code>inodeToken</code> MUST carry
+identical <code>extendedAttributes</code> fields, as extended attributes are a
+property of the inode, not of the directory entry.</p><p>Extended attributes are not covered by the <code>sha256</code> field (which only
+covers the file contents), but are protected by the manifest signature
+like all other fields.</p><p>When file objects are placed in a GPT partition table, this field has
+no effect and SHOULD be ignored.</p><p>Note that file systems and operating systems typically impose limits
+on extended attributes, for example on the length of names and values,
+their total size per inode, or the inode types they may be attached
+to. This specification does not mandate any such limits. Consumers
+applying a manifest to a file system SHOULD handle such restrictions
+gracefully.</p><p>The <code>gpt*</code> fields encode fields that are needed when placing these
+resources in a GPT partition table entry. They only apply to file
+objects of inode type <code>reg</code>, with the exception of <code>gptDiskUuid</code> which
+only applies to the root file object (which has an inode type of
+<code>dir</code>). These fields MUST NOT be used on file objects of other types.</p><p>The <code>gptFlags</code> field (unsigned integer) encodes the raw 64-bit
+partition attribute flags of the GPT partition table entry, as defined
+by the <a href=https://uefi.org/specs/UEFI/2.11/05_GUID_Partition_Table_Format.html>UEFI
+specification</a>.</p><p>The <code>gptFlag*</code> fields are of boolean type. They provide access to
+individual partition attribute flags by name: <code>gptFlagNoAuto</code> and
+<code>gptFlagGrowFileSystem</code> correspond to the flags of the same name
+defined in the <a href=/specifications/specs/discoverable_partitions_specification/>Discoverable Partitions
+Specification</a> (bits 63 and
+59, respectively). If both <code>gptFlags</code> and a <code>gptFlag*</code> field are set
+for the same file object, they MUST be consistent.</p><p>The <code>gpt*Uuid</code> fields take a UUID, and MUST be formatted as per <a href=https://www.rfc-editor.org/rfc/rfc9562#section-4>RFC
+9562 Section
+4</a>. It SHOULD be
+formatted in lowercase. <code>gptUuid</code> stores the partition UUID for the
+entry, and <code>gptTypeUuid</code> the partition type UUID.</p><p>The <code>gptLabel</code> field MUST NOT be longer than 36
+<a href=https://www.rfc-editor.org/rfc/rfc2781>UTF-16</a> code units (72
+bytes), as defined by the UEFI specification. If <code>gptLabel</code> is
+unspecified, and the data is written to a GPT partition it SHOULD use
+the value of <code>name</code> as label instead. Note that this might require
+mangling, as GPT partition labels have smaller size limits than file
+names. Also note that unlike the <code>name</code> this field does not have to be
+uniquely assigned among all entries in the same manifest.</p><p>The <code>gptDiskUuid</code> field MUST be a UUID in RFC 9562 Section 4
+formatting. It SHOULD be formatted in lowercase. It encodes the disk
+UUID for the GPT partition table. In contrast to the other <code>gpt*</code>
+fields this one MUST NOT be set on any object except for the root
+directory object (i.e. the first file object in the sequence), as it
+encodes a field of the GPT partition table header rather than the GPT
+partition entry header.</p><p><code>readOnly</code> (a boolean) is relevant for initializing the read-only flag
+(bit 60, as defined in the Discoverable Partitions Specification) of
+GPT partition table entries. It should also be reflected in the
+POSIX &lsquo;w&rsquo; access mode bit when storing the data in a regular file on
+disk. If unspecified, defaults to false. If both <code>mode</code> and <code>readOnly</code>
+are set for the same file object, they MUST be consistent: if any of
+the three &lsquo;w&rsquo; bits in <code>mode</code> is set, <code>readOnly</code> MUST be false, otherwise
+it MUST be true.</p><p><code>contents</code> is an array of contents objects, as described below. This
+field only applies to file objects of type <code>reg</code>, <code>lnk</code>, <code>dir</code>. It
+MUST NOT be used on file objects of other types. In case of regular
+files this references or contains the file contents. In case of
+symlinks this references or contains the symlink target string. In
+case of directories this references or contains the sub-manifest for
+the directory (if applicable, see above). If this field is not set and
+the file object is of type <code>reg</code>, an array with a single contents
+object SHALL be implied, that uses <code>file</code> to reference a file of the
+name specified in <code>name</code> (without encoding or offset). Or in other
+words: if no <code>contents</code> is specified in a file object of a
+<code>Uapi16Manifest</code> file, then it should be looked for in a file of the
+name <code>name</code> in the same directory.</p><p><code>sha256</code> is the
+<a href=https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf>SHA256</a>
+hash of the file contents. It MUST be formatted
+in 64 hexadecimal characters. Parsers MUST parse this
+case-insensitively, but it SHALL be formatted in lowercase. This field
+only applies to file objects of type <code>reg</code>, <code>lnk</code>, <code>dir</code>. It MUST NOT
+be used on file objects of other types. The hash value covers the
+contents referenced or contained in the <code>contents</code> field described
+above. Additional hash algorithms may be defined in future, in which
+case separate fields will be defined for each. If the <code>size</code> field is
+zero, this field MUST either be unset (RECOMMENDED) or be identical to
+<code>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code>,
+i.e. the hash of an empty string.</p><p><code>valid*USec</code> is in µs since UNIX epoch UTC, and shall be an unsigned
+integer. It defines a validity time window of the resource. The file
+object SHOULD NOT be accessed or consumed outside of the specified
+time window. If <code>validSinceUSec</code> is not specified it MUST default to
+0, if <code>validUntilUSec</code> is not specified the object never expires. If
+a directory file object is invalidated via these two settings, then
+all file objects within it are invalidated implicitly too. This
+specifically means that the time window specified on the root
+directory object (i.e. the first one in the sequence) may invalidate
+the whole manifest file.</p><p><code>validity</code> takes a string, and implements an enumeration: one of
+<code>good</code> or <code>revoked</code>. Other values MUST NOT be used at this time (if
+encountered while parsing any unrecognized strings MUST be considered
+equivalent to <code>good</code>, in order to cater for future extensions of this
+field). If unspecified, defaults to <code>good</code>. If set to <code>revoked</code> the
+file SHOULD NOT be considered anymore for automatic consumption by the
+client, and if a client already acquired it before it SHOULD consider
+removing it again or otherwise ensure it&rsquo;s not used anymore.</p><h2 id=extended-attribute-value-object>Extended Attribute Value Object<a class=anchor href=#extended-attribute-value-object>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;text&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;base64&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>This object encodes the value of an individual extended attribute, see
+the <code>extendedAttributes</code> field of the file object above.</p><h3 id=fields-1>Fields<a class=anchor href=#fields-1>#</a></h3><p><code>text</code> and <code>base64</code> are mutually exclusive: exactly one of them MUST
+be set. <code>text</code> contains the attribute value as JSON string; the value
+is its UTF-8 encoding, without any trailing NUL byte. <code>text</code> MUST NOT
+contain the NUL character (<code>\u0000</code>). <code>base64</code> contains the attribute
+value in Base64 encoding (either alphabet, as for the <code>literal</code> field
+of contents objects).</p><p>Generators SHOULD use <code>text</code> if – and only if – the attribute value is
+valid UTF-8 and contains no NUL bytes (this includes trailing NUL
+bytes, which some programs append to textual values), and <code>base64</code>
+otherwise. Following this rule strictly ensures reproducible output.</p><p>Empty attribute values are valid, and SHOULD be encoded as
+<code>{ "text" : "" }</code>.</p><h2 id=out-of-scope>Out of Scope<a class=anchor href=#out-of-scope>#</a></h2><p>Note that the above does not support – on purpose – the following
+common UNIX file or GPT partition table properties:</p><ol><li>Access timestamps, birth timestamps, change timestamps</li><li>Inode numbers and other non-portable file IDs (such as <a href=https://man7.org/linux/man-pages/man2/name_to_handle_at.2.html><code>name_to_handle_at()</code></a> style FID)</li><li>Backing device inode major/minor</li><li>Hardlink link counts</li></ol><p>This is because all of these will quite likely differ if the same manifest is applied to different file systems.</p><h2 id=contents-object>Contents Object<a class=anchor href=#contents-object>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;file&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;url&#34;</span> : <span style=color:#e6db74>&#34;https://…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;literal&#34;</span> : <span style=color:#e6db74>&#34;TmV2ZXIgZ29ubmEgZ2l2ZSB5b3UgdXAsIG5ldmVyIGdvbm5hIGxldCB5b3UgZG93bg==&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;encoding&#34;</span> : <span style=color:#e6db74>&#34;gzip&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;encodedSize&#34;</span> : <span style=color:#ae81ff>2011</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;encodedSha256&#34;</span> : <span style=color:#e6db74>&#34;0ef149998289474e4bb31813edda6ad7f3c991b2d8dec6e8fe4db7a1f039f2d1&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;originalSize&#34;</span> : <span style=color:#ae81ff>4711</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;originalSha256&#34;</span> : <span style=color:#e6db74>&#34;afe2882a75c0c603b8b8de5efc20b9043fa33eb0e0cc0d91e54e1dfc2f5fdb8e&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;offset&#34;</span> : <span style=color:#ae81ff>22</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>Contents objects indicate where the data of a <code>reg</code>, <code>lnk</code>, <code>dir</code> type
+file object may be found. The <code>contents</code> field of the file objects (see
+above) contains an array of objects of this type.</p><h3 id=fields-2>Fields<a class=anchor href=#fields-2>#</a></h3><p><code>file</code>, <code>url</code> and <code>literal</code> are mutually exclusive: at most one of them
+MAY be set. <code>file</code> references
+a file in the same location as the manifest file itself was found,
+<code>url</code> references a full URL, and <code>literal</code> contains inline
+<a href=https://www.rfc-editor.org/rfc/rfc4648>Base64</a> data. <code>url</code> MUST NOT use any other schemes than <code>http://…</code> and
+<code>https://…</code>. It is RECOMMENDED to use <code>literal</code> to encode the target
+of symbolic link file objects. If none of these fields are set,
+behavior equivalent to <code>file</code> being set to the file object&rsquo;s <code>name</code>
+field SHOULD be implied.</p><p><code>literal</code> may be encoded either in regular Base64 (<a href=https://www.rfc-editor.org/rfc/rfc4648#section-4>RFC 4648 Section
+4</a>) or in URL-safe
+Base64 (<a href=https://www.rfc-editor.org/rfc/rfc4648#section-5>RFC 4648 Section
+5</a>). Consumers MUST
+be able to deal with either alphabet.</p><p><code>encoding</code> specifies the encoding of the specified resource. It
+accepts the same encoding specifiers as HTTP&rsquo;s
+<a href=https://www.rfc-editor.org/rfc/rfc9110#section-8.4><code>Content-Encoding:</code></a>
+field, e.g. <a href=https://www.rfc-editor.org/rfc/rfc1952><code>gzip</code></a> or
+<a href=https://www.rfc-editor.org/rfc/rfc8878><code>zstd</code></a>. Exactly one encoding
+specifier MUST be specified (i.e. unlike HTTP, a comma-separated list
+of multiple stacked encodings is not permitted). The specifier MUST be
+a name registered in the <a href=https://www.iana.org/assignments/http-parameters/http-parameters.xhtml#content-coding>IANA HTTP Content Coding
+Registry</a>,
+in lowercase. Aliases (such as <code>x-gzip</code>) MUST NOT be used. If not set
+(i.e. omitted or <code>null</code>), no encoding is used. Note that – unlike HTTP – the special
+encoding specifier
+<a href=https://www.rfc-editor.org/rfc/rfc9110#section-8.4.1><code>identity</code></a> MUST
+NOT be used to indicate the absence of an encoding: this field MUST be
+left unset instead. Consumers SHOULD refuse contents objects with
+<code>encoding</code> set to <code>identity</code>.</p><p><code>originalSize</code> is the size of the full, decoded data, <code>encodedSize</code> of
+the full, encoded data. If <code>encoding</code> is not specified, <code>encodedSize</code>
+SHOULD NOT be specified. (If specified anyway, it MUST match
+<code>originalSize</code>). Both fields are unsigned integer type.</p><p><code>originalSha256</code> is the SHA256 sum of the full, decoded data,
+<code>encodedSha256</code> of the full, encoded data. If <code>encoding</code> is not
+specified, <code>encodedSha256</code> SHOULD NOT be specified (if specified
+anyway it MUST match <code>originalSha256</code>). Both are 64 character
+hexadecimal strings (case-insensitive, but lowercase RECOMMENDED). If
+<code>encodedSize</code> is zero then <code>encodedSha256</code> MUST be unset (RECOMMENDED)
+or be identical to
+<code>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code>,
+i.e. the hash of an empty string. Similarly, if <code>originalSize</code> is zero,
+<code>originalSha256</code> MUST be unset (RECOMMENDED) or be the hash of an
+empty string.</p><p>If <code>offset</code> is specified, then the contents of the file SHALL be
+acquired from the specified offset in the <em>decoded</em> data. If the field
+is not specified it defaults to 0. The data to extract begins at the
+specified offset, and extends over the size specified in the <code>size</code>
+field of the file object. Note that this means that the sum of
+<code>offset</code> and <code>size</code> MUST be less than or equal to <code>originalSize</code> (if
+all are specified), so that the slice does not extend beyond the
+source data.</p><h2 id=signature-objects>Signature Objects<a class=anchor href=#signature-objects>#</a></h2><p>Optionally, manifest files MAY include one or more signature
+objects. If included these objects MUST appear in the JSON-SEQ
+sequence after the last file object. Each such object MUST follow the
+following general structure:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.signature&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;mechanism&#34;</span> : <span style=color:#e6db74>&#34;openpgp&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;key&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;data&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><h3 id=fields-3>Fields<a class=anchor href=#fields-3>#</a></h3><p>The <code>mediaType</code> is set to <code>application/vnd.uapi.16.signature</code> for
+objects of this type. This field MUST be used to recognize the
+signature object, and distinguish it from a file object.</p><p>The <code>mechanism</code> field MUST be set to a string identifying the
+signature mechanism. Currently defined are <code>openpgp</code> for
+<a href=https://www.rfc-editor.org/rfc/rfc9580>OpenPGP</a> compatible
+signatures, and <code>pkcs7</code> for <a href=https://www.rfc-editor.org/rfc/rfc2315>PKCS
+#7</a>. Besides <code>mediaType</code>
+this is the only required field, the other fields&rsquo; existence depends
+on the used mechanism.</p><p>The <code>key</code> field MAY point to a key identifier, as appropriate for the
+selected mechanism. For the <code>openpgp</code> mechanism this is the key
+fingerprint in hexadecimal characters (lowercase). For <code>pkcs7</code> this is
+the SHA256 hash of the signing key&rsquo;s
+<a href=https://www.rfc-editor.org/rfc/rfc5280>X.509</a> certificate in
+<a href=https://www.itu.int/rec/T-REC-X.690>DER</a> form,
+formatted in lowercase hexadecimal characters. The <code>key</code> field may be
+used to optimize searching for the right key to authenticate with, but
+its inclusion is OPTIONAL.</p><p>The <code>data</code> field contains the signature data in Base64 encoding
+(either alphabet, as for the <code>literal</code> field of contents objects). For
+the <code>openpgp</code> mechanism this is the binary signature (i.e. without
+<a href=https://www.rfc-editor.org/rfc/rfc9580#section-6>ASCII armor</a>). For
+<code>pkcs7</code> this is the binary signature in DER.</p><p>The cryptographic signature MUST cover the exact, complete binary data
+of the JSON-SEQ sequence up to (but not including) the ASCII RS (0x1e)
+byte immediately preceding the <em>first</em> signature object.</p><p>If multiple signatures are provided, a tool processing manifest files
+may freely pick <em>one</em> of them to authenticate the manifest file, and
+ignore all others. Which one it picks is up to the tool, but SHOULD
+typically be dependent on locally supported mechanisms and recognized
+keys.</p><p>Note that the payload the signatures cover includes only the objects
+preceding the first signature object in the sequence, and excludes all
+signature objects and the trailer object.</p><h2 id=trailer-objects>Trailer Objects<a class=anchor href=#trailer-objects>#</a></h2><p>A manifest MUST contain a single trailer object. This object
+MUST appear in the JSON-SEQ sequence as the very last object, and
+terminates the sequence. It only has a single field:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.trailer&#34;</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>Parsers MUST terminate once this object is seen, and fail if there is
+any further data (after the LF character that terminates the JSON-SEQ
+object) left in the byte stream. If a parser encounters a manifest
+without the trailer object it MUST assume the file is incomplete and
+generate an appropriate parsing failure.</p><h3 id=fields-4>Fields<a class=anchor href=#fields-4>#</a></h3><p>The <code>mediaType</code> is set to <code>application/vnd.uapi.16.trailer</code> for
+objects of this type. This field MUST be used to recognize the
+trailer object, and distinguish it from a file or signature object.</p><h2 id=compression>Compression<a class=anchor href=#compression>#</a></h2><p>Optionally, manifest files MAY be compressed with mechanisms such as
+<code>gzip</code>, <code>zstd</code> or similar. In this case the manifest filename when
+placed within the directory it covers SHOULD be <code>Uapi16Manifest.gz</code>,
+<code>Uapi16Manifest.zst</code> and so on, as appropriate for the chosen
+algorithm. If stored independently of the directory it covers the file
+suffix should be <code>.Uapi16Manifest.gz</code>, <code>.Uapi16Manifest.zst</code> and so on.</p><p>Such compressed manifest files MUST be decompressed before
+validating the embedded signatures (as described above).</p><h2 id=relationship-to-sha256sums>Relationship to SHA256SUMS<a class=anchor href=#relationship-to-sha256sums>#</a></h2><p>A UAPI.16 manifest file that only contains the top-level <code>dir</code> file
+object in combination with any number of <code>reg</code> file objects – each of
+which only uses the fields <code>name</code> and <code>sha256</code> – may be mapped 1:1 to a
+SHA256SUMS file and back.</p><h2 id=acquiring-a-file-remotely>Acquiring a File Remotely<a class=anchor href=#acquiring-a-file-remotely>#</a></h2><p>When acquiring a file listed in a UAPI.16 File Manifest from a web
+service, the following logic should be implemented.</p><ol><li><p>If <code>validity</code> is set to <code>revoked</code>, the download SHOULD immediately
+fail.</p></li><li><p>If <code>validSinceUSec</code> is set and greater than the current time, the
+download SHOULD immediately fail.</p></li><li><p>If <code>validUntilUSec</code> is set and lower than the current time, the
+download SHOULD immediately fail.</p></li><li><p>The <code>contents</code> array MUST be iterated, and a suitable entry be
+picked as source for the file contents. If no <code>contents</code> array is
+specified, proceed as in step 7, with an implied <code>file</code> field set
+to the <code>name</code> of the file object.</p></li><li><p>If the selected contents object has <code>literal</code> set, it MUST be
+Base64 decoded, continue in step 8.</p></li><li><p>Otherwise, if <code>url</code> is set, the data from the URL MUST be
+acquired, continue in step 8.</p></li><li><p>Otherwise, if <code>file</code> is set, the data MUST be acquired from the
+same location as the manifest itself, however with the last
+component of the location replaced by the file name encoded in
+<code>file</code>, following the same semantics as URI <a href=https://www.rfc-editor.org/rfc/rfc3986#section-4.2>relative
+references</a>. Continue in step 8.</p></li><li><p>If <code>encodedSize</code> is set the size of the acquired data SHOULD be
+checked against <code>encodedSize</code>. (This check – and similar checks
+below – may be omitted if for efficiency reasons the encoded file
+is only acquired partially.)</p></li><li><p>If <code>encodedSha256</code> is set, the hash of the acquired data SHOULD be
+matched against it.</p></li><li><p>If <code>encoding</code> is not set, but <code>originalSize</code> is, the size of the
+acquired data SHOULD be checked against <code>originalSize</code>.</p></li><li><p>If <code>encoding</code> is not set, but <code>originalSha256</code> is, the hash of the
+acquired data SHOULD be checked against <code>originalSha256</code>.</p></li><li><p>If <code>encoding</code> is set, the acquired data MUST be decoded according
+to the algorithm indicated in <code>encoding</code>.</p></li><li><p>If <code>encoding</code> and <code>originalSize</code> are set, the size of the
+resulting decoded data SHOULD be checked against <code>originalSize</code>.</p></li><li><p>If <code>encoding</code> and <code>originalSha256</code> are set, the hash of the decoded
+data SHOULD be matched against it.</p></li><li><p>The byte range indicated by <code>offset</code> (if not set: 0) and <code>size</code>
+(if not set, the remainder of the file) MUST be extracted from
+the decoded data.</p></li><li><p>The hash of the extracted data MUST be matched against the hash
+encoded in <code>sha256</code> (if set).</p></li></ol><p>If all these steps succeed the extracted data from step 15 is the
+result of the operation.</p><p>Of course, many of the steps described above SHOULD typically be done
+together rather than serially for robustness, efficiency and security
+reasons. For example, if <code>encoding</code> is not used, it is recommended to
+include the <code>offset</code> field (of the contents object) and the <code>size</code>
+field (of the file object) in <a href=https://www.rfc-editor.org/rfc/rfc9110#section-14>HTTP range
+request</a> fields already (in
+order to avoid downloading redundant data). Moreover, downloads SHOULD
+fail immediately once the encoded or decoded data as it is acquired
+goes beyond the indicated encoded or original data sizes. Then, the
+decoding SHOULD be done on-the-fly while the data is downloaded, and
+the checksum should be calculated on-the-fly too.</p><h2 id=contents-source-considerations>Contents Source Considerations<a class=anchor href=#contents-source-considerations>#</a></h2><p>Applications may freely compile content object arrays when generating
+manifests, and are free to process the specified content object arrays
+in any order of preference when consuming them. A few suggestions:</p><ul><li><p>An application might want to prefer placing file contents in
+<code>literal</code> fields whenever the (encoded) file size is below some
+threshold, because embedding the data in the manifest (even if it is
+slightly increased in size because of that) might be more efficient
+in both space and processing time than referencing external resources
+that might need to be acquired in separate requests.</p></li><li><p>An application might want to prefer not encoding (i.e. compressing)
+files below some size threshold, simply because the space savings the
+compression brings might not be worth the more expensive (in
+both space and processing time) acquisition of the resources.</p></li><li><p>When including file contents in <code>literal</code> fields an application
+might choose not to add the <code>sha256</code> field of the same data, since it
+is redundant given that the literal data is also present in the
+manifest.</p></li><li><p>When acquiring file contents from a manifest an application has
+freedom to prefer certain sources over others, or exclude some. For
+example, it is probably wise to prefer <code>literal</code> sources over the
+others, as well as local <code>file</code> sources over (remote) <code>url</code>
+sources. It might also choose to retry acquiring the source with a
+different source of the specified ones if one does not work (for
+example because the source is not accessible or doesn&rsquo;t actually
+have the resource in question). It might also prefer some <code>url</code>
+sources over others, for example by determining that they are
+located closer on the network. It might also opt for not
+implementing the <code>url</code> source type at all, and instead requiring
+<code>literal</code> or <code>file</code> sources, depending on context.</p></li></ul><h2 id=reproducibility>Reproducibility<a class=anchor href=#reproducibility>#</a></h2><p>This specification makes no attempt to define a single strictly
+reproducible profile of JSON or the manifest format. Its authors
+acknowledge that different JSON implementations will format objects
+and order fields differently depending on data, context and intended
+audience. Implementations may choose to include file metadata in
+varying detail in the manifests, for example UID/GID ownership might
+be relevant in some contexts and not in others. Because of that the
+cryptographic signatures are based on the actually formatted manifest
+file in the format the JSON library in use prefers, rather than a
+normalized representation of it.</p><p>Nonetheless implementations SHOULD generate manifests reproducibly for
+the same input and the same selected fields – as long as the same
+tooling in the same version is used. At the most basic this means
+stable file object sorting should be employed, even if no specific one
+is mandated by this specification. The natural ordering of the
+underlying file system SHOULD NOT be propagated into manifests
+generated from it. Keys of the <code>extendedAttributes</code> object and of the
+namespace objects SHOULD be sorted by the byte values of their UTF-8
+encoding.</p><h2 id=extensibility>Extensibility<a class=anchor href=#extensibility>#</a></h2><p>Additional fields MAY be defined freely by implementors. Each such
+extension field MUST be named in the style of <code>x&lt;Vendor>Foobar</code> to
+minimize risk of conflicts. For example <code>xAmutableFrobnicate</code> or
+<code>xMyAwesomeProjectEfficiencyVector</code>. When reading, implementations MUST
+ignore any fields they do not recognize.</p><p>Additional objects MAY be inserted at any place in the JSON-SEQ
+sequence, except in front of the first (i.e. root file) object or
+after the last (i.e. trailer) object. They MUST be marked via a
+<code>mediaType</code> field, that describes what the object contains. When
+processing a manifest file a reader MUST ignore (but SHOULD probably
+log about) objects in the JSON-SEQ stream it does not recognize. Note
+that any objects inserted before the first signature object will be
+protected by the signature, but any objects inserted after will not
+be. A tool processing manifest files MUST take this into account and
+potentially ignore/refuse any objects appearing after the signatures
+in the JSON sequence as unauthenticated data.</p><h2 id=future-revisions>Future Revisions<a class=anchor href=#future-revisions>#</a></h2><p>This specification is intended to be incrementally
+improved. Additional fields may be defined at any time, with
+additional, optional metadata. Should a breaking change be necessary
+the media type will be changed.</p><p>A number of future extensions are envisioned:</p><ul><li><p>Fields for <a href=https://man7.org/linux/man-pages/man5/acl.5.html>POSIX ACLs</a>,
+and support for extended attribute namespaces beyond <code>user</code> in the
+<code>extendedAttributes</code> field</p></li><li><p>Fields for extended file flags (Linux
+<a href=https://man7.org/linux/man-pages/man1/chattr.1.html><code>chattr</code></a>, DOS/NTFS
+file system flags, …)</p></li><li><p>Fields for Linux file security capabilities</p></li><li><p>Fields for security labels such as SMACK or SELinux</p></li><li><p>Additional hashing schemes</p></li><li><p>Additional signature schemes</p></li></ul><h2 id=example>Example<a class=anchor href=#example>#</a></h2><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.manifest&#34;</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span> : <span style=color:#e6db74>&#34;FooOS.raw&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;contents&#34;</span> : [{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;file&#34;</span> : <span style=color:#e6db74>&#34;FooOS.raw.gz&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;encoding&#34;</span> : <span style=color:#e6db74>&#34;gzip&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;encodedSize&#34;</span> : <span style=color:#ae81ff>5642649603</span>
+</span></span><span style=display:flex><span>    }],
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;size&#34;</span> : <span style=color:#ae81ff>7523532800</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;sha256&#34;</span> : <span style=color:#e6db74>&#34;922a9bae0e02b4ffac3e5ed5054230d0689b9c2e25b0178ba82b925f2a0c3e48&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;validUntilUSec&#34;</span> : <span style=color:#ae81ff>1776856773123234</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span> : <span style=color:#e6db74>&#34;FooOS-esp.raw&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;contents&#34;</span> : [{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;file&#34;</span> : <span style=color:#e6db74>&#34;FooOS.raw.gz&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;encoding&#34;</span> : <span style=color:#e6db74>&#34;gzip&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;encodedSize&#34;</span> : <span style=color:#ae81ff>5642649603</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;originalSize&#34;</span> : <span style=color:#ae81ff>7523532800</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;offset&#34;</span> : <span style=color:#ae81ff>2097152</span>
+</span></span><span style=display:flex><span>    }],
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;size&#34;</span> : <span style=color:#ae81ff>149175808</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;sha256&#34;</span> : <span style=color:#e6db74>&#34;5dcfd837a4868550cc61c256d9567a974e32a20985afa9e100b8b96755a20cae&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;gptLabel&#34;</span> : <span style=color:#e6db74>&#34;EFI System Partition&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;gptUuid&#34;</span> : <span style=color:#e6db74>&#34;8a7f0bce-5fd7-4d23-9c12-3b6a4e1d9f07&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;gptTypeUuid&#34;</span> : <span style=color:#e6db74>&#34;c12a7328-f81f-11d2-ba4b-00a0c93ec93b&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;validUntilUSec&#34;</span> : <span style=color:#ae81ff>1776856773123234</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span> : <span style=color:#e6db74>&#34;FooOS-root.raw&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;contents&#34;</span> : [{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;file&#34;</span> : <span style=color:#e6db74>&#34;FooOS.raw.gz&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;encoding&#34;</span> : <span style=color:#e6db74>&#34;gzip&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;encodedSize&#34;</span> : <span style=color:#ae81ff>5642649603</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;originalSize&#34;</span> : <span style=color:#ae81ff>7523532800</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;offset&#34;</span> : <span style=color:#ae81ff>351272960</span>
+</span></span><span style=display:flex><span>    }],
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;size&#34;</span> : <span style=color:#ae81ff>234003200</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;sha256&#34;</span> : <span style=color:#e6db74>&#34;00b70a0813e15f309828d3a36156283cba87576c26755e0b2d4cf0951eff8163&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;gptLabel&#34;</span> : <span style=color:#e6db74>&#34;FooOS-root&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;gptUuid&#34;</span> : <span style=color:#e6db74>&#34;1d2e3f40-51a6-4b78-9c0d-2e4f6a8b1c3d&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;gptTypeUuid&#34;</span> : <span style=color:#e6db74>&#34;4f68bce3-e8cd-4db1-96e7-fbcaf984b709&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;readOnly&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;validUntilUSec&#34;</span> : <span style=color:#ae81ff>1776856773123234</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.signature&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;mechanism&#34;</span> : <span style=color:#e6db74>&#34;openpgp&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;key&#34;</span> : <span style=color:#e6db74>&#34;16b1c4eec0bc021ac777f681b63b21879c3485b0&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;data&#34;</span> : <span style=color:#e6db74>&#34;iQIzBAABCgAdFiEEFrHE7sC8AhrHd/aBtjshh5w0hbAFAmn8rUoACgkQtjshh5w0hbAz3g//eyWO1swKXivio1PH2oJclEAYqpyqkv9LC293ePyDp5K0zL7BEVt9ijCGb22Wcu+xBXug4SBpSsCMOcro633Kn0ACBeOHwsyu1rnumb85/xvx3lSiq7ke1HcP5OWh5XX4lTm3KYVaPLQy0P3ThupJJsCa0o7uDdl2fXEgcZtRGhgp7GnpQabEuUUGW+1YZ1DFhhIdewZ6+eZZac0DPFjevBbI14jf9wEp3uWT9YoULF0wWBUi45vxdievwIRbcQHQVhxKMaTm0yuTbT5kSUAZccsOkJ4gqrVoNmFx0kYPve0uWcEkFQ16zEKVESr/fhDuCW19v3D46JNvwxZgIxP3o5rp3wbOja6n5D8Otl0kUQaE7FPOmYI1SZ2F97cYsKNViuUyrMcPTNGkI4E18H4WgWLf1CEyGHT16KmoCmldqVhQiTFCtOzkJdbwJgnSL/f0n2y3H/iB3lL0hglv2SDDVnVeMBx+qs+j2DMys3SVOOAYqGrMay1PYxLTEct+M1D0aAmH+XObuoVcm3XMtPPt6NCzxes0cdmFCdMTGERYLY522YCruJpO7p4h9IEoKqDACot0vDD0qwnjBCPu7ETrb02VvJ/W3GJ7/3Y8lIvZFtJqs5TQuxU0d4OiDHe08XdwZrcAondrX5h3Up7mpQIIF4RAMqUaYdOWEf7WzFZBKvY=&#34;</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.trailer&#34;</span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div><p>The above defines three separate files <code>FooOS.raw</code>, <code>FooOS-esp.raw</code>
+and <code>FooOS-root.raw</code>. All files may be acquired via the same data file
+<code>FooOS.raw.gz</code> (which itself is however <em>not</em> listed in the manifest
+as a file object). Note that the first defined file covers the whole
+disk image, while the other two cover slices of it, each encapsulating
+an individual partition. The data file is encoded via <code>gzip</code>.</p><p>A file object of a regular file carrying extended attributes in the
+<code>user</code> namespace might look like this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span> : <span style=color:#e6db74>&#34;notes.txt&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;mode&#34;</span> : <span style=color:#ae81ff>420</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;sha256&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;extendedAttributes&#34;</span> : {
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;user&#34;</span> : {
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&#34;blob&#34;</span> : { <span style=color:#f92672>&#34;base64&#34;</span> : <span style=color:#e6db74>&#34;AAECAw==&#34;</span> },
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&#34;mime_type&#34;</span> : { <span style=color:#f92672>&#34;text&#34;</span> : <span style=color:#e6db74>&#34;text/plain&#34;</span> },
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&#34;xdg.origin.url&#34;</span> : { <span style=color:#f92672>&#34;text&#34;</span> : <span style=color:#e6db74>&#34;https://example.com/notes.txt&#34;</span> }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}</span></span></code></pre></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div></div><div><a class="flex align-center" href=https://github.com/uapi-group/specifications/edit/main/specs/file_manifest.md target=_blank rel="noopener edit"><img src=/specifications/icons/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div><div class="flex flex-wrap justify-between"><span><a href=/specifications/specs/osc_context/ class="flex align-center"><img src=/specifications/icons/backward.svg class=book-icon alt=Backward>
+<span>UAPI.15 OSC 3008: Hierarchical Context Signalling</span>
+</a></span><span><a href=/specifications/specs/cli_introspection/ class="flex align-center"><span>UAPI.18 CLI-Introspection Specification [DRAFT]</span>
+<img src=/specifications/icons/forward.svg class=book-icon alt=Forward></a></span></div><div class=book-comments></div><div class="book-copyright flex justify-center"><small>UAPI Group Specifications - Licensed under <a href=https://spdx.org/licenses/CC-BY-4.0.html>CC-BY-4.0</a></small></div><script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#terminology>Terminology</a></li><li><a href=#manifest-file-name-and-media-type>Manifest File Name and Media Type</a></li><li><a href=#general-structure>General Structure</a></li><li><a href=#file-object>File Object</a><ul><li><a href=#fields>Fields</a></li></ul></li><li><a href=#extended-attribute-value-object>Extended Attribute Value Object</a><ul><li><a href=#fields-1>Fields</a></li></ul></li><li><a href=#out-of-scope>Out of Scope</a></li><li><a href=#contents-object>Contents Object</a><ul><li><a href=#fields-2>Fields</a></li></ul></li><li><a href=#signature-objects>Signature Objects</a><ul><li><a href=#fields-3>Fields</a></li></ul></li><li><a href=#trailer-objects>Trailer Objects</a><ul><li><a href=#fields-4>Fields</a></li></ul></li><li><a href=#compression>Compression</a></li><li><a href=#relationship-to-sha256sums>Relationship to SHA256SUMS</a></li><li><a href=#acquiring-a-file-remotely>Acquiring a File Remotely</a></li><li><a href=#contents-source-considerations>Contents Source Considerations</a></li><li><a href=#reproducibility>Reproducibility</a></li><li><a href=#extensibility>Extensibility</a></li><li><a href=#future-revisions>Future Revisions</a></li><li><a href=#example>Example</a></li></ul></nav></div></aside></main></body></html>
