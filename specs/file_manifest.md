@@ -226,6 +226,10 @@ or about the root directory of the manifest.
         "gptFlagNoAuto" : true,
         "gptFlagGrowFileSystem" : true,
         "readOnly" : true,
+        "flagHidden" : true,
+        "flagSystem" : true,
+        "flagArchive" : true,
+        "fatSerial" : "1234-ABCD",
         "contents" : [{…}, …],
         "sha256" : "…",
         "validSinceUSec" : 4711,
@@ -435,14 +439,75 @@ directory object (i.e. the first file object in the sequence), as it
 encodes a field of the GPT partition table header rather than the GPT
 partition entry header.
 
-`readOnly` (a boolean) is relevant for initializing the read-only flag
-(bit 60, as defined in the Discoverable Partitions Specification) of
-GPT partition table entries. It should also be reflected in the
-POSIX 'w' access mode bit when storing the data in a regular file on
-disk. If unspecified, defaults to false. If both `mode` and `readOnly`
-are set for the same file object, they MUST be consistent: if any of
-the three 'w' bits in `mode` is set, `readOnly` MUST be false, otherwise
-it MUST be true.
+`readOnly` (a boolean) is a generic read-only marker for the file
+object, that is mapped onto the read-only concept of whatever storage
+the file object is placed on. Specifically, it is relevant for
+initializing the read-only flag (bit 60, as defined in the
+Discoverable Partitions Specification) of GPT partition table entries,
+as well as the DOS `ATTR_READ_ONLY` attribute (0x01), as stored for
+example in FAT directory entries (see below). It should also be
+reflected in the POSIX 'w' access mode bit when storing the data in a
+regular file on disk. If
+unspecified, defaults to false. If both `mode` and `readOnly` are set
+for the same file object, they MUST NOT contradict each other: if any
+of the three 'w' bits in `mode` is set, `readOnly` MUST be false,
+otherwise it MUST be true.
+
+The `flagHidden`, `flagSystem` and `flagArchive` fields encode DOS
+file attributes, as implemented by
+[FAT](https://www.ecma-international.org/publications-and-standards/standards/ecma-107/)
+(such as the
+[UEFI](https://uefi.org/specs/UEFI/2.11/13_Protocols_Media_Access.html)
+EFI System Partition),
+[exFAT](https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification),
+NTFS and other file systems with DOS attributes. The `fatSerial` field
+encodes the volume serial number of FAT and exFAT file systems. If the
+file objects are placed in a file system that does not implement the
+respective concept, these fields have no effect and SHOULD be ignored.
+
+The `flagHidden`, `flagSystem` and `flagArchive` fields are of
+boolean type, and control the DOS attribute flags of the file object
+(which use the same bit values on all file systems listed above):
+`flagHidden` corresponds to the `ATTR_HIDDEN`
+attribute (0x02), `flagSystem` to `ATTR_SYSTEM` (0x04), and
+`flagArchive` to `ATTR_ARCHIVE` (0x20). (There is no separate field
+for the `ATTR_READ_ONLY` attribute (0x01): the generic `readOnly`
+field described above is used for that.) (On Linux these attributes
+may be queried and set on FAT file systems via the `FAT_IOCTL_GET_ATTRIBUTES` and
+`FAT_IOCTL_SET_ATTRIBUTES` ioctls.) These fields only apply to file
+objects of inode type `reg` and `dir`, and MUST NOT be used on file
+objects of other types. They MUST NOT be used on the root file object
+either, as the root directory of FAT and exFAT file systems has no
+directory entry, and hence no attributes. If any of these fields is not set, the
+state of the corresponding flag is not defined.
+
+When placing a file object in a file system with DOS attributes, the
+`ATTR_READ_ONLY` attribute SHOULD be set if `readOnly` is true, and
+SHOULD NOT be set if it is false. If `readOnly` is not set, but `mode`
+is, an implementation MAY derive the attribute from the latter instead
+of applying the default of `readOnly` (i.e. set it if none of the
+three 'w' bits in `mode` is set).
+
+The `fatSerial` field encodes the 32-bit volume serial number (also
+known as "volume ID") of the FAT or exFAT file system. It MUST be formatted the
+way FAT volume serial numbers are usually displayed: as two groups of
+four hexadecimal digits, separated by a hyphen (e.g. `1234-ABCD`),
+where the first group encodes the upper 16 bits and the second group
+the lower 16 bits of the serial number. Parsers MUST parse this
+case-insensitively, but it SHALL be formatted in uppercase. Other
+formats (e.g. without the hyphen, or with fewer digits) MUST NOT be
+used. If unspecified, the implementation SHOULD pick a suitable serial
+number. For reproducibility it is RECOMMENDED to derive it
+deterministically from data in the manifest rather than randomly or
+from the current time. The precise derivation is
+implementation-defined, hence manifest authors who require identical
+serial numbers across implementations SHOULD set this field
+explicitly.
+
+The `fatSerial` field MUST NOT be set on any object except for the
+root directory object (i.e. the first file object in the sequence), as
+it encodes a property of the file system as a whole, rather than of
+an individual file.
 
 `contents` is an array of contents objects, as described below. This
 field only applies to file objects of type `reg`, `lnk`, `dir`. It
@@ -886,7 +951,7 @@ A number of future extensions are envisioned:
   `extendedAttributes` field
 
 * Fields for extended file flags (Linux
-  [`chattr`](https://man7.org/linux/man-pages/man1/chattr.1.html), DOS/NTFS
+  [`chattr`](https://man7.org/linux/man-pages/man1/chattr.1.html), NTFS
   file system flags, …)
 
 * Fields for Linux file security capabilities
