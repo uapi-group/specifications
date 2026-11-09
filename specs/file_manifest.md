@@ -230,6 +230,11 @@ or about the root directory of the manifest.
         "flagSystem" : true,
         "flagArchive" : true,
         "fatSerial" : "1234-ABCD",
+        "flagAppendOnly" : true,
+        "flagImmutable" : true,
+        "flagNoAtime" : true,
+        "flagNoCow" : true,
+        "flagNoDump" : true,
         "contents" : [{…}, …],
         "sha256" : "…",
         "validSinceUSec" : 4711,
@@ -508,6 +513,62 @@ The `fatSerial` field MUST NOT be set on any object except for the
 root directory object (i.e. the first file object in the sequence), as
 it encodes a property of the file system as a whole, rather than of
 an individual file.
+
+The `flagAppendOnly`, `flagImmutable`, `flagNoAtime`, `flagNoCow` and
+`flagNoDump` fields are of boolean type, and control a subset of
+the Linux inode flags, as shown and changed by
+[`lsattr(1)`](https://man7.org/linux/man-pages/man1/lsattr.1.html) and
+[`chattr(1)`](https://man7.org/linux/man-pages/man1/chattr.1.html),
+and accessible via the `FS_IOC_GETFLAGS`/`FS_IOC_SETFLAGS` ioctls (see
+[`ioctl_iflags(2)`](https://man7.org/linux/man-pages/man2/ioctl_iflags.2.html)):
+
+| Field            | Linux Flag        |
+|------------------|-------------------|
+| `flagAppendOnly` | `FS_APPEND_FL`    |
+| `flagImmutable`  | `FS_IMMUTABLE_FL` |
+| `flagNoAtime`    | `FS_NOATIME_FL`   |
+| `flagNoCow`      | `FS_NOCOW_FL`     |
+| `flagNoDump`     | `FS_NODUMP_FL`    |
+
+These fields only apply to file objects of inode type `reg` and `dir`
+(including the root file object), and MUST NOT be used on file objects
+of other types. If any of these fields is not set, the state of the
+corresponding flag is not defined.
+
+Only flags that are implemented by commonly used Linux file systems,
+and that may be changed directly by userspace, are covered by this
+specification. Flags that merely reflect internal state of the inode
+(such as `FS_EXTENT_FL`, `FS_ENCRYPT_FL`, `FS_VERITY_FL` or
+`FS_INLINE_DATA_FL`) are out of scope. Note that not all file systems
+implement all flags (e.g. `FS_NOCOW_FL` is only implemented by
+copy-on-write file systems such as btrfs). If a flag is requested that
+the target file system does not support (including the case where the
+file system does not support Linux inode flags at all), an
+implementation SHOULD ignore it (and MAY log about this). An
+implementation MAY fail the operation instead if the caller explicitly
+requested strict behavior. Some of
+these flags (in particular `flagAppendOnly` and
+`flagImmutable`) require privileges to be set
+(`CAP_LINUX_IMMUTABLE`).
+
+When applying a manifest to a file system, implementations SHOULD set
+`flagAppendOnly` and `flagImmutable` only after the file
+contents and all other metadata of the file object have been written
+(and in case of directories: after all entries within it have been
+created), as these flags prohibit later modifications. Conversely,
+`flagNoCow` SHOULD be set on regular files while they are still
+empty, i.e. before the file contents are written, as file systems
+typically do not permit changing it (or do not apply it) on non-empty
+files. When set on directories, file systems typically propagate some
+of these flags (in particular `FS_NOCOW_FL`) to files subsequently
+created within them.
+
+All file objects sharing the same non-zero `inodeToken` MUST carry
+identical values for these fields, as these flags are a property of the
+inode, not of the directory entry.
+
+When file objects are placed in a GPT partition table these fields
+have no effect and SHOULD be ignored.
 
 `contents` is an array of contents objects, as described below. This
 field only applies to file objects of type `reg`, `lnk`, `dir`. It
@@ -950,9 +1011,9 @@ A number of future extensions are envisioned:
   and support for extended attribute namespaces beyond `user` in the
   `extendedAttributes` field
 
-* Fields for extended file flags (Linux
-  [`chattr`](https://man7.org/linux/man-pages/man1/chattr.1.html), NTFS
-  file system flags, …)
+* Fields for additional extended file flags (further Linux
+  [`chattr`](https://man7.org/linux/man-pages/man1/chattr.1.html) flags,
+  NTFS file system flags, …)
 
 * Fields for Linux file security capabilities
 
