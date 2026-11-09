@@ -230,6 +230,8 @@ or about the root directory of the manifest.
         "flagSystem" : true,
         "flagArchive" : true,
         "fatSerial" : "1234-ABCD",
+        "fsUUID" : "…",
+        "fsLabel" : "…",
         "flagAppendOnly" : true,
         "flagImmutable" : true,
         "flagNoAtime" : true,
@@ -513,6 +515,54 @@ The `fatSerial` field MUST NOT be set on any object except for the
 root directory object (i.e. the first file object in the sequence), as
 it encodes a property of the file system as a whole, rather than of
 an individual file.
+
+The `fsUUID` and `fsLabel` fields encode the identity of the file
+system the file objects are placed in, i.e. its UUID and its label, as
+reported on Linux by the `FS_IOC_GETFSUUID` and `FS_IOC_GETFSLABEL`
+ioctls, respectively (and as typically shown by tools such as
+[`blkid(8)`](https://man7.org/linux/man-pages/man8/blkid.8.html)). They
+are applied when a new file system is created and populated from the
+manifest. When file objects are placed in an existing file system
+instead, implementations SHOULD check that the UUID and label of that
+file system match the values specified in these fields (if set), and
+SHOULD fail the operation if they do not. When file objects are placed
+in a GPT partition table these fields have no effect. These fields MUST
+NOT be set on any object except for the root directory object
+(i.e. the first file object in the sequence), as they encode
+properties of the file system as a whole. When the manifest is used as
+a sub-manifest (i.e. its root directory object does not correspond to
+the root directory of a file system) these fields SHOULD be ignored.
+
+The `fsUUID` field MUST be a UUID in RFC 9562 Section 4 formatting. It
+SHOULD be formatted in lowercase. Note that some file systems
+distinguish between the user-visible file system UUID and a separate
+internal UUID used for on-disk metadata (e.g. the ext4
+`metadata_csum_seed` feature, or the btrfs and XFS metadata UUIDs):
+this field refers to the former, i.e. the UUID reported by
+`FS_IOC_GETFSUUID`. If unspecified, the implementation SHOULD pick a
+suitable UUID. For reproducibility it is RECOMMENDED to derive it
+deterministically from data in the manifest rather than randomly or
+from the current time. The precise derivation is
+implementation-defined, hence manifest authors who require identical
+UUIDs across implementations SHOULD set this field explicitly.
+
+FAT and exFAT file systems do not have a UUID, but only a 32-bit volume
+serial number, see `fatSerial` above. When placing file objects in
+such a file system, and `fsUUID` is set but `fatSerial` is not,
+implementations SHOULD derive the serial number from the first four
+bytes of the UUID, i.e. from the first eight hexadecimal digits of its
+string representation (e.g. `fsUUID` set to
+`1234abcd-5678-4ef0-9abc-def012345678` results in a serial number of
+`1234-ABCD`). If both are set, `fatSerial` takes precedence.
+
+The `fsLabel` field MUST be valid UTF-8 and MUST
+NOT contain control characters. Different file systems impose different
+restrictions on the length of the label and on the set of characters
+permitted in it (e.g. labels may be at most 11 characters on FAT, 12
+bytes on XFS, and 16 bytes on ext4). If the label cannot be represented
+on the target file system, the implementation SHOULD fail the
+operation. If unspecified, no label is set (or the implementation's
+default is used).
 
 The `flagAppendOnly`, `flagImmutable`, `flagNoAtime`, `flagNoCow` and
 `flagNoDump` fields are of boolean type, and control a subset of
