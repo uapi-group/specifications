@@ -2,7 +2,7 @@
 title: UAPI.20 Varlink IPC
 category: Concepts
 layout: default
-version: 0.1
+version: 0.2
 SPDX-License-Identifier: CC-BY-4.0
 weight: 20
 aliases:
@@ -15,6 +15,7 @@ aliases:
 | Version | Changes         |
 |---------|-----------------|
 | 0.1     | Initial release |
+| 0.2     | Added the JSON representation of interface definitions |
 
 Varlink is an interface description format and IPC protocol that aims
 to make services accessible to both humans and machines in the
@@ -481,6 +482,434 @@ Services SHOULD refuse unrecognized fields in method calls with an
 
 Clients SHOULD ignore fields in replies they do not understand, so that
 services can extend their output.
+
+## JSON Representation of Interface Definitions
+
+The interface definition language defined above is textual. Consumers that
+need to process a definition structurally — for example to generate language
+bindings, documentation or validation code — can render it as JSON. This
+section defines that rendering.
+
+The JSON representation is a **rendering** of a definition.
+It is not a replacement for it: the textual form is canonical, and the
+definition returned by `org.varlink.service.GetInterfaceDescription` is always
+textual IDL. A producer of the JSON representation may parse that text or use
+language constructions to assemble a richer JSON representation.
+
+A JSON rendering:
+
+* MUST contain the same information as the textual definition, including the
+  interface and symbol names, the symbol kinds, the field types, the method
+  flags and the documentation comments.
+
+* MUST preserve the declaration order of symbols and fields, and MUST emit
+  method flags in the canonical order defined below. Together with the fixed
+  key set, this makes the rendering deterministic: a given definition always
+  yields byte-identical JSON, so artifacts derived from it are reproducible.
+
+* MUST validate against the JSON Schema at the end of this section. The schema
+  rejects unknown keys, so adding a key to the rendering is a change to this
+  specification and MUST be accompanied by a schema change.
+
+### Mapping
+
+The rendering maps the constructs of the interface definition as follows:
+
+* An **interface** is an object with the interface name in `name`, an optional
+  documentation comment in `comment`, and its symbols in declaration order in
+  the optional `symbols` array. An interface without symbols omits `symbols`.
+
+* A **symbol** is an object with the symbol name in `name` and a `kind`
+  discriminator of `method`, `error` or `type`, plus an optional documentation
+  comment in `comment`. Symbols carry only the keys valid for their kind:
+
+  * A `method` has optional `input` and `output` arrays of fields, and optional
+    `flags` listing the supported call flags. Flags are emitted in this order:
+    `supports-more`, `requires-more`, `supports-upgrade`,
+    `requires-upgrade`. Empty input and output arrays are omitted.
+
+  * An `error` has an optional `fields` array of fields.
+
+  * A `type` has a `typeKind` of `struct` or `enum`. A struct has a `fields`
+    array, an enum has a `values` array of enumeration values.
+
+* A **field** is an object with the field name in `name`, an optional
+  documentation comment in `comment`, and exactly one of the following:
+  `type` for a primitive type (`bool`, `int`, `float`, `string`, `object` or
+  `any`), `namedType` for a named type (the enumeration or structure name),
+  `struct` for an inline anonymous structure (an array of fields), or `enum`
+  for an inline anonymous enumeration (an array of enumeration values). In
+  addition, and only when they apply, the markers `nullable`, `array` and `map`
+  are present with the value `true`.
+  A field for which they are absent is **not** nullable, **not** an array and **not**
+  a map.
+
+* An **enumeration value** is an object with the value name in `name` and an
+  optional documentation comment in `comment`.
+
+A field with the `array` or `map` marker denotes an array or a map of the
+described type, as in the textual notation (`[]T` and `[string]T`), and a field
+with the `nullable` marker denotes a nullable type (`?T`).
+
+### Example
+
+The following renders a small interface with one structure type, one method
+and one error:
+
+```json
+{
+  "name": "com.example.ftl",
+  "comment": "FTL drive control",
+  "symbols": [
+    {
+      "kind": "type",
+      "typeKind": "struct",
+      "name": "Coord",
+      "fields": [
+        {"name": "x", "type": "float"},
+        {"name": "y", "type": "float"}
+      ]
+    },
+    {
+      "kind": "method",
+      "name": "Jump",
+      "comment": "Jump to the given coordinates.",
+      "flags": ["requires-more"],
+      "input": [
+        {"name": "target", "namedType": "Coord"}
+      ],
+      "output": [
+        {"name": "fuel", "type": "float", "nullable": true}
+      ]
+    },
+    {
+      "kind": "error",
+      "name": "NotEnoughFuel",
+      "fields": [
+        {"name": "needed", "type": "float"}
+      ]
+    }
+  ]
+}
+```
+
+### JSON Schema
+
+The following schema is normative for the JSON representation of interface
+definitions:
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Varlink interface definition JSON representation",
+  "description": "Machine-readable rendering of a Varlink interface definition. This form carries the same information as the textual IDL deterministically, with declaration order preserved and flags emitted in a fixed order. Keys are intentionally exhaustively listed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "description": "Fully qualified Varlink interface name.",
+      "type": "string"
+    },
+    "comment": {
+      "description": "Human-readable interface description.",
+      "type": "string"
+    },
+    "symbols": {
+      "description": "Methods, errors and named types, in declaration order.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/symbol"
+      }
+    }
+  },
+  "$defs": {
+    "comment": {
+      "description": "Human-readable description.",
+      "type": "string"
+    },
+    "flags": {
+      "description": "Varlink call flags, in canonical order.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "supports-more",
+          "requires-more",
+          "supports-upgrade",
+          "requires-upgrade"
+        ]
+      }
+    },
+    "enumValue": {
+      "description": "A single member of an enum type.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        }
+      }
+    },
+    "field": {
+      "description": "A method argument or a struct member. Exactly one of the type alternatives is present. 'nullable', 'array' and 'map' are emitted only when set.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "type": {
+          "description": "Primitive Varlink type.",
+          "enum": [
+            "bool",
+            "int",
+            "float",
+            "string",
+            "object",
+            "any"
+          ]
+        },
+        "namedType": {
+          "description": "Name of the enum or struct type the field refers to.",
+          "type": "string"
+        },
+        "struct": {
+          "description": "Inline anonymous struct definition.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        },
+        "enum": {
+          "description": "Inline anonymous enum definition.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/enumValue"
+          }
+        },
+        "nullable": {
+          "const": true
+        },
+        "array": {
+          "const": true
+        },
+        "map": {
+          "const": true
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "required": [
+            "namedType"
+          ]
+        },
+        {
+          "required": [
+            "struct"
+          ]
+        },
+        {
+          "required": [
+            "enum"
+          ]
+        }
+      ]
+    },
+    "symbol": {
+      "description": "A method, an error or a named type. The 'kind' discriminator selects which of the shape-specific keys are valid.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "name"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "method",
+            "error",
+            "type"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "flags": {
+          "$ref": "#/$defs/flags"
+        },
+        "typeKind": {
+          "description": "For 'type' symbols, whether this is a struct or an enum.",
+          "enum": [
+            "struct",
+            "enum"
+          ]
+        },
+        "input": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        },
+        "output": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/enumValue"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "method"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "typeKind": false,
+              "fields": false,
+              "values": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "error"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "fields"
+            ],
+            "properties": {
+              "typeKind": false,
+              "input": false,
+              "output": false,
+              "values": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "type"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "typeKind"
+            ],
+            "properties": {
+              "flags": false,
+              "input": false,
+              "output": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "type"
+              },
+              "typeKind": {
+                "const": "struct"
+              }
+            },
+            "required": [
+              "kind",
+              "typeKind"
+            ]
+          },
+          "then": {
+            "required": [
+              "fields"
+            ],
+            "properties": {
+              "values": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "type"
+              },
+              "typeKind": {
+                "const": "enum"
+              }
+            },
+            "required": [
+              "kind",
+              "typeKind"
+            ]
+          },
+          "then": {
+            "required": [
+              "values"
+            ],
+            "properties": {
+              "fields": false
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ## Mapping the Type System to JSON
 
