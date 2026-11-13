@@ -226,6 +226,17 @@ or about the root directory of the manifest.
         "gptFlagNoAuto" : true,
         "gptFlagGrowFileSystem" : true,
         "readOnly" : true,
+        "flagHidden" : true,
+        "flagSystem" : true,
+        "flagArchive" : true,
+        "fatSerial" : "1234-ABCD",
+        "fsUUID" : "…",
+        "fsLabel" : "…",
+        "flagAppendOnly" : true,
+        "flagImmutable" : true,
+        "flagNoAtime" : true,
+        "flagNoCow" : true,
+        "flagNoDump" : true,
         "contents" : [{…}, …],
         "sha256" : "…",
         "validSinceUSec" : 4711,
@@ -435,14 +446,179 @@ directory object (i.e. the first file object in the sequence), as it
 encodes a field of the GPT partition table header rather than the GPT
 partition entry header.
 
-`readOnly` (a boolean) is relevant for initializing the read-only flag
-(bit 60, as defined in the Discoverable Partitions Specification) of
-GPT partition table entries. It should also be reflected in the
-POSIX 'w' access mode bit when storing the data in a regular file on
-disk. If unspecified, defaults to false. If both `mode` and `readOnly`
-are set for the same file object, they MUST be consistent: if any of
-the three 'w' bits in `mode` is set, `readOnly` MUST be false, otherwise
-it MUST be true.
+`readOnly` (a boolean) is a generic read-only marker for the file
+object, that is mapped onto the read-only concept of whatever storage
+the file object is placed on. Specifically, it is relevant for
+initializing the read-only flag (bit 60, as defined in the
+Discoverable Partitions Specification) of GPT partition table entries,
+as well as the DOS `ATTR_READ_ONLY` attribute (0x01), as stored for
+example in FAT directory entries (see below). It should also be
+reflected in the POSIX 'w' access mode bit when storing the data in a
+regular file on disk. If
+unspecified, defaults to false. If both `mode` and `readOnly` are set
+for the same file object, they MUST NOT contradict each other: if any
+of the three 'w' bits in `mode` is set, `readOnly` MUST be false,
+otherwise it MUST be true.
+
+The `flagHidden`, `flagSystem` and `flagArchive` fields encode DOS
+file attributes, as implemented by
+[FAT](https://www.ecma-international.org/publications-and-standards/standards/ecma-107/)
+(such as the
+[UEFI](https://uefi.org/specs/UEFI/2.11/13_Protocols_Media_Access.html)
+EFI System Partition),
+[exFAT](https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification),
+NTFS and other file systems with DOS attributes. The `fatSerial` field
+encodes the volume serial number of FAT and exFAT file systems. If the
+file objects are placed in a file system that does not implement the
+respective concept, these fields have no effect and SHOULD be ignored.
+
+The `flagHidden`, `flagSystem` and `flagArchive` fields are of
+boolean type, and control the DOS attribute flags of the file object
+(which use the same bit values on all file systems listed above):
+`flagHidden` corresponds to the `ATTR_HIDDEN`
+attribute (0x02), `flagSystem` to `ATTR_SYSTEM` (0x04), and
+`flagArchive` to `ATTR_ARCHIVE` (0x20). (There is no separate field
+for the `ATTR_READ_ONLY` attribute (0x01): the generic `readOnly`
+field described above is used for that.) (On Linux these attributes
+may be queried and set on FAT file systems via the `FAT_IOCTL_GET_ATTRIBUTES` and
+`FAT_IOCTL_SET_ATTRIBUTES` ioctls.) These fields only apply to file
+objects of inode type `reg` and `dir`, and MUST NOT be used on file
+objects of other types. They MUST NOT be used on the root file object
+either, as the root directory of FAT and exFAT file systems has no
+directory entry, and hence no attributes. If any of these fields is not set, the
+state of the corresponding flag is not defined.
+
+When placing a file object in a file system with DOS attributes, the
+`ATTR_READ_ONLY` attribute SHOULD be set if `readOnly` is true, and
+SHOULD NOT be set if it is false. If `readOnly` is not set, but `mode`
+is, an implementation MAY derive the attribute from the latter instead
+of applying the default of `readOnly` (i.e. set it if none of the
+three 'w' bits in `mode` is set).
+
+The `fatSerial` field encodes the 32-bit volume serial number (also
+known as "volume ID") of the FAT or exFAT file system. It MUST be formatted the
+way FAT volume serial numbers are usually displayed: as two groups of
+four hexadecimal digits, separated by a hyphen (e.g. `1234-ABCD`),
+where the first group encodes the upper 16 bits and the second group
+the lower 16 bits of the serial number. Parsers MUST parse this
+case-insensitively, but it SHALL be formatted in uppercase. Other
+formats (e.g. without the hyphen, or with fewer digits) MUST NOT be
+used. If unspecified, the implementation SHOULD pick a suitable serial
+number. For reproducibility it is RECOMMENDED to derive it
+deterministically from data in the manifest rather than randomly or
+from the current time. The precise derivation is
+implementation-defined, hence manifest authors who require identical
+serial numbers across implementations SHOULD set this field
+explicitly.
+
+The `fatSerial` field MUST NOT be set on any object except for the
+root directory object (i.e. the first file object in the sequence), as
+it encodes a property of the file system as a whole, rather than of
+an individual file.
+
+The `fsUUID` and `fsLabel` fields encode the identity of the file
+system the file objects are placed in, i.e. its UUID and its label, as
+reported on Linux by the `FS_IOC_GETFSUUID` and `FS_IOC_GETFSLABEL`
+ioctls, respectively (and as typically shown by tools such as
+[`blkid(8)`](https://man7.org/linux/man-pages/man8/blkid.8.html)). They
+are applied when a new file system is created and populated from the
+manifest. When file objects are placed in an existing file system
+instead, implementations SHOULD check that the UUID and label of that
+file system match the values specified in these fields (if set), and
+SHOULD fail the operation if they do not. When file objects are placed
+in a GPT partition table these fields have no effect. These fields MUST
+NOT be set on any object except for the root directory object
+(i.e. the first file object in the sequence), as they encode
+properties of the file system as a whole. When the manifest is used as
+a sub-manifest (i.e. its root directory object does not correspond to
+the root directory of a file system) these fields SHOULD be ignored.
+
+The `fsUUID` field MUST be a UUID in RFC 9562 Section 4 formatting. It
+SHOULD be formatted in lowercase. Note that some file systems
+distinguish between the user-visible file system UUID and a separate
+internal UUID used for on-disk metadata (e.g. the ext4
+`metadata_csum_seed` feature, or the btrfs and XFS metadata UUIDs):
+this field refers to the former, i.e. the UUID reported by
+`FS_IOC_GETFSUUID`. If unspecified, the implementation SHOULD pick a
+suitable UUID. For reproducibility it is RECOMMENDED to derive it
+deterministically from data in the manifest rather than randomly or
+from the current time. The precise derivation is
+implementation-defined, hence manifest authors who require identical
+UUIDs across implementations SHOULD set this field explicitly.
+
+FAT and exFAT file systems do not have a UUID, but only a 32-bit volume
+serial number, see `fatSerial` above. When placing file objects in
+such a file system, and `fsUUID` is set but `fatSerial` is not,
+implementations SHOULD derive the serial number from the first four
+bytes of the UUID, i.e. from the first eight hexadecimal digits of its
+string representation (e.g. `fsUUID` set to
+`1234abcd-5678-4ef0-9abc-def012345678` results in a serial number of
+`1234-ABCD`). If both are set, `fatSerial` takes precedence.
+
+The `fsLabel` field MUST be valid UTF-8 and MUST
+NOT contain control characters. Different file systems impose different
+restrictions on the length of the label and on the set of characters
+permitted in it (e.g. labels may be at most 11 characters on FAT, 12
+bytes on XFS, and 16 bytes on ext4). If the label cannot be represented
+on the target file system, the implementation SHOULD fail the
+operation. If unspecified, no label is set (or the implementation's
+default is used).
+
+The `flagAppendOnly`, `flagImmutable`, `flagNoAtime`, `flagNoCow` and
+`flagNoDump` fields are of boolean type, and control a subset of
+the Linux inode flags, as shown and changed by
+[`lsattr(1)`](https://man7.org/linux/man-pages/man1/lsattr.1.html) and
+[`chattr(1)`](https://man7.org/linux/man-pages/man1/chattr.1.html),
+and accessible via the `FS_IOC_GETFLAGS`/`FS_IOC_SETFLAGS` ioctls (see
+[`ioctl_iflags(2)`](https://man7.org/linux/man-pages/man2/ioctl_iflags.2.html)):
+
+| Field            | Linux Flag        |
+|------------------|-------------------|
+| `flagAppendOnly` | `FS_APPEND_FL`    |
+| `flagImmutable`  | `FS_IMMUTABLE_FL` |
+| `flagNoAtime`    | `FS_NOATIME_FL`   |
+| `flagNoCow`      | `FS_NOCOW_FL`     |
+| `flagNoDump`     | `FS_NODUMP_FL`    |
+
+These fields only apply to file objects of inode type `reg` and `dir`
+(including the root file object), and MUST NOT be used on file objects
+of other types. If any of these fields is not set, the state of the
+corresponding flag is not defined.
+
+Only flags that are implemented by commonly used Linux file systems,
+and that may be changed directly by userspace, are covered by this
+specification. Flags that merely reflect internal state of the inode
+(such as `FS_EXTENT_FL`, `FS_ENCRYPT_FL`, `FS_VERITY_FL` or
+`FS_INLINE_DATA_FL`) are out of scope. Note that not all file systems
+implement all flags (e.g. `FS_NOCOW_FL` is only implemented by
+copy-on-write file systems such as btrfs). If a flag is requested that
+the target file system does not support (including the case where the
+file system does not support Linux inode flags at all), an
+implementation SHOULD ignore it (and MAY log about this). An
+implementation MAY fail the operation instead if the caller explicitly
+requested strict behavior. Some of
+these flags (in particular `flagAppendOnly` and
+`flagImmutable`) require privileges to be set
+(`CAP_LINUX_IMMUTABLE`).
+
+When applying a manifest to a file system, implementations SHOULD set
+`flagAppendOnly` and `flagImmutable` only after the file
+contents and all other metadata of the file object have been written
+(and in case of directories: after all entries within it have been
+created), as these flags prohibit later modifications. Conversely,
+`flagNoCow` SHOULD be set on regular files while they are still
+empty, i.e. before the file contents are written, as file systems
+typically do not permit changing it (or do not apply it) on non-empty
+files. When set on directories, file systems typically propagate some
+of these flags (in particular `FS_NOCOW_FL`) to files subsequently
+created within them.
+
+All file objects sharing the same non-zero `inodeToken` MUST carry
+identical values for these fields, as these flags are a property of the
+inode, not of the directory entry.
+
+When file objects are placed in a GPT partition table these fields
+have no effect and SHOULD be ignored.
 
 `contents` is an array of contents objects, as described below. This
 field only applies to file objects of type `reg`, `lnk`, `dir`. It
@@ -936,9 +1112,9 @@ A number of future extensions are envisioned:
   and support for extended attribute namespaces beyond `user` in the
   `extendedAttributes` field
 
-* Fields for extended file flags (Linux
-  [`chattr`](https://man7.org/linux/man-pages/man1/chattr.1.html), DOS/NTFS
-  file system flags, …)
+* Fields for additional extended file flags (further Linux
+  [`chattr`](https://man7.org/linux/man-pages/man1/chattr.1.html) flags,
+  NTFS file system flags, …)
 
 * Fields for Linux file security capabilities
 
