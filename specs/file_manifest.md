@@ -539,6 +539,7 @@ This is because all of these will quite likely differ if the same manifest is ap
 {
         "file" : "…",
         "url" : "https://…",
+        "httpHeaders" : { "Authorization" : "Bearer …", "…" : "…" },
         "literal" : "TmV2ZXIgZ29ubmEgZ2l2ZSB5b3UgdXAsIG5ldmVyIGdvbm5hIGxldCB5b3UgZG93bg==",
         "encoding" : "gzip",
         "encodedSize" : 2011,
@@ -564,6 +565,55 @@ a file in the same location as the manifest file itself was found,
 of symbolic link file objects. If none of these fields are set,
 behavior equivalent to `file` being set to the file object's `name`
 field SHOULD be implied.
+
+`httpHeaders` (object) encodes additional
+[HTTP](https://www.rfc-editor.org/rfc/rfc9110) header fields to include
+in the HTTP `GET` (or `HEAD`) requests issued when acquiring the
+resource referenced by `url`. It MUST NOT be set unless `url` is set
+too. Each key of the object is an HTTP field name, each value a JSON
+string containing the field value. Field names MUST be valid HTTP
+field names as per [RFC 9110 Section
+5.1](https://www.rfc-editor.org/rfc/rfc9110#section-5.1) (i.e. MUST
+consist of `tchar` characters only, and MUST NOT be empty), and SHOULD
+be formatted in their canonical capitalization (e.g. `Authorization`,
+`X-Foo-Bar`). Since HTTP field names are case-insensitive, the keys
+of the object MUST be unique when compared case-insensitively. Field
+values MUST be valid HTTP field values as per [RFC 9110 Section
+5.5](https://www.rfc-editor.org/rfc/rfc9110#section-5.5), and in
+particular MUST NOT contain CR, LF or NUL characters, and SHOULD NOT
+have leading or trailing whitespace. If the same field shall be sent
+with multiple values, they SHOULD be combined into a single,
+comma-separated field value, as per [RFC 9110 Section
+5.3](https://www.rfc-editor.org/rfc/rfc9110#section-5.3).
+
+Header fields that are typically owned by the HTTP client
+implementation itself – for example because they relate to connection
+management, transfer encoding, or the range and encoding logic
+described in this specification – SHOULD NOT be set via
+`httpHeaders`. Examples of such fields are `Host`, `Range` and
+`Accept-Encoding`. Consumers MAY refuse or ignore any fields they do
+not wish to send (including, but not limited to, fields they consider
+owned by the HTTP client), in which case they SHOULD consider the
+contents object unsuitable and proceed with the next one in the
+`contents` array.
+
+The header fields SHALL only be sent in requests to the origin (as per
+[RFC 6454](https://www.rfc-editor.org/rfc/rfc6454)) of the URL
+specified in `url`. If an HTTP redirect to the same origin is
+encountered, the client MAY copy the header fields to the redirected
+request, but SHOULD only do so for fields whose semantics it
+understands and for which it hence knows that copying them is not
+problematic.[^redirect] If an HTTP redirect points to a different
+origin, the header fields MUST NOT be sent to it (as they might carry
+credentials or other sensitive data). Note that the `httpHeaders`
+field is part of the manifest and hence protected by its signature,
+but not otherwise kept confidential: credentials SHOULD only be placed
+in it if the manifest itself is not publicly accessible.
+
+[^redirect]: For example, the `Signature:` and `Signature-Input:`
+    fields defined by [RFC 9421](https://www.rfc-editor.org/rfc/rfc9421)
+    SHOULD NOT be copied, as they will typically cause the redirected
+    request to be refused with `400 Bad Request`.
 
 `literal` may be encoded either in regular Base64 ([RFC 4648 Section
 4](https://www.rfc-editor.org/rfc/rfc4648#section-4)) or in URL-safe
@@ -740,7 +790,8 @@ service, the following logic should be implemented.
    Base64 decoded, continue in step 8.
 
 6. Otherwise, if `url` is set, the data from the URL MUST be
-   acquired, continue in step 8.
+   acquired, including the additional HTTP header fields listed in
+   `httpHeaders` (if set) in the request. Continue in step 8.
 
 7. Otherwise, if `file` is set, the data MUST be acquired from the
    same location as the manifest itself, however with the last
