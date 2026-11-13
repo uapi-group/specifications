@@ -2,7 +2,7 @@
 This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:
 "><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://uapi-group.org/specifications/specs/file_manifest/"><meta property="og:site_name" content="UAPI Group Specifications"><meta property="og:title" content="UAPI.16 File Manifest"><meta property="og:description" content="UAPI.16 File Manifest# Version Changes 0.1 Initial Release This document describes a textual file manifest format that describes a collection of resources (or “blobs”). These resources may potentially be acquired over the network or stored on a disk. In particular, it can represent the properties of files arranged in a POSIX file system tree as well as partitions in a GPT partition table.
 This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="specs"><meta itemprop=name content="UAPI.16 File Manifest"><meta itemprop=description content="UAPI.16 File Manifest# Version Changes 0.1 Initial Release This document describes a textual file manifest format that describes a collection of resources (or “blobs”). These resources may potentially be acquired over the network or stored on a disk. In particular, it can represent the properties of files arranged in a POSIX file system tree as well as partitions in a GPT partition table.
-This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta itemprop=wordCount content="6681"><title>UAPI.16 File Manifest | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/file_manifest/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.e23e94f013db6f48b8b9eddacfc5170c43e7a51df2f819ed85f8bd0fc378f0f4.js integrity="sha256-4j6U8BPbb0i4ue3az8UXDEPnpR3y+Bnthfi9D8N48PQ=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
+This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta itemprop=wordCount content="8086"><title>UAPI.16 File Manifest | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/file_manifest/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.74228143fa1e06c54b2875dab754bb0589a86db677580f4420c61a9a839124c2.js integrity="sha256-dCKBQ/oeBsVLKHXat1S7BYmobbZ3WA9EIMYamoORJMI=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/specifications/><span>UAPI Group Specifications</span></a></h2><div class="book-search hidden"><input id=book-search-input type=text placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li><a href=/>⬅️ Back to top</a></li></ul><ul><li><a>Specifications</a><ul><li><a href=/specifications/specs/boot_loader_specification/>UAPI.1 Boot Loader Specification</a></li><li><a href=/specifications/specs/discoverable_partitions_specification/>UAPI.2 Discoverable Partitions Specification</a></li><li><a href=/specifications/specs/discoverable_disk_image/>UAPI.3 Discoverable Disk Images</a></li><li><a href=/specifications/specs/extension_image/>UAPI.4 Extension Images</a></li><li><a href=/specifications/specs/unified_kernel_image/>UAPI.5 Unified Kernel Images</a></li><li><a href=/specifications/specs/configuration_files_specification/>UAPI.6 Configuration Files Specification</a></li><li><a href=/specifications/specs/linux_tpm_pcr_registry/>UAPI.7 Linux TPM PCR Registry</a></li><li><a href=/specifications/specs/package_metadata_for_executable_files/>UAPI.8 Package Metadata for Executable Files</a></li><li><a href=/specifications/specs/linux_file_system_hierarchy/>UAPI.9 Linux File System Hierarchy</a></li><li><a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format Specification</a></li><li><a href=/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</a></li><li><a href=/specifications/specs/elf_dlopen_metadata/>UAPI.12 dlopen() Metadata for ELF Files</a></li><li><a href=/specifications/specs/vmclock/>UAPI.13 VMClock</a></li><li><a href=/specifications/specs/vmgenid/>UAPI.14 VMGenID</a></li><li><a href=/specifications/specs/osc_context/>UAPI.15 OSC 3008: Hierarchical Context Signalling</a></li><li><a href=/specifications/specs/file_manifest/ class=active>UAPI.16 File Manifest</a></li><li><a href=/specifications/specs/cli_introspection/>UAPI.18 CLI-Introspection Specification [DRAFT]</a></li><li><a href=/specifications/specs/linux_tpm_nvindex_registry/>UAPI.19 Linux TPM NV Index Registry</a></li><li><a href=/specifications/specs/varlink/>UAPI.20 Varlink IPC</a></li></ul></li></ul><ul><li><a href=https://github.com/uapi-group/specifications target=_blank rel=noopener>Collaborate on Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class="book-header hidden"><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/icons/menu.svg class=book-icon alt=Menu></label><h3>UAPI.16 File Manifest</h3><label for=toc-control><img src=/specifications/icons/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class=hidden><nav id=TableOfContents><ul><li><a href=#terminology>Terminology</a></li><li><a href=#manifest-file-name-and-media-type>Manifest File Name and Media Type</a></li><li><a href=#general-structure>General Structure</a></li><li><a href=#file-object>File Object</a><ul><li><a href=#fields>Fields</a></li></ul></li><li><a href=#extended-attribute-value-object>Extended Attribute Value Object</a><ul><li><a href=#fields-1>Fields</a></li></ul></li><li><a href=#out-of-scope>Out of Scope</a></li><li><a href=#contents-object>Contents Object</a><ul><li><a href=#fields-2>Fields</a></li></ul></li><li><a href=#signature-objects>Signature Objects</a><ul><li><a href=#fields-3>Fields</a></li></ul></li><li><a href=#trailer-objects>Trailer Objects</a><ul><li><a href=#fields-4>Fields</a></li></ul></li><li><a href=#compression>Compression</a></li><li><a href=#relationship-to-sha256sums>Relationship to SHA256SUMS</a></li><li><a href=#acquiring-a-file-remotely>Acquiring a File Remotely</a></li><li><a href=#contents-source-considerations>Contents Source Considerations</a></li><li><a href=#reproducibility>Reproducibility</a></li><li><a href=#extensibility>Extensibility</a></li><li><a href=#future-revisions>Future Revisions</a></li><li><a href=#example>Example</a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=uapi16-file-manifest>UAPI.16 File Manifest<a class=anchor href=#uapi16-file-manifest>#</a></h1><table><thead><tr><th>Version</th><th>Changes</th></tr></thead><tbody><tr><td>0.1</td><td>Initial Release</td></tr></tbody></table><p>This document describes a textual file manifest format that describes
 a collection of resources (or &ldquo;blobs&rdquo;). These resources may
 potentially be acquired over the network or stored on a disk. In
@@ -132,6 +132,17 @@ or about the root directory of the manifest.</p><div class=highlight><pre tabind
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gptFlagNoAuto&#34;</span> : <span style=color:#66d9ef>true</span>,
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;gptFlagGrowFileSystem&#34;</span> : <span style=color:#66d9ef>true</span>,
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;readOnly&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;flagHidden&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;flagSystem&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;flagArchive&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;fatSerial&#34;</span> : <span style=color:#e6db74>&#34;1234-ABCD&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;fsUUID&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;fsLabel&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;flagAppendOnly&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;flagImmutable&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;flagNoAtime&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;flagNoCow&#34;</span> : <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;flagNoDump&#34;</span> : <span style=color:#66d9ef>true</span>,
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;contents&#34;</span> : [{<span style=color:#960050;background-color:#1e0010>…</span>}, <span style=color:#960050;background-color:#1e0010>…</span>],
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;sha256&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;validSinceUSec&#34;</span> : <span style=color:#ae81ff>4711</span>,
@@ -280,14 +291,141 @@ UUID for the GPT partition table. In contrast to the other <code>gpt*</code>
 fields this one MUST NOT be set on any object except for the root
 directory object (i.e. the first file object in the sequence), as it
 encodes a field of the GPT partition table header rather than the GPT
-partition entry header.</p><p><code>readOnly</code> (a boolean) is relevant for initializing the read-only flag
-(bit 60, as defined in the Discoverable Partitions Specification) of
-GPT partition table entries. It should also be reflected in the
-POSIX &lsquo;w&rsquo; access mode bit when storing the data in a regular file on
-disk. If unspecified, defaults to false. If both <code>mode</code> and <code>readOnly</code>
-are set for the same file object, they MUST be consistent: if any of
-the three &lsquo;w&rsquo; bits in <code>mode</code> is set, <code>readOnly</code> MUST be false, otherwise
-it MUST be true.</p><p><code>contents</code> is an array of contents objects, as described below. This
+partition entry header.</p><p><code>readOnly</code> (a boolean) is a generic read-only marker for the file
+object, that is mapped onto the read-only concept of whatever storage
+the file object is placed on. Specifically, it is relevant for
+initializing the read-only flag (bit 60, as defined in the
+Discoverable Partitions Specification) of GPT partition table entries,
+as well as the DOS <code>ATTR_READ_ONLY</code> attribute (0x01), as stored for
+example in FAT directory entries (see below). It should also be
+reflected in the POSIX &lsquo;w&rsquo; access mode bit when storing the data in a
+regular file on disk. If
+unspecified, defaults to false. If both <code>mode</code> and <code>readOnly</code> are set
+for the same file object, they MUST NOT contradict each other: if any
+of the three &lsquo;w&rsquo; bits in <code>mode</code> is set, <code>readOnly</code> MUST be false,
+otherwise it MUST be true.</p><p>The <code>flagHidden</code>, <code>flagSystem</code> and <code>flagArchive</code> fields encode DOS
+file attributes, as implemented by
+<a href=https://www.ecma-international.org/publications-and-standards/standards/ecma-107/>FAT</a>
+(such as the
+<a href=https://uefi.org/specs/UEFI/2.11/13_Protocols_Media_Access.html>UEFI</a>
+EFI System Partition),
+<a href=https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification>exFAT</a>,
+NTFS and other file systems with DOS attributes. The <code>fatSerial</code> field
+encodes the volume serial number of FAT and exFAT file systems. If the
+file objects are placed in a file system that does not implement the
+respective concept, these fields have no effect and SHOULD be ignored.</p><p>The <code>flagHidden</code>, <code>flagSystem</code> and <code>flagArchive</code> fields are of
+boolean type, and control the DOS attribute flags of the file object
+(which use the same bit values on all file systems listed above):
+<code>flagHidden</code> corresponds to the <code>ATTR_HIDDEN</code>
+attribute (0x02), <code>flagSystem</code> to <code>ATTR_SYSTEM</code> (0x04), and
+<code>flagArchive</code> to <code>ATTR_ARCHIVE</code> (0x20). (There is no separate field
+for the <code>ATTR_READ_ONLY</code> attribute (0x01): the generic <code>readOnly</code>
+field described above is used for that.) (On Linux these attributes
+may be queried and set on FAT file systems via the <code>FAT_IOCTL_GET_ATTRIBUTES</code> and
+<code>FAT_IOCTL_SET_ATTRIBUTES</code> ioctls.) These fields only apply to file
+objects of inode type <code>reg</code> and <code>dir</code>, and MUST NOT be used on file
+objects of other types. They MUST NOT be used on the root file object
+either, as the root directory of FAT and exFAT file systems has no
+directory entry, and hence no attributes. If any of these fields is not set, the
+state of the corresponding flag is not defined.</p><p>When placing a file object in a file system with DOS attributes, the
+<code>ATTR_READ_ONLY</code> attribute SHOULD be set if <code>readOnly</code> is true, and
+SHOULD NOT be set if it is false. If <code>readOnly</code> is not set, but <code>mode</code>
+is, an implementation MAY derive the attribute from the latter instead
+of applying the default of <code>readOnly</code> (i.e. set it if none of the
+three &lsquo;w&rsquo; bits in <code>mode</code> is set).</p><p>The <code>fatSerial</code> field encodes the 32-bit volume serial number (also
+known as &ldquo;volume ID&rdquo;) of the FAT or exFAT file system. It MUST be formatted the
+way FAT volume serial numbers are usually displayed: as two groups of
+four hexadecimal digits, separated by a hyphen (e.g. <code>1234-ABCD</code>),
+where the first group encodes the upper 16 bits and the second group
+the lower 16 bits of the serial number. Parsers MUST parse this
+case-insensitively, but it SHALL be formatted in uppercase. Other
+formats (e.g. without the hyphen, or with fewer digits) MUST NOT be
+used. If unspecified, the implementation SHOULD pick a suitable serial
+number. For reproducibility it is RECOMMENDED to derive it
+deterministically from data in the manifest rather than randomly or
+from the current time. The precise derivation is
+implementation-defined, hence manifest authors who require identical
+serial numbers across implementations SHOULD set this field
+explicitly.</p><p>The <code>fatSerial</code> field MUST NOT be set on any object except for the
+root directory object (i.e. the first file object in the sequence), as
+it encodes a property of the file system as a whole, rather than of
+an individual file.</p><p>The <code>fsUUID</code> and <code>fsLabel</code> fields encode the identity of the file
+system the file objects are placed in, i.e. its UUID and its label, as
+reported on Linux by the <code>FS_IOC_GETFSUUID</code> and <code>FS_IOC_GETFSLABEL</code>
+ioctls, respectively (and as typically shown by tools such as
+<a href=https://man7.org/linux/man-pages/man8/blkid.8.html><code>blkid(8)</code></a>). They
+are applied when a new file system is created and populated from the
+manifest. When file objects are placed in an existing file system
+instead, implementations SHOULD check that the UUID and label of that
+file system match the values specified in these fields (if set), and
+SHOULD fail the operation if they do not. When file objects are placed
+in a GPT partition table these fields have no effect. These fields MUST
+NOT be set on any object except for the root directory object
+(i.e. the first file object in the sequence), as they encode
+properties of the file system as a whole. When the manifest is used as
+a sub-manifest (i.e. its root directory object does not correspond to
+the root directory of a file system) these fields SHOULD be ignored.</p><p>The <code>fsUUID</code> field MUST be a UUID in RFC 9562 Section 4 formatting. It
+SHOULD be formatted in lowercase. Note that some file systems
+distinguish between the user-visible file system UUID and a separate
+internal UUID used for on-disk metadata (e.g. the ext4
+<code>metadata_csum_seed</code> feature, or the btrfs and XFS metadata UUIDs):
+this field refers to the former, i.e. the UUID reported by
+<code>FS_IOC_GETFSUUID</code>. If unspecified, the implementation SHOULD pick a
+suitable UUID. For reproducibility it is RECOMMENDED to derive it
+deterministically from data in the manifest rather than randomly or
+from the current time. The precise derivation is
+implementation-defined, hence manifest authors who require identical
+UUIDs across implementations SHOULD set this field explicitly.</p><p>FAT and exFAT file systems do not have a UUID, but only a 32-bit volume
+serial number, see <code>fatSerial</code> above. When placing file objects in
+such a file system, and <code>fsUUID</code> is set but <code>fatSerial</code> is not,
+implementations SHOULD derive the serial number from the first four
+bytes of the UUID, i.e. from the first eight hexadecimal digits of its
+string representation (e.g. <code>fsUUID</code> set to
+<code>1234abcd-5678-4ef0-9abc-def012345678</code> results in a serial number of
+<code>1234-ABCD</code>). If both are set, <code>fatSerial</code> takes precedence.</p><p>The <code>fsLabel</code> field MUST be valid UTF-8 and MUST
+NOT contain control characters. Different file systems impose different
+restrictions on the length of the label and on the set of characters
+permitted in it (e.g. labels may be at most 11 characters on FAT, 12
+bytes on XFS, and 16 bytes on ext4). If the label cannot be represented
+on the target file system, the implementation SHOULD fail the
+operation. If unspecified, no label is set (or the implementation&rsquo;s
+default is used).</p><p>The <code>flagAppendOnly</code>, <code>flagImmutable</code>, <code>flagNoAtime</code>, <code>flagNoCow</code> and
+<code>flagNoDump</code> fields are of boolean type, and control a subset of
+the Linux inode flags, as shown and changed by
+<a href=https://man7.org/linux/man-pages/man1/lsattr.1.html><code>lsattr(1)</code></a> and
+<a href=https://man7.org/linux/man-pages/man1/chattr.1.html><code>chattr(1)</code></a>,
+and accessible via the <code>FS_IOC_GETFLAGS</code>/<code>FS_IOC_SETFLAGS</code> ioctls (see
+<a href=https://man7.org/linux/man-pages/man2/ioctl_iflags.2.html><code>ioctl_iflags(2)</code></a>):</p><table><thead><tr><th>Field</th><th>Linux Flag</th></tr></thead><tbody><tr><td><code>flagAppendOnly</code></td><td><code>FS_APPEND_FL</code></td></tr><tr><td><code>flagImmutable</code></td><td><code>FS_IMMUTABLE_FL</code></td></tr><tr><td><code>flagNoAtime</code></td><td><code>FS_NOATIME_FL</code></td></tr><tr><td><code>flagNoCow</code></td><td><code>FS_NOCOW_FL</code></td></tr><tr><td><code>flagNoDump</code></td><td><code>FS_NODUMP_FL</code></td></tr></tbody></table><p>These fields only apply to file objects of inode type <code>reg</code> and <code>dir</code>
+(including the root file object), and MUST NOT be used on file objects
+of other types. If any of these fields is not set, the state of the
+corresponding flag is not defined.</p><p>Only flags that are implemented by commonly used Linux file systems,
+and that may be changed directly by userspace, are covered by this
+specification. Flags that merely reflect internal state of the inode
+(such as <code>FS_EXTENT_FL</code>, <code>FS_ENCRYPT_FL</code>, <code>FS_VERITY_FL</code> or
+<code>FS_INLINE_DATA_FL</code>) are out of scope. Note that not all file systems
+implement all flags (e.g. <code>FS_NOCOW_FL</code> is only implemented by
+copy-on-write file systems such as btrfs). If a flag is requested that
+the target file system does not support (including the case where the
+file system does not support Linux inode flags at all), an
+implementation SHOULD ignore it (and MAY log about this). An
+implementation MAY fail the operation instead if the caller explicitly
+requested strict behavior. Some of
+these flags (in particular <code>flagAppendOnly</code> and
+<code>flagImmutable</code>) require privileges to be set
+(<code>CAP_LINUX_IMMUTABLE</code>).</p><p>When applying a manifest to a file system, implementations SHOULD set
+<code>flagAppendOnly</code> and <code>flagImmutable</code> only after the file
+contents and all other metadata of the file object have been written
+(and in case of directories: after all entries within it have been
+created), as these flags prohibit later modifications. Conversely,
+<code>flagNoCow</code> SHOULD be set on regular files while they are still
+empty, i.e. before the file contents are written, as file systems
+typically do not permit changing it (or do not apply it) on non-empty
+files. When set on directories, file systems typically propagate some
+of these flags (in particular <code>FS_NOCOW_FL</code>) to files subsequently
+created within them.</p><p>All file objects sharing the same non-zero <code>inodeToken</code> MUST carry
+identical values for these fields, as these flags are a property of the
+inode, not of the directory entry.</p><p>When file objects are placed in a GPT partition table these fields
+have no effect and SHOULD be ignored.</p><p><code>contents</code> is an array of contents objects, as described below. This
 field only applies to file objects of type <code>reg</code>, <code>lnk</code>, <code>dir</code>. It
 MUST NOT be used on file objects of other types. In case of regular
 files this references or contains the file contents. In case of
@@ -591,9 +729,9 @@ improved. Additional fields may be defined at any time, with
 additional, optional metadata. Should a breaking change be necessary
 the media type will be changed.</p><p>A number of future extensions are envisioned:</p><ul><li><p>Fields for <a href=https://man7.org/linux/man-pages/man5/acl.5.html>POSIX ACLs</a>,
 and support for extended attribute namespaces beyond <code>user</code> in the
-<code>extendedAttributes</code> field</p></li><li><p>Fields for extended file flags (Linux
-<a href=https://man7.org/linux/man-pages/man1/chattr.1.html><code>chattr</code></a>, DOS/NTFS
-file system flags, …)</p></li><li><p>Fields for Linux file security capabilities</p></li><li><p>Fields for security labels such as SMACK or SELinux</p></li><li><p>Additional hashing schemes</p></li><li><p>Additional signature schemes</p></li></ul><h2 id=example>Example<a class=anchor href=#example>#</a></h2><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+<code>extendedAttributes</code> field</p></li><li><p>Fields for additional extended file flags (further Linux
+<a href=https://man7.org/linux/man-pages/man1/chattr.1.html><code>chattr</code></a> flags,
+NTFS file system flags, …)</p></li><li><p>Fields for Linux file security capabilities</p></li><li><p>Fields for security labels such as SMACK or SELinux</p></li><li><p>Additional hashing schemes</p></li><li><p>Additional signature schemes</p></li></ul><h2 id=example>Example<a class=anchor href=#example>#</a></h2><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.manifest&#34;</span>
 </span></span><span style=display:flex><span>}</span></span></code></pre></div><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span> : <span style=color:#e6db74>&#34;FooOS.raw&#34;</span>,
