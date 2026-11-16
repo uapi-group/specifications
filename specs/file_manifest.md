@@ -97,6 +97,28 @@ The file is organized as an [RFC 7464
 JSON-SEQ](https://www.rfc-editor.org/rfc/rfc7464) sequence of
 file, signature and trailer objects which are described below.
 
+Strings are sequences of octets that MUST be valid UTF-8 as defined in
+[RFC 3629](https://www.rfc-editor.org/rfc/rfc3629) (no overlong
+encodings, no surrogate code points, no NUL octets) and MUST NOT
+contain noncharacters (U+FDD0 to U+FDEF, and the last two code points
+of every plane, such as U+FFFE and U+FFFF). Strings are ordered
+lexicographically by octet value, with each octet treated as an
+unsigned integer in the range 0…255; if one string is a prefix of the
+other, the shorter string sorts first. For valid UTF-8 this is
+identical to lexicographic ordering by Unicode code point, but not to
+ordering by UTF-16 code units, which is what string comparison in
+JavaScript, Java and .NET does. No Unicode normalization, case
+folding, or locale-dependent collation is applied; strings that differ
+only in normalization form are distinct and are ordered by their
+octets.
+
+All rules for strings in this specification apply to the value of a
+JSON string after its escape sequences have been decoded: an escape
+sequence of an unpaired surrogate such as `"\uD800"` makes a string
+invalid, and `"a\/b"` is the same string as `"a/b"`. Consumers MUST
+refuse manifests with invalid strings, and MUST NOT repair them, for
+example by replacing invalid sequences with U+FFFD.
+
 The first object in the sequence always describes the enveloping
 directory (or a GPT partition table header). This *root* file object
 MUST NOT have a `name` field set (which identifies it as the *root*
@@ -117,7 +139,8 @@ file object of the subdirectory object. Even if ordering within
 directories is not mandated, it is definitely RECOMMENDED to sort
 the entries by one of the following orderings:
 
-1. Alphabetically
+1. By code point, i.e. by comparing the last components of their
+   names as strings (see above), the way `strcmp()` compares them.
 
 2. Via [UAPI.10 Version Format
    Specification](version_format_specification.md) version ordering
@@ -126,6 +149,19 @@ the entries by one of the following orderings:
 
 Sorting entries ensures the manifests become reproducible as long as
 the same tool and sorting algorithm is used.
+
+A manifest sorted in the code point ordering lists its file objects in
+the code point ordering of their complete names: two names are
+compared component by component, starting with the first, and the
+first pair of components that differ is compared as strings. If all
+components of one name are also the first components of the other
+one, i.e. the former is the name of a directory the latter is located
+in, the former sorts first. This is the same as comparing the complete
+names as strings with `/` taken to be lower than any other octet. Note
+that comparing the complete names as strings does not result in this
+ordering if names contain characters that sort before `/`, such as `-`
+or `.`: `a/x` comes before `a-b`, since the entries of the directory
+`a` immediately follow its file object, but `a-b` is the lower string.
 
 The `name` field of file objects MUST be uniquely assigned within a
 manifest file.
@@ -253,8 +289,8 @@ set it can either be set to `null` or simply be omitted in the JSON
 object (RECOMMENDED), both ways MUST be considered equivalent.
 
 Unnecessary whitespace/line breaks SHOULD be omitted when formatting
-the JSON records. Fields within JSON objects SHOULD be sorted
-alphabetically by their field names.
+the JSON records. Fields within JSON objects SHOULD be sorted by their
+field names in the ordering of strings (see above).
 
 If not otherwise indicated, fields are of type string.
 
@@ -690,9 +726,10 @@ value in Base64 encoding (either alphabet, as for the `literal` field
 of contents objects).
 
 Generators SHOULD use `text` if – and only if – the attribute value is
-valid UTF-8 and contains no NUL bytes (this includes trailing NUL
-bytes, which some programs append to textual values), and `base64`
-otherwise. Following this rule strictly ensures reproducible output.
+valid UTF-8 and contains no noncharacters and no NUL bytes (this
+includes trailing NUL bytes, which some programs append to textual
+values), and `base64` otherwise. Following this rule strictly ensures
+reproducible output.
 
 Empty attribute values are valid, and SHOULD be encoded as
 `{ "text" : "" }`.
@@ -1076,8 +1113,8 @@ stable file object sorting should be employed, even if no specific one
 is mandated by this specification. The natural ordering of the
 underlying file system SHOULD NOT be propagated into manifests
 generated from it. Keys of the `extendedAttributes` object and of the
-namespace objects SHOULD be sorted by the byte values of their UTF-8
-encoding.
+namespace objects SHOULD be sorted in the ordering of strings
+(see above).
 
 ## Extensibility
 
