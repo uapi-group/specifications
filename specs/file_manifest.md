@@ -179,6 +179,16 @@ and these immediately follow it.
 The `name` field of file objects MUST be uniquely assigned within a
 manifest file.
 
+A consumer that finds a name listed twice, or file objects below a
+directory that do not immediately follow the file object of that
+directory, SHOULD refuse the manifest rather than pick one of the
+conflicting file objects. Otherwise different consumers end up
+disagreeing on what the same manifest describes. Both can be checked
+while reading: misplaced file objects with a stack of the directories
+that are still open, since every directory is listed, and repeated
+names by comparing each name with the previous one if the manifest
+declares the code point ordering.
+
 If the manifest encodes a GPT partition table, the `name` field MUST
 still be assigned for every file object, even if `gptLabel` is defined
 too. The former MUST still be unique within the manifest; the latter
