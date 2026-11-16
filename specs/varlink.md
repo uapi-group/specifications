@@ -975,6 +975,35 @@ restricted (e.g. a mode of `0644` rather than `0600`), since this allows
 unprivileged clients to read the extended attributes identifying the socket as
 a Varlink socket (see below) without granting them the ability to connect.
 
+Note that the socket inode appears in the file system when `bind()` is called
+on the socket, but clients can only connect to it once `listen()` has been
+called; until then `connect()` fails with `ECONNREFUSED`. Clients that use
+file system change notifications (e.g. `inotify(7)`'s `IN_CREATE`) to wait for
+a service's entrypoint socket to appear may hence be notified too early. To
+close this race, it is RECOMMENDED that services update the timestamps of the
+socket inode in the file system after `listen()` has been called on the
+socket, so that a second file system change event (e.g. `IN_ATTRIB`) is
+generated once the socket has become connectible. On Linux, this SHOULD be
+done via:
+
+```c
+utimensat(AT_FDCWD, path, (const struct timespec[2]) {
+                { .tv_nsec = UTIME_NOW },
+                { .tv_nsec = UTIME_NOW },
+        }, 0);
+```
+
+If the `user.varlink` extended attribute is set on the entrypoint socket inode
+(see below), it SHOULD be set *before* the timestamps are updated, so that
+clients notified of the timestamp change can rely on the attribute being in
+place already.
+
+Service managers that create listening sockets on behalf of services (socket
+activation) SHOULD do the same. Clients waiting for an entrypoint socket to
+appear SHOULD hence watch for timestamp/attribute changes too, and not only
+for the creation of the socket inode, and SHOULD retry `connect()` when
+notified of either.
+
 ### Peer Authentication
 
 Services which need more fine-grained access control than the
