@@ -97,6 +97,28 @@ The file is organized as an [RFC 7464
 JSON-SEQ](https://www.rfc-editor.org/rfc/rfc7464) sequence of
 file, signature and trailer objects which are described below.
 
+Strings are sequences of octets that MUST be valid UTF-8 as defined in
+[RFC 3629](https://www.rfc-editor.org/rfc/rfc3629) (no overlong
+encodings, no surrogate code points, no NUL octets) and MUST NOT
+contain noncharacters (U+FDD0 to U+FDEF, and the last two code points
+of every plane, such as U+FFFE and U+FFFF). Strings are ordered
+lexicographically by octet value, with each octet treated as an
+unsigned integer in the range 0…255; if one string is a prefix of the
+other, the shorter string sorts first. For valid UTF-8 this is
+identical to lexicographic ordering by Unicode code point, but not to
+ordering by UTF-16 code units, which is what string comparison in
+JavaScript, Java and .NET does. No Unicode normalization, case
+folding, or locale-dependent collation is applied; strings that differ
+only in normalization form are distinct and are ordered by their
+octets.
+
+All rules for strings in this specification apply to the value of a
+JSON string after its escape sequences have been decoded: an escape
+sequence of an unpaired surrogate such as `"\uD800"` makes a string
+invalid, and `"a\/b"` is the same string as `"a/b"`. Consumers MUST
+refuse manifests with invalid strings, and MUST NOT repair them, for
+example by replacing invalid sequences with U+FFFD.
+
 The first object in the sequence always describes the enveloping
 directory (or a GPT partition table header). This *root* file object
 MUST NOT have a `name` field set (which identifies it as the *root*
@@ -117,7 +139,8 @@ file object of the subdirectory object. Even if ordering within
 directories is not mandated, it is definitely RECOMMENDED to sort
 the entries by one of the following orderings:
 
-1. Alphabetically
+1. By code point, i.e. by comparing the last components of their
+   names as strings (see above), the way `strcmp()` compares them.
 
 2. Via [UAPI.10 Version Format
    Specification](version_format_specification.md) version ordering
@@ -127,8 +150,44 @@ the entries by one of the following orderings:
 Sorting entries ensures the manifests become reproducible as long as
 the same tool and sorting algorithm is used.
 
+A manifest sorted in the code point ordering lists its file objects in
+the code point ordering of their complete names: two names are
+compared component by component, starting with the first, and the
+first pair of components that differ is compared as strings. If all
+components of one name are also the first components of the other
+one, i.e. the former is the name of a directory the latter is located
+in, the former sorts first. This is the same as comparing the complete
+names as strings with `/` taken to be lower than any other octet. Note
+that comparing the complete names as strings does not result in this
+ordering if names contain characters that sort before `/`, such as `-`
+or `.`: `a/x` comes before `a-b`, since the entries of the directory
+`a` immediately follow its file object, but `a-b` is the lower string.
+
+A manifest sorted in the code point ordering SHOULD declare it, see
+the `order` field of the root file object below.
+
+For every file object other than the root file object, the manifest
+MUST list the file object of the directory it is located in before it:
+the file object of type `dir` whose name is its name without the last
+component, or the root file object if its name has a single
+component. Together with the requirement that files nested into
+subdirectories immediately follow the file object of the subdirectory
+(see above), this means that the file objects of a manifest are listed
+in tree order: every directory comes before the file objects below it,
+and these immediately follow it.
+
 The `name` field of file objects MUST be uniquely assigned within a
 manifest file.
+
+A consumer that finds a name listed twice, or file objects below a
+directory that do not immediately follow the file object of that
+directory, SHOULD refuse the manifest rather than pick one of the
+conflicting file objects. Otherwise different consumers end up
+disagreeing on what the same manifest describes. Both can be checked
+while reading: misplaced file objects with a stack of the directories
+that are still open, since every directory is listed, and repeated
+names by comparing each name with the previous one if the manifest
+declares the code point ordering.
 
 If the manifest encodes a GPT partition table, the `name` field MUST
 still be assigned for every file object, even if `gptLabel` is defined
@@ -187,15 +246,18 @@ trailer object is invalid, and MUST result in a parse failure.
 A manifest MUST consist of at least the root file object and the
 trailer object, the file and signature objects are optional.
 
+A record, i.e. the bytes from its record separator up to the next
+record separator, MUST NOT be larger than 4 MiB. Consumers MUST accept
+records within this limit, and MAY refuse larger ones.
+
 Sizes, offsets and timestamps shall use non-negative integer
-[JSON](https://www.rfc-editor.org/rfc/rfc8259) numbers, and MAY use
-values above 2⁵³. (This means – strictly speaking – the format cannot
-be processed losslessly by JSON parsers that exclusively use 64-bit
-floating point for JSON numbers, if there are any files of such
-excessive sizes. Since it's unlikely that files included in a UAPI.16
-manifest file are this large this should not be a practical
-limitation. A JSON implementation supporting unsigned 64-bit numbers
-is still RECOMMENDED.)
+[JSON](https://www.rfc-editor.org/rfc/rfc8259) numbers, written as
+decimal digits without sign, fraction or exponent, and MAY use values
+above 2⁵³. Note that `mTimeNSec` is above 2⁵³ for every point in time
+after mid-April 1970, hence JSON implementations that store numbers as
+64-bit floating point values cannot process the timestamps of a
+manifest losslessly. Consumers MUST process these numbers as unsigned
+64-bit integers.
 
 ## File Object
 
@@ -206,6 +268,8 @@ or about the root directory of the manifest.
 {
         "name" : "…",
         "mediaType" : "application/vnd.uapi.16.manifest",
+        "order" : "codepoint",
+        "features" : [ "…", … ],
         "type" : "reg",
         "size" : 33,
         "major" : 4711,
@@ -253,8 +317,33 @@ set it can either be set to `null` or simply be omitted in the JSON
 object (RECOMMENDED), both ways MUST be considered equivalent.
 
 Unnecessary whitespace/line breaks SHOULD be omitted when formatting
-the JSON records. Fields within JSON objects SHOULD be sorted
-alphabetically by their field names.
+the JSON records. Fields within JSON objects SHOULD be sorted by their
+field names in the ordering of strings (see above).
+
+A JSON object in a manifest MUST NOT contain the same key twice, and
+consumers MUST refuse manifests that contain such objects.
+
+Two file objects are equivalent if they carry the same fields with the
+same JSON values. This does not depend on the order of the fields in
+JSON objects or on how values are written in the JSON text: strings
+are compared after their escape sequences have been decoded (see
+above), numbers by their value, arrays element by element and JSON
+objects field by field. A field set to `null` counts as not set, also
+in nested JSON objects. Since values are not interpreted any further,
+this also applies to fields a tool does not know. Hence hexadecimal
+digests in uppercase and in lowercase, or the same data in the two
+Base64 alphabets, are not equivalent. The values of `inodeToken` are
+specific to their manifest, so they are not compared between file
+objects of different manifests. Tools that compare or combine
+manifests SHOULD compare file objects for equivalence rather than by
+the bytes of their JSON encoding.
+
+Generators SHOULD NOT set fields to the default this specification
+defines for them, for example `type` set to `reg` on a file object
+other than the root file object, `validSinceUSec` set to 0, `validity`
+set to `good`, `readOnly` set to false or `offset` of a contents
+object set to 0, so that file objects describing the same file
+compare as equivalent.
 
 If not otherwise indicated, fields are of type string.
 
@@ -263,6 +352,76 @@ sequence (i.e. the top-level root directory object), and MUST have the
 value `"application/vnd.uapi.16.manifest"`. It MAY also be set on
 other file objects in the sequence (to the same value), but this is
 NOT RECOMMENDED.
+
+The `order` field SHOULD be set on the root file object of a manifest
+sorted in the code point ordering, and MUST NOT be set on any other
+file object. If set to `codepoint`, the names of the file objects
+strictly increase in the code point ordering of complete names (see
+above). Hence the file objects of every directory are listed in
+strictly increasing code point ordering, and no two file objects have
+the same name. A consumer that processes a manifest in reliance on
+this MUST check it while reading, and MUST refuse the manifest if it
+does not hold. No other values are defined at this time, consumers
+MUST treat other values as if the field was not set. This field
+describes the manifest rather than the root directory: tools
+combining manifests MUST NOT compare it between their inputs, and
+MUST set it on their output only if it holds for the output.
+
+The `features` field (array of strings) MAY be set on the root file
+object, and MUST NOT be set on any other file object. It lists the
+file system features the manifest records, and thus which fields its
+file objects can carry. If not set, it defaults to `device`, `gid`,
+`hardlink`, `mode`, `sha256`, `size`, `symlink` and `uid`. A file
+object MUST NOT carry a field that belongs to a feature the manifest
+does not list. The following values are defined:
+
+| Value              | Fields                                   |
+|--------------------|------------------------------------------|
+| `mode`             | `mode`                                   |
+| `uid`              | `uid`                                    |
+| `gid`              | `gid`                                    |
+| `user-name`        | `userName`                               |
+| `group-name`       | `groupName`                              |
+| `size`             | `size`                                   |
+| `sha256`           | `sha256`                                 |
+| `symlink`          | `contents` of file objects of type `lnk` |
+| `device`           | `major` and `minor`                      |
+| `hardlink`         | `inodeToken`                             |
+| `mtime`            | `mTimeNSec`                              |
+| `user-xattr`       | the `user` key of `extendedAttributes`   |
+| `flag-hidden`      | `flagHidden`                             |
+| `flag-system`      | `flagSystem`                             |
+| `flag-archive`     | `flagArchive`                            |
+| `flag-append-only` | `flagAppendOnly`                         |
+| `flag-immutable`   | `flagImmutable`                          |
+| `flag-no-atime`    | `flagNoAtime`                            |
+| `flag-no-cow`      | `flagNoCow`                              |
+| `flag-no-dump`     | `flagNoDump`                             |
+
+Fields that do not belong to any of these features, such as `type`,
+`contents` of file objects of other types, `readOnly`, `validity`,
+`fatSerial`, `fsUUID`, `fsLabel` and the `gpt*` fields, are not
+affected. If `symlink` is listed, every file object of type `lnk`
+carries its target as `literal` in `contents`. For `hardlink`,
+`user-xattr` and the `flag-…` values, the feature also defines what a
+missing field means. If the feature is listed, a file object that does
+not carry the field is not subject to hardlinks, has no extended
+attributes in the `user` namespace, or has the flag cleared,
+respectively. If it is not listed, nothing is known about these
+properties.
+
+The order of the values carries no meaning. A value MUST NOT be listed
+twice, and the values SHOULD be sorted in the ordering of strings (see
+above). Consumers MUST ignore values they do not know. A consumer that
+processes a manifest in reliance on its features MUST check them while
+reading, and MUST refuse the manifest if they do not hold. Like
+`order`, this field describes the manifest rather than the root
+directory. Tools that compare or combine manifests MUST compare their
+features, as sets, before they compare file objects. If the features
+differ, such a tool MUST either refuse the manifests, or first remove
+the fields of the features that not all of them list from their file
+objects. A tool that combines manifests sets `features` on its output
+accordingly.
 
 If `name` is not specified the file object stores information about
 the top-level root file object. This file object always comes first
@@ -282,7 +441,8 @@ however acceptable if these filenames appear as components of paths
 further down the tree). Files whose paths do not follow these rules
 cannot be encoded in manifest files defined by this
 specification. The `name` MUST be uniquely assigned within a
-manifest.
+manifest. It MUST NOT be longer than 4095 bytes. The components of
+the path are not limited on their own.
 
 The `type` field encodes the inode type of the file object. It takes
 one of `reg`, `dir`, `lnk`, `fifo`, `chr`, `blk`, `sock` (these values
@@ -338,9 +498,10 @@ timestamp of the file object, in nanoseconds since the UNIX epoch (Jan
 
 The `inodeToken` field (unsigned integer) shall be a unique numeric
 identifier for any file that SHALL be hardlinked within the manifest
-tree. If unspecified or 0 the file is not subject to hardlinks,
-otherwise any pair of file objects that shall be hardlinks to the same
-inode SHALL carry the same `inodeToken` value. In order to ensure
+tree. If unspecified or 0 the file is not subject to hardlinks (if the
+manifest lists the `hardlink` feature, see above), otherwise any pair
+of file objects that shall be hardlinks to the same inode SHALL carry
+the same `inodeToken` value. In order to ensure
 reproducibility `inodeToken` SHALL be assigned as a counter starting
 at 1 for the first file that shall be hardlinked, and increasing by 1
 for each subsequent file that shall be hardlinked but has not been
@@ -349,6 +510,15 @@ hardlinking between the upper and lower manifest is not supported –
 the `inodeToken` identifiers are specific to the manifest they are
 specified in. This field MUST NOT be used for file objects of type
 `dir`.
+
+A non-zero `inodeToken` MAY be carried by a single file object only,
+for example if the other names of the file are outside of the tree
+the manifest covers, and consumers MUST accept that. All file objects
+sharing the same non-zero `inodeToken` describe the same inode: they
+MUST be of the same `type`, and MUST carry identical `mode`, `uid`,
+`gid`, `userName`, `groupName`, `mTimeNSec`, `size`, `sha256`,
+`major` and `minor` fields, in addition to the `extendedAttributes`
+and flag fields described below.
 
 The `extendedAttributes` field (object) encodes extended attributes
 of the file object, i.e. additional name/value pairs attached to the
@@ -384,7 +554,9 @@ extended attributes of that namespace of the file object, i.e. an
 empty namespace object indicates that the file object has no extended
 attributes in that namespace. If a namespace key is absent (or set to
 `null`) no information about the extended attributes of that
-namespace is conveyed.
+namespace is conveyed, unless the manifest lists the feature for that
+namespace (`user-xattr` for `user`, see above): then the file object
+has no extended attributes in that namespace.
 
 All file objects sharing the same non-zero `inodeToken` MUST carry
 identical `extendedAttributes` fields, as extended attributes are a
@@ -486,7 +658,8 @@ objects of inode type `reg` and `dir`, and MUST NOT be used on file
 objects of other types. They MUST NOT be used on the root file object
 either, as the root directory of FAT and exFAT file systems has no
 directory entry, and hence no attributes. If any of these fields is not set, the
-state of the corresponding flag is not defined.
+state of the corresponding flag is not defined, unless the manifest
+lists the feature for the flag (see above): then the flag is cleared.
 
 When placing a file object in a file system with DOS attributes, the
 `ATTR_READ_ONLY` attribute SHOULD be set if `readOnly` is true, and
@@ -583,7 +756,8 @@ and accessible via the `FS_IOC_GETFLAGS`/`FS_IOC_SETFLAGS` ioctls (see
 These fields only apply to file objects of inode type `reg` and `dir`
 (including the root file object), and MUST NOT be used on file objects
 of other types. If any of these fields is not set, the state of the
-corresponding flag is not defined.
+corresponding flag is not defined, unless the manifest lists the
+feature for the flag (see above): then the flag is cleared.
 
 Only flags that are implemented by commonly used Linux file systems,
 and that may be changed directly by userspace, are covered by this
@@ -690,9 +864,10 @@ value in Base64 encoding (either alphabet, as for the `literal` field
 of contents objects).
 
 Generators SHOULD use `text` if – and only if – the attribute value is
-valid UTF-8 and contains no NUL bytes (this includes trailing NUL
-bytes, which some programs append to textual values), and `base64`
-otherwise. Following this rule strictly ensures reproducible output.
+valid UTF-8 and contains no noncharacters and no NUL bytes (this
+includes trailing NUL bytes, which some programs append to textual
+values), and `base64` otherwise. Following this rule strictly ensures
+reproducible output.
 
 Empty attribute values are valid, and SHOULD be encoded as
 `{ "text" : "" }`.
@@ -939,9 +1114,18 @@ validating the embedded signatures (as described above).
 ## Relationship to SHA256SUMS
 
 A UAPI.16 manifest file that only contains the top-level `dir` file
-object in combination with any number of `reg` file objects – each of
-which only uses the fields `name` and `sha256` – may be mapped 1:1 to a
-SHA256SUMS file and back.
+object, `dir` file objects that only use the fields `name` and `type`,
+and any number of `reg` file objects – each of which only uses the
+fields `name` and `sha256` – may be mapped to a SHA256SUMS file and
+back. The SHA256SUMS file lists the `reg` file objects in the order of
+the manifest. When mapping a SHA256SUMS file to a manifest, `features`
+is set to `["sha256"]` on the root file object, since a SHA256SUMS
+file records nothing else, and a `dir` file object is added for every
+directory its files are located in, right before the first file
+object below it. This requires the files below every directory to be
+listed together, which sorting them in the code point ordering of
+complete names achieves. If no name contains a slash, the mapping is
+1:1.
 
 ## Acquiring a File Remotely
 
@@ -1076,8 +1260,8 @@ stable file object sorting should be employed, even if no specific one
 is mandated by this specification. The natural ordering of the
 underlying file system SHOULD NOT be propagated into manifests
 generated from it. Keys of the `extendedAttributes` object and of the
-namespace objects SHOULD be sorted by the byte values of their UTF-8
-encoding.
+namespace objects SHOULD be sorted in the ordering of strings
+(see above).
 
 ## Extensibility
 
