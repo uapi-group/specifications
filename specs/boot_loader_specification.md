@@ -199,6 +199,8 @@ directly in the root of the ESP or XBOOTLDR filesystem. Specifically, the
 `/loader/entries/` directory should **not** be located under the `/EFI/`
 subdirectory on the ESP._
 
+Boot loaders should skip any files whose filename starts with a ".".
+
 The file name of the boot entry snippets is used for identification of the boot
 item but shall never be presented to the user in the UI. The file name may be
 chosen freely but should be unique enough to avoid clashes between OS
@@ -459,7 +461,8 @@ supporting EFI.
 
 Type #2 file names should be chosen from the same restricted character set as
 Type #1 described above (but with the file name suffix of `.efi` instead of
-`.conf`).
+`.conf`). Like Type #1 entires, the bootloader should skip files whose name
+starts with a ".".
 
 Images of this type have the advantage that all metadata and payload that makes
 up the boot entry is contained in a single PE file that can be signed
@@ -510,7 +513,7 @@ into firmware" option.  Optionally it may sort the menu based on the
 `sort-key`, `machine-id` and `version` fields, and possibly others. It uses the
 file name to identify specific items, for example in case it supports storing
 away default entry information somewhere. A boot loader should generally not
-modify these files.
+modify these files. It should also skip files whose name starts with a ".".
 
 For "Boot Loader Specification Entries" (Type #1), the _kernel package
 installer_ installs the kernel and initrd images to `$BOOT`. It is recommended
