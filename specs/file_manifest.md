@@ -270,6 +270,7 @@ or about the root directory of the manifest.
         "name" : "…",
         "mediaType" : "application/vnd.uapi.16.manifest",
         "order" : "codepoint",
+        "features" : [ "…", … ],
         "type" : "reg",
         "size" : 33,
         "major" : 4711,
@@ -344,6 +345,62 @@ MUST treat other values as if the field was not set. This field
 describes the manifest rather than the root directory: tools
 combining manifests MUST NOT compare it between their inputs, and
 MUST set it on their output only if it holds for the output.
+
+The `features` field (array of strings) MAY be set on the root file
+object, and MUST NOT be set on any other file object. It lists the
+file system features the manifest records, and thus which fields its
+file objects can carry. If not set, it defaults to `device`, `gid`,
+`hardlink`, `mode`, `sha256`, `size`, `symlink` and `uid`. A file
+object MUST NOT carry a field that belongs to a feature the manifest
+does not list. The following values are defined:
+
+| Value              | Fields                                   |
+|--------------------|------------------------------------------|
+| `mode`             | `mode`                                   |
+| `uid`              | `uid`                                    |
+| `gid`              | `gid`                                    |
+| `user-name`        | `userName`                               |
+| `group-name`       | `groupName`                              |
+| `size`             | `size`                                   |
+| `sha256`           | `sha256`                                 |
+| `symlink`          | `contents` of file objects of type `lnk` |
+| `device`           | `major` and `minor`                      |
+| `hardlink`         | `inodeToken`                             |
+| `mtime`            | `mTimeNSec`                              |
+| `user-xattr`       | the `user` key of `extendedAttributes`   |
+| `flag-hidden`      | `flagHidden`                             |
+| `flag-system`      | `flagSystem`                             |
+| `flag-archive`     | `flagArchive`                            |
+| `flag-append-only` | `flagAppendOnly`                         |
+| `flag-immutable`   | `flagImmutable`                          |
+| `flag-no-atime`    | `flagNoAtime`                            |
+| `flag-no-cow`      | `flagNoCow`                              |
+| `flag-no-dump`     | `flagNoDump`                             |
+
+Fields that do not belong to any of these features, such as `type`,
+`contents` of file objects of other types, `readOnly`, `validity`,
+`fatSerial`, `fsUUID`, `fsLabel` and the `gpt*` fields, are not
+affected. If `symlink` is listed, every file object of type `lnk`
+carries its target as `literal` in `contents`. For `hardlink`,
+`user-xattr` and the `flag-…` values, the feature also defines what a
+missing field means. If the feature is listed, a file object that does
+not carry the field is not subject to hardlinks, has no extended
+attributes in the `user` namespace, or has the flag cleared,
+respectively. If it is not listed, nothing is known about these
+properties.
+
+The order of the values carries no meaning. A value MUST NOT be listed
+twice, and the values SHOULD be sorted in the ordering of strings (see
+above). Consumers MUST ignore values they do not know. A consumer that
+processes a manifest in reliance on its features MUST check them while
+reading, and MUST refuse the manifest if they do not hold. Like
+`order`, this field describes the manifest rather than the root
+directory. Tools that compare or combine manifests MUST compare their
+features, as sets, before they compare file objects. If the features
+differ, such a tool MUST either refuse the manifests, or first remove
+the fields of the features that not all of them list from their file
+objects. A tool that combines manifests sets `features` on its output
+accordingly.
 
 If `name` is not specified the file object stores information about
 the top-level root file object. This file object always comes first
@@ -420,9 +477,10 @@ timestamp of the file object, in nanoseconds since the UNIX epoch (Jan
 
 The `inodeToken` field (unsigned integer) shall be a unique numeric
 identifier for any file that SHALL be hardlinked within the manifest
-tree. If unspecified or 0 the file is not subject to hardlinks,
-otherwise any pair of file objects that shall be hardlinks to the same
-inode SHALL carry the same `inodeToken` value. In order to ensure
+tree. If unspecified or 0 the file is not subject to hardlinks (if the
+manifest lists the `hardlink` feature, see above), otherwise any pair
+of file objects that shall be hardlinks to the same inode SHALL carry
+the same `inodeToken` value. In order to ensure
 reproducibility `inodeToken` SHALL be assigned as a counter starting
 at 1 for the first file that shall be hardlinked, and increasing by 1
 for each subsequent file that shall be hardlinked but has not been
@@ -475,7 +533,9 @@ extended attributes of that namespace of the file object, i.e. an
 empty namespace object indicates that the file object has no extended
 attributes in that namespace. If a namespace key is absent (or set to
 `null`) no information about the extended attributes of that
-namespace is conveyed.
+namespace is conveyed, unless the manifest lists the feature for that
+namespace (`user-xattr` for `user`, see above): then the file object
+has no extended attributes in that namespace.
 
 All file objects sharing the same non-zero `inodeToken` MUST carry
 identical `extendedAttributes` fields, as extended attributes are a
@@ -577,7 +637,8 @@ objects of inode type `reg` and `dir`, and MUST NOT be used on file
 objects of other types. They MUST NOT be used on the root file object
 either, as the root directory of FAT and exFAT file systems has no
 directory entry, and hence no attributes. If any of these fields is not set, the
-state of the corresponding flag is not defined.
+state of the corresponding flag is not defined, unless the manifest
+lists the feature for the flag (see above): then the flag is cleared.
 
 When placing a file object in a file system with DOS attributes, the
 `ATTR_READ_ONLY` attribute SHOULD be set if `readOnly` is true, and
@@ -674,7 +735,8 @@ and accessible via the `FS_IOC_GETFLAGS`/`FS_IOC_SETFLAGS` ioctls (see
 These fields only apply to file objects of inode type `reg` and `dir`
 (including the root file object), and MUST NOT be used on file objects
 of other types. If any of these fields is not set, the state of the
-corresponding flag is not defined.
+corresponding flag is not defined, unless the manifest lists the
+feature for the flag (see above): then the flag is cleared.
 
 Only flags that are implemented by commonly used Linux file systems,
 and that may be changed directly by userspace, are covered by this
@@ -1035,12 +1097,14 @@ object, `dir` file objects that only use the fields `name` and `type`,
 and any number of `reg` file objects – each of which only uses the
 fields `name` and `sha256` – may be mapped to a SHA256SUMS file and
 back. The SHA256SUMS file lists the `reg` file objects in the order of
-the manifest. When mapping a SHA256SUMS file to a manifest, a `dir`
-file object is added for every directory its files are located in,
-right before the first file object below it. This requires the files
-below every directory to be listed together, which sorting them in the
-code point ordering of complete names achieves. If no name contains a
-slash, the mapping is 1:1.
+the manifest. When mapping a SHA256SUMS file to a manifest, `features`
+is set to `["sha256"]` on the root file object, since a SHA256SUMS
+file records nothing else, and a `dir` file object is added for every
+directory its files are located in, right before the first file
+object below it. This requires the files below every directory to be
+listed together, which sorting them in the code point ordering of
+complete names achieves. If no name contains a slash, the mapping is
+1:1.
 
 ## Acquiring a File Remotely
 
