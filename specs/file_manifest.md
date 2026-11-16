@@ -163,6 +163,9 @@ ordering if names contain characters that sort before `/`, such as `-`
 or `.`: `a/x` comes before `a-b`, since the entries of the directory
 `a` immediately follow its file object, but `a-b` is the lower string.
 
+A manifest sorted in the code point ordering SHOULD declare it, see
+the `order` field of the root file object below.
+
 For every file object other than the root file object, the manifest
 MUST list the file object of the directory it is located in before it:
 the file object of type `dir` whose name is its name without the last
@@ -252,6 +255,7 @@ or about the root directory of the manifest.
 {
         "name" : "…",
         "mediaType" : "application/vnd.uapi.16.manifest",
+        "order" : "codepoint",
         "type" : "reg",
         "size" : 33,
         "major" : 4711,
@@ -309,6 +313,20 @@ sequence (i.e. the top-level root directory object), and MUST have the
 value `"application/vnd.uapi.16.manifest"`. It MAY also be set on
 other file objects in the sequence (to the same value), but this is
 NOT RECOMMENDED.
+
+The `order` field SHOULD be set on the root file object of a manifest
+sorted in the code point ordering, and MUST NOT be set on any other
+file object. If set to `codepoint`, the names of the file objects
+strictly increase in the code point ordering of complete names (see
+above). Hence the file objects of every directory are listed in
+strictly increasing code point ordering, and no two file objects have
+the same name. A consumer that processes a manifest in reliance on
+this MUST check it while reading, and MUST refuse the manifest if it
+does not hold. No other values are defined at this time, consumers
+MUST treat other values as if the field was not set. This field
+describes the manifest rather than the root directory: tools
+combining manifests MUST NOT compare it between their inputs, and
+MUST set it on their output only if it holds for the output.
 
 If `name` is not specified the file object stores information about
 the top-level root file object. This file object always comes first
