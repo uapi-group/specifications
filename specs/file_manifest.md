@@ -306,6 +306,9 @@ Unnecessary whitespace/line breaks SHOULD be omitted when formatting
 the JSON records. Fields within JSON objects SHOULD be sorted by their
 field names in the ordering of strings (see above).
 
+A JSON object in a manifest MUST NOT contain the same key twice, and
+consumers MUST refuse manifests that contain such objects.
+
 If not otherwise indicated, fields are of type string.
 
 The `mediaType` field is REQUIRED on the first file object in the
