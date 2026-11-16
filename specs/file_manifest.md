@@ -246,6 +246,10 @@ trailer object is invalid, and MUST result in a parse failure.
 A manifest MUST consist of at least the root file object and the
 trailer object, the file and signature objects are optional.
 
+A record, i.e. the bytes from its record separator up to the next
+record separator, MUST NOT be larger than 4 MiB. Consumers MUST accept
+records within this limit, and MAY refuse larger ones.
+
 Sizes, offsets and timestamps shall use non-negative integer
 [JSON](https://www.rfc-editor.org/rfc/rfc8259) numbers, and MAY use
 values above 2⁵³. (This means – strictly speaking – the format cannot
@@ -359,7 +363,8 @@ however acceptable if these filenames appear as components of paths
 further down the tree). Files whose paths do not follow these rules
 cannot be encoded in manifest files defined by this
 specification. The `name` MUST be uniquely assigned within a
-manifest.
+manifest. It MUST NOT be longer than 4095 bytes. The components of
+the path are not limited on their own.
 
 The `type` field encodes the inode type of the file object. It takes
 one of `reg`, `dir`, `lnk`, `fifo`, `chr`, `blk`, `sock` (these values
