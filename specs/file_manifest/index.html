@@ -2,7 +2,7 @@
 This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:
 "><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://uapi-group.org/specifications/specs/file_manifest/"><meta property="og:site_name" content="UAPI Group Specifications"><meta property="og:title" content="UAPI.16 File Manifest"><meta property="og:description" content="UAPI.16 File Manifest# Version Changes 0.1 Initial Release This document describes a textual file manifest format that describes a collection of resources (or “blobs”). These resources may potentially be acquired over the network or stored on a disk. In particular, it can represent the properties of files arranged in a POSIX file system tree as well as partitions in a GPT partition table.
 This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="specs"><meta itemprop=name content="UAPI.16 File Manifest"><meta itemprop=description content="UAPI.16 File Manifest# Version Changes 0.1 Initial Release This document describes a textual file manifest format that describes a collection of resources (or “blobs”). These resources may potentially be acquired over the network or stored on a disk. In particular, it can represent the properties of files arranged in a POSIX file system tree as well as partitions in a GPT partition table.
-This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta itemprop=wordCount content="8086"><title>UAPI.16 File Manifest | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/file_manifest/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.ab2049c76eeb55d6b0d511ad56dd63d17afeb7d2fe35214c875730b49634097e.js integrity="sha256-qyBJx27rVdaw1RGtVt1j0Xr+t9L+NSFMh1cwtJY0CX4=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
+This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta itemprop=wordCount content="9743"><title>UAPI.16 File Manifest | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/file_manifest/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.68c3b68fbd9357d14a47792b7b8a399e882c0acf05d7fe790efa26fb9cbc5181.js integrity="sha256-aMO2j72TV9FKR3kre4o5nogsCs8F1/55Dvom+5y8UYE=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/specifications/><span>UAPI Group Specifications</span></a></h2><div class="book-search hidden"><input id=book-search-input type=text placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li><a href=/>⬅️ Back to top</a></li></ul><ul><li><a>Specifications</a><ul><li><a href=/specifications/specs/boot_loader_specification/>UAPI.1 Boot Loader Specification</a></li><li><a href=/specifications/specs/discoverable_partitions_specification/>UAPI.2 Discoverable Partitions Specification</a></li><li><a href=/specifications/specs/discoverable_disk_image/>UAPI.3 Discoverable Disk Images</a></li><li><a href=/specifications/specs/extension_image/>UAPI.4 Extension Images</a></li><li><a href=/specifications/specs/unified_kernel_image/>UAPI.5 Unified Kernel Images</a></li><li><a href=/specifications/specs/configuration_files_specification/>UAPI.6 Configuration Files Specification</a></li><li><a href=/specifications/specs/linux_tpm_pcr_registry/>UAPI.7 Linux TPM PCR Registry</a></li><li><a href=/specifications/specs/package_metadata_for_executable_files/>UAPI.8 Package Metadata for Executable Files</a></li><li><a href=/specifications/specs/linux_file_system_hierarchy/>UAPI.9 Linux File System Hierarchy</a></li><li><a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format Specification</a></li><li><a href=/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</a></li><li><a href=/specifications/specs/elf_dlopen_metadata/>UAPI.12 dlopen() Metadata for ELF Files</a></li><li><a href=/specifications/specs/vmclock/>UAPI.13 VMClock</a></li><li><a href=/specifications/specs/vmgenid/>UAPI.14 VMGenID</a></li><li><a href=/specifications/specs/osc_context/>UAPI.15 OSC 3008: Hierarchical Context Signalling</a></li><li><a href=/specifications/specs/file_manifest/ class=active>UAPI.16 File Manifest</a></li><li><a href=/specifications/specs/cli_introspection/>UAPI.18 CLI-Introspection Specification [DRAFT]</a></li><li><a href=/specifications/specs/linux_tpm_nvindex_registry/>UAPI.19 Linux TPM NV Index Registry</a></li><li><a href=/specifications/specs/varlink/>UAPI.20 Varlink IPC</a></li></ul></li></ul><ul><li><a href=https://github.com/uapi-group/specifications target=_blank rel=noopener>Collaborate on Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class="book-header hidden"><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/icons/menu.svg class=book-icon alt=Menu></label><h3>UAPI.16 File Manifest</h3><label for=toc-control><img src=/specifications/icons/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class=hidden><nav id=TableOfContents><ul><li><a href=#terminology>Terminology</a></li><li><a href=#manifest-file-name-and-media-type>Manifest File Name and Media Type</a></li><li><a href=#general-structure>General Structure</a></li><li><a href=#file-object>File Object</a><ul><li><a href=#fields>Fields</a></li></ul></li><li><a href=#extended-attribute-value-object>Extended Attribute Value Object</a><ul><li><a href=#fields-1>Fields</a></li></ul></li><li><a href=#out-of-scope>Out of Scope</a></li><li><a href=#contents-object>Contents Object</a><ul><li><a href=#fields-2>Fields</a></li></ul></li><li><a href=#signature-objects>Signature Objects</a><ul><li><a href=#fields-3>Fields</a></li></ul></li><li><a href=#trailer-objects>Trailer Objects</a><ul><li><a href=#fields-4>Fields</a></li></ul></li><li><a href=#compression>Compression</a></li><li><a href=#relationship-to-sha256sums>Relationship to SHA256SUMS</a></li><li><a href=#acquiring-a-file-remotely>Acquiring a File Remotely</a></li><li><a href=#contents-source-considerations>Contents Source Considerations</a></li><li><a href=#reproducibility>Reproducibility</a></li><li><a href=#extensibility>Extensibility</a></li><li><a href=#future-revisions>Future Revisions</a></li><li><a href=#example>Example</a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=uapi16-file-manifest>UAPI.16 File Manifest<a class=anchor href=#uapi16-file-manifest>#</a></h1><table><thead><tr><th>Version</th><th>Changes</th></tr></thead><tbody><tr><td>0.1</td><td>Initial Release</td></tr></tbody></table><p>This document describes a textual file manifest format that describes
 a collection of resources (or &ldquo;blobs&rdquo;). These resources may
 potentially be acquired over the network or stored on a disk. In
@@ -44,7 +44,25 @@ possibly suffixed by a suffix indicating compression (see
 below). Otherwise the recommended file suffix is <code>.Uapi16Manifest</code>.</p><p>This file format is identified by the <a href=https://www.rfc-editor.org/rfc/rfc6838>media
 type</a> <code>application/vnd.uapi.16.manifest</code>.</p><h2 id=general-structure>General Structure<a class=anchor href=#general-structure>#</a></h2><p>The file is organized as an <a href=https://www.rfc-editor.org/rfc/rfc7464>RFC 7464
 JSON-SEQ</a> sequence of
-file, signature and trailer objects which are described below.</p><p>The first object in the sequence always describes the enveloping
+file, signature and trailer objects which are described below.</p><p>Strings are sequences of octets that MUST be valid UTF-8 as defined in
+<a href=https://www.rfc-editor.org/rfc/rfc3629>RFC 3629</a> (no overlong
+encodings, no surrogate code points, no NUL octets) and MUST NOT
+contain noncharacters (U+FDD0 to U+FDEF, and the last two code points
+of every plane, such as U+FFFE and U+FFFF). Strings are ordered
+lexicographically by octet value, with each octet treated as an
+unsigned integer in the range 0…255; if one string is a prefix of the
+other, the shorter string sorts first. For valid UTF-8 this is
+identical to lexicographic ordering by Unicode code point, but not to
+ordering by UTF-16 code units, which is what string comparison in
+JavaScript, Java and .NET does. No Unicode normalization, case
+folding, or locale-dependent collation is applied; strings that differ
+only in normalization form are distinct and are ordered by their
+octets.</p><p>All rules for strings in this specification apply to the value of a
+JSON string after its escape sequences have been decoded: an escape
+sequence of an unpaired surrogate such as <code>"\uD800"</code> makes a string
+invalid, and <code>"a\/b"</code> is the same string as <code>"a/b"</code>. Consumers MUST
+refuse manifests with invalid strings, and MUST NOT repair them, for
+example by replacing invalid sequences with U+FFFD.</p><p>The first object in the sequence always describes the enveloping
 directory (or a GPT partition table header). This <em>root</em> file object
 MUST NOT have a <code>name</code> field set (which identifies it as the <em>root</em>
 file object), however, it MUST have a <code>mediaType</code> field set to
@@ -56,10 +74,39 @@ describe fields in the overall GPT partition table header of the disk.</p><p>Wit
 nested into subdirectories MUST be listed immediately following the
 file object of the subdirectory object. Even if ordering within
 directories is not mandated, it is definitely RECOMMENDED to sort
-the entries by one of the following orderings:</p><ol><li><p>Alphabetically</p></li><li><p>Via <a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format
+the entries by one of the following orderings:</p><ol><li><p>By code point, i.e. by comparing the last components of their
+names as strings (see above), the way <code>strcmp()</code> compares them.</p></li><li><p>Via <a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format
 Specification</a> version ordering</p></li><li><p>Time-based ordering (i.e. appending new entries strictly at the end)</p></li></ol><p>Sorting entries ensures the manifests become reproducible as long as
-the same tool and sorting algorithm is used.</p><p>The <code>name</code> field of file objects MUST be uniquely assigned within a
-manifest file.</p><p>If the manifest encodes a GPT partition table, the <code>name</code> field MUST
+the same tool and sorting algorithm is used.</p><p>A manifest sorted in the code point ordering lists its file objects in
+the code point ordering of their complete names: two names are
+compared component by component, starting with the first, and the
+first pair of components that differ is compared as strings. If all
+components of one name are also the first components of the other
+one, i.e. the former is the name of a directory the latter is located
+in, the former sorts first. This is the same as comparing the complete
+names as strings with <code>/</code> taken to be lower than any other octet. Note
+that comparing the complete names as strings does not result in this
+ordering if names contain characters that sort before <code>/</code>, such as <code>-</code>
+or <code>.</code>: <code>a/x</code> comes before <code>a-b</code>, since the entries of the directory
+<code>a</code> immediately follow its file object, but <code>a-b</code> is the lower string.</p><p>A manifest sorted in the code point ordering SHOULD declare it, see
+the <code>order</code> field of the root file object below.</p><p>For every file object other than the root file object, the manifest
+MUST list the file object of the directory it is located in before it:
+the file object of type <code>dir</code> whose name is its name without the last
+component, or the root file object if its name has a single
+component. Together with the requirement that files nested into
+subdirectories immediately follow the file object of the subdirectory
+(see above), this means that the file objects of a manifest are listed
+in tree order: every directory comes before the file objects below it,
+and these immediately follow it.</p><p>The <code>name</code> field of file objects MUST be uniquely assigned within a
+manifest file.</p><p>A consumer that finds a name listed twice, or file objects below a
+directory that do not immediately follow the file object of that
+directory, SHOULD refuse the manifest rather than pick one of the
+conflicting file objects. Otherwise different consumers end up
+disagreeing on what the same manifest describes. Both can be checked
+while reading: misplaced file objects with a stack of the directories
+that are still open, since every directory is listed, and repeated
+names by comparing each name with the previous one if the manifest
+declares the code point ordering.</p><p>If the manifest encodes a GPT partition table, the <code>name</code> field MUST
 still be assigned for every file object, even if <code>gptLabel</code> is defined
 too. The former MUST still be unique within the manifest; the latter
 does not have to be.</p><p>For manifests covering a directory tree with nested directories – as
@@ -100,18 +147,21 @@ trailer object is invalid, and MUST result in a parse failure.</p><pre tabindex=
 ├─────────────────────────────────────────────────────────┤
 │ Trailer object      (application/vnd.uapi.16.trailer)   │
 └─────────────────────────────────────────────────────────┘</code></pre><p>A manifest MUST consist of at least the root file object and the
-trailer object, the file and signature objects are optional.</p><p>Sizes, offsets and timestamps shall use non-negative integer
-<a href=https://www.rfc-editor.org/rfc/rfc8259>JSON</a> numbers, and MAY use
-values above 2⁵³. (This means – strictly speaking – the format cannot
-be processed losslessly by JSON parsers that exclusively use 64-bit
-floating point for JSON numbers, if there are any files of such
-excessive sizes. Since it&rsquo;s unlikely that files included in a UAPI.16
-manifest file are this large this should not be a practical
-limitation. A JSON implementation supporting unsigned 64-bit numbers
-is still RECOMMENDED.)</p><h2 id=file-object>File Object<a class=anchor href=#file-object>#</a></h2><p>This is an object that encodes information about an individual file,
+trailer object, the file and signature objects are optional.</p><p>A record, i.e. the bytes from its record separator up to the next
+record separator, MUST NOT be larger than 4 MiB. Consumers MUST accept
+records within this limit, and MAY refuse larger ones.</p><p>Sizes, offsets and timestamps shall use non-negative integer
+<a href=https://www.rfc-editor.org/rfc/rfc8259>JSON</a> numbers, written as
+decimal digits without sign, fraction or exponent, and MAY use values
+above 2⁵³. Note that <code>mTimeNSec</code> is above 2⁵³ for every point in time
+after mid-April 1970, hence JSON implementations that store numbers as
+64-bit floating point values cannot process the timestamps of a
+manifest losslessly. Consumers MUST process these numbers as unsigned
+64-bit integers.</p><h2 id=file-object>File Object<a class=anchor href=#file-object>#</a></h2><p>This is an object that encodes information about an individual file,
 or about the root directory of the manifest.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;name&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.manifest&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;order&#34;</span> : <span style=color:#e6db74>&#34;codepoint&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;features&#34;</span> : [ <span style=color:#e6db74>&#34;…&#34;</span>, <span style=color:#960050;background-color:#1e0010>…</span> ],
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;type&#34;</span> : <span style=color:#e6db74>&#34;reg&#34;</span>,
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;size&#34;</span> : <span style=color:#ae81ff>33</span>,
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;major&#34;</span> : <span style=color:#ae81ff>4711</span>,
@@ -152,12 +202,70 @@ or about the root directory of the manifest.</p><div class=highlight><pre tabind
 objects under certain conditions, see below). If a field shall not be
 set it can either be set to <code>null</code> or simply be omitted in the JSON
 object (RECOMMENDED), both ways MUST be considered equivalent.</p><p>Unnecessary whitespace/line breaks SHOULD be omitted when formatting
-the JSON records. Fields within JSON objects SHOULD be sorted
-alphabetically by their field names.</p><p>If not otherwise indicated, fields are of type string.</p><p>The <code>mediaType</code> field is REQUIRED on the first file object in the
+the JSON records. Fields within JSON objects SHOULD be sorted by their
+field names in the ordering of strings (see above).</p><p>A JSON object in a manifest MUST NOT contain the same key twice, and
+consumers MUST refuse manifests that contain such objects.</p><p>Two file objects are equivalent if they carry the same fields with the
+same JSON values. This does not depend on the order of the fields in
+JSON objects or on how values are written in the JSON text: strings
+are compared after their escape sequences have been decoded (see
+above), numbers by their value, arrays element by element and JSON
+objects field by field. A field set to <code>null</code> counts as not set, also
+in nested JSON objects. Since values are not interpreted any further,
+this also applies to fields a tool does not know. Hence hexadecimal
+digests in uppercase and in lowercase, or the same data in the two
+Base64 alphabets, are not equivalent. The values of <code>inodeToken</code> are
+specific to their manifest, so they are not compared between file
+objects of different manifests. Tools that compare or combine
+manifests SHOULD compare file objects for equivalence rather than by
+the bytes of their JSON encoding.</p><p>Generators SHOULD NOT set fields to the default this specification
+defines for them, for example <code>type</code> set to <code>reg</code> on a file object
+other than the root file object, <code>validSinceUSec</code> set to 0, <code>validity</code>
+set to <code>good</code>, <code>readOnly</code> set to false or <code>offset</code> of a contents
+object set to 0, so that file objects describing the same file
+compare as equivalent.</p><p>If not otherwise indicated, fields are of type string.</p><p>The <code>mediaType</code> field is REQUIRED on the first file object in the
 sequence (i.e. the top-level root directory object), and MUST have the
 value <code>"application/vnd.uapi.16.manifest"</code>. It MAY also be set on
 other file objects in the sequence (to the same value), but this is
-NOT RECOMMENDED.</p><p>If <code>name</code> is not specified the file object stores information about
+NOT RECOMMENDED.</p><p>The <code>order</code> field SHOULD be set on the root file object of a manifest
+sorted in the code point ordering, and MUST NOT be set on any other
+file object. If set to <code>codepoint</code>, the names of the file objects
+strictly increase in the code point ordering of complete names (see
+above). Hence the file objects of every directory are listed in
+strictly increasing code point ordering, and no two file objects have
+the same name. A consumer that processes a manifest in reliance on
+this MUST check it while reading, and MUST refuse the manifest if it
+does not hold. No other values are defined at this time, consumers
+MUST treat other values as if the field was not set. This field
+describes the manifest rather than the root directory: tools
+combining manifests MUST NOT compare it between their inputs, and
+MUST set it on their output only if it holds for the output.</p><p>The <code>features</code> field (array of strings) MAY be set on the root file
+object, and MUST NOT be set on any other file object. It lists the
+file system features the manifest records, and thus which fields its
+file objects can carry. If not set, it defaults to <code>device</code>, <code>gid</code>,
+<code>hardlink</code>, <code>mode</code>, <code>sha256</code>, <code>size</code>, <code>symlink</code> and <code>uid</code>. A file
+object MUST NOT carry a field that belongs to a feature the manifest
+does not list. The following values are defined:</p><table><thead><tr><th>Value</th><th>Fields</th></tr></thead><tbody><tr><td><code>mode</code></td><td><code>mode</code></td></tr><tr><td><code>uid</code></td><td><code>uid</code></td></tr><tr><td><code>gid</code></td><td><code>gid</code></td></tr><tr><td><code>user-name</code></td><td><code>userName</code></td></tr><tr><td><code>group-name</code></td><td><code>groupName</code></td></tr><tr><td><code>size</code></td><td><code>size</code></td></tr><tr><td><code>sha256</code></td><td><code>sha256</code></td></tr><tr><td><code>symlink</code></td><td><code>contents</code> of file objects of type <code>lnk</code></td></tr><tr><td><code>device</code></td><td><code>major</code> and <code>minor</code></td></tr><tr><td><code>hardlink</code></td><td><code>inodeToken</code></td></tr><tr><td><code>mtime</code></td><td><code>mTimeNSec</code></td></tr><tr><td><code>user-xattr</code></td><td>the <code>user</code> key of <code>extendedAttributes</code></td></tr><tr><td><code>flag-hidden</code></td><td><code>flagHidden</code></td></tr><tr><td><code>flag-system</code></td><td><code>flagSystem</code></td></tr><tr><td><code>flag-archive</code></td><td><code>flagArchive</code></td></tr><tr><td><code>flag-append-only</code></td><td><code>flagAppendOnly</code></td></tr><tr><td><code>flag-immutable</code></td><td><code>flagImmutable</code></td></tr><tr><td><code>flag-no-atime</code></td><td><code>flagNoAtime</code></td></tr><tr><td><code>flag-no-cow</code></td><td><code>flagNoCow</code></td></tr><tr><td><code>flag-no-dump</code></td><td><code>flagNoDump</code></td></tr></tbody></table><p>Fields that do not belong to any of these features, such as <code>type</code>,
+<code>contents</code> of file objects of other types, <code>readOnly</code>, <code>validity</code>,
+<code>fatSerial</code>, <code>fsUUID</code>, <code>fsLabel</code> and the <code>gpt*</code> fields, are not
+affected. If <code>symlink</code> is listed, every file object of type <code>lnk</code>
+carries its target as <code>literal</code> in <code>contents</code>. For <code>hardlink</code>,
+<code>user-xattr</code> and the <code>flag-…</code> values, the feature also defines what a
+missing field means. If the feature is listed, a file object that does
+not carry the field is not subject to hardlinks, has no extended
+attributes in the <code>user</code> namespace, or has the flag cleared,
+respectively. If it is not listed, nothing is known about these
+properties.</p><p>The order of the values carries no meaning. A value MUST NOT be listed
+twice, and the values SHOULD be sorted in the ordering of strings (see
+above). Consumers MUST ignore values they do not know. A consumer that
+processes a manifest in reliance on its features MUST check them while
+reading, and MUST refuse the manifest if they do not hold. Like
+<code>order</code>, this field describes the manifest rather than the root
+directory. Tools that compare or combine manifests MUST compare their
+features, as sets, before they compare file objects. If the features
+differ, such a tool MUST either refuse the manifests, or first remove
+the fields of the features that not all of them list from their file
+objects. A tool that combines manifests sets <code>features</code> on its output
+accordingly.</p><p>If <code>name</code> is not specified the file object stores information about
 the top-level root file object. This file object always comes first
 in the file object sequence. Or in other words, the root file object
 (the first object in the sequence) has <code>mediaType</code> but not <code>name</code>
@@ -173,7 +281,8 @@ however acceptable if these filenames appear as components of paths
 further down the tree). Files whose paths do not follow these rules
 cannot be encoded in manifest files defined by this
 specification. The <code>name</code> MUST be uniquely assigned within a
-manifest.</p><p>The <code>type</code> field encodes the inode type of the file object. It takes
+manifest. It MUST NOT be longer than 4095 bytes. The components of
+the path are not limited on their own.</p><p>The <code>type</code> field encodes the inode type of the file object. It takes
 one of <code>reg</code>, <code>dir</code>, <code>lnk</code>, <code>fifo</code>, <code>chr</code>, <code>blk</code>, <code>sock</code> (these values
 follow low-level UNIX/Linux naming of these inode types). Other values
 MUST NOT be used. If not specified it defaults to <code>dir</code> for the first
@@ -213,9 +322,10 @@ characters).</p><p>The <code>mTimeNSec</code> field (unsigned integer) is the UN
 timestamp of the file object, in nanoseconds since the UNIX epoch (Jan
 1st, 1970).</p><p>The <code>inodeToken</code> field (unsigned integer) shall be a unique numeric
 identifier for any file that SHALL be hardlinked within the manifest
-tree. If unspecified or 0 the file is not subject to hardlinks,
-otherwise any pair of file objects that shall be hardlinks to the same
-inode SHALL carry the same <code>inodeToken</code> value. In order to ensure
+tree. If unspecified or 0 the file is not subject to hardlinks (if the
+manifest lists the <code>hardlink</code> feature, see above), otherwise any pair
+of file objects that shall be hardlinks to the same inode SHALL carry
+the same <code>inodeToken</code> value. In order to ensure
 reproducibility <code>inodeToken</code> SHALL be assigned as a counter starting
 at 1 for the first file that shall be hardlinked, and increasing by 1
 for each subsequent file that shall be hardlinked but has not been
@@ -223,7 +333,14 @@ hardlinked in the manifest so far. When sub-manifests are used,
 hardlinking between the upper and lower manifest is not supported –
 the <code>inodeToken</code> identifiers are specific to the manifest they are
 specified in. This field MUST NOT be used for file objects of type
-<code>dir</code>.</p><p>The <code>extendedAttributes</code> field (object) encodes extended attributes
+<code>dir</code>.</p><p>A non-zero <code>inodeToken</code> MAY be carried by a single file object only,
+for example if the other names of the file are outside of the tree
+the manifest covers, and consumers MUST accept that. All file objects
+sharing the same non-zero <code>inodeToken</code> describe the same inode: they
+MUST be of the same <code>type</code>, and MUST carry identical <code>mode</code>, <code>uid</code>,
+<code>gid</code>, <code>userName</code>, <code>groupName</code>, <code>mTimeNSec</code>, <code>size</code>, <code>sha256</code>,
+<code>major</code> and <code>minor</code> fields, in addition to the <code>extendedAttributes</code>
+and flag fields described below.</p><p>The <code>extendedAttributes</code> field (object) encodes extended attributes
 of the file object, i.e. additional name/value pairs attached to the
 inode (see for example Linux'
 <a href=https://man7.org/linux/man-pages/man7/xattr.7.html><code>xattr(7)</code></a>). It
@@ -251,7 +368,9 @@ extended attributes of that namespace of the file object, i.e. an
 empty namespace object indicates that the file object has no extended
 attributes in that namespace. If a namespace key is absent (or set to
 <code>null</code>) no information about the extended attributes of that
-namespace is conveyed.</p><p>All file objects sharing the same non-zero <code>inodeToken</code> MUST carry
+namespace is conveyed, unless the manifest lists the feature for that
+namespace (<code>user-xattr</code> for <code>user</code>, see above): then the file object
+has no extended attributes in that namespace.</p><p>All file objects sharing the same non-zero <code>inodeToken</code> MUST carry
 identical <code>extendedAttributes</code> fields, as extended attributes are a
 property of the inode, not of the directory entry.</p><p>Extended attributes are not covered by the <code>sha256</code> field (which only
 covers the file contents), but are protected by the manifest signature
@@ -327,7 +446,8 @@ objects of inode type <code>reg</code> and <code>dir</code>, and MUST NOT be use
 objects of other types. They MUST NOT be used on the root file object
 either, as the root directory of FAT and exFAT file systems has no
 directory entry, and hence no attributes. If any of these fields is not set, the
-state of the corresponding flag is not defined.</p><p>When placing a file object in a file system with DOS attributes, the
+state of the corresponding flag is not defined, unless the manifest
+lists the feature for the flag (see above): then the flag is cleared.</p><p>When placing a file object in a file system with DOS attributes, the
 <code>ATTR_READ_ONLY</code> attribute SHOULD be set if <code>readOnly</code> is true, and
 SHOULD NOT be set if it is false. If <code>readOnly</code> is not set, but <code>mode</code>
 is, an implementation MAY derive the attribute from the latter instead
@@ -398,7 +518,8 @@ and accessible via the <code>FS_IOC_GETFLAGS</code>/<code>FS_IOC_SETFLAGS</code>
 <a href=https://man7.org/linux/man-pages/man2/ioctl_iflags.2.html><code>ioctl_iflags(2)</code></a>):</p><table><thead><tr><th>Field</th><th>Linux Flag</th></tr></thead><tbody><tr><td><code>flagAppendOnly</code></td><td><code>FS_APPEND_FL</code></td></tr><tr><td><code>flagImmutable</code></td><td><code>FS_IMMUTABLE_FL</code></td></tr><tr><td><code>flagNoAtime</code></td><td><code>FS_NOATIME_FL</code></td></tr><tr><td><code>flagNoCow</code></td><td><code>FS_NOCOW_FL</code></td></tr><tr><td><code>flagNoDump</code></td><td><code>FS_NODUMP_FL</code></td></tr></tbody></table><p>These fields only apply to file objects of inode type <code>reg</code> and <code>dir</code>
 (including the root file object), and MUST NOT be used on file objects
 of other types. If any of these fields is not set, the state of the
-corresponding flag is not defined.</p><p>Only flags that are implemented by commonly used Linux file systems,
+corresponding flag is not defined, unless the manifest lists the
+feature for the flag (see above): then the flag is cleared.</p><p>Only flags that are implemented by commonly used Linux file systems,
 and that may be changed directly by userspace, are covered by this
 specification. Flags that merely reflect internal state of the inode
 (such as <code>FS_EXTENT_FL</code>, <code>FS_ENCRYPT_FL</code>, <code>FS_VERITY_FL</code> or
@@ -475,9 +596,10 @@ is its UTF-8 encoding, without any trailing NUL byte. <code>text</code> MUST NOT
 contain the NUL character (<code>\u0000</code>). <code>base64</code> contains the attribute
 value in Base64 encoding (either alphabet, as for the <code>literal</code> field
 of contents objects).</p><p>Generators SHOULD use <code>text</code> if – and only if – the attribute value is
-valid UTF-8 and contains no NUL bytes (this includes trailing NUL
-bytes, which some programs append to textual values), and <code>base64</code>
-otherwise. Following this rule strictly ensures reproducible output.</p><p>Empty attribute values are valid, and SHOULD be encoded as
+valid UTF-8 and contains no noncharacters and no NUL bytes (this
+includes trailing NUL bytes, which some programs append to textual
+values), and <code>base64</code> otherwise. Following this rule strictly ensures
+reproducible output.</p><p>Empty attribute values are valid, and SHOULD be encoded as
 <code>{ "text" : "" }</code>.</p><h2 id=out-of-scope>Out of Scope<a class=anchor href=#out-of-scope>#</a></h2><p>Note that the above does not support – on purpose – the following
 common UNIX file or GPT partition table properties:</p><ol><li>Access timestamps, birth timestamps, change timestamps</li><li>Inode numbers and other non-portable file IDs (such as <a href=https://man7.org/linux/man-pages/man2/name_to_handle_at.2.html><code>name_to_handle_at()</code></a> style FID)</li><li>Backing device inode major/minor</li><li>Hardlink link counts</li></ol><p>This is because all of these will quite likely differ if the same manifest is applied to different file systems.</p><h2 id=contents-object>Contents Object<a class=anchor href=#contents-object>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;file&#34;</span> : <span style=color:#e6db74>&#34;…&#34;</span>,
@@ -630,9 +752,18 @@ placed within the directory it covers SHOULD be <code>Uapi16Manifest.gz</code>,
 algorithm. If stored independently of the directory it covers the file
 suffix should be <code>.Uapi16Manifest.gz</code>, <code>.Uapi16Manifest.zst</code> and so on.</p><p>Such compressed manifest files MUST be decompressed before
 validating the embedded signatures (as described above).</p><h2 id=relationship-to-sha256sums>Relationship to SHA256SUMS<a class=anchor href=#relationship-to-sha256sums>#</a></h2><p>A UAPI.16 manifest file that only contains the top-level <code>dir</code> file
-object in combination with any number of <code>reg</code> file objects – each of
-which only uses the fields <code>name</code> and <code>sha256</code> – may be mapped 1:1 to a
-SHA256SUMS file and back.</p><h2 id=acquiring-a-file-remotely>Acquiring a File Remotely<a class=anchor href=#acquiring-a-file-remotely>#</a></h2><p>When acquiring a file listed in a UAPI.16 File Manifest from a web
+object, <code>dir</code> file objects that only use the fields <code>name</code> and <code>type</code>,
+and any number of <code>reg</code> file objects – each of which only uses the
+fields <code>name</code> and <code>sha256</code> – may be mapped to a SHA256SUMS file and
+back. The SHA256SUMS file lists the <code>reg</code> file objects in the order of
+the manifest. When mapping a SHA256SUMS file to a manifest, <code>features</code>
+is set to <code>["sha256"]</code> on the root file object, since a SHA256SUMS
+file records nothing else, and a <code>dir</code> file object is added for every
+directory its files are located in, right before the first file
+object below it. This requires the files below every directory to be
+listed together, which sorting them in the code point ordering of
+complete names achieves. If no name contains a slash, the mapping is
+1:1.</p><h2 id=acquiring-a-file-remotely>Acquiring a File Remotely<a class=anchor href=#acquiring-a-file-remotely>#</a></h2><p>When acquiring a file listed in a UAPI.16 File Manifest from a web
 service, the following logic should be implemented.</p><ol><li><p>If <code>validity</code> is set to <code>revoked</code>, the download SHOULD immediately
 fail.</p></li><li><p>If <code>validSinceUSec</code> is set and greater than the current time, the
 download SHOULD immediately fail.</p></li><li><p>If <code>validUntilUSec</code> is set and lower than the current time, the
@@ -709,8 +840,8 @@ stable file object sorting should be employed, even if no specific one
 is mandated by this specification. The natural ordering of the
 underlying file system SHOULD NOT be propagated into manifests
 generated from it. Keys of the <code>extendedAttributes</code> object and of the
-namespace objects SHOULD be sorted by the byte values of their UTF-8
-encoding.</p><h2 id=extensibility>Extensibility<a class=anchor href=#extensibility>#</a></h2><p>Additional fields MAY be defined freely by implementors. Each such
+namespace objects SHOULD be sorted in the ordering of strings
+(see above).</p><h2 id=extensibility>Extensibility<a class=anchor href=#extensibility>#</a></h2><p>Additional fields MAY be defined freely by implementors. Each such
 extension field MUST be named in the style of <code>x&lt;Vendor>Foobar</code> to
 minimize risk of conflicts. For example <code>xAmutableFrobnicate</code> or
 <code>xMyAwesomeProjectEfficiencyVector</code>. When reading, implementations MUST
