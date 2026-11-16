@@ -324,6 +324,28 @@ field names in the ordering of strings (see above).
 A JSON object in a manifest MUST NOT contain the same key twice, and
 consumers MUST refuse manifests that contain such objects.
 
+Two file objects are equivalent if they carry the same fields with the
+same JSON values. This does not depend on the order of the fields in
+JSON objects or on how values are written in the JSON text: strings
+are compared after their escape sequences have been decoded (see
+above), numbers by their value, arrays element by element and JSON
+objects field by field. A field set to `null` counts as not set, also
+in nested JSON objects. Since values are not interpreted any further,
+this also applies to fields a tool does not know. Hence hexadecimal
+digests in uppercase and in lowercase, or the same data in the two
+Base64 alphabets, are not equivalent. The values of `inodeToken` are
+specific to their manifest, so they are not compared between file
+objects of different manifests. Tools that compare or combine
+manifests SHOULD compare file objects for equivalence rather than by
+the bytes of their JSON encoding.
+
+Generators SHOULD NOT set fields to the default this specification
+defines for them, for example `type` set to `reg` on a file object
+other than the root file object, `validSinceUSec` set to 0, `validity`
+set to `good`, `readOnly` set to false or `offset` of a contents
+object set to 0, so that file objects describing the same file
+compare as equivalent.
+
 If not otherwise indicated, fields are of type string.
 
 The `mediaType` field is REQUIRED on the first file object in the
