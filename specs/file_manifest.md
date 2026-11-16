@@ -432,6 +432,15 @@ the `inodeToken` identifiers are specific to the manifest they are
 specified in. This field MUST NOT be used for file objects of type
 `dir`.
 
+A non-zero `inodeToken` MAY be carried by a single file object only,
+for example if the other names of the file are outside of the tree
+the manifest covers, and consumers MUST accept that. All file objects
+sharing the same non-zero `inodeToken` describe the same inode: they
+MUST be of the same `type`, and MUST carry identical `mode`, `uid`,
+`gid`, `userName`, `groupName`, `mTimeNSec`, `size`, `sha256`,
+`major` and `minor` fields, in addition to the `extendedAttributes`
+and flag fields described below.
+
 The `extendedAttributes` field (object) encodes extended attributes
 of the file object, i.e. additional name/value pairs attached to the
 inode (see for example Linux'
