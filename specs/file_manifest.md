@@ -251,14 +251,13 @@ record separator, MUST NOT be larger than 4 MiB. Consumers MUST accept
 records within this limit, and MAY refuse larger ones.
 
 Sizes, offsets and timestamps shall use non-negative integer
-[JSON](https://www.rfc-editor.org/rfc/rfc8259) numbers, and MAY use
-values above 2⁵³. (This means – strictly speaking – the format cannot
-be processed losslessly by JSON parsers that exclusively use 64-bit
-floating point for JSON numbers, if there are any files of such
-excessive sizes. Since it's unlikely that files included in a UAPI.16
-manifest file are this large this should not be a practical
-limitation. A JSON implementation supporting unsigned 64-bit numbers
-is still RECOMMENDED.)
+[JSON](https://www.rfc-editor.org/rfc/rfc8259) numbers, written as
+decimal digits without sign, fraction or exponent, and MAY use values
+above 2⁵³. Note that `mTimeNSec` is above 2⁵³ for every point in time
+after mid-April 1970, hence JSON implementations that store numbers as
+64-bit floating point values cannot process the timestamps of a
+manifest losslessly. Consumers MUST process these numbers as unsigned
+64-bit integers.
 
 ## File Object
 
