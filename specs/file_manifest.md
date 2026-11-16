@@ -163,6 +163,16 @@ ordering if names contain characters that sort before `/`, such as `-`
 or `.`: `a/x` comes before `a-b`, since the entries of the directory
 `a` immediately follow its file object, but `a-b` is the lower string.
 
+For every file object other than the root file object, the manifest
+MUST list the file object of the directory it is located in before it:
+the file object of type `dir` whose name is its name without the last
+component, or the root file object if its name has a single
+component. Together with the requirement that files nested into
+subdirectories immediately follow the file object of the subdirectory
+(see above), this means that the file objects of a manifest are listed
+in tree order: every directory comes before the file objects below it,
+and these immediately follow it.
+
 The `name` field of file objects MUST be uniquely assigned within a
 manifest file.
 
@@ -976,9 +986,16 @@ validating the embedded signatures (as described above).
 ## Relationship to SHA256SUMS
 
 A UAPI.16 manifest file that only contains the top-level `dir` file
-object in combination with any number of `reg` file objects – each of
-which only uses the fields `name` and `sha256` – may be mapped 1:1 to a
-SHA256SUMS file and back.
+object, `dir` file objects that only use the fields `name` and `type`,
+and any number of `reg` file objects – each of which only uses the
+fields `name` and `sha256` – may be mapped to a SHA256SUMS file and
+back. The SHA256SUMS file lists the `reg` file objects in the order of
+the manifest. When mapping a SHA256SUMS file to a manifest, a `dir`
+file object is added for every directory its files are located in,
+right before the first file object below it. This requires the files
+below every directory to be listed together, which sorting them in the
+code point ordering of complete names achieves. If no name contains a
+slash, the mapping is 1:1.
 
 ## Acquiring a File Remotely
 
