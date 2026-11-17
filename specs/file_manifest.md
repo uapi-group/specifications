@@ -133,11 +133,12 @@ with a prefix of `Uapi16Manifest.`), `.`, `..` or any path ending in
 When applied to a GPT partition table the first object MAY also
 describe fields in the overall GPT partition table header of the disk.
 
-Within each directory files MAY appear in any order. However, files
-nested into subdirectories MUST be listed immediately following the
-file object of the subdirectory object. Even if ordering within
-directories is not mandated, it is definitely RECOMMENDED to sort
-the entries by one of the following orderings:
+Within each directory files MAY appear in any order, except as
+described below. However, files nested into subdirectories MUST be
+listed immediately following the file object of the subdirectory
+object. Where ordering within directories is not mandated, it is
+definitely RECOMMENDED to sort the entries by one of the following
+orderings:
 
 1. By code point, i.e. by comparing the last components of their
    names as strings (see above), the way `strcmp()` compares them.
@@ -165,6 +166,22 @@ or `.`: `a/x` comes before `a-b`, since the entries of the directory
 
 A manifest sorted in the code point ordering SHOULD declare it, see
 the `order` field of the root file object below.
+
+A manifest that is generated for creating a file system or an archive
+from it, or for placing its file objects in an existing one, rather
+than for describing files that exist already, MUST list the entries
+of every directory in the code point ordering, and MUST declare it
+(see the `order` field of the root file object below). This does not
+apply to manifests of a GPT partition table. A consumer that creates
+a file system or an archive from a manifest, or places its file
+objects in an existing one, MAY refuse a manifest that is not in the
+code point ordering, rather than sort its file objects. Such a
+consumer MAY also refuse a manifest that does not declare the
+code point ordering, even if its file objects are in it.
+
+If file objects are placed in an existing file system or archive
+whose manifest declares an ordering, and they are added to that
+manifest, it MUST preserve the ordering and keep declaring it.
 
 For every file object other than the root file object, the manifest
 MUST list the file object of the directory it is located in before it:
@@ -355,17 +372,19 @@ NOT RECOMMENDED.
 
 The `order` field SHOULD be set on the root file object of a manifest
 sorted in the code point ordering, and MUST NOT be set on any other
-file object. If set to `codepoint`, the names of the file objects
-strictly increase in the code point ordering of complete names (see
-above). Hence the file objects of every directory are listed in
-strictly increasing code point ordering, and no two file objects have
-the same name. A consumer that processes a manifest in reliance on
-this MUST check it while reading, and MUST refuse the manifest if it
-does not hold. No other values are defined at this time, consumers
-MUST treat other values as if the field was not set. This field
-describes the manifest rather than the root directory: tools
-combining manifests MUST NOT compare it between their inputs, and
-MUST set it on their output only if it holds for the output.
+file object. It MUST be set on a manifest generated for creating a
+file system or an archive, or for placing its file objects in an
+existing one, as described above. If set to `codepoint`, the names of
+the file objects strictly increase in the code point ordering of
+complete names (see above). Hence the file objects of every directory
+are listed in strictly increasing code point ordering, and no two file
+objects have the same name. A consumer that processes a manifest in
+reliance on this MUST check it while reading, and MUST refuse the
+manifest if it does not hold. No other values are defined at this
+time, consumers MUST treat other values as if the field was not set.
+This field describes the manifest rather than the root directory:
+tools combining manifests MUST NOT compare it between their inputs,
+and MUST set it on their output only if it holds for the output.
 
 The `features` field (array of strings) MAY be set on the root file
 object, and MUST NOT be set on any other file object. It lists the
@@ -1256,7 +1275,7 @@ normalized representation of it.
 Nonetheless implementations SHOULD generate manifests reproducibly for
 the same input and the same selected fields – as long as the same
 tooling in the same version is used. At the most basic this means
-stable file object sorting should be employed, even if no specific one
+stable file object sorting should be employed, where no specific one
 is mandated by this specification. The natural ordering of the
 underlying file system SHOULD NOT be propagated into manifests
 generated from it. Keys of the `extendedAttributes` object and of the
