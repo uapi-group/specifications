@@ -2,7 +2,7 @@
 This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:
 "><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://uapi-group.org/specifications/specs/file_manifest/"><meta property="og:site_name" content="UAPI Group Specifications"><meta property="og:title" content="UAPI.16 File Manifest"><meta property="og:description" content="UAPI.16 File Manifest# Version Changes 0.1 Initial Release This document describes a textual file manifest format that describes a collection of resources (or “blobs”). These resources may potentially be acquired over the network or stored on a disk. In particular, it can represent the properties of files arranged in a POSIX file system tree as well as partitions in a GPT partition table.
 This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="specs"><meta itemprop=name content="UAPI.16 File Manifest"><meta itemprop=description content="UAPI.16 File Manifest# Version Changes 0.1 Initial Release This document describes a textual file manifest format that describes a collection of resources (or “blobs”). These resources may potentially be acquired over the network or stored on a disk. In particular, it can represent the properties of files arranged in a POSIX file system tree as well as partitions in a GPT partition table.
-This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta itemprop=wordCount content="9954"><title>UAPI.16 File Manifest | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/file_manifest/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.e4498eb932700facf7b98f3c1a14452613b7d5593616feb1d763979ea942290f.js integrity="sha256-5EmOuTJwD6z3uY88GhRFJhO31Vk2Fv6x12OXnqlCKQ8=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
+This manifest file format is inspired by the traditional UNIX SHA256SUMS and BSD mtree(5) file formats, but has various additional features, among them:"><meta itemprop=wordCount content="10181"><title>UAPI.16 File Manifest | UAPI Group Specifications</title><link rel=icon href=/specifications/favicon.png><link rel=manifest href=/specifications/manifest.json><link rel=canonical href=https://uapi-group.org/specifications/specs/file_manifest/><link rel=stylesheet href=/specifications/book.min.6e0e4905af9f431e4a07d14b16ee4d5d1e90da19ad2b6d9d1d2aa2da9757473d.css integrity="sha256-bg5JBa+fQx5KB9FLFu5NXR6Q2hmtK22dHSqi2pdXRz0=" crossorigin=anonymous><script defer src=/specifications/fuse.min.js></script><script defer src=/specifications/en.search.min.a4dfa77a314c72e7474c1659eb88f24226ac5e935ba6fc0dce2c7b77172a0ce9.js integrity="sha256-pN+nejFMcudHTBZZ64jyQiasXpNbpvwNzix7dxcqDOk=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-specs book-layout-default"><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/specifications/><span>UAPI Group Specifications</span></a></h2><div class="book-search hidden"><input id=book-search-input type=text placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li><a href=/>⬅️ Back to top</a></li></ul><ul><li><a>Specifications</a><ul><li><a href=/specifications/specs/boot_loader_specification/>UAPI.1 Boot Loader Specification</a></li><li><a href=/specifications/specs/discoverable_partitions_specification/>UAPI.2 Discoverable Partitions Specification</a></li><li><a href=/specifications/specs/discoverable_disk_image/>UAPI.3 Discoverable Disk Images</a></li><li><a href=/specifications/specs/extension_image/>UAPI.4 Extension Images</a></li><li><a href=/specifications/specs/unified_kernel_image/>UAPI.5 Unified Kernel Images</a></li><li><a href=/specifications/specs/configuration_files_specification/>UAPI.6 Configuration Files Specification</a></li><li><a href=/specifications/specs/linux_tpm_pcr_registry/>UAPI.7 Linux TPM PCR Registry</a></li><li><a href=/specifications/specs/package_metadata_for_executable_files/>UAPI.8 Package Metadata for Executable Files</a></li><li><a href=/specifications/specs/linux_file_system_hierarchy/>UAPI.9 Linux File System Hierarchy</a></li><li><a href=/specifications/specs/version_format_specification/>UAPI.10 Version Format Specification</a></li><li><a href=/specifications/specs/file_hierarchy_for_the_verification_of_os_artifacts/>UAPI.11 File Hierarchy for the Verification of OS Artifacts (VOA)</a></li><li><a href=/specifications/specs/elf_dlopen_metadata/>UAPI.12 dlopen() Metadata for ELF Files</a></li><li><a href=/specifications/specs/vmclock/>UAPI.13 VMClock</a></li><li><a href=/specifications/specs/vmgenid/>UAPI.14 VMGenID</a></li><li><a href=/specifications/specs/osc_context/>UAPI.15 OSC 3008: Hierarchical Context Signalling</a></li><li><a href=/specifications/specs/file_manifest/ class=active>UAPI.16 File Manifest</a></li><li><a href=/specifications/specs/cli_introspection/>UAPI.18 CLI-Introspection Specification [DRAFT]</a></li><li><a href=/specifications/specs/linux_tpm_nvindex_registry/>UAPI.19 Linux TPM NV Index Registry</a></li><li><a href=/specifications/specs/varlink/>UAPI.20 Varlink IPC</a></li></ul></li></ul><ul><li><a href=https://github.com/uapi-group/specifications target=_blank rel=noopener>Collaborate on Github</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class="book-header hidden"><div class="flex align-center justify-between"><label for=menu-control><img src=/specifications/icons/menu.svg class=book-icon alt=Menu></label><h3>UAPI.16 File Manifest</h3><label for=toc-control><img src=/specifications/icons/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class=hidden><nav id=TableOfContents><ul><li><a href=#terminology>Terminology</a></li><li><a href=#manifest-file-name-and-media-type>Manifest File Name and Media Type</a></li><li><a href=#general-structure>General Structure</a></li><li><a href=#file-object>File Object</a><ul><li><a href=#fields>Fields</a></li></ul></li><li><a href=#extended-attribute-value-object>Extended Attribute Value Object</a><ul><li><a href=#fields-1>Fields</a></li></ul></li><li><a href=#out-of-scope>Out of Scope</a></li><li><a href=#contents-object>Contents Object</a><ul><li><a href=#fields-2>Fields</a></li></ul></li><li><a href=#signature-objects>Signature Objects</a><ul><li><a href=#fields-3>Fields</a></li></ul></li><li><a href=#trailer-objects>Trailer Objects</a><ul><li><a href=#fields-4>Fields</a></li></ul></li><li><a href=#compression>Compression</a></li><li><a href=#relationship-to-sha256sums>Relationship to SHA256SUMS</a></li><li><a href=#acquiring-a-file-remotely>Acquiring a File Remotely</a></li><li><a href=#contents-source-considerations>Contents Source Considerations</a></li><li><a href=#reproducibility>Reproducibility</a></li><li><a href=#extensibility>Extensibility</a></li><li><a href=#future-revisions>Future Revisions</a></li><li><a href=#example>Example</a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=uapi16-file-manifest>UAPI.16 File Manifest<a class=anchor href=#uapi16-file-manifest>#</a></h1><table><thead><tr><th>Version</th><th>Changes</th></tr></thead><tbody><tr><td>0.1</td><td>Initial Release</td></tr></tbody></table><p>This document describes a textual file manifest format that describes
 a collection of resources (or &ldquo;blobs&rdquo;). These resources may
 potentially be acquired over the network or stored on a disk. In
@@ -255,21 +255,23 @@ This field describes the manifest rather than the root directory:
 tools combining manifests MUST NOT compare it between their inputs,
 and MUST set it on their output only if it holds for the output.</p><p>The <code>features</code> field (array of strings) MAY be set on the root file
 object, and MUST NOT be set on any other file object. It lists the
-file system features the manifest records, and thus which fields its
-file objects can carry. If not set, it defaults to <code>device</code>, <code>gid</code>,
+file system and partition table features the manifest records, and
+thus which fields its file objects can carry. If not set, it defaults to <code>device</code>, <code>gid</code>,
 <code>hardlink</code>, <code>mode</code>, <code>sha256</code>, <code>size</code>, <code>symlink</code> and <code>uid</code>. A file
 object MUST NOT carry a field that belongs to a feature the manifest
-does not list. The following values are defined:</p><table><thead><tr><th>Value</th><th>Fields</th></tr></thead><tbody><tr><td><code>mode</code></td><td><code>mode</code></td></tr><tr><td><code>uid</code></td><td><code>uid</code></td></tr><tr><td><code>gid</code></td><td><code>gid</code></td></tr><tr><td><code>user-name</code></td><td><code>userName</code></td></tr><tr><td><code>group-name</code></td><td><code>groupName</code></td></tr><tr><td><code>size</code></td><td><code>size</code></td></tr><tr><td><code>sha256</code></td><td><code>sha256</code></td></tr><tr><td><code>symlink</code></td><td><code>contents</code> of file objects of type <code>lnk</code></td></tr><tr><td><code>device</code></td><td><code>major</code> and <code>minor</code></td></tr><tr><td><code>hardlink</code></td><td><code>inodeToken</code></td></tr><tr><td><code>mtime</code></td><td><code>mTimeNSec</code></td></tr><tr><td><code>user-xattr</code></td><td>the <code>user</code> key of <code>extendedAttributes</code></td></tr><tr><td><code>flag-hidden</code></td><td><code>flagHidden</code></td></tr><tr><td><code>flag-system</code></td><td><code>flagSystem</code></td></tr><tr><td><code>flag-archive</code></td><td><code>flagArchive</code></td></tr><tr><td><code>flag-append-only</code></td><td><code>flagAppendOnly</code></td></tr><tr><td><code>flag-immutable</code></td><td><code>flagImmutable</code></td></tr><tr><td><code>flag-no-atime</code></td><td><code>flagNoAtime</code></td></tr><tr><td><code>flag-no-cow</code></td><td><code>flagNoCow</code></td></tr><tr><td><code>flag-no-dump</code></td><td><code>flagNoDump</code></td></tr></tbody></table><p>Fields that do not belong to any of these features, such as <code>type</code>,
-<code>contents</code> of file objects of other types, <code>readOnly</code>, <code>validity</code>,
-<code>fatSerial</code>, <code>fsUUID</code>, <code>fsLabel</code> and the <code>gpt*</code> fields, are not
-affected. If <code>symlink</code> is listed, every file object of type <code>lnk</code>
-carries its target as <code>literal</code> in <code>contents</code>. For <code>hardlink</code>,
-<code>user-xattr</code> and the <code>flag-…</code> values, the feature also defines what a
-missing field means. If the feature is listed, a file object that does
-not carry the field is not subject to hardlinks, has no extended
-attributes in the <code>user</code> namespace, or has the flag cleared,
-respectively. If it is not listed, nothing is known about these
-properties.</p><p>The order of the values carries no meaning. A value MUST NOT be listed
+does not list. The following values are defined:</p><table><thead><tr><th>Value</th><th>Fields</th></tr></thead><tbody><tr><td><code>mode</code></td><td><code>mode</code></td></tr><tr><td><code>uid</code></td><td><code>uid</code></td></tr><tr><td><code>gid</code></td><td><code>gid</code></td></tr><tr><td><code>user-name</code></td><td><code>userName</code></td></tr><tr><td><code>group-name</code></td><td><code>groupName</code></td></tr><tr><td><code>size</code></td><td><code>size</code></td></tr><tr><td><code>sha256</code></td><td><code>sha256</code></td></tr><tr><td><code>symlink</code></td><td><code>contents</code> of file objects of type <code>lnk</code></td></tr><tr><td><code>device</code></td><td><code>major</code> and <code>minor</code></td></tr><tr><td><code>hardlink</code></td><td><code>inodeToken</code></td></tr><tr><td><code>mtime</code></td><td><code>mTimeNSec</code></td></tr><tr><td><code>user-xattr</code></td><td>the <code>user</code> key of <code>extendedAttributes</code></td></tr><tr><td><code>flag-hidden</code></td><td><code>flagHidden</code></td></tr><tr><td><code>flag-system</code></td><td><code>flagSystem</code></td></tr><tr><td><code>flag-archive</code></td><td><code>flagArchive</code></td></tr><tr><td><code>flag-append-only</code></td><td><code>flagAppendOnly</code></td></tr><tr><td><code>flag-immutable</code></td><td><code>flagImmutable</code></td></tr><tr><td><code>flag-no-atime</code></td><td><code>flagNoAtime</code></td></tr><tr><td><code>flag-no-cow</code></td><td><code>flagNoCow</code></td></tr><tr><td><code>flag-no-dump</code></td><td><code>flagNoDump</code></td></tr><tr><td><code>read-only</code></td><td><code>readOnly</code></td></tr><tr><td><code>fs-uuid</code></td><td><code>fsUUID</code></td></tr><tr><td><code>fs-label</code></td><td><code>fsLabel</code></td></tr><tr><td><code>fat-serial</code></td><td><code>fatSerial</code></td></tr><tr><td><code>gpt-label</code></td><td><code>gptLabel</code></td></tr><tr><td><code>gpt-uuid</code></td><td><code>gptUuid</code></td></tr><tr><td><code>gpt-type-uuid</code></td><td><code>gptTypeUuid</code></td></tr><tr><td><code>gpt-disk-uuid</code></td><td><code>gptDiskUuid</code></td></tr><tr><td><code>gpt-flags</code></td><td><code>gptFlags</code></td></tr><tr><td><code>gpt-flag-no-auto</code></td><td><code>gptFlagNoAuto</code></td></tr><tr><td><code>gpt-flag-grow-file-system</code></td><td><code>gptFlagGrowFileSystem</code></td></tr></tbody></table><p>Fields that do not belong to any of these features, such as <code>type</code>,
+<code>contents</code> of file objects of other types, <code>validity</code>,
+<code>validSinceUSec</code> and <code>validUntilUSec</code>, are not affected. If <code>symlink</code>
+is listed, every file object of type <code>lnk</code> carries its target as
+<code>literal</code> in <code>contents</code>. For <code>hardlink</code>, <code>user-xattr</code>, <code>fs-label</code>,
+<code>gpt-flags</code>, <code>read-only</code>, and the <code>flag-…</code> and <code>gpt-flag-…</code> values,
+the feature also defines what a missing field means. If the feature is
+listed, a file object that does not carry the field is not subject to
+hardlinks, has no extended attributes in the <code>user</code> namespace, has no
+file system label, has all partition attribute flags cleared
+(i.e. <code>gptFlags</code> is 0), or has the flag cleared (e.g. <code>readOnly</code> is
+false), respectively. If it is not listed, nothing is known about
+these properties.</p><p>The order of the values carries no meaning. A value MUST NOT be listed
 twice, and the values SHOULD be sorted in the ordering of strings (see
 above). Consumers MUST ignore values they do not know. A consumer that
 processes a manifest in reliance on its features MUST check them while
@@ -408,8 +410,13 @@ individual partition attribute flags by name: <code>gptFlagNoAuto</code> and
 <code>gptFlagGrowFileSystem</code> correspond to the flags of the same name
 defined in the <a href=/specifications/specs/discoverable_partitions_specification/>Discoverable Partitions
 Specification</a> (bits 63 and
-59, respectively). If both <code>gptFlags</code> and a <code>gptFlag*</code> field are set
-for the same file object, they MUST be consistent.</p><p>The <code>gpt*Uuid</code> fields take a UUID, and MUST be formatted as per <a href=https://www.rfc-editor.org/rfc/rfc9562#section-4>RFC
+59, respectively). The read-only flag (bit 60) is accessed via the
+generic <code>readOnly</code> field instead, see below. If both <code>gptFlags</code> and a
+<code>gptFlag*</code> field or <code>readOnly</code> are set for the same file object, they
+MUST be consistent. For this, a field that is not set counts as set to
+false (or 0 in case of <code>gptFlags</code>) if the manifest lists its feature
+(i.e. <code>gpt-flags</code>, <code>gpt-flag-no-auto</code>, <code>gpt-flag-grow-file-system</code> or
+<code>read-only</code>, see above).</p><p>The <code>gpt*Uuid</code> fields take a UUID, and MUST be formatted as per <a href=https://www.rfc-editor.org/rfc/rfc9562#section-4>RFC
 9562 Section
 4</a>. It SHOULD be
 formatted in lowercase. <code>gptUuid</code> stores the partition UUID for the
@@ -434,11 +441,20 @@ Discoverable Partitions Specification) of GPT partition table entries,
 as well as the DOS <code>ATTR_READ_ONLY</code> attribute (0x01), as stored for
 example in FAT directory entries (see below). It should also be
 reflected in the POSIX &lsquo;w&rsquo; access mode bit when storing the data in a
-regular file on disk. If
-unspecified, defaults to false. If both <code>mode</code> and <code>readOnly</code> are set
-for the same file object, they MUST NOT contradict each other: if any
-of the three &lsquo;w&rsquo; bits in <code>mode</code> is set, <code>readOnly</code> MUST be false,
-otherwise it MUST be true.</p><p>The <code>flagHidden</code>, <code>flagSystem</code> and <code>flagArchive</code> fields encode DOS
+regular file on disk. Depending on context, it hence corresponds to
+the UNIX access mode, the DOS <code>ATTR_READ_ONLY</code> attribute or the GPT
+read-only partition attribute flag, but it MAY be set independently of
+the <code>mode</code> and <code>gptFlags</code> fields. A file object MUST NOT carry this
+field unless the manifest lists the <code>read-only</code> feature (see
+above). If unspecified, and the feature is listed, the file object is
+not read-only. If unspecified, and the feature is not listed, nothing
+is known about the property, and it defaults to false when the file
+object is placed somewhere (but see below). If both <code>mode</code> and
+<code>readOnly</code> are set for the same file object, they MUST NOT contradict
+each other: if any of the three &lsquo;w&rsquo; bits in <code>mode</code> is set, <code>readOnly</code>
+MUST be false, otherwise it MUST be true. Similarly, if both
+<code>gptFlags</code> and <code>readOnly</code> are set, they MUST NOT contradict each other
+(see above).</p><p>The <code>flagHidden</code>, <code>flagSystem</code> and <code>flagArchive</code> fields encode DOS
 file attributes, as implemented by
 <a href=https://www.ecma-international.org/publications-and-standards/standards/ecma-107/>FAT</a>
 (such as the
@@ -465,10 +481,10 @@ directory entry, and hence no attributes. If any of these fields is not set, the
 state of the corresponding flag is not defined, unless the manifest
 lists the feature for the flag (see above): then the flag is cleared.</p><p>When placing a file object in a file system with DOS attributes, the
 <code>ATTR_READ_ONLY</code> attribute SHOULD be set if <code>readOnly</code> is true, and
-SHOULD NOT be set if it is false. If <code>readOnly</code> is not set, but <code>mode</code>
-is, an implementation MAY derive the attribute from the latter instead
-of applying the default of <code>readOnly</code> (i.e. set it if none of the
-three &lsquo;w&rsquo; bits in <code>mode</code> is set).</p><p>The <code>fatSerial</code> field encodes the 32-bit volume serial number (also
+SHOULD NOT be set if it is false. If <code>readOnly</code> is not set, and the
+manifest does not list the <code>read-only</code> feature, but <code>mode</code> is set, an implementation MAY derive the attribute from the
+latter instead of applying the default of <code>readOnly</code> (i.e. set it if
+none of the three &lsquo;w&rsquo; bits in <code>mode</code> is set).</p><p>The <code>fatSerial</code> field encodes the 32-bit volume serial number (also
 known as &ldquo;volume ID&rdquo;) of the FAT or exFAT file system. It MUST be formatted the
 way FAT volume serial numbers are usually displayed: as two groups of
 four hexadecimal digits, separated by a hyphen (e.g. <code>1234-ABCD</code>),
@@ -525,7 +541,8 @@ permitted in it (e.g. labels may be at most 11 characters on FAT, 12
 bytes on XFS, and 16 bytes on ext4). If the label cannot be represented
 on the target file system, the implementation SHOULD fail the
 operation. If unspecified, no label is set (or the implementation&rsquo;s
-default is used).</p><p>The <code>flagAppendOnly</code>, <code>flagImmutable</code>, <code>flagNoAtime</code>, <code>flagNoCow</code> and
+default is used, unless the manifest lists the <code>fs-label</code> feature, see
+above).</p><p>The <code>flagAppendOnly</code>, <code>flagImmutable</code>, <code>flagNoAtime</code>, <code>flagNoCow</code> and
 <code>flagNoDump</code> fields are of boolean type, and control a subset of
 the Linux inode flags, as shown and changed by
 <a href=https://man7.org/linux/man-pages/man1/lsattr.1.html><code>lsattr(1)</code></a> and
@@ -879,7 +896,8 @@ and support for extended attribute namespaces beyond <code>user</code> in the
 <code>extendedAttributes</code> field</p></li><li><p>Fields for additional extended file flags (further Linux
 <a href=https://man7.org/linux/man-pages/man1/chattr.1.html><code>chattr</code></a> flags,
 NTFS file system flags, …)</p></li><li><p>Fields for Linux file security capabilities</p></li><li><p>Fields for security labels such as SMACK or SELinux</p></li><li><p>Additional hashing schemes</p></li><li><p>Additional signature schemes</p></li></ul><h2 id=example>Example<a class=anchor href=#example>#</a></h2><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.manifest&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;mediaType&#34;</span> : <span style=color:#e6db74>&#34;application/vnd.uapi.16.manifest&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;features&#34;</span> : [ <span style=color:#e6db74>&#34;gpt-label&#34;</span>, <span style=color:#e6db74>&#34;gpt-type-uuid&#34;</span>, <span style=color:#e6db74>&#34;gpt-uuid&#34;</span>, <span style=color:#e6db74>&#34;read-only&#34;</span>, <span style=color:#e6db74>&#34;sha256&#34;</span>, <span style=color:#e6db74>&#34;size&#34;</span> ]
 </span></span><span style=display:flex><span>}</span></span></code></pre></div><p><code>&lt;ASCII-RS></code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
 </span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;name&#34;</span> : <span style=color:#e6db74>&#34;FooOS.raw&#34;</span>,
 </span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;contents&#34;</span> : [{
