@@ -388,46 +388,59 @@ and MUST set it on their output only if it holds for the output.
 
 The `features` field (array of strings) MAY be set on the root file
 object, and MUST NOT be set on any other file object. It lists the
-file system features the manifest records, and thus which fields its
-file objects can carry. If not set, it defaults to `device`, `gid`,
+file system and partition table features the manifest records, and
+thus which fields its file objects can carry. If not set, it defaults to `device`, `gid`,
 `hardlink`, `mode`, `sha256`, `size`, `symlink` and `uid`. A file
 object MUST NOT carry a field that belongs to a feature the manifest
 does not list. The following values are defined:
 
-| Value              | Fields                                   |
-|--------------------|------------------------------------------|
-| `mode`             | `mode`                                   |
-| `uid`              | `uid`                                    |
-| `gid`              | `gid`                                    |
-| `user-name`        | `userName`                               |
-| `group-name`       | `groupName`                              |
-| `size`             | `size`                                   |
-| `sha256`           | `sha256`                                 |
-| `symlink`          | `contents` of file objects of type `lnk` |
-| `device`           | `major` and `minor`                      |
-| `hardlink`         | `inodeToken`                             |
-| `mtime`            | `mTimeNSec`                              |
-| `user-xattr`       | the `user` key of `extendedAttributes`   |
-| `flag-hidden`      | `flagHidden`                             |
-| `flag-system`      | `flagSystem`                             |
-| `flag-archive`     | `flagArchive`                            |
-| `flag-append-only` | `flagAppendOnly`                         |
-| `flag-immutable`   | `flagImmutable`                          |
-| `flag-no-atime`    | `flagNoAtime`                            |
-| `flag-no-cow`      | `flagNoCow`                              |
-| `flag-no-dump`     | `flagNoDump`                             |
+| Value                       | Fields                                   |
+|-----------------------------|------------------------------------------|
+| `mode`                      | `mode`                                   |
+| `uid`                       | `uid`                                    |
+| `gid`                       | `gid`                                    |
+| `user-name`                 | `userName`                               |
+| `group-name`                | `groupName`                              |
+| `size`                      | `size`                                   |
+| `sha256`                    | `sha256`                                 |
+| `symlink`                   | `contents` of file objects of type `lnk` |
+| `device`                    | `major` and `minor`                      |
+| `hardlink`                  | `inodeToken`                             |
+| `mtime`                     | `mTimeNSec`                              |
+| `user-xattr`                | the `user` key of `extendedAttributes`   |
+| `flag-hidden`               | `flagHidden`                             |
+| `flag-system`               | `flagSystem`                             |
+| `flag-archive`              | `flagArchive`                            |
+| `flag-append-only`          | `flagAppendOnly`                         |
+| `flag-immutable`            | `flagImmutable`                          |
+| `flag-no-atime`             | `flagNoAtime`                            |
+| `flag-no-cow`               | `flagNoCow`                              |
+| `flag-no-dump`              | `flagNoDump`                             |
+| `read-only`                 | `readOnly`                               |
+| `fs-uuid`                   | `fsUUID`                                 |
+| `fs-label`                  | `fsLabel`                                |
+| `fat-serial`                | `fatSerial`                              |
+| `gpt-label`                 | `gptLabel`                               |
+| `gpt-uuid`                  | `gptUuid`                                |
+| `gpt-type-uuid`             | `gptTypeUuid`                            |
+| `gpt-disk-uuid`             | `gptDiskUuid`                            |
+| `gpt-flags`                 | `gptFlags`                               |
+| `gpt-flag-no-auto`          | `gptFlagNoAuto`                          |
+| `gpt-flag-grow-file-system` | `gptFlagGrowFileSystem`                  |
 
 Fields that do not belong to any of these features, such as `type`,
-`contents` of file objects of other types, `readOnly`, `validity`,
-`fatSerial`, `fsUUID`, `fsLabel` and the `gpt*` fields, are not
-affected. If `symlink` is listed, every file object of type `lnk`
-carries its target as `literal` in `contents`. For `hardlink`,
-`user-xattr` and the `flag-…` values, the feature also defines what a
-missing field means. If the feature is listed, a file object that does
-not carry the field is not subject to hardlinks, has no extended
-attributes in the `user` namespace, or has the flag cleared,
-respectively. If it is not listed, nothing is known about these
-properties.
+`contents` of file objects of other types, `validity`,
+`validSinceUSec` and `validUntilUSec`, are not affected. If `symlink`
+is listed, every file object of type `lnk` carries its target as
+`literal` in `contents`. For `hardlink`, `user-xattr`, `fs-label`,
+`gpt-flags`, `read-only`, and the `flag-…` and `gpt-flag-…` values,
+the feature also defines what a missing field means. If the feature is
+listed, a file object that does not carry the field is not subject to
+hardlinks, has no extended attributes in the `user` namespace, has no
+file system label, has all partition attribute flags cleared
+(i.e. `gptFlags` is 0), or has the flag cleared (e.g. `readOnly` is
+false), respectively. If it is not listed, nothing is known about
+these properties.
 
 The order of the values carries no meaning. A value MUST NOT be listed
 twice, and the values SHOULD be sorted in the ordering of strings (see
@@ -612,8 +625,13 @@ individual partition attribute flags by name: `gptFlagNoAuto` and
 `gptFlagGrowFileSystem` correspond to the flags of the same name
 defined in the [Discoverable Partitions
 Specification](discoverable_partitions_specification.md) (bits 63 and
-59, respectively). If both `gptFlags` and a `gptFlag*` field are set
-for the same file object, they MUST be consistent.
+59, respectively). The read-only flag (bit 60) is accessed via the
+generic `readOnly` field instead, see below. If both `gptFlags` and a
+`gptFlag*` field or `readOnly` are set for the same file object, they
+MUST be consistent. For this, a field that is not set counts as set to
+false (or 0 in case of `gptFlags`) if the manifest lists its feature
+(i.e. `gpt-flags`, `gpt-flag-no-auto`, `gpt-flag-grow-file-system` or
+`read-only`, see above).
 
 The `gpt*Uuid` fields take a UUID, and MUST be formatted as per [RFC
 9562 Section
@@ -646,11 +664,20 @@ Discoverable Partitions Specification) of GPT partition table entries,
 as well as the DOS `ATTR_READ_ONLY` attribute (0x01), as stored for
 example in FAT directory entries (see below). It should also be
 reflected in the POSIX 'w' access mode bit when storing the data in a
-regular file on disk. If
-unspecified, defaults to false. If both `mode` and `readOnly` are set
-for the same file object, they MUST NOT contradict each other: if any
-of the three 'w' bits in `mode` is set, `readOnly` MUST be false,
-otherwise it MUST be true.
+regular file on disk. Depending on context, it hence corresponds to
+the UNIX access mode, the DOS `ATTR_READ_ONLY` attribute or the GPT
+read-only partition attribute flag, but it MAY be set independently of
+the `mode` and `gptFlags` fields. A file object MUST NOT carry this
+field unless the manifest lists the `read-only` feature (see
+above). If unspecified, and the feature is listed, the file object is
+not read-only. If unspecified, and the feature is not listed, nothing
+is known about the property, and it defaults to false when the file
+object is placed somewhere (but see below). If both `mode` and
+`readOnly` are set for the same file object, they MUST NOT contradict
+each other: if any of the three 'w' bits in `mode` is set, `readOnly`
+MUST be false, otherwise it MUST be true. Similarly, if both
+`gptFlags` and `readOnly` are set, they MUST NOT contradict each other
+(see above).
 
 The `flagHidden`, `flagSystem` and `flagArchive` fields encode DOS
 file attributes, as implemented by
@@ -683,10 +710,10 @@ lists the feature for the flag (see above): then the flag is cleared.
 
 When placing a file object in a file system with DOS attributes, the
 `ATTR_READ_ONLY` attribute SHOULD be set if `readOnly` is true, and
-SHOULD NOT be set if it is false. If `readOnly` is not set, but `mode`
-is, an implementation MAY derive the attribute from the latter instead
-of applying the default of `readOnly` (i.e. set it if none of the
-three 'w' bits in `mode` is set).
+SHOULD NOT be set if it is false. If `readOnly` is not set, and the
+manifest does not list the `read-only` feature, but `mode` is set, an implementation MAY derive the attribute from the
+latter instead of applying the default of `readOnly` (i.e. set it if
+none of the three 'w' bits in `mode` is set).
 
 The `fatSerial` field encodes the 32-bit volume serial number (also
 known as "volume ID") of the FAT or exFAT file system. It MUST be formatted the
@@ -755,7 +782,8 @@ permitted in it (e.g. labels may be at most 11 characters on FAT, 12
 bytes on XFS, and 16 bytes on ext4). If the label cannot be represented
 on the target file system, the implementation SHOULD fail the
 operation. If unspecified, no label is set (or the implementation's
-default is used).
+default is used, unless the manifest lists the `fs-label` feature, see
+above).
 
 The `flagAppendOnly`, `flagImmutable`, `flagNoAtime`, `flagNoCow` and
 `flagNoDump` fields are of boolean type, and control a subset of
@@ -1333,7 +1361,8 @@ A number of future extensions are envisioned:
 `<ASCII-RS>`
 ```json
 {
-    "mediaType" : "application/vnd.uapi.16.manifest"
+    "mediaType" : "application/vnd.uapi.16.manifest",
+    "features" : [ "gpt-label", "gpt-type-uuid", "gpt-uuid", "read-only", "sha256", "size" ]
 }
 ```
 `<ASCII-RS>`
