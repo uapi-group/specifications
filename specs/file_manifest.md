@@ -495,12 +495,13 @@ JSON number, i.e. decimal. The valid range is 0…4095 (i.e. `0o0000` to
 
 The `uid` (unsigned integer) field is the numeric owning UNIX user ID of the
 file. Similarly, `gid` (same type) is the numeric owning UNIX group ID
-of the file. Both fields – if set – MUST be in the range 0…4294967294
-(i.e. 0…2³²-2). In particular, the values 4294967295 (i.e. 2³²-1, which
-is `(uid_t) -1`/`(gid_t) -1`, i.e. -1 as unsigned 32-bit integer) and
-18446744073709551615 (i.e. 2⁶⁴-1, i.e. -1 as unsigned 64-bit integer)
-MUST NOT be used, as these are commonly used as special "invalid" or
-"unset" markers.
+of the file. Both fields – if set – MUST be unsigned 32-bit integers,
+i.e. in the range 0…4294967295 (i.e. 0…2³²-1). However, the values
+65535 (i.e. 2¹⁶-1, which is -1 as unsigned 16-bit integer, as used by
+the legacy 16-bit UID/GID system calls) and 4294967295 (i.e. 2³²-1,
+which is `(uid_t) -1`/`(gid_t) -1`, i.e. -1 as unsigned 32-bit
+integer) MUST NOT be used, as these are commonly used as special
+"invalid" or "unset" markers.
 
 The `userName` field is the owning UNIX user name of the file;
 similarly, `groupName` is the owning UNIX group name of the file. Both
