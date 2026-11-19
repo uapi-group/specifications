@@ -330,6 +330,7 @@ sequence defined above.
 |   `OSC "666;…"` | "termprop" (vte)                                           |
 |   `OSC "701;…"` | Locale (mintty)                                            |
 |   `OSC "777;…"` | Notification (rxvt)                                        |
+|  `OSC "2811;…"` | Terminal size change notification (UAPI.17)                |
 |  `OSC "3008;…"` | This specification                                         |
 |  `OSC "7704;…"` | ANSI colors (mintty)                                       |
 |  `OSC "7750;…"` | Emoji style (mintty)                                       |
