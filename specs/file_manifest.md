@@ -382,6 +382,9 @@ objects have the same name. A consumer that processes a manifest in
 reliance on this MUST check it while reading, and MUST refuse the
 manifest if it does not hold. No other values are defined at this
 time, consumers MUST treat other values as if the field was not set.
+If the field is not set, consumers MUST NOT assume any order of the
+file objects within a directory beyond the tree order required above,
+even if they happen to be sorted.
 This field describes the manifest rather than the root directory:
 tools combining manifests MUST NOT compare it between their inputs,
 and MUST set it on their output only if it holds for the output.
