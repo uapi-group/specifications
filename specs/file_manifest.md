@@ -348,8 +348,9 @@ above), numbers by their value, arrays element by element and JSON
 objects field by field. A field set to `null` counts as not set, also
 in nested JSON objects. Since values are not interpreted any further,
 this also applies to fields a tool does not know. Hence hexadecimal
-digests in uppercase and in lowercase, or the same data in the two
-Base64 alphabets, are not equivalent. The values of `inodeToken` are
+digests in uppercase and in lowercase, a UUID with and without
+hyphens, or the same data in the two Base64 alphabets, are not
+equivalent. The values of `inodeToken` are
 specific to their manifest, so they are not compared between file
 objects of different manifests. Tools that compare or combine
 manifests SHOULD compare file objects for equivalence rather than by
@@ -633,11 +634,16 @@ false (or 0 in case of `gptFlags`) if the manifest lists its feature
 (i.e. `gpt-flags`, `gpt-flag-no-auto`, `gpt-flag-grow-file-system` or
 `read-only`, see above).
 
-The `gpt*Uuid` fields take a UUID, and MUST be formatted as per [RFC
-9562 Section
-4](https://www.rfc-editor.org/rfc/rfc9562#section-4). It SHOULD be
-formatted in lowercase. `gptUuid` stores the partition UUID for the
-entry, and `gptTypeUuid` the partition type UUID.
+The `gpt*Uuid` fields take a UUID, and MUST be formatted in the string
+representation defined in [RFC 9562 Section
+4](https://www.rfc-editor.org/rfc/rfc9562#section-4), i.e. as 32
+hexadecimal digits in groups of 8, 4, 4, 4 and 12, separated by
+hyphens. It SHOULD be formatted in lowercase. Parsers MUST accept this
+form as well as the 32 digits without the hyphens, both
+case-insensitively, and MUST refuse any other value (e.g. a UUID in
+braces, with a `urn:uuid:` prefix, or with whitespace). `gptUuid`
+stores the partition UUID for the entry, and `gptTypeUuid` the
+partition type UUID.
 
 The `gptLabel` field MUST NOT be longer than 36
 [UTF-16](https://www.rfc-editor.org/rfc/rfc2781) code units (72
@@ -648,8 +654,8 @@ mangling, as GPT partition labels have smaller size limits than file
 names. Also note that unlike the `name` this field does not have to be
 uniquely assigned among all entries in the same manifest.
 
-The `gptDiskUuid` field MUST be a UUID in RFC 9562 Section 4
-formatting. It SHOULD be formatted in lowercase. It encodes the disk
+The `gptDiskUuid` field MUST be a UUID, formatted and parsed like the
+other `gpt*Uuid` fields (see above). It encodes the disk
 UUID for the GPT partition table. In contrast to the other `gpt*`
 fields this one MUST NOT be set on any object except for the root
 directory object (i.e. the first file object in the sequence), as it
@@ -722,8 +728,9 @@ four hexadecimal digits, separated by a hyphen (e.g. `1234-ABCD`),
 where the first group encodes the upper 16 bits and the second group
 the lower 16 bits of the serial number. Parsers MUST parse this
 case-insensitively, but it SHALL be formatted in uppercase. Other
-formats (e.g. without the hyphen, or with fewer digits) MUST NOT be
-used. If unspecified, the implementation SHOULD pick a suitable serial
+formats (e.g. without the hyphen, with fewer digits, or with
+whitespace) MUST NOT be used, and parsers MUST refuse them. If
+unspecified, the implementation SHOULD pick a suitable serial
 number. For reproducibility it is RECOMMENDED to derive it
 deterministically from data in the manifest rather than randomly or
 from the current time. The precise derivation is
@@ -753,8 +760,8 @@ properties of the file system as a whole. When the manifest is used as
 a sub-manifest (i.e. its root directory object does not correspond to
 the root directory of a file system) these fields SHOULD be ignored.
 
-The `fsUUID` field MUST be a UUID in RFC 9562 Section 4 formatting. It
-SHOULD be formatted in lowercase. Note that some file systems
+The `fsUUID` field MUST be a UUID, formatted and parsed like the
+`gpt*Uuid` fields (see above). Note that some file systems
 distinguish between the user-visible file system UUID and a separate
 internal UUID used for on-disk metadata (e.g. the ext4
 `metadata_csum_seed` feature, or the btrfs and XFS metadata UUIDs):
@@ -858,9 +865,10 @@ name `name` in the same directory.
 
 `sha256` is the
 [SHA256](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf)
-hash of the file contents. It MUST be formatted
-in 64 hexadecimal characters. Parsers MUST parse this
-case-insensitively, but it SHALL be formatted in lowercase. This field
+hash of the file contents. It MUST be formatted as exactly 64
+hexadecimal digits, without whitespace or any other characters.
+Parsers MUST parse the digits case-insensitively and MUST refuse any
+other value, but it SHALL be formatted in lowercase. This field
 only applies to file objects of type `reg`, `lnk`, `dir`. It MUST NOT
 be used on file objects of other types. The hash value covers the
 contents referenced or contained in the `contents` field described
@@ -908,8 +916,8 @@ the `extendedAttributes` field of the file object above.
 be set. `text` contains the attribute value as JSON string; the value
 is its UTF-8 encoding, without any trailing NUL byte. `text` MUST NOT
 contain the NUL character (`\u0000`). `base64` contains the attribute
-value in Base64 encoding (either alphabet, as for the `literal` field
-of contents objects).
+value in Base64 encoding, as described for the `literal` field of
+contents objects (see below).
 
 Generators SHOULD use `text` if – and only if – the attribute value is
 valid UTF-8 and contains no noncharacters and no NUL bytes (this
@@ -1018,7 +1026,14 @@ in it if the manifest itself is not publicly accessible.
 4](https://www.rfc-editor.org/rfc/rfc4648#section-4)) or in URL-safe
 Base64 ([RFC 4648 Section
 5](https://www.rfc-editor.org/rfc/rfc4648#section-5)). Consumers MUST
-be able to deal with either alphabet.
+be able to deal with either alphabet, but a value MUST NOT mix the
+two. It MUST be padded with `=` as described in RFC 4648 Section 4,
+also in the URL-safe alphabet, and MUST NOT contain whitespace, line
+breaks or any other characters besides those of its alphabet and the
+padding. Consumers MUST refuse values that do not follow these rules,
+and MUST NOT skip characters outside the alphabet, as [RFC 4648
+Section 3.3](https://www.rfc-editor.org/rfc/rfc4648#section-3.3)
+requires.
 
 `encoding` specifies the encoding of the specified resource. It
 accepts the same encoding specifiers as HTTP's
@@ -1045,8 +1060,8 @@ SHOULD NOT be specified. (If specified anyway, it MUST match
 `originalSha256` is the SHA256 sum of the full, decoded data,
 `encodedSha256` of the full, encoded data. If `encoding` is not
 specified, `encodedSha256` SHOULD NOT be specified (if specified
-anyway it MUST match `originalSha256`). Both are 64 character
-hexadecimal strings (case-insensitive, but lowercase RECOMMENDED). If
+anyway it MUST match `originalSha256`). Both are formatted and parsed
+like the `sha256` field of file objects (see above). If
 `encodedSize` is zero then `encodedSha256` MUST be unset (RECOMMENDED)
 or be identical to
 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`,
@@ -1099,12 +1114,15 @@ fingerprint in hexadecimal characters (lowercase). For `pkcs7` this is
 the SHA256 hash of the signing key's
 [X.509](https://www.rfc-editor.org/rfc/rfc5280) certificate in
 [DER](https://www.itu.int/rec/T-REC-X.690) form,
-formatted in lowercase hexadecimal characters. The `key` field may be
+formatted in lowercase hexadecimal characters. In both cases the
+value consists of hexadecimal digits only, without whitespace or any
+other characters. Parsers MUST parse the digits case-insensitively
+and MUST refuse any other value. The `key` field may be
 used to optimize searching for the right key to authenticate with, but
 its inclusion is OPTIONAL.
 
-The `data` field contains the signature data in Base64 encoding
-(either alphabet, as for the `literal` field of contents objects). For
+The `data` field contains the signature data in Base64 encoding, as
+described for the `literal` field of contents objects (see above). For
 the `openpgp` mechanism this is the binary signature (i.e. without
 [ASCII armor](https://www.rfc-editor.org/rfc/rfc9580#section-6)). For
 `pkcs7` this is the binary signature in DER.
