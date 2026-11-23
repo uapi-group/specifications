@@ -174,10 +174,11 @@ of every directory in the code point ordering, and MUST declare it
 (see the `order` field of the root file object below). This does not
 apply to manifests of a GPT partition table. A consumer that creates
 a file system or an archive from a manifest, or places its file
-objects in an existing one, MAY refuse a manifest that is not in the
-code point ordering, rather than sort its file objects. Such a
-consumer MAY also refuse a manifest that does not declare the
-code point ordering, even if its file objects are in it.
+objects in an existing one, SHOULD refuse a manifest that does not
+declare the code point ordering, rather than sort its file objects,
+even if its file objects happen to be in it. Such a consumer SHOULD
+also refuse a manifest that is not complete (see the `complete` field
+of the root file object below).
 
 If file objects are placed in an existing file system or archive
 whose manifest declares an ordering, and they are added to that
@@ -193,6 +194,29 @@ subdirectories immediately follow the file object of the subdirectory
 in tree order: every directory comes before the file objects below it,
 and these immediately follow it.
 
+The rule in the previous paragraph is relaxed only for manifests that
+have the `complete` field of the root file object set to `no` or
+`no-dir` (see below). Unless `complete` is set to one of these values,
+the manifest MUST list the file object of type `dir` of every
+directory any of its file objects is located in, as described above.
+If `complete` is set to `no-dir`, the manifest MUST NOT list any file
+objects of type `dir` other than the root file object, i.e. the file
+objects of all directories below the root directory are missing, for
+example if the manifest lists files to download without recreating the
+directory tree around them. If `complete` is set to `no`, any file
+objects of any type MAY be missing from the manifest, including the
+file objects of some or all of these directories, for example if the
+manifest only tracks a selection of files below a directory tree. All
+other rules still apply to such a manifest: if the file object of a
+directory is listed, it MUST be listed before the file objects below
+it, and these MUST immediately follow it; the file objects below a
+directory whose file object is missing MUST be listed together,
+without other file objects between them; file objects MUST NOT be
+located below a file object that is not of type `dir`; and if the
+manifest declares the code point ordering, its names strictly increase
+in it. Nothing is known about the properties of a directory whose file
+object is missing.
+
 The `name` field of file objects MUST be uniquely assigned within a
 manifest file.
 
@@ -202,9 +226,49 @@ directory, SHOULD refuse the manifest rather than pick one of the
 conflicting file objects. Otherwise different consumers end up
 disagreeing on what the same manifest describes. Both can be checked
 while reading: misplaced file objects with a stack of the directories
-that are still open, since every directory is listed, and repeated
-names by comparing each name with the previous one if the manifest
-declares the code point ordering.
+that are still open (which, if `complete` is set to `no` or `no-dir`,
+also includes the directories whose file objects are missing, opened
+when the first file object below them is read), and repeated names by
+comparing each name with the previous one if the manifest declares the
+code point ordering. Unless `complete` is set to `no` or `no-dir`, a
+consumer MUST refuse a manifest in which the file object of a
+directory any of its file objects is located in is missing. If
+`complete` is set to `no-dir`, a consumer MUST refuse a manifest that
+lists a file object of type `dir` other than the root file object.
+
+Note however that the internal consistency of a manifest that neither
+declares the code point ordering nor is complete (i.e. has `complete`
+set to `no` or `no-dir`) cannot be checked this easily. In such a
+manifest a reader cannot tell a directory whose file object is missing
+and that is opened for the first time from one that was already opened
+and closed before. For example, `c/x, b, a/y` is a valid incomplete
+manifest (`c/` and `a/` are two different directories whose file
+objects are missing), but `a/x, b, a/y` is not (the file objects below
+`a/` are not listed together), and after reading `b` a reader that
+only keeps a stack of the open directories is in the same state for
+both. The same applies to a name repeated below such a directory
+(`a/x, b, a/x`) and to a file object located below a file object of a
+type other than `dir` that was listed earlier (`a, b, a/x`). To detect
+these cases a consumer cannot process the manifest as a stream with
+memory bounded by the depth of the directory tree. Instead it has to
+either keep a set of every name it has read (including the names of
+the directories whose file objects are missing and that it already
+closed) and look up each new name in it, which requires memory that
+grows linearly with the number of file objects in the manifest; or
+read the whole manifest into memory first and sort it, which in
+addition requires O(n log n) time for n file objects and means no
+file object can be processed before the last one has been read. In
+comparison, for a manifest that declares the code point ordering the
+same checks only require comparing each name with the previous one,
+i.e. a single name comparison per file object and no additional memory
+beyond the previous name and the stack of open directories, and can be
+done while the manifest is processed as a stream. It is hence
+RECOMMENDED that producers of incomplete manifests sort them in the
+code point ordering and declare it. A consumer that does not perform
+these additional checks on a manifest that is neither sorted in code
+point order nor complete will not detect such inconsistencies, and
+might end up acting on a manifest that does not describe what its
+producer intended.
 
 If the manifest encodes a GPT partition table, the `name` field MUST
 still be assigned for every file object, even if `gptLabel` is defined
@@ -286,6 +350,7 @@ or about the root directory of the manifest.
         "name" : "…",
         "mediaType" : "application/vnd.uapi.16.manifest",
         "order" : "codepoint",
+        "complete" : "no-dir",
         "features" : [ "…", … ],
         "type" : "reg",
         "size" : 33,
@@ -388,6 +453,56 @@ even if they happen to be sorted.
 This field describes the manifest rather than the root directory:
 tools combining manifests MUST NOT compare it between their inputs,
 and MUST set it on their output only if it holds for the output.
+
+The `complete` field MAY be set on the root file object, and MUST NOT
+be set on any other file object. It declares which file objects of the
+directory tree the manifest describes are listed in it. The following
+values are defined:
+
+* `yes` (the default if the field is not set): the manifest is
+  complete. It lists the file objects of all files in the directory
+  tree it describes, and in particular the file object of every
+  directory any of its file objects is located in, as described above.
+
+* `no-dir`: the manifest lists the file objects of all files in the
+  directory tree it describes that are not directories, but none of
+  the file objects of type `dir` other than the root file object (see
+  above). Nothing is known about the directories, other than that they
+  exist, and that the file objects listed are located in them.
+
+* `no`: the manifest is incomplete. Any file objects other than the
+  root file object MAY be missing from it, regardless of their type:
+  file objects of regular files, of directories (including those any
+  of its listed file objects are located in, see above), of symbolic
+  links, of device nodes, or of any other type alike. A consumer MUST
+  NOT assume that the file objects listed for a directory are all of
+  its entries, nor that a file not listed in the manifest does not
+  exist.
+
+Consumers MUST treat a manifest as complete if the field is not set,
+i.e. MUST refuse it if the file object of a directory is missing, and
+MUST treat values other than the ones listed above like `no`.
+
+Tools that synthesize a new file system or archive from a manifest,
+or place its file objects in an existing one, SHOULD require the
+manifest to be both sorted and complete, i.e. to declare the code
+point ordering in the `order` field (except for manifests of a GPT
+partition table, see above) and to have `complete` unset or set to
+`yes`, and SHOULD refuse all other manifests. Only such a manifest
+fully determines the result, and its internal consistency can be
+checked while it is processed as a stream (see above). For an
+incomplete manifest the properties of missing directories would be
+left to the tool, so that different tools would synthesize different
+file systems from the same manifest. In particular, a tool that would
+have to make up directories missing from the manifest (with properties
+of its own choosing) for its operation to succeed SHOULD refuse a
+manifest with `complete` set to `no` or `no-dir`, rather than
+synthesize such directories itself.
+
+Like `order`, this field describes the manifest rather than the root
+directory: tools combining manifests MUST NOT compare it between their
+inputs, and MUST set it on their output to a value that holds for the
+output.
 
 The `features` field (array of strings) MAY be set on the root file
 object, and MUST NOT be set on any other file object. It lists the
@@ -1169,14 +1284,18 @@ object, `dir` file objects that only use the fields `name` and `type`,
 and any number of `reg` file objects – each of which only uses the
 fields `name` and `sha256` – may be mapped to a SHA256SUMS file and
 back. The SHA256SUMS file lists the `reg` file objects in the order of
-the manifest. When mapping a SHA256SUMS file to a manifest, `features`
-is set to `["sha256"]` on the root file object, since a SHA256SUMS
-file records nothing else, and a `dir` file object is added for every
-directory its files are located in, right before the first file
-object below it. This requires the files below every directory to be
-listed together, which sorting them in the code point ordering of
-complete names achieves. If no name contains a slash, the mapping is
-1:1.
+the manifest, and the `dir` file objects are dropped, since a
+SHA256SUMS file cannot encode directories. When mapping a SHA256SUMS
+file to a manifest, `features` is set to `["sha256"]` on the root file
+object, since a SHA256SUMS file records nothing else, and `complete`
+is set to `no-dir`, since the file objects of the directories its
+files are located in are missing (see above); no `dir` file objects
+are added. This requires the files below every directory to be listed
+together, which sorting them in the code point ordering of complete
+names achieves. If the manifest contains no file objects other than
+the root file object and file objects of type `reg`, and the root file
+object only carries `mediaType`, `features` set to `["sha256"]` and
+`complete` set to `no-dir`, the mapping is 1:1.
 
 ## Acquiring a File Remotely
 
