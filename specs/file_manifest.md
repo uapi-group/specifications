@@ -370,9 +370,18 @@ value `"application/vnd.uapi.16.manifest"`. It MAY also be set on
 other file objects in the sequence (to the same value), but this is
 NOT RECOMMENDED.
 
-The `order` field SHOULD be set on the root file object of a manifest
-sorted in the code point ordering, and MUST NOT be set on any other
-file object. It MUST be set on a manifest generated for creating a
+The `order` field MAY be set on the root file object, and MUST NOT be
+set on any other file object. It declares the ordering of the file
+objects of the manifest. The following values are defined:
+
+| Value       | Meaning                                                      |
+|-------------|--------------------------------------------------------------|
+| `none`      | The file objects are not sorted in any declared ordering     |
+| `codepoint` | The file objects are sorted in the code point ordering       |
+
+If the field is not set, it defaults to `none`. The field SHOULD be
+set to `codepoint` on a manifest sorted in the code point ordering,
+and MUST be set to `codepoint` on a manifest generated for creating a
 file system or an archive, or for placing its file objects in an
 existing one, as described above. If set to `codepoint`, the names of
 the file objects strictly increase in the code point ordering of
@@ -380,14 +389,15 @@ complete names (see above). Hence the file objects of every directory
 are listed in strictly increasing code point ordering, and no two file
 objects have the same name. A consumer that processes a manifest in
 reliance on this MUST check it while reading, and MUST refuse the
-manifest if it does not hold. No other values are defined at this
-time, consumers MUST treat other values as if the field was not set.
-If the field is not set, consumers MUST NOT assume any order of the
-file objects within a directory beyond the tree order required above,
-even if they happen to be sorted.
+manifest if it does not hold. If set to `none` (whether explicitly or
+by default), consumers MUST NOT assume any order of the file objects
+within a directory beyond the tree order required above, even if they
+happen to be sorted. No other values are defined at this time,
+consumers MUST treat other values as if the field was set to `none`.
 This field describes the manifest rather than the root directory:
 tools combining manifests MUST NOT compare it between their inputs,
-and MUST set it on their output only if it holds for the output.
+and MUST set it to `codepoint` on their output only if the output is
+in the code point ordering.
 
 The `features` field (array of strings) MAY be set on the root file
 object, and MUST NOT be set on any other file object. It lists the
